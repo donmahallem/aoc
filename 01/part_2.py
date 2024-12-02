@@ -11,10 +11,6 @@ with codecs.open("data_1.txt", encoding="utf8") as f:
         l1.append(int(a[0]))
         l2.append(int(a[1]))
 
-occurences = dict(
-    map(lambda item1: (item1, len([1 for item2 in l2 if item2 == item1])), set(l2))
-)
-output = sum(
-    map(lambda item: (occurences[item] * item if item in occurences else 0), l1)
-)
+occurences = {key: len([1 for item2 in l2 if item2 == key]) for key in set(l2)}
+output = sum(occurences[item] * item if item in occurences else 0 for item in l1)
 print(output)

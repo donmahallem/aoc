@@ -13,5 +13,5 @@ with codecs.open("data_1.txt", encoding="utf8") as f:
 l1 = sorted(l1)
 l2 = sorted(l2)
 
-ergebnis=sum(map(lambda paar:abs(paar[0]-paar[1]), zip(l1,l2)))
+ergebnis = sum(map(lambda paar: abs(paar[0] - paar[1]), zip(l1, l2)))
 print(ergebnis)

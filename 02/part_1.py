@@ -22,9 +22,9 @@ def checkRow(row):
     return True
 
 
-sum = 0
+safe_count = 0
 for dataline in data:
-    dataline2 = [int(d) for d in dataline.split()]
-    if checkRow(dataline2):
-        sum += 1
-print(sum)
+    row_data = [int(d) for d in dataline.split()]
+    if checkRow(row_data):
+        safe_count += 1
+print(safe_count)

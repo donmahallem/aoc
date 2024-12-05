@@ -1,7 +1,4 @@
 import codecs
-import regex
-import numpy as np
-from functools import cmp_to_key
 
 with codecs.open("data.txt", encoding="utf8") as f:
     data = [a.strip() for a in f.readlines()]

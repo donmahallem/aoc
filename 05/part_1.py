@@ -29,4 +29,3 @@ for page in pages:
     if validRow(page):
         valid_pages.append(page)
 print(sum([page[len(page) // 2] for page in valid_pages]))
-print(len(pages), len(valid_pages))

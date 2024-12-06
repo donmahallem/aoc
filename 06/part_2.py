@@ -1,6 +1,5 @@
 import codecs
 import numpy as np
-from copy import deepcopy
 from tqdm import tqdm
 
 with codecs.open("data.txt", encoding="utf8") as f:
@@ -55,9 +54,7 @@ def moveNext(field, player_position, obstacle):
     return player_position
 
 
-stepper = 0
-
-stepper = 0
+circular_maps_num = 0
 with tqdm(total=rows * columns) as pbar:
     for y in range(rows):
         for x in range(columns):
@@ -73,8 +70,8 @@ with tqdm(total=rows * columns) as pbar:
                     break
                 player_position = next_pos
                 if player_position in path:
-                    stepper += 1
+                    circular_maps_num += 1
                     break
                 path.add(player_position)
             pbar.update(1)
-print(stepper)
+print(circular_maps_num)

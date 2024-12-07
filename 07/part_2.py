@@ -1,4 +1,5 @@
 import codecs
+import math
 
 with codecs.open("data.txt", encoding="utf8") as f:
     data = [a.strip() for a in f.readlines()]
@@ -19,8 +20,16 @@ def isValidRow(row):
         return (
             nextOp(value + remaining_terms[0], target, remaining_terms[1:])
             or nextOp(value * remaining_terms[0], target, remaining_terms[1:])
-            or nextOp(int(f"{value}{remaining_terms[0]}"), target, remaining_terms[1:])
+            or nextOp(
+                value * (10 ** (int(math.log10(remaining_terms[0])) + 1))
+                + remaining_terms[0],
+                target,
+                remaining_terms[1:],
+            )
         )
 
     result, terms = row
     return nextOp(terms[0], result, terms[1:])
+
+
+print(sum([row[0] for row in data if isValidRow(row)]))

@@ -59,7 +59,7 @@ with tqdm(total=rows * columns) as pbar:
     for y in range(rows):
         for x in range(columns):
             player_position = initial_player_position
-            if player_map[y, x] == 1:
+            if player_map[y, x] == 1 or (player_position[0]==y and player_position[1]==x):
                 pbar.update(1)
                 continue
             path = set([player_position])

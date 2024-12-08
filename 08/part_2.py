@@ -1,22 +1,21 @@
 import codecs
-import numpy as np
+import math
 
 with codecs.open("data.txt", encoding="utf8") as f:
     data = [a.strip() for a in f.readlines()]
 
 height = len(data)
 width = len(data[0])
-base_field = np.zeros((height, width), dtype=np.uint8)
+
+occurences = dict()
 for y in range(len(data)):
     for x in range(len(data[0])):
         if data[y][x] == ".":
             continue
+        if data[y][x] in occurences:
+            occurences[data[y][x]].append((y, x))
         else:
-            base_field[y, x] = ord(data[y][x])
-
-uni = np.delete(np.unique(base_field), 0)
-
-occurences = {key: list(zip(*np.where(base_field == key))) for key in uni}
+            occurences[data[y][x]] = list([(y, x)])
 
 
 def inside(y, x):
@@ -30,14 +29,14 @@ for key in occurences.keys():
     for i in range(0, len(nodes) - 1):
         for j in range(i + 1, len(nodes)):
             diff = (nodes[i][0] - nodes[j][0], nodes[i][1] - nodes[j][1])
-            for u in range(1, 2000):
+            for u in range(1, max(width, height)):
                 if inside(nodes[i][0] + (u * diff[0]), nodes[i][1] + (u * diff[1])):
                     antinodes.add(
                         (nodes[i][0] + (u * diff[0]), nodes[i][1] + (u * diff[1]))
                     )
                 else:
                     break
-            for u in range(1, 2000):
+            for u in range(1, max(width, height)):
                 if inside(nodes[j][0] - (u * diff[0]), nodes[j][1] - (u * diff[1])):
                     antinodes.add(
                         (nodes[j][0] - (u * diff[0]), nodes[j][1] - (u * diff[1]))

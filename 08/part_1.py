@@ -1,22 +1,20 @@
 import codecs
-import numpy as np
 
 with codecs.open("data.txt", encoding="utf8") as f:
     data = [a.strip() for a in f.readlines()]
 
 height = len(data)
 width = len(data[0])
-base_field = np.zeros((height, width), dtype=np.uint8)
+
+occurences = dict()
 for y in range(len(data)):
     for x in range(len(data[0])):
         if data[y][x] == ".":
             continue
+        if data[y][x] in occurences:
+            occurences[data[y][x]].append((y, x))
         else:
-            base_field[y, x] = ord(data[y][x])
-
-uni = np.delete(np.unique(base_field), 0)
-
-occurences = {key: list(zip(*np.where(base_field == key))) for key in uni}
+            occurences[data[y][x]] = list([(y, x)])
 
 
 def inside(y, x):

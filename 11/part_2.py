@@ -32,7 +32,7 @@ def christmas_tree(item, depth):
 
 
 blink_num = 75
-sum = 0
+summe = 0
 for i in data:
-    sum += christmas_tree(i, blink_num)
-print(sum)
+    summe += christmas_tree(i, blink_num)
+print(summe)

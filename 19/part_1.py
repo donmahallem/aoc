@@ -1,5 +1,4 @@
 import codecs
-import numpy as np
 from functools import cache
 
 test_data = False

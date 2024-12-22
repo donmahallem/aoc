@@ -29,6 +29,7 @@ def generatePricePattern(input_data, iterations=GENERATIONS):
             data_np[i, j, 1] = summe % 10 - data_np[i, j - 1, 0]
     return data_np
 
+
 data_np = generatePricePattern(data, GENERATIONS)
 
 
@@ -40,7 +41,6 @@ def generatePatterns(data_np):
         if not (vendor_idx in vendor_pattern_dict):
             vendor_pattern_dict[vendor_idx] = dict()
         for j in range(0, data_np.shape[1] - 4):
-
             test = tuple(
                 [
                     int(data_np[vendor_idx, j, 1]),
@@ -50,13 +50,14 @@ def generatePatterns(data_np):
                 ]
             )
             if not (test in vendor_pattern_dict[vendor_idx]):
-                vendor_pattern_dict[vendor_idx][test] = int(data_np[vendor_idx, j + 3, 0])
+                vendor_pattern_dict[vendor_idx][test] = int(
+                    data_np[vendor_idx, j + 3, 0]
+                )
             output.add(test)
     return output, vendor_pattern_dict
 
 
 unique_patterns, vendor_pattern_dict = generatePatterns(data_np)
-
 
 
 from tqdm import tqdm

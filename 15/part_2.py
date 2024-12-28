@@ -158,25 +158,21 @@ def printDir(move):
 
 def getMoveableY(field, cur_pos, dir):
     dir_y = dir[0]
-    cur_y,cur_x=cur_pos
+    cur_y, cur_x = cur_pos
     corrected_x = cur_x
     if field[cur_y, cur_x] == CELL_BOX_RIGHT:
-        corrected_x-=1
-    if (
-        field[cur_y, corrected_x] == CELL_WALL
-    ):
+        corrected_x -= 1
+    if field[cur_y, corrected_x] == CELL_WALL:
         return None
-    elif (
-        field[cur_y, corrected_x] == CELL_EMPTY
-    ):
+    elif field[cur_y, corrected_x] == CELL_EMPTY:
         return []
     next_y = cur_y + dir_y
     items_to_move = [(cur_y, corrected_x)]
-    if field[next_y,corrected_x]==CELL_BOX_LEFT:
-            res = getMoveableY(field, (next_y, corrected_x), dir)
-            if res == None:
-                return None
-            items_to_move.extend(res)
+    if field[next_y, corrected_x] == CELL_BOX_LEFT:
+        res = getMoveableY(field, (next_y, corrected_x), dir)
+        if res == None:
+            return None
+        items_to_move.extend(res)
     else:
         for i in range(2):
             res = getMoveableY(field, (next_y, corrected_x + i), dir)
@@ -191,7 +187,7 @@ def moveY(field, cur_pos, dir):
     items = getMoveableY(field, next_pos, dir)
     if items == None or len(items) == 0:
         return False
-    #print("Move", sorted(items, key=lambda a: a[0], reverse=dir[0] > 0))
+    # print("Move", sorted(items, key=lambda a: a[0], reverse=dir[0] > 0))
     for y, x in sorted(items, key=lambda a: a[0], reverse=dir[0] > 0):
         field[y + dir[0], x] = CELL_BOX_LEFT
         field[y + dir[0], x + 1] = CELL_BOX_RIGHT
@@ -200,9 +196,9 @@ def moveY(field, cur_pos, dir):
 
 
 for move in player_movements:
-    #printField(field)
-    #input()
-    #printDir(move)
+    # printField(field)
+    # input()
+    # printDir(move)
     next_y, next_x = player_position[0] + move[0], player_position[1] + move[1]
     if field[next_y, next_x] == CELL_WALL:
         continue

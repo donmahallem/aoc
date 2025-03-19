@@ -4,10 +4,9 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"slices"
 	"strconv"
 	"strings"
-
-	"slices"
 )
 
 func FixLine(facts *map[int][]int, line *[]int) (int, bool) {

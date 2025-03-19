@@ -4,34 +4,25 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"slices"
 	"strconv"
 	"strings"
+
+	"slices"
 )
 
-func ValidateLine(facts *map[int][]int, line *[]int) (int, bool) {
-	for i := 1; i < len(*line); i++ {
-		if !slices.Contains((*facts)[(*line)[i-1]], (*line)[i]) {
-			return -1, false
+func FixLine(facts *map[int][]int, line *[]int) (int, bool) {
+	slices.SortFunc(*line, func(i, j int) int {
+		if slices.Contains((*facts)[j], i) {
+			return 1
 		}
+		return -1
+	})
+	if val, ok := ValidateLine(facts, line); ok {
+		return val, true
 	}
-	return (*line)[len(*line)/2], true
+	return -1, false
 }
-
-func ParseLine(line string) ([]int, error) {
-	data := strings.Split(line, ",")
-	parsedData := make([]int, len(data))
-	for idx, dataStr := range data {
-		currentNum, err := strconv.Atoi(dataStr)
-		if err != nil {
-			return nil, err
-		}
-		parsedData[idx] = currentNum
-	}
-	return parsedData, nil
-}
-
-func Part1() {
+func Part2() {
 	s := bufio.NewScanner(os.Stdin)
 	m := make(map[int][]int)
 	baseData := true
@@ -51,7 +42,9 @@ func Part1() {
 			}
 		} else {
 			parsedLine, _ := ParseLine(lineData)
-			if midValue, ok := ValidateLine(&m, &parsedLine); ok {
+			if _, ok := ValidateLine(&m, &parsedLine); ok {
+				continue //counter += midValue
+			} else if midValue, ok := FixLine(&m, &parsedLine); ok {
 				counter += midValue
 			}
 		}

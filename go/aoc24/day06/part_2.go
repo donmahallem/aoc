@@ -6,11 +6,11 @@ import (
 )
 
 func testLoop(field *Field, guard Guard) bool {
-	walked := make(map[[3]int]bool)
+	walked := make(map[[3]int16]bool)
 	for {
 		if guard.dir == DIR_DOWN {
 			nextY := guard.y - 1
-			key := [3]int{nextY, guard.x, guard.dir}
+			key := [3]int16{nextY, guard.x, guard.dir}
 			if OutOfBounds(field, &guard.x, &nextY) {
 				return false
 			} else if (*field).field[nextY][guard.x] {
@@ -23,7 +23,7 @@ func testLoop(field *Field, guard Guard) bool {
 			}
 		} else if guard.dir == DIR_UP {
 			nextY := guard.y + 1
-			key := [3]int{nextY, guard.x, guard.dir}
+			key := [3]int16{nextY, guard.x, guard.dir}
 			if OutOfBounds(field, &guard.x, &nextY) {
 				return false
 			} else if (*field).field[nextY][guard.x] {
@@ -36,7 +36,7 @@ func testLoop(field *Field, guard Guard) bool {
 			}
 		} else if guard.dir == DIR_RIGHT {
 			nextX := guard.x + 1
-			key := [3]int{guard.y, nextX, guard.dir}
+			key := [3]int16{guard.y, nextX, guard.dir}
 			if OutOfBounds(field, &nextX, &guard.y) {
 				return false
 			} else if (*field).field[guard.y][nextX] {
@@ -49,7 +49,7 @@ func testLoop(field *Field, guard Guard) bool {
 			}
 		} else if guard.dir == DIR_LEFT {
 			nextX := guard.x - 1
-			key := [3]int{guard.y, nextX, guard.dir}
+			key := [3]int16{guard.y, nextX, guard.dir}
 			if OutOfBounds(field, &nextX, &guard.y) {
 				return false
 			} else if (*field).field[guard.y][nextX] {
@@ -75,14 +75,14 @@ func Part2() {
 			// skip as this is the start position and can't be blocked
 			continue
 		}
-		// set temporary obstacle
 		obstacles.field[key[0]][key[1]] = true
-		// Check for loop
 		if testLoop(&obstacles, guard) {
 			blockages++
 		}
-		// remove temporary obstacle
 		obstacles.field[key[0]][key[1]] = false
+		// set temporary obstacle
+		// Check for loop
+		// remove temporary obstacle
 	}
 	fmt.Printf("%d\n", blockages)
 }

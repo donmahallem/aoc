@@ -8,32 +8,32 @@ import (
 )
 
 const (
-	DIR_UP    int = 0
-	DIR_RIGHT     = 1
-	DIR_DOWN      = 2
-	DIR_LEFT      = 3
+	DIR_UP    int16 = 0
+	DIR_RIGHT       = 1
+	DIR_DOWN        = 2
+	DIR_LEFT        = 3
 )
 
 type Guard struct {
-	x   int
-	y   int
-	dir int
+	x   int16
+	y   int16
+	dir int16
 }
 
 func (a *Guard) cmp(g *Guard) bool {
 	return (*a).x == (*g).x && (*a).y == (*g).y && (*a).dir == (*g).dir
 }
 
-func NewGuard(x int, y int, dir int) *Guard {
+func NewGuard(x int16, y int16, dir int16) *Guard {
 	return &Guard{x: x, y: y, dir: dir}
 }
 
 type Field struct {
-	width, height int
+	width, height int16
 	field         [][]bool
 }
 
-func NewField(width int, height int, field [][]bool) Field {
+func NewField(width int16, height int16, field [][]bool) Field {
 	return Field{width: width, height: height, field: field}
 }
 
@@ -41,26 +41,26 @@ func readSource(reader io.Reader) (Field, Guard, error) {
 	obstacles := make([][]bool, 0)
 	var guard *Guard
 	s := bufio.NewScanner(reader)
-	y := 0
-	width := -1
+	y := int16(0)
+	width := int16(0)
 	for s.Scan() {
 		line := s.Bytes()
-		if width < 0 {
-			width = len(line)
-		} else if width != len(line) {
+		if width == 0 {
+			width = int16(len(line))
+		} else if width != int16(len(line)) {
 			panic("Line length is uneven")
 		}
 		row := make([]bool, len(line))
 		for idx, character := range line {
 			switch character {
 			case '^':
-				guard = NewGuard(idx, y, DIR_DOWN)
+				guard = NewGuard(int16(idx), y, DIR_DOWN)
 			case '>':
-				guard = NewGuard(idx, y, DIR_RIGHT)
+				guard = NewGuard(int16(idx), y, DIR_RIGHT)
 			case '<':
-				guard = NewGuard(idx, y, DIR_LEFT)
+				guard = NewGuard(int16(idx), y, DIR_LEFT)
 			case 'v':
-				guard = NewGuard(idx, y, DIR_UP)
+				guard = NewGuard(int16(idx), y, DIR_UP)
 			case '#':
 				row[idx] = true
 			}
@@ -70,7 +70,7 @@ func readSource(reader io.Reader) (Field, Guard, error) {
 	}
 	return NewField(width, y, obstacles), *guard, nil
 }
-func OutOfBounds(field *Field, x *int, y *int) bool {
+func OutOfBounds(field *Field, x *int16, y *int16) bool {
 	return *x < 0 || *y < 0 || *x >= (*field).width || *y >= (*field).height
 }
 
@@ -90,9 +90,9 @@ func PrintField(field *Field) {
 	fmt.Print("\n")
 }
 
-func leaveArea(field *Field, guard Guard) map[[2]int]bool {
-	stepsTaken := make(map[[2]int]bool)
-	stepsTaken[[2]int{guard.y, guard.x}] = true
+func leaveArea(field *Field, guard Guard) map[[2]int16]bool {
+	stepsTaken := make(map[[2]int16]bool)
+	stepsTaken[[2]int16{guard.y, guard.x}] = true
 	for {
 		if guard.dir == DIR_DOWN {
 			nextY := guard.y - 1
@@ -103,7 +103,7 @@ func leaveArea(field *Field, guard Guard) map[[2]int]bool {
 				continue
 			} else {
 				guard.y = nextY
-				stepsTaken[[2]int{nextY, guard.x}] = true
+				stepsTaken[[2]int16{nextY, guard.x}] = true
 			}
 		} else if guard.dir == DIR_UP {
 			nextY := guard.y + 1
@@ -114,7 +114,7 @@ func leaveArea(field *Field, guard Guard) map[[2]int]bool {
 				continue
 			} else {
 				guard.y = nextY
-				stepsTaken[[2]int{nextY, guard.x}] = true
+				stepsTaken[[2]int16{nextY, guard.x}] = true
 			}
 		} else if guard.dir == DIR_RIGHT {
 			nextX := guard.x + 1
@@ -125,7 +125,7 @@ func leaveArea(field *Field, guard Guard) map[[2]int]bool {
 				continue
 			} else {
 				guard.x = nextX
-				stepsTaken[[2]int{guard.y, nextX}] = true
+				stepsTaken[[2]int16{guard.y, nextX}] = true
 			}
 		} else if guard.dir == DIR_LEFT {
 			nextX := guard.x - 1
@@ -136,7 +136,7 @@ func leaveArea(field *Field, guard Guard) map[[2]int]bool {
 				continue
 			} else {
 				guard.x = nextX
-				stepsTaken[[2]int{guard.y, nextX}] = true
+				stepsTaken[[2]int16{guard.y, nextX}] = true
 			}
 		}
 	}

@@ -12,6 +12,7 @@ import (
 	"github.com/donmahallem/aoc/aoc24/day06"
 	"github.com/donmahallem/aoc/aoc24/day07"
 	"github.com/donmahallem/aoc/aoc24/day08"
+	"github.com/donmahallem/aoc/aoc24/day09"
 )
 
 type operation func()
@@ -23,7 +24,8 @@ var a = [][]operation{{day01.Part1, day01.Part2}, //day 1
 	{day05.Part1, day05.Part2},
 	{day06.Part1, day06.Part2},
 	{day07.Part1, day07.Part2},
-	{day08.Part1, day08.Part2}}
+	{day08.Part1, day08.Part2},
+	{day09.Part1, day09.Part2}}
 
 func Aoc24(day int, part int) {
 	var startTime = time.Now()

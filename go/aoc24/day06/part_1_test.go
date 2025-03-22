@@ -1,14 +1,16 @@
-package day06
+package day06_test
 
 import (
 	"testing"
+
+	"github.com/donmahallem/aoc/aoc24/day06"
 )
 
 func TestOutOfBoundsShouldBeInside(t *testing.T) {
 	x := int16(2)
 	y := int16(2)
-	testField := NewField(10, 5, nil)
-	if OutOfBounds(&testField, &x, &y) {
+	testField := day06.NewField(10, 5, nil)
+	if day06.OutOfBounds(&testField, &x, &y) {
 		t.Errorf(`Expected %s to match`, "a")
 	}
 }
@@ -16,14 +18,14 @@ func TestOutOfBoundsShouldBeInside(t *testing.T) {
 func TestOutOfBoundsShouldBeOutside(t *testing.T) {
 	x := int16(-1)
 	y := int16(5)
-	testField := NewField(6, 6, nil)
-	if !OutOfBounds(&testField, &x, &y) {
+	testField := day06.NewField(6, 6, nil)
+	if !day06.OutOfBounds(&testField, &x, &y) {
 		t.Errorf(`Expected %s to match`, "a")
 	}
 	x = int16(1)
 	y = int16(-5)
-	testField = NewField(6, 6, nil)
-	if !OutOfBounds(&testField, &x, &y) {
+	testField = day06.NewField(6, 6, nil)
+	if !day06.OutOfBounds(&testField, &x, &y) {
 		t.Errorf(`Expected %s to match`, "a")
 	}
 }

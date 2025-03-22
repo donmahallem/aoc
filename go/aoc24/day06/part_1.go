@@ -30,14 +30,14 @@ func NewGuard(x int16, y int16, dir int16) *Guard {
 
 type Field struct {
 	width, height int16
-	field         [][]bool
+	Field         [][]bool
 }
 
 func NewField(width int16, height int16, field [][]bool) Field {
-	return Field{width: width, height: height, field: field}
+	return Field{width: width, height: height, Field: field}
 }
 
-func readSource(reader io.Reader) (Field, Guard, error) {
+func ReadSource(reader io.Reader) (Field, Guard, error) {
 	obstacles := make([][]bool, 0)
 	var guard *Guard
 	s := bufio.NewScanner(reader)
@@ -80,7 +80,7 @@ func PrintField(field *Field) {
 			fmt.Print("\n")
 		}
 		for x := range field.width {
-			if field.field[y][x] {
+			if field.Field[y][x] {
 				fmt.Printf("1")
 			} else {
 				fmt.Printf("0")
@@ -98,7 +98,7 @@ func leaveArea(field *Field, guard Guard) map[[2]int16]bool {
 			nextY := guard.y - 1
 			if OutOfBounds(field, &guard.x, &nextY) {
 				return stepsTaken
-			} else if (*field).field[nextY][guard.x] {
+			} else if (*field).Field[nextY][guard.x] {
 				guard.dir = DIR_RIGHT
 				continue
 			} else {
@@ -109,7 +109,7 @@ func leaveArea(field *Field, guard Guard) map[[2]int16]bool {
 			nextY := guard.y + 1
 			if OutOfBounds(field, &guard.x, &nextY) {
 				return stepsTaken
-			} else if (*field).field[nextY][guard.x] {
+			} else if (*field).Field[nextY][guard.x] {
 				guard.dir = DIR_LEFT
 				continue
 			} else {
@@ -120,7 +120,7 @@ func leaveArea(field *Field, guard Guard) map[[2]int16]bool {
 			nextX := guard.x + 1
 			if OutOfBounds(field, &nextX, &guard.y) {
 				return stepsTaken
-			} else if (*field).field[guard.y][nextX] {
+			} else if (*field).Field[guard.y][nextX] {
 				guard.dir = DIR_UP
 				continue
 			} else {
@@ -131,7 +131,7 @@ func leaveArea(field *Field, guard Guard) map[[2]int16]bool {
 			nextX := guard.x - 1
 			if OutOfBounds(field, &nextX, &guard.y) {
 				return stepsTaken
-			} else if (*field).field[guard.y][nextX] {
+			} else if (*field).Field[guard.y][nextX] {
 				guard.dir = DIR_DOWN
 				continue
 			} else {
@@ -142,8 +142,8 @@ func leaveArea(field *Field, guard Guard) map[[2]int16]bool {
 	}
 }
 
-func Part1() {
-	obstacles, guard, err := readSource(os.Stdin)
+func Part1(in *os.File) {
+	obstacles, guard, err := ReadSource(in)
 	if err != nil {
 		panic(err)
 	}

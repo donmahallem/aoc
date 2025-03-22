@@ -38,8 +38,8 @@ func OutOfBounds(x int16, y int16, width int16, height int16) bool {
 	return x < 0 || y < 0 || x >= width || y >= height
 }
 
-func Part1() {
-	antennas, width, height := readSource(os.Stdin)
+func Part1(in *os.File) {
+	antennas, width, height := readSource(in)
 	var antennaListLen int
 	echos := make(map[[2]int16]bool, 0)
 	for antenna := range antennas {

@@ -18,8 +18,8 @@ func count[T int](slice []T, val T) int {
 	return count
 }
 
-func Part2() {
-	s := bufio.NewScanner(os.Stdin)
+func Part2(in *os.File) {
+	s := bufio.NewScanner(in)
 	left := make([]int, 0)
 	right := make([]int, 0)
 	for s.Scan() {

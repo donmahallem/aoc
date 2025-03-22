@@ -31,8 +31,8 @@ func ParseLine(line string) ([]int, error) {
 	return parsedData, nil
 }
 
-func Part1() {
-	s := bufio.NewScanner(os.Stdin)
+func Part1(in *os.File) {
+	s := bufio.NewScanner(in)
 	m := make(map[int][]int)
 	baseData := true
 	counter := 0

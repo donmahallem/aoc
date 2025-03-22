@@ -5,8 +5,8 @@ import (
 	"os"
 )
 
-func Part2() {
-	antennas, width, height := readSource(os.Stdin)
+func Part2(in *os.File) {
+	antennas, width, height := readSource(in)
 	var antennaListLen int
 	var k int16 = 1
 	echos := make(map[[2]int16]bool, 0)

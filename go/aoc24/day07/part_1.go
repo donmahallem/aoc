@@ -42,8 +42,8 @@ func parseLine(lineData *string) (*int, *[]int) {
 	return &expectedSum, &terms
 }
 
-func Part1() {
-	s := bufio.NewScanner(os.Stdin)
+func Part1(in *os.File) {
+	s := bufio.NewScanner(in)
 	validSum := 0
 	resultChannel := make(chan int, 50000)
 	var wg sync.WaitGroup

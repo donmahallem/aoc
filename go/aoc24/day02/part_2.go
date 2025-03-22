@@ -22,8 +22,8 @@ func checkVariations(l []int) bool {
 	return false
 }
 
-func Part2() {
-	s := bufio.NewScanner(os.Stdin)
+func Part2(in *os.File) {
+	s := bufio.NewScanner(in)
 	var goodLines = 0
 	var totalLines = 0
 	for s.Scan() {

@@ -98,7 +98,7 @@ func (a *MulReader) Read(p []byte) (int, error) {
 	}
 	return 0, nil
 }
-func Part1() {
-	input_data, _ := io.ReadAll(NewMulReader(os.Stdin))
+func Part1(in *os.File) {
+	input_data, _ := io.ReadAll(NewMulReader(in))
 	fmt.Printf("%s\n", input_data)
 }

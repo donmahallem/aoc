@@ -21,8 +21,8 @@ func FixLine(facts *map[int][]int, line *[]int) (int, bool) {
 	}
 	return -1, false
 }
-func Part2() {
-	s := bufio.NewScanner(os.Stdin)
+func Part2(in *os.File) {
+	s := bufio.NewScanner(in)
 	m := make(map[int][]int)
 	baseData := true
 	counter := 0

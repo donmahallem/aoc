@@ -113,7 +113,7 @@ func (a *DoReader) Read(p []byte) (int, error) {
 	return a.cache.Len(), nil
 }
 
-func Part2() {
-	input_data, _ := io.ReadAll(NewMulReader(NewDoReader(os.Stdin)))
+func Part2(in *os.File) {
+	input_data, _ := io.ReadAll(NewMulReader(NewDoReader(in)))
 	fmt.Printf("%s\n", input_data)
 }

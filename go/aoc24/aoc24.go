@@ -15,6 +15,7 @@ import (
 	"github.com/donmahallem/aoc/aoc24/day07"
 	"github.com/donmahallem/aoc/aoc24/day08"
 	"github.com/donmahallem/aoc/aoc24/day09"
+	"github.com/donmahallem/aoc/aoc24/day10"
 )
 
 type operation func(in *os.File)
@@ -27,7 +28,8 @@ var implementedParts = [][]operation{{day01.Part1, day01.Part2}, //day 1
 	{day06.Part1, day06.Part2},
 	{day07.Part1, day07.Part2},
 	{day08.Part1, day08.Part2},
-	{day09.Part1, day09.Part2}}
+	{day09.Part1, day09.Part2},
+	{day10.Part1, day10.Part2}}
 
 func Aoc24(day int, part int) error {
 	if day < 1 && day > len(implementedParts) {

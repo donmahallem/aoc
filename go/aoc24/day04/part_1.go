@@ -37,8 +37,8 @@ func CheckBlock(block [][]byte) int {
 	}
 	return count
 }
-func Part1() {
-	s := bufio.NewScanner(os.Stdin)
+func Part1(in *os.File) {
+	s := bufio.NewScanner(in)
 	data := [][]byte{}
 	for s.Scan() {
 		lineData := s.Bytes()

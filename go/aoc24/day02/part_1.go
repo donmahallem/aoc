@@ -34,8 +34,8 @@ func checkLine(l []int) bool {
 	return true
 }
 
-func Part1() {
-	s := bufio.NewScanner(os.Stdin)
+func Part1(in *os.File) {
+	s := bufio.NewScanner(in)
 	var goodLines = 0
 	for s.Scan() {
 		var line = strings.Split(s.Text(), " ")

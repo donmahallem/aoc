@@ -2,6 +2,7 @@ package aoc24
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/donmahallem/aoc/aoc24/day01"
@@ -15,7 +16,7 @@ import (
 	"github.com/donmahallem/aoc/aoc24/day09"
 )
 
-type operation func()
+type operation func(in *os.File)
 
 var a = [][]operation{{day01.Part1, day01.Part2}, //day 1
 	{day02.Part1, day02.Part2}, // day 2
@@ -29,7 +30,7 @@ var a = [][]operation{{day01.Part1, day01.Part2}, //day 1
 
 func Aoc24(day int, part int) {
 	var startTime = time.Now()
-	a[day-1][part-1]()
+	a[day-1][part-1](os.Stdin)
 	var endTime = time.Now()
 	fmt.Printf("Took: %d\n", endTime.Sub(startTime).Microseconds())
 }

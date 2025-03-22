@@ -47,8 +47,8 @@ func CompactData(data *[]int16) {
 	}
 }
 
-func Part1() {
-	data, _ := io.ReadAll(os.Stdin)
+func Part1(in *os.File) {
+	data, _ := io.ReadAll(in)
 	expandedData := ConvertInput(&data)
 	CompactData(&expandedData)
 	fmt.Printf("%d\n", CheckSum(&expandedData))

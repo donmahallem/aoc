@@ -38,8 +38,8 @@ func CheckMasBlock(block [][]byte) int {
 	}
 	return totalCounter
 }
-func Part2() {
-	s := bufio.NewScanner(os.Stdin)
+func Part2(in *os.File) {
+	s := bufio.NewScanner(in)
 	data := [][]byte{}
 	for s.Scan() {
 		lineData := s.Bytes()

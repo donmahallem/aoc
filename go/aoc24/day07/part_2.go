@@ -47,8 +47,8 @@ func CheckLinePart2(result *int, terms *[]int) bool {
 	return false
 }
 
-func Part2() {
-	s := bufio.NewScanner(os.Stdin)
+func Part2(in *os.File) {
+	s := bufio.NewScanner(in)
 	validSum := 0
 	resultChannel := make(chan int, 50000)
 	var wg sync.WaitGroup

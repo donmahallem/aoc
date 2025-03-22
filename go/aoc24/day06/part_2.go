@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func testLoop(field *Field, guard Guard) bool {
+func TestLoop(field *Field, guard Guard) bool {
 	walked := make(map[[3]int16]bool)
 	for {
 		if guard.dir == DIR_DOWN {
@@ -13,7 +13,7 @@ func testLoop(field *Field, guard Guard) bool {
 			key := [3]int16{nextY, guard.x, guard.dir}
 			if OutOfBounds(field, &guard.x, &nextY) {
 				return false
-			} else if (*field).field[nextY][guard.x] {
+			} else if (*field).Field[nextY][guard.x] {
 				guard.dir = DIR_RIGHT
 			} else if walked[key] {
 				return true
@@ -26,7 +26,7 @@ func testLoop(field *Field, guard Guard) bool {
 			key := [3]int16{nextY, guard.x, guard.dir}
 			if OutOfBounds(field, &guard.x, &nextY) {
 				return false
-			} else if (*field).field[nextY][guard.x] {
+			} else if (*field).Field[nextY][guard.x] {
 				guard.dir = DIR_LEFT
 			} else if walked[key] {
 				return true
@@ -39,7 +39,7 @@ func testLoop(field *Field, guard Guard) bool {
 			key := [3]int16{guard.y, nextX, guard.dir}
 			if OutOfBounds(field, &nextX, &guard.y) {
 				return false
-			} else if (*field).field[guard.y][nextX] {
+			} else if (*field).Field[guard.y][nextX] {
 				guard.dir = DIR_UP
 			} else if walked[key] {
 				return true
@@ -52,7 +52,7 @@ func testLoop(field *Field, guard Guard) bool {
 			key := [3]int16{guard.y, nextX, guard.dir}
 			if OutOfBounds(field, &nextX, &guard.y) {
 				return false
-			} else if (*field).field[guard.y][nextX] {
+			} else if (*field).Field[guard.y][nextX] {
 				guard.dir = DIR_DOWN
 			} else if walked[key] {
 				return true
@@ -63,8 +63,8 @@ func testLoop(field *Field, guard Guard) bool {
 		}
 	}
 }
-func Part2() {
-	obstacles, guard, err := readSource(os.Stdin)
+func Part2(in *os.File) {
+	obstacles, guard, err := ReadSource(in)
 	if err != nil {
 		panic(err)
 	}
@@ -75,11 +75,11 @@ func Part2() {
 			// skip as this is the start position and can't be blocked
 			continue
 		}
-		obstacles.field[key[0]][key[1]] = true
-		if testLoop(&obstacles, guard) {
+		obstacles.Field[key[0]][key[1]] = true
+		if TestLoop(&obstacles, guard) {
 			blockages++
 		}
-		obstacles.field[key[0]][key[1]] = false
+		obstacles.Field[key[0]][key[1]] = false
 		// set temporary obstacle
 		// Check for loop
 		// remove temporary obstacle

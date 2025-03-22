@@ -69,8 +69,8 @@ func CompactLess(inp *[]int16) {
 	}
 }
 
-func Part2() {
-	data, _ := io.ReadAll(os.Stdin)
+func Part2(in *os.File) {
+	data, _ := io.ReadAll(in)
 	expandedData := ConvertInput(&data)
 	CompactLess(&expandedData)
 	fmt.Printf("%d\n", CheckSum(&expandedData))

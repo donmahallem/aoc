@@ -1,6 +1,7 @@
 package aoc24
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"time"
@@ -18,7 +19,7 @@ import (
 
 type operation func(in *os.File)
 
-var a = [][]operation{{day01.Part1, day01.Part2}, //day 1
+var implementedParts = [][]operation{{day01.Part1, day01.Part2}, //day 1
 	{day02.Part1, day02.Part2}, // day 2
 	{day03.Part1, day03.Part2},
 	{day04.Part1, day04.Part2},
@@ -28,9 +29,15 @@ var a = [][]operation{{day01.Part1, day01.Part2}, //day 1
 	{day08.Part1, day08.Part2},
 	{day09.Part1, day09.Part2}}
 
-func Aoc24(day int, part int) {
+func Aoc24(day int, part int) error {
+	if day < 1 && day > len(implementedParts) {
+		return errors.New("day is not in supported range")
+	} else if part < 1 && part > len(implementedParts[day-1]) {
+		return errors.New("requested part is not implemented")
+	}
 	var startTime = time.Now()
-	a[day-1][part-1](os.Stdin)
+	implementedParts[day-1][part-1](os.Stdin)
 	var endTime = time.Now()
 	fmt.Printf("Took: %d\n", endTime.Sub(startTime).Microseconds())
+	return nil
 }

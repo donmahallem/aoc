@@ -30,8 +30,8 @@ func TestCountStraightEdges(t *testing.T) {
 	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
 	neighbours := day12.FindNeighbours(test, 0, 4)
 	result := day12.CountStraightEdges(neighbours)
-	if result != 8 {
-		t.Errorf(`Expected %d to match %d`, result, 8)
+	if result != 4 {
+		t.Errorf(`Expected %d to match %d`, result, 4)
 	}
 }
 

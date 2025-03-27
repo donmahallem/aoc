@@ -2,7 +2,6 @@ package day08
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 )
 
@@ -37,7 +36,7 @@ func OutOfBounds(x int16, y int16, width int16, height int16) bool {
 	return x < 0 || y < 0 || x >= width || y >= height
 }
 
-func Part1(in io.Reader) {
+func Part1(in io.Reader) int {
 	antennas, width, height := readSource(in)
 	var antennaListLen int
 	echos := make(map[[2]int16]bool, 0)
@@ -57,5 +56,5 @@ func Part1(in io.Reader) {
 			}
 		}
 	}
-	fmt.Printf("%d\n", len(echos))
+	return len(echos)
 }

@@ -2,7 +2,6 @@ package day01
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 )
 
@@ -20,14 +19,11 @@ func ParseLine(line []byte) int {
 	}
 	return int(curVal*10 + lastVal)
 }
-func ParseFile(reader io.Reader) int {
-	s := bufio.NewScanner(reader)
+func Part1(in io.Reader) int {
+	s := bufio.NewScanner(in)
 	summe := 0
 	for s.Scan() {
 		summe += ParseLine(s.Bytes())
 	}
 	return summe
-}
-func Part1(in io.Reader) {
-	fmt.Printf("Result: %d\n", ParseFile(in))
 }

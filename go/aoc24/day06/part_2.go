@@ -1,7 +1,6 @@
 package day06
 
 import (
-	"fmt"
 	"io"
 )
 
@@ -63,7 +62,7 @@ func TestLoop(field *Field, guard Guard) bool {
 		}
 	}
 }
-func Part2(in io.Reader) {
+func Part2(in io.Reader) int {
 	obstacles, guard, err := ReadSource(in)
 	if err != nil {
 		panic(err)
@@ -84,5 +83,5 @@ func Part2(in io.Reader) {
 		// Check for loop
 		// remove temporary obstacle
 	}
-	fmt.Printf("%d\n", blockages)
+	return blockages
 }

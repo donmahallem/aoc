@@ -15,7 +15,7 @@ treb7uchet`
 func TestOutOfBoundsShouldBeInside(t *testing.T) {
 	expected := 142
 	reader := strings.NewReader(testData)
-	if res := day01.ParseFile(reader); res != expected {
+	if res := day01.Part1(reader); res != expected {
 		t.Errorf(`Expected %v to match %v`, res, expected)
 	}
 }

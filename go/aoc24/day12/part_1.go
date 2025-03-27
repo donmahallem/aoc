@@ -1,7 +1,6 @@
 package day12
 
 import (
-	"fmt"
 	"io"
 	"slices"
 
@@ -80,12 +79,12 @@ func FindGroups(field *aoc_utils.ByteField) [][][2]int {
 	return groups
 }
 
-func Part1(in io.Reader) {
+func Part1(in io.Reader) int {
 	data, _ := aoc_utils.LoadField(in)
 	groups := FindGroups(data)
 	count := 0
 	for _, group := range groups {
 		count += len(group) * CountEdges(group)
 	}
-	fmt.Printf("%d\n", count)
+	return count
 }

@@ -1,7 +1,6 @@
 package day03
 
 import (
-	"fmt"
 	"io"
 	"strconv"
 )
@@ -97,7 +96,8 @@ func (a *MulReader) Read(p []byte) (int, error) {
 	}
 	return 0, nil
 }
-func Part1(in io.Reader) {
+func Part1(in io.Reader) int {
 	input_data, _ := io.ReadAll(NewMulReader(in))
-	fmt.Printf("%s\n", input_data)
+	result, _ := strconv.Atoi(string(input_data))
+	return result
 }

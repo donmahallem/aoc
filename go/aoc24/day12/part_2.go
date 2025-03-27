@@ -1,7 +1,6 @@
 package day12
 
 import (
-	"fmt"
 	"io"
 	"slices"
 
@@ -114,12 +113,12 @@ func CountStraightEdges(coords [][2]int) int {
 	return edges
 }
 
-func Part2(in io.Reader) {
+func Part2(in io.Reader) int {
 	data, _ := aoc_utils.LoadField(in)
 	groups := FindGroups(data)
 	count := 0
 	for _, group := range groups {
 		count += len(group) * CountStraightEdges(group)
 	}
-	fmt.Printf("%d\n", count)
+	return count
 }

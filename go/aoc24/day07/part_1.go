@@ -2,7 +2,6 @@ package day07
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"strconv"
 	"strings"
@@ -42,7 +41,7 @@ func parseLine(lineData *string) (*int, *[]int) {
 	return &expectedSum, &terms
 }
 
-func Part1(in io.Reader) {
+func Part1(in io.Reader) int {
 	s := bufio.NewScanner(in)
 	validSum := 0
 	resultChannel := make(chan int, 50000)
@@ -63,5 +62,5 @@ func Part1(in io.Reader) {
 	for item := range resultChannel {
 		validSum += item
 	}
-	fmt.Printf("%d\n", validSum)
+	return validSum
 }

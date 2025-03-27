@@ -1,7 +1,6 @@
 package day09
 
 import (
-	"fmt"
 	"io"
 )
 
@@ -46,9 +45,9 @@ func CompactData(data *[]int16) {
 	}
 }
 
-func Part1(in io.Reader) {
+func Part1(in io.Reader) int {
 	data, _ := io.ReadAll(in)
 	expandedData := ConvertInput(&data)
 	CompactData(&expandedData)
-	fmt.Printf("%d\n", CheckSum(&expandedData))
+	return CheckSum(&expandedData)
 }

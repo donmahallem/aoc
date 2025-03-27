@@ -1,7 +1,6 @@
 package day14
 
 import (
-	"fmt"
 	"io"
 )
 
@@ -46,9 +45,9 @@ func FindNonDouble(robots *[]Robot, maxDepth int, width *int, height *int) int {
 	return FindNonDouble(robots, maxDepth-1, width, height)
 }
 
-func Part2(in io.Reader) {
+func Part2(in io.Reader) int {
 	data := LoadFile(in)
 	width, height, maxDepth := 101, 103, 10000000
 	totalSum := FindNonDouble(&data, maxDepth, &width, &height)
-	fmt.Printf("%d\n", maxDepth-totalSum)
+	return maxDepth - totalSum
 }

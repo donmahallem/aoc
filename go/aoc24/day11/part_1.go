@@ -2,7 +2,6 @@ package day11
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 
 	"github.com/donmahallem/aoc/aoc_utils"
@@ -55,8 +54,8 @@ func SplitStones(stones []int, depth int) int {
 	return result
 }
 
-func Part1(in io.Reader) {
+func Part1(in io.Reader) int {
 	data, _ := ParseLine(in)
 
-	fmt.Printf("%d\n", SplitStones(data, 25))
+	return SplitStones(data, 25)
 }

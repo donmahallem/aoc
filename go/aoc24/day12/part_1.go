@@ -5,7 +5,7 @@ import (
 	"os"
 	"slices"
 
-	"github.com/donmahallem/aoc/utils"
+	"github.com/donmahallem/aoc/aoc_utils"
 )
 
 var dirs [4][2]int = [4][2]int{{0, 1}, {0, -1}, {1, 0}, {-1, 0}}
@@ -27,7 +27,7 @@ func CountEdges(cells [][2]int) int {
 	return edgeCount
 }
 
-func findNeighboursInt(field *utils.ByteField, x int, y int, t byte, found *map[[2]int]bool) {
+func findNeighboursInt(field *aoc_utils.ByteField, x int, y int, t byte, found *map[[2]int]bool) {
 	var currentCoord [2]int
 	for _, dir := range dirs {
 		currentCoord[0] = dir[0] + y
@@ -48,7 +48,7 @@ func findNeighboursInt(field *utils.ByteField, x int, y int, t byte, found *map[
 	}
 }
 
-func FindNeighbours(field *utils.ByteField, y int, x int) [][2]int {
+func FindNeighbours(field *aoc_utils.ByteField, y int, x int) [][2]int {
 	group := make(map[[2]int]bool, 0)
 	group[[2]int{y, x}] = true
 	findNeighboursInt(field, x, y, (*field).Field[y][x], &group)
@@ -59,7 +59,7 @@ func FindNeighbours(field *utils.ByteField, y int, x int) [][2]int {
 	return keys
 }
 
-func FindGroups(field *utils.ByteField) [][][2]int {
+func FindGroups(field *aoc_utils.ByteField) [][][2]int {
 	taken := make(map[[2]int]bool)
 	var coord [2]int
 	groups := make([][][2]int, 0)
@@ -81,7 +81,7 @@ func FindGroups(field *utils.ByteField) [][][2]int {
 }
 
 func Part1(in *os.File) {
-	data, _ := utils.LoadField(in)
+	data, _ := aoc_utils.LoadField(in)
 	groups := FindGroups(data)
 	count := 0
 	for _, group := range groups {

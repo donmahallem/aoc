@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/donmahallem/aoc/utils"
+	"github.com/donmahallem/aoc/aoc_utils"
 )
 
 func Part1(in *os.File) {
@@ -28,7 +28,7 @@ func Part1(in *os.File) {
 
 	var summe int = 0
 	for i := 0; i < len(left); i++ {
-		summe += utils.Abs(left[i] - right[i])
+		summe += aoc_utils.Abs(left[i] - right[i])
 	}
 	fmt.Printf("Result: %d\n", summe)
 }

@@ -2,7 +2,6 @@ package day02
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"strconv"
 	"strings"
@@ -34,7 +33,7 @@ func checkLine(l []int) bool {
 	return true
 }
 
-func Part1(in io.Reader) {
+func Part1(in io.Reader) int {
 	s := bufio.NewScanner(in)
 	var goodLines = 0
 	for s.Scan() {
@@ -48,5 +47,5 @@ func Part1(in io.Reader) {
 			goodLines++
 		}
 	}
-	fmt.Printf("List size: %d/%d\n", goodLines, 5)
+	return goodLines
 }

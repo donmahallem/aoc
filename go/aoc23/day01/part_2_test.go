@@ -18,7 +18,7 @@ zoneight234
 func TestParseFilePart2(t *testing.T) {
 	expected := 281
 	reader := strings.NewReader(testDataPart2)
-	if res := day01.ParseFilePart2(reader); res != expected {
+	if res := day01.Part2(reader); res != expected {
 		t.Errorf(`Expected %v to match %v`, res, expected)
 	}
 }

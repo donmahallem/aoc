@@ -1,7 +1,6 @@
 package day10
 
 import (
-	"fmt"
 	"io"
 )
 
@@ -35,7 +34,7 @@ func SearchAll2(field *Field) int {
 	return result
 }
 
-func Part2(in io.Reader) {
+func Part2(in io.Reader) int {
 	data, _ := LoadField(in)
-	fmt.Printf("%d\n", SearchAll2(&data))
+	return SearchAll2(&data)
 }

@@ -11,7 +11,7 @@ import (
 	"github.com/donmahallem/aoc/aoc_utils"
 )
 
-func Part1(in io.Reader) {
+func Part1(in io.Reader) int {
 	s := bufio.NewScanner(in)
 	left := make([]int, 0)
 	right := make([]int, 0)
@@ -30,5 +30,5 @@ func Part1(in io.Reader) {
 	for i := 0; i < len(left); i++ {
 		summe += aoc_utils.Abs(left[i] - right[i])
 	}
-	fmt.Printf("Result: %d\n", summe)
+	return summe
 }

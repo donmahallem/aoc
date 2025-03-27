@@ -21,8 +21,8 @@ func Aoc23(day int, part int) error {
 		return errors.New("requested part is not implemented")
 	}
 	var startTime = time.Now()
-	implementedParts[day-1][part-1](os.Stdin)
+	result := implementedParts[day-1][part-1](os.Stdin)
 	var endTime = time.Now()
-	fmt.Printf("Took: %d\n", endTime.Sub(startTime).Microseconds())
+	fmt.Printf("Result: %d\nTook: %d\n", result, endTime.Sub(startTime).Microseconds())
 	return nil
 }

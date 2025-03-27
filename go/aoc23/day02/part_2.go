@@ -2,7 +2,6 @@ package day02
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 
 	"github.com/donmahallem/aoc/aoc_utils"
@@ -18,8 +17,8 @@ func CalculateMinBlock(blocks *[]Block) int {
 	return block.Red * block.Green * block.Blue
 }
 
-func ParseFilePart2(reader io.Reader) int {
-	s := bufio.NewScanner(reader)
+func Part2(in io.Reader) int {
+	s := bufio.NewScanner(in)
 	summe := 0
 	for s.Scan() {
 		d := s.Bytes()
@@ -27,7 +26,4 @@ func ParseFilePart2(reader io.Reader) int {
 		summe += CalculateMinBlock(&blocks)
 	}
 	return summe
-}
-func Part2(in io.Reader) {
-	fmt.Printf("Result: %d\n", ParseFilePart2(in))
 }

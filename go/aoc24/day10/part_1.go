@@ -2,7 +2,6 @@ package day10
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"reflect"
 )
@@ -87,7 +86,7 @@ func SearchAll(field *Field) int {
 	return result
 }
 
-func Part1(in io.Reader) {
+func Part1(in io.Reader) int {
 	data, _ := LoadField(in)
-	fmt.Printf("%d\n", SearchAll(&data))
+	return SearchAll(&data)
 }

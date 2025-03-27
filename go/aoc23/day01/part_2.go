@@ -2,7 +2,6 @@ package day01
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"slices"
 )
@@ -43,14 +42,11 @@ func ParseLinePart2(line []byte) int {
 	}
 	return int(curVal*10 + lastVal)
 }
-func ParseFilePart2(reader io.Reader) int {
-	s := bufio.NewScanner(reader)
+func Part2(in io.Reader) int {
+	s := bufio.NewScanner(in)
 	summe := 0
 	for s.Scan() {
 		summe += ParseLinePart2(s.Bytes())
 	}
 	return summe
-}
-func Part2(in io.Reader) {
-	fmt.Printf("Result: %d\n", ParseFilePart2(in))
 }

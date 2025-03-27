@@ -2,7 +2,6 @@ package day02
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 )
 
@@ -54,8 +53,8 @@ func ValidateBlocks(blocks *[]Block) bool {
 	return true
 }
 
-func ParseFile(reader io.Reader) int {
-	s := bufio.NewScanner(reader)
+func Part1(in io.Reader) int {
+	s := bufio.NewScanner(in)
 	summe := 0
 	for s.Scan() {
 		d := s.Bytes()
@@ -65,7 +64,4 @@ func ParseFile(reader io.Reader) int {
 		}
 	}
 	return summe
-}
-func Part1(in io.Reader) {
-	fmt.Printf("Result: %d\n", ParseFile(in))
 }

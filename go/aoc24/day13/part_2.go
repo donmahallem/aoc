@@ -1,11 +1,10 @@
 package day13
 
 import (
-	"fmt"
 	"io"
 )
 
-func Part2(in io.Reader) {
+func Part2(in io.Reader) int {
 	data := LoadFile(in)
 	totalSum := 0
 	for _, inp := range data {
@@ -17,5 +16,5 @@ func Part2(in io.Reader) {
 		}
 		totalSum += a*3 + b
 	}
-	fmt.Printf("%d\n", totalSum)
+	return totalSum
 }

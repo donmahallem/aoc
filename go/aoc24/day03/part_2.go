@@ -2,8 +2,8 @@ package day03
 
 import (
 	"bytes"
-	"fmt"
 	"io"
+	"strconv"
 )
 
 type ReaderState int
@@ -112,7 +112,8 @@ func (a *DoReader) Read(p []byte) (int, error) {
 	return a.cache.Len(), nil
 }
 
-func Part2(in io.Reader) {
+func Part2(in io.Reader) int {
 	input_data, _ := io.ReadAll(NewMulReader(NewDoReader(in)))
-	fmt.Printf("%s\n", input_data)
+	result, _ := strconv.Atoi(string(input_data))
+	return result
 }

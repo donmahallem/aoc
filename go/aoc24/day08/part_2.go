@@ -1,11 +1,10 @@
 package day08
 
 import (
-	"fmt"
 	"io"
 )
 
-func Part2(in io.Reader) {
+func Part2(in io.Reader) int {
 	antennas, width, height := readSource(in)
 	var antennaListLen int
 	var k int16 = 1
@@ -35,5 +34,5 @@ func Part2(in io.Reader) {
 			}
 		}
 	}
-	fmt.Printf("%d\n", len(echos))
+	return len(echos)
 }

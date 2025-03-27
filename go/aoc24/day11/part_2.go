@@ -1,12 +1,11 @@
 package day11
 
 import (
-	"fmt"
 	"io"
 )
 
-func Part2(in io.Reader) {
+func Part2(in io.Reader) int {
 	data, _ := ParseLine(in)
 
-	fmt.Printf("%d\n", SplitStones(data, 75))
+	return SplitStones(data, 75)
 }

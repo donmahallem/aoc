@@ -2,7 +2,6 @@ package day04
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 )
 
@@ -37,7 +36,7 @@ func CheckBlock(block [][]byte) int {
 	}
 	return count
 }
-func Part1(in io.Reader) {
+func Part1(in io.Reader) int {
 	s := bufio.NewScanner(in)
 	data := [][]byte{}
 	for s.Scan() {
@@ -45,6 +44,5 @@ func Part1(in io.Reader) {
 		data = append(data, make([]byte, len(lineData)))
 		copy(data[len(data)-1], lineData)
 	}
-	result := CheckBlock(data)
-	fmt.Printf("%d\n", result)
+	return CheckBlock(data)
 }

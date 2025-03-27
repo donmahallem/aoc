@@ -37,3 +37,10 @@ func TestFindNeighbours(t *testing.T) {
 		t.Errorf(`Expected %d to match %d`, len(test), 4)
 	}
 }
+
+func TestPart1(t *testing.T) {
+	test := day13.Part1(strings.NewReader(testData))
+	if test != 480 {
+		t.Errorf(`Expected %d to match 480`, test)
+	}
+}

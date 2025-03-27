@@ -141,11 +141,11 @@ func leaveArea(field *Field, guard Guard) map[[2]int16]bool {
 	}
 }
 
-func Part1(in io.Reader) {
+func Part1(in io.Reader) int {
 	obstacles, guard, err := ReadSource(in)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%d\n", len(leaveArea(&obstacles, guard)))
+	return len(leaveArea(&obstacles, guard))
 
 }

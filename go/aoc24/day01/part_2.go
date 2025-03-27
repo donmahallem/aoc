@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func count[T int](slice []T, val T) int {
+func Count[T int](slice []T, val T) int {
 	count := 0
 	for _, s := range slice {
 		if s == val {
@@ -32,7 +32,7 @@ func Part2(in io.Reader) {
 
 	var summe int = 0
 	for i := 0; i < len(left); i++ {
-		summe += left[i] * count(right, left[i])
+		summe += left[i] * Count(right, left[i])
 	}
 	fmt.Printf("Result: %d\n", summe)
 }

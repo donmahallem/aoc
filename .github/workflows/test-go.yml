@@ -3,7 +3,8 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-
+    name: Run and Test GO
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./go

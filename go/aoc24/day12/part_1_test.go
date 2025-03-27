@@ -1,7 +1,7 @@
 package day12_test
 
 import (
-	"reflect"
+	"slices"
 	"strings"
 	"testing"
 
@@ -32,7 +32,13 @@ func TestFindNeighbours(t *testing.T) {
 	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
 	result := day12.FindNeighbours(test, 0, 4)
 	expected := [][2]int{{0, 5}, {0, 4}, {1, 4}, {1, 5}}
-	if !reflect.DeepEqual(result, expected) {
-		t.Errorf(`Expected %v to match %v`, result, expected)
+	if len(result) != 4 {
+		t.Errorf(`Expected result to have a length of 4 not %d`, len(result))
+	}
+	for _, obj := range expected {
+
+		if !slices.Contains(result, obj) {
+			t.Errorf(`Expected %v to contain %v`, result, obj)
+		}
 	}
 }

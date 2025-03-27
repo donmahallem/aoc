@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/donmahallem/aoc/aoc24/day12"
-	"github.com/donmahallem/aoc/utils"
+	"github.com/donmahallem/aoc/aoc_utils"
 )
 
 func TestSortHorizontal(t *testing.T) {
@@ -27,7 +27,7 @@ func TestSortVertical(t *testing.T) {
 }
 
 func TestCountStraightEdges(t *testing.T) {
-	test, _ := utils.LoadField(strings.NewReader(testData))
+	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
 	neighbours := day12.FindNeighbours(test, 0, 4)
 	result := day12.CountStraightEdges(neighbours)
 	if result != 8 {
@@ -36,7 +36,7 @@ func TestCountStraightEdges(t *testing.T) {
 }
 
 func TestCountStraightEdgesHorizontal(t *testing.T) {
-	test, _ := utils.LoadField(strings.NewReader(testData))
+	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
 	neighbours := day12.FindNeighbours(test, 0, 4)
 	result := day12.CountStraightEdgesHorizontal(neighbours)
 	if result != 2 {
@@ -50,7 +50,7 @@ func TestCountStraightEdgesHorizontal(t *testing.T) {
 }
 
 func TestCountStraightEdgesVertical_0_4(t *testing.T) {
-	test, _ := utils.LoadField(strings.NewReader(testData))
+	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
 	neighbours := day12.FindNeighbours(test, 0, 4)
 	result := day12.CountStraightEdgesVertical(neighbours)
 	if result != 2 {
@@ -59,7 +59,7 @@ func TestCountStraightEdgesVertical_0_4(t *testing.T) {
 }
 
 func TestCountStraightEdgesVertical_R(t *testing.T) {
-	test, _ := utils.LoadField(strings.NewReader(testData))
+	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
 	neighbours := day12.FindNeighbours(test, 0, 0)
 	result := day12.CountStraightEdgesVertical(neighbours)
 	if result != 5 {
@@ -67,7 +67,7 @@ func TestCountStraightEdgesVertical_R(t *testing.T) {
 	}
 }
 func TestCountStraightEdgesHorizontal_R(t *testing.T) {
-	test, _ := utils.LoadField(strings.NewReader(testData))
+	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
 	neighbours := day12.FindNeighbours(test, 0, 0)
 	result := day12.CountStraightEdgesHorizontal(neighbours)
 	if result != 5 {
@@ -76,7 +76,7 @@ func TestCountStraightEdgesHorizontal_R(t *testing.T) {
 }
 
 func TestCountStraightEdgesVertical_7_0(t *testing.T) {
-	test, _ := utils.LoadField(strings.NewReader(testData))
+	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
 	neighbours := day12.FindNeighbours(test, 7, 0)
 	result := day12.CountStraightEdgesVertical(neighbours)
 	if result != 3 {
@@ -85,7 +85,7 @@ func TestCountStraightEdgesVertical_7_0(t *testing.T) {
 }
 
 func TestCountStraightEdgesHorizontal_7_0(t *testing.T) {
-	test, _ := utils.LoadField(strings.NewReader(testData))
+	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
 	neighbours := day12.FindNeighbours(test, 7, 0)
 	result := day12.CountStraightEdgesHorizontal(neighbours)
 	if result != 3 {
@@ -94,7 +94,7 @@ func TestCountStraightEdgesHorizontal_7_0(t *testing.T) {
 }
 
 func TestCountStraightEdgesHorizontal_V(t *testing.T) {
-	test, _ := utils.LoadField(strings.NewReader(testData))
+	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
 	neighbours := day12.FindNeighbours(test, 2, 0)
 	result := day12.CountStraightEdgesHorizontal(neighbours)
 	if result != 5 {

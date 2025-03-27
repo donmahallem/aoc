@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/donmahallem/aoc/aoc24/day12"
-	"github.com/donmahallem/aoc/utils"
+	"github.com/donmahallem/aoc/aoc_utils"
 )
 
 const testData string = `RRRRIICCFF
@@ -29,7 +29,7 @@ func TestCountEdges(t *testing.T) {
 }
 
 func TestFindNeighbours(t *testing.T) {
-	test, _ := utils.LoadField(strings.NewReader(testData))
+	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
 	result := day12.FindNeighbours(test, 0, 4)
 	expected := [][2]int{{0, 5}, {0, 4}, {1, 4}, {1, 5}}
 	if !reflect.DeepEqual(result, expected) {

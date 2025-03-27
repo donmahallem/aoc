@@ -5,29 +5,16 @@ import (
 	"fmt"
 	"io"
 	"os"
+
+	"github.com/donmahallem/aoc/aoc_utils"
 )
 
-type PointType interface {
-	int | int8 | float32 | float64
-}
-type Point[A PointType] struct {
-	x, y A
-}
-
-func (a *Point[A]) diff(b Point[A]) *Point[A] {
-	return NewPoint(b.x-a.x, b.y-a.y)
-}
-
-func NewPoint[A PointType](x, y A) *Point[A] {
-	return &Point[A]{x, y}
-}
-
 type Robot struct {
-	pos, vec Point[int]
+	pos, vec aoc_utils.Point[int]
 }
 
 func NewRobot(posX, posY, vecX, vecY int) *Robot {
-	return &Robot{*NewPoint(posX, posY), *NewPoint(vecX, vecY)}
+	return &Robot{*aoc_utils.NewPoint(posX, posY), *aoc_utils.NewPoint(vecX, vecY)}
 }
 
 type ParsePosition uint8
@@ -43,7 +30,7 @@ func ParseLine(line *[]byte) Robot {
 	robot := Robot{}
 	var shiftVal int
 	// Pointer to the current selected output field in robot
-	currentPointer := &robot.pos.x
+	currentPointer := &robot.pos.X
 	isNegative := false
 	for i := range len(*line) {
 		if (*line)[i] >= '0' && (*line)[i] <= '9' {
@@ -60,14 +47,14 @@ func ParseLine(line *[]byte) Robot {
 				*currentPointer *= -1
 			}
 			switch currentPointer {
-			case &robot.pos.x:
-				currentPointer = &robot.pos.y
+			case &robot.pos.X:
+				currentPointer = &robot.pos.Y
 				break
-			case &robot.pos.y:
-				currentPointer = &robot.vec.x
+			case &robot.pos.Y:
+				currentPointer = &robot.vec.X
 				break
-			case &robot.vec.x:
-				currentPointer = &robot.vec.y
+			case &robot.vec.X:
+				currentPointer = &robot.vec.Y
 				break
 			}
 			isNegative = false
@@ -91,8 +78,8 @@ func LoadFile(reader io.Reader) []Robot {
 }
 
 func CalculateQuadrant(robot *Robot, steps int, width int, height int) int8 {
-	finalX := (robot.pos.x + (robot.vec.x * steps)) % width
-	finalY := (robot.pos.y + (robot.vec.y * steps)) % height
+	finalX := (robot.pos.X + (robot.vec.X * steps)) % width
+	finalY := (robot.pos.Y + (robot.vec.Y * steps)) % height
 	if finalX < 0 {
 		finalX = width + finalX
 	}

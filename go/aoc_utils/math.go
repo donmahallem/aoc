@@ -1,4 +1,4 @@
-package utils
+package aoc_utils
 
 import "math"
 

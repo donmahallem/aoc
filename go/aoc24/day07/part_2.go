@@ -7,7 +7,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/donmahallem/aoc/utils"
+	"github.com/donmahallem/aoc/aoc_utils"
 )
 
 func NumDigits(val int) int {
@@ -16,16 +16,16 @@ func NumDigits(val int) int {
 
 func OpConcat(a, b int) int {
 	offset := NumDigits(b)
-	return (a * utils.IntPow(10, offset)) + b
+	return (a * aoc_utils.IntPow(10, offset)) + b
 }
 
 func CheckLinePart2(result *int, terms *[]int) bool {
 	numTerms := len(*terms)
-	runnerTarget := utils.IntPow(3, numTerms-1)
+	runnerTarget := aoc_utils.IntPow(3, numTerms-1)
 	for i := range runnerTarget {
 		testResult := (*terms)[0]
 		for pos := 1; pos < numTerms; pos++ {
-			switch (i / utils.IntPow(3, pos-1)) % 3 {
+			switch (i / aoc_utils.IntPow(3, pos-1)) % 3 {
 			case 0:
 				testResult += (*terms)[pos]
 				break

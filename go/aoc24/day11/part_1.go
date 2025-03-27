@@ -6,7 +6,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/donmahallem/aoc/utils"
+	"github.com/donmahallem/aoc/aoc_utils"
 )
 
 func ParseLine(in io.Reader) ([]int, error) {
@@ -36,8 +36,8 @@ func SplitStone(stone int, depth int, cache *map[[2]int]int) int {
 	var result int
 	if stone == 0 {
 		result = SplitStone(1, depth-1, cache)
-	} else if digits := utils.Log10Int(stone); digits%2 == 0 {
-		split := utils.IntPow(10, digits/2)
+	} else if digits := aoc_utils.Log10Int(stone); digits%2 == 0 {
+		split := aoc_utils.IntPow(10, digits/2)
 		result = SplitStone(stone/split, depth-1, cache) +
 			SplitStone(stone%split, depth-1, cache)
 	} else {

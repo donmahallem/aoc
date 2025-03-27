@@ -5,7 +5,7 @@ import (
 	"os"
 	"slices"
 
-	"github.com/donmahallem/aoc/utils"
+	"github.com/donmahallem/aoc/aoc_utils"
 )
 
 type VisitedMap map[[2]int]bool
@@ -43,7 +43,7 @@ func CountStraightEdgesHorizontal(coords [][2]int) int {
 				if hasNeighbour {
 					lines++
 					inline = false
-				} else if utils.Abs(lastX-coords[i][1]) > 1 || lastY != coords[i][0] {
+				} else if aoc_utils.Abs(lastX-coords[i][1]) > 1 || lastY != coords[i][0] {
 					lines++
 					lastX = coords[i][1]
 					lastY = coords[i][0]
@@ -85,7 +85,7 @@ func CountStraightEdgesVertical(coords [][2]int) int {
 				if hasNeighbour {
 					lines++
 					inline = false
-				} else if utils.Abs(lastY-coords[i][0]) > 1 || lastX != coords[i][1] {
+				} else if aoc_utils.Abs(lastY-coords[i][0]) > 1 || lastX != coords[i][1] {
 					lines++
 					lastX = coords[i][1]
 					lastY = coords[i][0]
@@ -115,7 +115,7 @@ func CountStraightEdges(coords [][2]int) int {
 }
 
 func Part2(in *os.File) {
-	data, _ := utils.LoadField(in)
+	data, _ := aoc_utils.LoadField(in)
 	groups := FindGroups(data)
 	count := 0
 	for _, group := range groups {

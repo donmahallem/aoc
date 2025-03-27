@@ -6,21 +6,21 @@ import (
 )
 
 func SortHorizontal(a, b Robot) int {
-	if a.pos.y == b.pos.y {
-		return a.pos.x - b.pos.x
+	if a.pos.Y == b.pos.Y {
+		return a.pos.X - b.pos.X
 	}
-	return a.pos.y - b.pos.y
+	return a.pos.Y - b.pos.Y
 }
 
 func Step(robots *[]Robot, width *int, height *int) {
 	for i := range *robots {
-		(*robots)[i].pos.x = ((*robots)[i].pos.x + (*robots)[i].vec.x) % *width
-		(*robots)[i].pos.y = ((*robots)[i].pos.y + (*robots)[i].vec.y) % *height
-		if (*robots)[i].pos.x < 0 {
-			(*robots)[i].pos.x = *width + (*robots)[i].pos.x
+		(*robots)[i].pos.X = ((*robots)[i].pos.X + (*robots)[i].vec.X) % *width
+		(*robots)[i].pos.Y = ((*robots)[i].pos.Y + (*robots)[i].vec.Y) % *height
+		if (*robots)[i].pos.X < 0 {
+			(*robots)[i].pos.X = *width + (*robots)[i].pos.X
 		}
-		if (*robots)[i].pos.y < 0 {
-			(*robots)[i].pos.y = *height + (*robots)[i].pos.y
+		if (*robots)[i].pos.Y < 0 {
+			(*robots)[i].pos.Y = *height + (*robots)[i].pos.Y
 		}
 	}
 }

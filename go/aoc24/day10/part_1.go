@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"os"
 	"reflect"
 )
 
@@ -88,7 +87,7 @@ func SearchAll(field *Field) int {
 	return result
 }
 
-func Part1(in *os.File) {
+func Part1(in io.Reader) {
 	data, _ := LoadField(in)
 	fmt.Printf("%d\n", SearchAll(&data))
 }

@@ -2,7 +2,7 @@ package day12
 
 import (
 	"fmt"
-	"os"
+	"io"
 	"slices"
 
 	"github.com/donmahallem/aoc/aoc_utils"
@@ -80,7 +80,7 @@ func FindGroups(field *aoc_utils.ByteField) [][][2]int {
 	return groups
 }
 
-func Part1(in *os.File) {
+func Part1(in io.Reader) {
 	data, _ := aoc_utils.LoadField(in)
 	groups := FindGroups(data)
 	count := 0

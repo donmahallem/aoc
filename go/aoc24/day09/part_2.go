@@ -3,7 +3,6 @@ package day09
 import (
 	"fmt"
 	"io"
-	"os"
 )
 
 func FindEmptySpace(inp *[]int16, size *int, rangeEnd *int) (int, int, bool) {
@@ -69,7 +68,7 @@ func CompactLess(inp *[]int16) {
 	}
 }
 
-func Part2(in *os.File) {
+func Part2(in io.Reader) {
 	data, _ := io.ReadAll(in)
 	expandedData := ConvertInput(&data)
 	CompactLess(&expandedData)

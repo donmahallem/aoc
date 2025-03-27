@@ -20,11 +20,10 @@ import (
 	"github.com/donmahallem/aoc/aoc24/day12"
 	"github.com/donmahallem/aoc/aoc24/day13"
 	"github.com/donmahallem/aoc/aoc24/day14"
+	"github.com/donmahallem/aoc/aoc_utils"
 )
 
-type operation func(in *os.File)
-
-var implementedParts = [][]operation{{day01.Part1, day01.Part2}, //day 1
+var implementedParts = [][]aoc_utils.AocPart{{day01.Part1, day01.Part2}, //day 1
 	{day02.Part1, day02.Part2}, // day 2
 	{day03.Part1, day03.Part2},
 	{day04.Part1, day04.Part2},

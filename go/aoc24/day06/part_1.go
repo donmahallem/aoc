@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"os"
 )
 
 const (
@@ -142,7 +141,7 @@ func leaveArea(field *Field, guard Guard) map[[2]int16]bool {
 	}
 }
 
-func Part1(in *os.File) {
+func Part1(in io.Reader) {
 	obstacles, guard, err := ReadSource(in)
 	if err != nil {
 		panic(err)

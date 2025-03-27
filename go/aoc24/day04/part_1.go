@@ -3,7 +3,7 @@ package day04
 import (
 	"bufio"
 	"fmt"
-	"os"
+	"io"
 )
 
 var SearchTerm = []byte{'X', 'M', 'A', 'S'}
@@ -37,7 +37,7 @@ func CheckBlock(block [][]byte) int {
 	}
 	return count
 }
-func Part1(in *os.File) {
+func Part1(in io.Reader) {
 	s := bufio.NewScanner(in)
 	data := [][]byte{}
 	for s.Scan() {

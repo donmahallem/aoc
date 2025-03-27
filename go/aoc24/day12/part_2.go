@@ -2,7 +2,7 @@ package day12
 
 import (
 	"fmt"
-	"os"
+	"io"
 	"slices"
 
 	"github.com/donmahallem/aoc/aoc_utils"
@@ -114,7 +114,7 @@ func CountStraightEdges(coords [][2]int) int {
 	return edges
 }
 
-func Part2(in *os.File) {
+func Part2(in io.Reader) {
 	data, _ := aoc_utils.LoadField(in)
 	groups := FindGroups(data)
 	count := 0

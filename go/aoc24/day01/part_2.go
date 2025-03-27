@@ -3,7 +3,7 @@ package day01
 import (
 	"bufio"
 	"fmt"
-	"os"
+	"io"
 	"strconv"
 	"strings"
 )
@@ -18,7 +18,7 @@ func count[T int](slice []T, val T) int {
 	return count
 }
 
-func Part2(in *os.File) {
+func Part2(in io.Reader) {
 	s := bufio.NewScanner(in)
 	left := make([]int, 0)
 	right := make([]int, 0)

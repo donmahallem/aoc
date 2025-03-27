@@ -2,7 +2,7 @@ package day06
 
 import (
 	"fmt"
-	"os"
+	"io"
 )
 
 func TestLoop(field *Field, guard Guard) bool {
@@ -63,7 +63,7 @@ func TestLoop(field *Field, guard Guard) bool {
 		}
 	}
 }
-func Part2(in *os.File) {
+func Part2(in io.Reader) {
 	obstacles, guard, err := ReadSource(in)
 	if err != nil {
 		panic(err)

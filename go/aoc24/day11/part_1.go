@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"os"
 
 	"github.com/donmahallem/aoc/aoc_utils"
 )
@@ -56,7 +55,7 @@ func SplitStones(stones []int, depth int) int {
 	return result
 }
 
-func Part1(in *os.File) {
+func Part1(in io.Reader) {
 	data, _ := ParseLine(in)
 
 	fmt.Printf("%d\n", SplitStones(data, 25))

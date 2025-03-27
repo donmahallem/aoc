@@ -3,7 +3,6 @@ package day03
 import (
 	"fmt"
 	"io"
-	"os"
 	"strconv"
 )
 
@@ -98,7 +97,7 @@ func (a *MulReader) Read(p []byte) (int, error) {
 	}
 	return 0, nil
 }
-func Part1(in *os.File) {
+func Part1(in io.Reader) {
 	input_data, _ := io.ReadAll(NewMulReader(in))
 	fmt.Printf("%s\n", input_data)
 }

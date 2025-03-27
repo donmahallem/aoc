@@ -3,7 +3,7 @@ package day01
 import (
 	"bufio"
 	"fmt"
-	"os"
+	"io"
 	"slices"
 	"strconv"
 	"strings"
@@ -11,7 +11,7 @@ import (
 	"github.com/donmahallem/aoc/aoc_utils"
 )
 
-func Part1(in *os.File) {
+func Part1(in io.Reader) {
 	s := bufio.NewScanner(in)
 	left := make([]int, 0)
 	right := make([]int, 0)

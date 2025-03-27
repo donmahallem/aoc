@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"math"
-	"os"
 )
 
 type Input struct {
@@ -85,7 +84,7 @@ func Calculate(inp *Input) (int, int, bool) {
 	return 0, 0, false
 }
 
-func Part1(in *os.File) {
+func Part1(in io.Reader) {
 	data := LoadFile(in)
 	totalSum := 0
 	for _, inp := range data {

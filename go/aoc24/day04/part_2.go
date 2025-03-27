@@ -3,7 +3,7 @@ package day04
 import (
 	"bufio"
 	"fmt"
-	"os"
+	"io"
 )
 
 var SearchTermDirectionsMas = [][]int{{1, 1}, {-1, -1}, {1, -1}, {-1, 1}}
@@ -38,7 +38,7 @@ func CheckMasBlock(block [][]byte) int {
 	}
 	return totalCounter
 }
-func Part2(in *os.File) {
+func Part2(in io.Reader) {
 	s := bufio.NewScanner(in)
 	data := [][]byte{}
 	for s.Scan() {

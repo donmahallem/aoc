@@ -8,11 +8,10 @@ import (
 
 	"github.com/donmahallem/aoc/aoc23/day01"
 	"github.com/donmahallem/aoc/aoc23/day02"
+	"github.com/donmahallem/aoc/aoc_utils"
 )
 
-type operation func(in *os.File)
-
-var implementedParts = [][]operation{{day01.Part1, day01.Part2},
+var implementedParts = [][]aoc_utils.AocPart{{day01.Part1, day01.Part2},
 	{day02.Part1, day02.Part2}}
 
 func Aoc23(day int, part int) error {

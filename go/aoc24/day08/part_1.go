@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"os"
 )
 
 func readSource(reader io.Reader) (map[byte][][2]int16, int16, int16) {
@@ -38,7 +37,7 @@ func OutOfBounds(x int16, y int16, width int16, height int16) bool {
 	return x < 0 || y < 0 || x >= width || y >= height
 }
 
-func Part1(in *os.File) {
+func Part1(in io.Reader) {
 	antennas, width, height := readSource(in)
 	var antennaListLen int
 	echos := make(map[[2]int16]bool, 0)

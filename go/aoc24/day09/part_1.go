@@ -3,7 +3,6 @@ package day09
 import (
 	"fmt"
 	"io"
-	"os"
 )
 
 func ConvertInput(inp *[]byte) []int16 {
@@ -47,7 +46,7 @@ func CompactData(data *[]int16) {
 	}
 }
 
-func Part1(in *os.File) {
+func Part1(in io.Reader) {
 	data, _ := io.ReadAll(in)
 	expandedData := ConvertInput(&data)
 	CompactData(&expandedData)

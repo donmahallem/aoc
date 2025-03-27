@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"os"
 	"slices"
 )
 
@@ -52,6 +51,6 @@ func ParseFilePart2(reader io.Reader) int {
 	}
 	return summe
 }
-func Part2(in *os.File) {
+func Part2(in io.Reader) {
 	fmt.Printf("Result: %d\n", ParseFilePart2(in))
 }

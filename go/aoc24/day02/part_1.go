@@ -3,7 +3,7 @@ package day02
 import (
 	"bufio"
 	"fmt"
-	"os"
+	"io"
 	"strconv"
 	"strings"
 
@@ -34,7 +34,7 @@ func checkLine(l []int) bool {
 	return true
 }
 
-func Part1(in *os.File) {
+func Part1(in io.Reader) {
 	s := bufio.NewScanner(in)
 	var goodLines = 0
 	for s.Scan() {

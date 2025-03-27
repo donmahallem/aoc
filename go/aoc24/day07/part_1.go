@@ -3,7 +3,7 @@ package day07
 import (
 	"bufio"
 	"fmt"
-	"os"
+	"io"
 	"strconv"
 	"strings"
 	"sync"
@@ -42,7 +42,7 @@ func parseLine(lineData *string) (*int, *[]int) {
 	return &expectedSum, &terms
 }
 
-func Part1(in *os.File) {
+func Part1(in io.Reader) {
 	s := bufio.NewScanner(in)
 	validSum := 0
 	resultChannel := make(chan int, 50000)

@@ -3,7 +3,7 @@ package day05
 import (
 	"bufio"
 	"fmt"
-	"os"
+	"io"
 	"slices"
 	"strconv"
 	"strings"
@@ -21,7 +21,7 @@ func FixLine(facts *map[int][]int, line *[]int) (int, bool) {
 	}
 	return -1, false
 }
-func Part2(in *os.File) {
+func Part2(in io.Reader) {
 	s := bufio.NewScanner(in)
 	m := make(map[int][]int)
 	baseData := true

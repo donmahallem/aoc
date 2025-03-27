@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"os"
 
 	"github.com/donmahallem/aoc/aoc_utils"
 )
@@ -119,7 +118,7 @@ func CountQuadrant(robots *[]Robot, steps int, width int, height int) int {
 	return countSum
 }
 
-func Part1(in *os.File) {
+func Part1(in io.Reader) {
 	data := LoadFile(in)
 	totalSum := CountQuadrant(&data, 100, 101, 103)
 	fmt.Printf("%d\n", totalSum)

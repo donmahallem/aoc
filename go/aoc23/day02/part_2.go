@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"os"
 
 	"github.com/donmahallem/aoc/aoc_utils"
 )
@@ -29,6 +28,6 @@ func ParseFilePart2(reader io.Reader) int {
 	}
 	return summe
 }
-func Part2(in *os.File) {
+func Part2(in io.Reader) {
 	fmt.Printf("Result: %d\n", ParseFilePart2(in))
 }

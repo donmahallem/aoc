@@ -2,7 +2,7 @@ package day14
 
 import (
 	"fmt"
-	"os"
+	"io"
 )
 
 func SortHorizontal(a, b Robot) int {
@@ -46,7 +46,7 @@ func FindNonDouble(robots *[]Robot, maxDepth int, width *int, height *int) int {
 	return FindNonDouble(robots, maxDepth-1, width, height)
 }
 
-func Part2(in *os.File) {
+func Part2(in io.Reader) {
 	data := LoadFile(in)
 	width, height, maxDepth := 101, 103, 10000000
 	totalSum := FindNonDouble(&data, maxDepth, &width, &height)

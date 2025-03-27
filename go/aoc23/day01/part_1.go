@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"os"
 )
 
 func ParseLine(line []byte) int {
@@ -29,6 +28,6 @@ func ParseFile(reader io.Reader) int {
 	}
 	return summe
 }
-func Part1(in *os.File) {
+func Part1(in io.Reader) {
 	fmt.Printf("Result: %d\n", ParseFile(in))
 }

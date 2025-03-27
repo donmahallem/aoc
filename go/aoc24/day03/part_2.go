@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"os"
 )
 
 type ReaderState int
@@ -113,7 +112,7 @@ func (a *DoReader) Read(p []byte) (int, error) {
 	return a.cache.Len(), nil
 }
 
-func Part2(in *os.File) {
+func Part2(in io.Reader) {
 	input_data, _ := io.ReadAll(NewMulReader(NewDoReader(in)))
 	fmt.Printf("%s\n", input_data)
 }

@@ -3,7 +3,7 @@ package day05
 import (
 	"bufio"
 	"fmt"
-	"os"
+	"io"
 	"slices"
 	"strconv"
 	"strings"
@@ -31,7 +31,7 @@ func ParseLine(line string) ([]int, error) {
 	return parsedData, nil
 }
 
-func Part1(in *os.File) {
+func Part1(in io.Reader) {
 	s := bufio.NewScanner(in)
 	m := make(map[int][]int)
 	baseData := true

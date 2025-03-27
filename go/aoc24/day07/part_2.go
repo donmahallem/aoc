@@ -3,8 +3,8 @@ package day07
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"math"
-	"os"
 	"sync"
 
 	"github.com/donmahallem/aoc/aoc_utils"
@@ -47,7 +47,7 @@ func CheckLinePart2(result *int, terms *[]int) bool {
 	return false
 }
 
-func Part2(in *os.File) {
+func Part2(in io.Reader) {
 	s := bufio.NewScanner(in)
 	validSum := 0
 	resultChannel := make(chan int, 50000)

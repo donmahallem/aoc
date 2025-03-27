@@ -2,7 +2,7 @@ package day10
 
 import (
 	"fmt"
-	"os"
+	"io"
 )
 
 func WalkDepthPart2(data *Field, x uint16, y uint16, depth uint8) int {
@@ -35,7 +35,7 @@ func SearchAll2(field *Field) int {
 	return result
 }
 
-func Part2(in *os.File) {
+func Part2(in io.Reader) {
 	data, _ := LoadField(in)
 	fmt.Printf("%d\n", SearchAll2(&data))
 }

@@ -2,10 +2,10 @@ package day08
 
 import (
 	"fmt"
-	"os"
+	"io"
 )
 
-func Part2(in *os.File) {
+func Part2(in io.Reader) {
 	antennas, width, height := readSource(in)
 	var antennaListLen int
 	var k int16 = 1

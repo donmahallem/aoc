@@ -3,7 +3,7 @@ package day02
 import (
 	"bufio"
 	"fmt"
-	"os"
+	"io"
 	"slices"
 	"strconv"
 	"strings"
@@ -22,7 +22,7 @@ func checkVariations(l []int) bool {
 	return false
 }
 
-func Part2(in *os.File) {
+func Part2(in io.Reader) {
 	s := bufio.NewScanner(in)
 	var goodLines = 0
 	var totalLines = 0

@@ -28,3 +28,17 @@ func IntPow[T IntType](base T, exp T) T {
 func Log10Int[T IntType](n T) T {
 	return T(math.Log10(float64(n))) + 1
 }
+
+func Min[T IntType](a T, b T) T {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func Max[T IntType](a T, b T) T {
+	if a > b {
+		return a
+	}
+	return b
+}

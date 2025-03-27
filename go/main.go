@@ -5,6 +5,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/donmahallem/aoc/aoc23"
 	"github.com/donmahallem/aoc/aoc24"
 )
 
@@ -28,6 +29,8 @@ func main() {
 	}
 	fmt.Printf("Requested parsing %d-%d Part: %d\n", year, day, part)
 	switch year {
+	case 23:
+		aoc23.Aoc23(int(day), int(part))
 	case 24:
 		aoc24.Aoc24(int(day), int(part))
 	}

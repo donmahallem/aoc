@@ -92,16 +92,17 @@ func FindObjects(field *aoc_utils.ByteField) ([]Part, []Number) {
 		currentMatch.Value = -1
 	}
 	var cellType uint8
-	for y := range int16((*field).Height) {
-		for x := range int16((*field).Width) {
-			cellType = GetType((*field).Field[y][x])
+	for y := range int16(field.Height) {
+		for x := range int16(field.Width) {
+			cellType = GetType(field.Field[y][x])
 			if cellType == TYPE_NUM {
 				if currentMatch.Value < 0 {
-					currentMatch.Value = int((*field).Field[y][x] - '0')
+					currentMatch.Value = int(field.Field[y][x] - '0')
 					currentMatch.StartX = x
+					currentMatch.EndX = x
 					currentMatch.Y = y
 				} else {
-					currentMatch.Value = (currentMatch.Value * 10) + int((*field).Field[y][x]-'0')
+					currentMatch.Value = (currentMatch.Value * 10) + int(field.Field[y][x]-'0')
 					currentMatch.EndX = x
 				}
 				continue
@@ -109,7 +110,7 @@ func FindObjects(field *aoc_utils.ByteField) ([]Part, []Number) {
 			endNum()
 			if cellType == TYPE_PART {
 				part := Part{}
-				part.PartType = (*field).Field[y][x]
+				part.PartType = field.Field[y][x]
 				part.X = x
 				part.Y = y
 				parts = append(parts, part)

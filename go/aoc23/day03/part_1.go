@@ -73,6 +73,9 @@ func FindObjects(field *aoc_utils.ByteField) ([]Part, []Number) {
 	matches := make([]Number, 0)
 	var currentMatch Number = *new(Number)
 	currentMatch.Value = -1
+	// Checks if a number was encountered.
+	// If so it finishes up the current and
+	// declares a new one
 	endNum := func() {
 		if currentMatch.Value < 0 {
 			return

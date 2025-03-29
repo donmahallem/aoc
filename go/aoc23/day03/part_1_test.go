@@ -37,18 +37,18 @@ func TestFindParts(t *testing.T) {
 			t.Errorf(`Expected to contain %v. Contains %v`, exp, parts)
 		}
 	}
-	expectedMatches := []day03.Match{
-		*day03.NewMatch(467, 0, 2, 0),
-		*day03.NewMatch(114, 5, 7, 0),
-		*day03.NewMatch(35, 2, 3, 2),
-		*day03.NewMatch(633, 6, 8, 2),
-		*day03.NewMatch(617, 0, 2, 4),
-		*day03.NewMatch(58, 7, 8, 5),
-		*day03.NewMatch(592, 2, 4, 6),
-		*day03.NewMatch(755, 6, 8, 7),
-		*day03.NewMatch(664, 1, 3, 9),
-		*day03.NewMatch(598, 5, 7, 9),
-		*day03.NewMatch(123, 7, 9, 4)}
+	expectedMatches := []day03.Number{
+		*day03.NewNumber(467, 0, 2, 0),
+		*day03.NewNumber(114, 5, 7, 0),
+		*day03.NewNumber(35, 2, 3, 2),
+		*day03.NewNumber(633, 6, 8, 2),
+		*day03.NewNumber(617, 0, 2, 4),
+		*day03.NewNumber(58, 7, 8, 5),
+		*day03.NewNumber(592, 2, 4, 6),
+		*day03.NewNumber(755, 6, 8, 7),
+		*day03.NewNumber(664, 1, 3, 9),
+		*day03.NewNumber(598, 5, 7, 9),
+		*day03.NewNumber(123, 7, 9, 4)}
 	if len(matches) != 11 {
 		t.Errorf(`Expected to be 11 parts. Got %v`, matches)
 	}

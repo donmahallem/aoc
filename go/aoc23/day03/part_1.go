@@ -1,6 +1,7 @@
 package day03
 
 import (
+	"fmt"
 	"io"
 	"slices"
 
@@ -13,14 +14,16 @@ const (
 	TYPE_SPACE
 )
 
-type Match struct {
-	Value           int
-	StartX, EndX, Y int16
-	Pair            bool
+// Number value and Position inside the grid
+type Number struct {
+	Value   int // Value of the Number
+	StartX, // X Start Position of the Number
+	EndX, // X End Position (inclusive) of the Number
+	Y int16 // Y Position of the Number
 }
 
-func NewMatch(t int, startX, endX, y int16) *Match {
-	return &Match{t, startX, endX, y, false}
+func NewNumber(t int, startX, endX, y int16) *Number {
+	return &Number{t, startX, endX, y}
 }
 
 func GetType(b byte) uint8 {
@@ -50,24 +53,32 @@ type Part struct {
 
 type Pair struct {
 	Part    Part
-	Matches []Match
+	Matches []Number
 }
 
 func NewPart(t byte, x, y int16) *Part {
 	return &Part{t, x, y}
 }
 
-func FindObjects(field *aoc_utils.ByteField) ([]Part, []Match) {
+func SortNumbers(a Number, b Number) int {
+	if a.Y == b.Y {
+		return int(a.StartX - b.EndX)
+	}
+	return int(a.Y - b.Y)
+}
+
+// Searches the Field for Parts and Numbers
+func FindObjects(field *aoc_utils.ByteField) ([]Part, []Number) {
 	parts := make([]Part, 0)
-	matches := make([]Match, 0)
-	var currentMatch Match = Match{}
+	matches := make([]Number, 0)
+	var currentMatch Number = *new(Number)
 	currentMatch.Value = -1
 	endNum := func() {
 		if currentMatch.Value < 0 {
 			return
 		}
 		matches = append(matches, currentMatch)
-		currentMatch = Match{}
+		currentMatch = *new(Number)
 		currentMatch.Value = -1
 	}
 	var cellType uint8
@@ -87,7 +98,7 @@ func FindObjects(field *aoc_utils.ByteField) ([]Part, []Match) {
 			}
 			endNum()
 			if cellType == TYPE_PART {
-				part := Part{}
+				part := *new(Part)
 				part.PartType = (*field).Field[y][x]
 				part.X = x
 				part.Y = y
@@ -100,23 +111,26 @@ func FindObjects(field *aoc_utils.ByteField) ([]Part, []Match) {
 	return parts, matches
 }
 
-func PairObjects(parts []Part, matches []Match) []Pair {
+// Search for
+func PairObjects(parts []Part, matches []Number) []Pair {
 	data := make([]Pair, 0)
 	var testX, testY int16
-	for partIdx := range parts {
-		group := make([]Match, 0)
-		for _, dir := range dirs {
-			testX = parts[partIdx].X + dir[1]
-			testY = parts[partIdx].Y + dir[0]
+	for partIdx := range len(parts) {
+		group := make([]Number, 0)
+		for dirIdx := range len(dirs) {
+			testX = parts[partIdx].X + dirs[dirIdx][1]
+			testY = parts[partIdx].Y + dirs[dirIdx][0]
 			for _, match := range matches {
-				//fmt.Printf("%d %d %d %d %d\n", testX, testY, match.Y, match.StartX, match.EndX)
 				if match.Y == testY && match.StartX <= testX && match.EndX >= testX && !slices.Contains(group, match) {
 					group = append(group, match)
 				}
 			}
 		}
 		if len(group) > 0 {
-			data = append(data, Pair{parts[partIdx], group})
+			pair := *new(Pair)
+			pair.Part = parts[partIdx]
+			pair.Matches = group
+			data = append(data, pair)
 		}
 	}
 	return data
@@ -125,12 +139,12 @@ func PairObjects(parts []Part, matches []Match) []Pair {
 func Part1(in io.Reader) int {
 	field, _ := aoc_utils.LoadField(in)
 	parts, matches := FindObjects(field)
+	fmt.Printf("Found %d - %d\n", len(parts), len(matches))
 	pairs := PairObjects(parts, matches)
 	summe := 0
-	for pairIdx := range pairs {
-		//fmt.Printf("Part %v has %v matches\n", (pairs[pairIdx].Part), pairs[pairIdx].Matches)
-		for _, match := range pairs[pairIdx].Matches {
-			summe += match.Value
+	for pairIdx := range len(pairs) {
+		for matchIdx := range len(pairs[pairIdx].Matches) {
+			summe += pairs[pairIdx].Matches[matchIdx].Value
 		}
 	}
 	return summe

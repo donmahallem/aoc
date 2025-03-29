@@ -14,7 +14,7 @@ import (
 
 var implementedParts = [][]aoc_utils.AocPart{{day01.Part1, day01.Part2},
 	{day02.Part1, day02.Part2},
-	{day03.Part1, day02.Part2}}
+	{day03.Part1, day03.Part2}}
 
 func Aoc23(day int, part int) error {
 	if day < 1 && day > len(implementedParts) {

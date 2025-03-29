@@ -47,12 +47,19 @@ var dirs = [8][2]int16{
 	{1, -1}}
 
 type Part struct {
+	// Part Character
 	PartType byte
-	X, Y     int16
+	// X Position of the part in the grid
+	X,
+	// Y Position of the part in the grid
+	Y int16
 }
 
+// Pair of Part to neighbouring numbers
 type Pair struct {
-	Part    Part
+	// Part info
+	Part Part
+	// Numbers touching the part
 	Matches []Number
 }
 
@@ -71,7 +78,7 @@ func SortNumbers(a Number, b Number) int {
 func FindObjects(field *aoc_utils.ByteField) ([]Part, []Number) {
 	parts := make([]Part, 0)
 	matches := make([]Number, 0)
-	var currentMatch Number = *new(Number)
+	var currentMatch Number = Number{}
 	currentMatch.Value = -1
 	// Checks if a number was encountered.
 	// If so it finishes up the current and
@@ -81,7 +88,7 @@ func FindObjects(field *aoc_utils.ByteField) ([]Part, []Number) {
 			return
 		}
 		matches = append(matches, currentMatch)
-		currentMatch = *new(Number)
+		currentMatch = Number{}
 		currentMatch.Value = -1
 	}
 	var cellType uint8
@@ -101,7 +108,7 @@ func FindObjects(field *aoc_utils.ByteField) ([]Part, []Number) {
 			}
 			endNum()
 			if cellType == TYPE_PART {
-				part := *new(Part)
+				part := Part{}
 				part.PartType = (*field).Field[y][x]
 				part.X = x
 				part.Y = y
@@ -130,7 +137,7 @@ func PairObjects(parts []Part, matches []Number) []Pair {
 			}
 		}
 		if len(group) > 0 {
-			pair := *new(Pair)
+			pair := Pair{}
 			pair.Part = parts[partIdx]
 			pair.Matches = group
 			data = append(data, pair)

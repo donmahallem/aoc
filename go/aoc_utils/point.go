@@ -3,7 +3,7 @@ package aoc_utils
 import "math"
 
 type PointType interface {
-	int | int8 | float32 | float64
+	int | int8 | float32 | float64 | uint16 | int16
 }
 type Point[A PointType] struct {
 	X, Y A
@@ -23,4 +23,12 @@ func (a *Point[A]) DistanceEuclid(b Point[A]) float64 {
 
 func NewPoint[A PointType](x, y A) *Point[A] {
 	return &Point[A]{x, y}
+}
+
+func InBounds[A PointType](x, y, minX, minY, maxX, maxY A) bool {
+	return minX > x || minY > y || maxX < x || maxY < y
+}
+
+func PointInBounds[A PointType](p *Point[A], minX, minY, maxX, maxY A) bool {
+	return InBounds((*p).X, (*p).Y, minX, minY, maxX, maxY)
 }

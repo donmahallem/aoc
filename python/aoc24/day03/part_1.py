@@ -1,9 +1,15 @@
-import codecs
-import regex
+import re
+import sys
+import typing
 
-with codecs.open("data_1.txt", encoding="utf8") as f:
-    data = f.readlines()
-data = "".join(data)
-comp = regex.compile("mul\((\d+)\,(\d+)\)", flags=regex.MULTILINE)
-findings = comp.findall(data)
-print(sum([int(a) * int(b) for a, b in findings]))
+
+def Part1(input: typing.TextIO) -> int:
+    data = input.readlines()
+    data = "".join(data)
+    comp = re.compile(r"mul\((\d+)\,(\d+)\)", flags=re.MULTILINE)
+    findings = comp.findall(data)
+    return sum([int(a) * int(b) for a, b in findings])
+
+
+if __name__ == "__main__":
+    Part1(sys.stdin)

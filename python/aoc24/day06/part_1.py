@@ -59,7 +59,6 @@ def parseField(input: typing.TextIO) -> tuple[np.typing.NDArray, Guard]:
 
 
 def Part1(input: typing.TextIO) -> int:
-
     player_map, player_position = parseField(input)
 
     stepper = 0

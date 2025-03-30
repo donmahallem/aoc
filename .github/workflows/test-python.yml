@@ -1,0 +1,26 @@
+name: Test Python
+on: [push, pull_request]
+jobs:
+  run:
+    name: Run and Test Python
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./python
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - name: Generate Report
+        run: |
+          pip install coverage
+          coverage run --source=. -m unittest discover
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

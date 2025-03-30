@@ -1,33 +1,42 @@
 import typing
 import numpy as np
 
-type Guard =typing.Tuple[int,int,typing.Tuple[int,int]]
+Guard = typing.Tuple[int, int, typing.Tuple[int, int]]
+
+
 def turnRight(cur_y, cur_x):
-        if cur_x == 0 and cur_y == 1:
-            return (0, -1)
-        elif cur_x == 1 and cur_y == 0:
-            return (1, 0)
-        elif cur_x == 0 and cur_y == -1:
-            return (0, 1)
-        elif cur_x == -1 and cur_y == 0:
-            return (-1, 0)
+    if cur_x == 0 and cur_y == 1:
+        return (0, -1)
+    elif cur_x == 1 and cur_y == 0:
+        return (1, 0)
+    elif cur_x == 0 and cur_y == -1:
+        return (0, 1)
+    elif cur_x == -1 and cur_y == 0:
+        return (-1, 0)
+    else:
+        raise IndexError(f"Invalid dir {cur_y},{cur_x}")
+
+
+def moveNext(field: np.typing.NDArray, player_position: Guard) -> Guard:
+    p_y, p_x, (test_dir_y, test_dir_x) = player_position
+    while True:
+        next_p_x, next_p_y = p_x + test_dir_x, p_y + test_dir_y
+        if (
+            next_p_x < 0
+            or next_p_x >= field.shape[1]
+            or next_p_y < 0
+            or next_p_y >= field.shape[0]
+        ):
+            return False
+        if field[next_p_y, next_p_x] == 1:
+            test_dir_y, test_dir_x = turnRight(test_dir_y, test_dir_x)
         else:
-            raise IndexError(f"Invalid dir {cur_y},{cur_x}")
+            break
+    player_position = (next_p_y, next_p_x, (test_dir_y, test_dir_x))
+    return player_position
 
-def moveNext(field:np.typing.NDArray, player_position:Guard)->Guard:
-        p_y, p_x, (test_dir_y, test_dir_x) = player_position
-        while True:
-            next_p_x, next_p_y = p_x + test_dir_x, p_y + test_dir_y
-            if next_p_x < 0 or next_p_x >= field.shape[1] or next_p_y < 0 or next_p_y >= field.shape[0]:
-                return False
-            if field[next_p_y, next_p_x] == 1:
-                test_dir_y, test_dir_x = turnRight(test_dir_y, test_dir_x)
-            else:
-                break
-        player_position = (next_p_y, next_p_x, (test_dir_y, test_dir_x))
-        return player_position
 
-def parseField(input: typing.TextIO) -> tuple[np.typing.NDArray,Guard]:
+def parseField(input: typing.TextIO) -> tuple[np.typing.NDArray, Guard]:
     data = [a.strip() for a in input.readlines()]
 
     rows = len(data)
@@ -46,10 +55,12 @@ def parseField(input: typing.TextIO) -> tuple[np.typing.NDArray,Guard]:
                 initial_player_position = (y, x, (-1, 0))
             elif data[y][x] == "<":
                 initial_player_position = (y, x, (0, -1))
-    return player_map,initial_player_position
+    return player_map, initial_player_position
+
+
 def Part1(input: typing.TextIO) -> int:
 
-    player_map,player_position=parseField(input)
+    player_map, player_position = parseField(input)
 
     stepper = 0
 
@@ -62,6 +73,11 @@ def Part1(input: typing.TextIO) -> int:
         player_position = next_pos
         p_y, p_x, _ = player_position
         path.add((p_y, p_x))
-        if p_x < 0 or p_y < 0 or p_x >= player_map.shape[0] or p_y >= player_map.shape[1]:
+        if (
+            p_x < 0
+            or p_y < 0
+            or p_x >= player_map.shape[0]
+            or p_y >= player_map.shape[1]
+        ):
             break
     return len(path)

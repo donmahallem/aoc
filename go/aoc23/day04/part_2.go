@@ -7,14 +7,6 @@ import (
 	"github.com/donmahallem/aoc/aoc_utils"
 )
 
-func SumArray(a []int) int {
-	val := 0
-	for i := range a {
-		val += a[i]
-	}
-	return val
-}
-
 func CountTickets(valid *[]int, idx int) int {
 	counter := make(map[int]int)
 	add := func(idx, count int) {

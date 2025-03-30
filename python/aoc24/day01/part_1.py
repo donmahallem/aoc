@@ -2,7 +2,8 @@ import codecs
 import sys
 import typing
 
-def Part1(input : typing.TextIO ) -> int:
+
+def Part1(input: typing.TextIO) -> int:
     l1 = []
     l2 = []
     data = input.readlines()
@@ -17,5 +18,6 @@ def Part1(input : typing.TextIO ) -> int:
 
     return sum(abs(a - b) for a, b in zip(l1, l2))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     Part1(sys.stdin)

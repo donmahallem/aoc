@@ -2,6 +2,7 @@ package day02_test
 
 import (
 	"slices"
+	"strings"
 	"testing"
 
 	"github.com/donmahallem/aoc/aoc23/day02"
@@ -53,5 +54,12 @@ func TestValidateBlocks(t *testing.T) {
 	_, blocks = day02.ParseLine(&data)
 	if !day02.ValidateBlocks(&blocks) {
 		t.Errorf(`Expected to be valid block`)
+	}
+}
+
+func TestPart1(t *testing.T) {
+	result := day02.Part1(strings.NewReader(testData2))
+	if result != 8 {
+		t.Errorf(`Expected %d to be %d`, result, 8)
 	}
 }

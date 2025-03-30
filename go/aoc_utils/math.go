@@ -42,3 +42,7 @@ func Max[T IntType](a T, b T) T {
 	}
 	return b
 }
+
+func ByteIsNumber(b byte) bool {
+	return b >= '0' && b <= '9'
+}

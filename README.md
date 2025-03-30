@@ -1,1 +1,5 @@
-# aoc24
+# Advent of Code solutions
+
+Currently in Go and Python in the respective subfolders
+
+[![codecov](https://codecov.io/gh/donmahallem/aoc/graphs/sunburst.svg?token=meG36M3hel)](https://codecov.io/gh/donmahallem/aoc)

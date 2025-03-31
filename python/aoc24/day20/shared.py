@@ -1,11 +1,14 @@
 import typing
 import numpy as np
+
 CELL_WALL = -1
 CELL_START = -2
 CELL_EMPTY = 0
 
-Position:typing.TypeAlias=tuple[int,int]
-def parseField(input: typing.TextIO) -> tuple[np.typing.NDArray,Position,Position]:
+Position: typing.TypeAlias = tuple[int, int]
+
+
+def parseField(input: typing.TextIO) -> tuple[np.typing.NDArray, Position, Position]:
     data = [line.strip() for line in input.readlines()]
 
     field = np.zeros((len(data), len(data[0])))
@@ -19,9 +22,12 @@ def parseField(input: typing.TextIO) -> tuple[np.typing.NDArray,Position,Positio
                 end_position = (row, col)
             elif data[row][col] == "S":
                 player_position = (row, col)
-    return field,player_position,end_position
+    return field, player_position, end_position
 
-def calculatePathCost(test_map:np.typing.NDArray,player_position:Position)->np.typing.NDArray:
+
+def calculatePathCost(
+    test_map: np.typing.NDArray, player_position: Position
+) -> np.typing.NDArray:
     check_next = [(0, player_position)]
     dirs = (0, 1), (1, 0), (0, -1), (-1, 0)
     path_cost = np.zeros(test_map.shape, dtype=np.int32) - 1
@@ -42,7 +48,9 @@ def calculatePathCost(test_map:np.typing.NDArray,player_position:Position)->np.t
                 path_cost[next_y, next_x] = next_path_value
                 check_next.append((next_path_value, (next_y, next_x)))
     return path_cost
-def shortestPath(field,path_cost,end_position):
+
+
+def shortestPath(field, path_cost, end_position):
     dirs = (0, 1), (1, 0), (0, -1), (-1, 0)
     check_next = [end_position]
     cells = list([end_position])
@@ -64,7 +72,8 @@ def shortestPath(field,path_cost,end_position):
 
     return cells
 
-def CountSheats(normal_path_taken,path_cost,cheat_savings:int)->int:
+
+def CountSheats(normal_path_taken, path_cost, cheat_savings: int) -> int:
     summe = 0
     for step_a in range(0, len(normal_path_taken) - 1):
         for step_b in range(len(normal_path_taken) - 1, step_a, -1):

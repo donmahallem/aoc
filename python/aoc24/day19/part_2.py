@@ -2,8 +2,9 @@ import typing
 from functools import cache
 from .shared import parseInput
 
+
 def Part2(input: typing.TextIO) -> int:
-    available_patterns, needed_patterns =parseInput(input)
+    available_patterns, needed_patterns = parseInput(input)
 
     @cache
     def checkPattern(pattern):

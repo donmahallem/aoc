@@ -10,7 +10,7 @@ testData = """7 6 4 2 1
 1 3 6 7 9"""
 
 
-class Test2024Day02Part01(unittest.TestCase):
+class Test2024Day02Part02(unittest.TestCase):
     def test_result(self):
         with io.StringIO() as f:
             f.write(testData)

@@ -7,6 +7,7 @@ CELL_EMPTY = 0
 
 Position: typing.TypeAlias = tuple[int, int]
 
+
 def parseField(input: typing.TextIO) -> tuple[np.typing.NDArray, Position, Position]:
     data = [line.strip() for line in input.readlines()]
 
@@ -22,6 +23,7 @@ def parseField(input: typing.TextIO) -> tuple[np.typing.NDArray, Position, Posit
             elif data[row][col] == "S":
                 player_position = (row, col)
     return field, player_position, end_position
+
 
 def calculatePathCost(
     test_map: np.typing.NDArray, player_position: Position
@@ -47,6 +49,7 @@ def calculatePathCost(
                 check_next.append((next_path_value, (next_y, next_x)))
     return path_cost
 
+
 def shortestPath(field, path_cost, end_position):
     dirs = (0, 1), (1, 0), (0, -1), (-1, 0)
     check_next = [end_position]
@@ -68,6 +71,7 @@ def shortestPath(field, path_cost, end_position):
                 cells.append((next_y, next_x))
 
     return cells
+
 
 def CountSheats(normal_path_taken, path_cost, cheat_savings: int) -> int:
     summe = 0

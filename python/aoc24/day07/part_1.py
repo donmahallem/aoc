@@ -1,6 +1,7 @@
 import typing
 from .shared import parseRows
 
+
 def Part1(input: typing.TextIO) -> int:
     rows = parseRows(input)
 

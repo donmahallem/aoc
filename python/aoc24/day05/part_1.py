@@ -1,6 +1,7 @@
 import typing
 import sys
 
+
 def Part1(input: typing.TextIO) -> int:
     data = [a.strip() for a in input.readlines()]
     data = "\n".join(data)
@@ -28,6 +29,7 @@ def Part1(input: typing.TextIO) -> int:
         if validRow(page):
             valid_pages.append(page)
     return sum([page[len(page) // 2] for page in valid_pages])
+
 
 if __name__ == "__main__":
     Part1(sys.stdin)

@@ -3,6 +3,7 @@ import numpy as np
 
 Guard = typing.Tuple[int, int, typing.Tuple[int, int]]
 
+
 def turnRight(cur_y, cur_x):
     if cur_x == 0 and cur_y == 1:
         return (0, -1)
@@ -14,6 +15,7 @@ def turnRight(cur_y, cur_x):
         return (-1, 0)
     else:
         raise IndexError(f"Invalid dir {cur_y},{cur_x}")
+
 
 def moveNext(field: np.typing.NDArray, player_position: Guard) -> Guard:
     p_y, p_x, (test_dir_y, test_dir_x) = player_position
@@ -32,6 +34,7 @@ def moveNext(field: np.typing.NDArray, player_position: Guard) -> Guard:
             break
     player_position = (next_p_y, next_p_x, (test_dir_y, test_dir_x))
     return player_position
+
 
 def parseField(input: typing.TextIO) -> tuple[np.typing.NDArray, Guard]:
     data = [a.strip() for a in input.readlines()]
@@ -53,6 +56,7 @@ def parseField(input: typing.TextIO) -> tuple[np.typing.NDArray, Guard]:
             elif data[y][x] == "<":
                 initial_player_position = (y, x, (0, -1))
     return player_map, initial_player_position
+
 
 def Part1(input: typing.TextIO) -> int:
     player_map, player_position = parseField(input)

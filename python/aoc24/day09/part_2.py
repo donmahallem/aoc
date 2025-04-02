@@ -7,6 +7,7 @@ with codecs.open("data.txt", encoding="utf8") as f:
 data = [[int(num) for num in row] for row in data][0]
 largest_num = max(data)
 
+
 def expandToGroups(data):
     line = []
     block_num = 0
@@ -17,6 +18,7 @@ def expandToGroups(data):
         elif data[end_idx] > 0:
             line.append((-1, data[end_idx]))
     return (line, block_num - 1)
+
 
 def handleRow(line, current_idx):
     for end_idx in range(len(line) - 1, 0, -1):
@@ -51,6 +53,7 @@ def handleRow(line, current_idx):
                 break
         break
     return line
+
 
 line_data, max_num = expandToGroups(data)
 

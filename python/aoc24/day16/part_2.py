@@ -1,6 +1,7 @@
 import typing
 from .part_1 import loadField, calculatePathCost
 
+
 def getInverseSamplePath(cost_map_dict, target_value, end_position):
     dirs = (0, 1), (1, 0), (0, -1), (-1, 0)
     check_next = [(target_value, None, end_position)]
@@ -22,6 +23,7 @@ def getInverseSamplePath(cost_map_dict, target_value, end_position):
                 check_next.append((current_value - 1001, dir, (next_y, next_x)))
                 cells.append((next_y, next_x))
     return cells
+
 
 def Part2(input: typing.TextIO) -> int:
     field, start, end = loadField(input)

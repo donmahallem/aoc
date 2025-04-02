@@ -6,6 +6,7 @@ with codecs.open("data.txt", encoding="utf8") as f:
 data_np = np.array(data, dtype=np.uint)
 checked_map = np.zeros((data_np.shape), dtype=np.uint8)
 
+
 def find_connected(y, x, val, alread_connected):
     dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
     for dir_y, dir_x in dirs:
@@ -25,6 +26,7 @@ def find_connected(y, x, val, alread_connected):
             alread_connected.add((new_y, new_x))
             checked_map[new_y, new_x] = 1
             find_connected(new_y, new_x, val, alread_connected)
+
 
 def count_straight_edges(coords):
     test = np.zeros((data_np.shape[0] + 2, data_np.shape[1] + 2), dtype=np.int8)
@@ -51,6 +53,7 @@ def count_straight_edges(coords):
             elif diff_1[y, x] == 0 and last_val != 0:
                 last_val = 0
     return edges
+
 
 groups = list()
 for y in range(data_np.shape[0]):

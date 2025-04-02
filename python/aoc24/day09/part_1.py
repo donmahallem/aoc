@@ -5,6 +5,7 @@ with codecs.open("data.txt", encoding="utf8") as f:
 
 data = [[int(num) for num in row] for row in data]
 
+
 def handleRow(row):
     line = []
     block_num = 0
@@ -30,6 +31,7 @@ def handleRow(row):
         if idx >= len(line):
             break
     return line
+
 
 for row in data:
     line_data = handleRow(row)

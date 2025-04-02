@@ -1,6 +1,7 @@
 import typing
 from .part_1 import parseField
 
+
 def checkNum2(base_program, target, target_program):
     test_register = [target, 0, 0]
     pointer = 0
@@ -37,6 +38,7 @@ def checkNum2(base_program, target, target_program):
         pointer += 2
 
     return output
+
 
 def Part2(input: typing.TextIO) -> int:
     register, program = parseField(input)

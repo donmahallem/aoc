@@ -3,6 +3,7 @@ import numpy as np
 
 from .part_1 import turnRight, parseField
 
+
 def moveNext(field, player_position, obstacle):
     p_y, p_x, (test_dir_y, test_dir_x) = player_position
     while True:
@@ -22,6 +23,7 @@ def moveNext(field, player_position, obstacle):
             break
     player_position = (next_p_y, next_p_x, (test_dir_y, test_dir_x))
     return player_position
+
 
 def Part2(input: typing.TextIO) -> int:
     player_map, initial_player_position = parseField(input)

@@ -1,4 +1,4 @@
-import codecs
+import typing
 import itertools
 import functools
 
@@ -190,14 +190,11 @@ def calculate_puzzle_output(data, numeric_keypads):
             )
         )
         l = findShortest(tuple(line), numeric_keypads)
-        print(line, l, numeric_part)
         summe += numeric_part * l
     return summe
 
 
-if __name__ == "__main__":
-    test_data = False
-    with codecs.open("data.txt" if test_data else "data2.txt", encoding="utf8") as f:
-        data = [line.strip() for line in f.readlines()]
+def Part1(input: typing.TextIO) -> int:
+    data = [line.strip() for line in input.readlines()]
 
-    print(calculate_puzzle_output(data, 3))
+    return calculate_puzzle_output(data, 3)

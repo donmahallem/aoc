@@ -1,10 +1,33 @@
-name: Test Python
+name: Test
 on:
   push:
   pull_request:
   merge_group:
 jobs:
-  run:
+  test_go:
+    name: Run and Test GO
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./go
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.24"
+      - name: Install dependencies
+        run: go get .
+      - name: Build
+        run: go build -v main.go
+      - name: Test with the Go CLI
+        run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+  test_python:
     name: Run and Test Python
     runs-on: ubuntu-latest
     defaults:

@@ -1,7 +1,8 @@
 import typing
 
+
 def parseInput(input: typing.TextIO):
-    return [int(char)  for char in input.readline().strip()]
+    return [int(char) for char in input.readline().strip()]
 
 
 def handleRow(row):
@@ -32,6 +33,6 @@ def handleRow(row):
 
 
 def Part1(input: typing.TextIO) -> int:
-    data=parseInput(input)
+    data = parseInput(input)
     line_data = handleRow(data)
     return sum([i * num for i, num in enumerate(line_data) if num >= 0])

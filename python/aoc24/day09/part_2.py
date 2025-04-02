@@ -1,6 +1,7 @@
 import typing
 from .part_1 import parseInput
 
+
 def expandToGroups(data):
     line = []
     block_num = 0
@@ -49,7 +50,7 @@ def handleRow(line, current_idx):
 
 
 def Part2(input: typing.TextIO) -> int:
-    data=parseInput(input)
+    data = parseInput(input)
     line_data, max_num = expandToGroups(data)
     for i in range(max_num, 0, -1):
         line_data = handleRow(line_data, i)

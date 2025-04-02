@@ -1,9 +1,7 @@
-import codecs
+import typing
 
-with codecs.open("data.txt", encoding="utf8") as f:
-    data = [a.strip() for a in f.readlines()]
-
-data = [[int(num) for num in row] for row in data]
+def parseInput(input: typing.TextIO):
+    return [int(char)  for char in input.readline().strip()]
 
 
 def handleRow(row):
@@ -33,6 +31,7 @@ def handleRow(row):
     return line
 
 
-for row in data:
-    line_data = handleRow(row)
-    print(sum([i * num for i, num in enumerate(line_data) if num >= 0]))
+def Part1(input: typing.TextIO) -> int:
+    data=parseInput(input)
+    line_data = handleRow(data)
+    return sum([i * num for i, num in enumerate(line_data) if num >= 0])

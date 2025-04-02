@@ -25,3 +25,9 @@ func TestLoop(t *testing.T) {
 		t.Errorf(`Expected to be valid`)
 	}
 }
+
+func TestPart2(t *testing.T) {
+	if res := day06.Part2(strings.NewReader(testData)); res != 6 {
+		t.Errorf(`Expected %d to match %d`, res, 6)
+	}
+}

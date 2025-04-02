@@ -2,7 +2,6 @@ package day01
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"slices"
 	"strconv"
@@ -24,10 +23,9 @@ func Part1(in io.Reader) int {
 	}
 	slices.Sort(left)
 	slices.Sort(right)
-	fmt.Printf("List size: %d/%d\n", len(left), len(right))
 
 	var summe int = 0
-	for i := 0; i < len(left); i++ {
+	for i := range len(left) {
 		summe += aoc_utils.Abs(left[i] - right[i])
 	}
 	return summe

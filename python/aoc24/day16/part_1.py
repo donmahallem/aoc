@@ -1,4 +1,4 @@
-import codecs
+import typing
 import numpy as np
 
 np.set_printoptions(linewidth=200)
@@ -8,9 +8,8 @@ CELL_START = -2
 CELL_EMPTY = 0
 
 
-def loadField(filepath):
-    with codecs.open(filepath) as f:
-        data = [line.strip() for line in f.readlines()]
+def loadField(input: typing.TextIO):
+    data = [line.strip() for line in input.readlines()]
     field = np.zeros((len(data), len(data[0])))
     player_position = None
     end_position = None
@@ -57,9 +56,7 @@ def calculatePathCost(field, start_pos, end_pos):
     return cost_dict
 
 
-if __name__ == "__main__":
-    test_data = False
-    field, start, end = loadField("data.txt" if test_data else "data2.txt")
-
+def Part1(input: typing.TextIO) -> int:
+    field, start, end = loadField(input)
     path_cost_map = calculatePathCost(field, start, end)
-    print(min(path_cost_map[end]))
+    return min(path_cost_map[end])

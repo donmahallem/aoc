@@ -1,15 +1,8 @@
-import codecs
-import numpy as np
-
-with codecs.open("data.txt", encoding="utf8") as f:
-    data = [a.strip() for a in f.readlines()]
-data = [[int(item) for item in line.strip()] for line in data]
-
-data_np = np.array(data, dtype=np.uint8)
-trailheads = list(zip(*np.where(data_np == 0)))
+import typing
+from .part_1 import parseInput
 
 
-def walk(y, x, looking_for, ends):
+def walk(data_np, y, x, looking_for, ends):
     sum = 0
     dirs = [(0, 1), (1, 0), (-1, 0), (0, -1)]
     for dir_y, dir_x in dirs:
@@ -25,13 +18,15 @@ def walk(y, x, looking_for, ends):
             sum += 1
             ends.add((check_y, check_x))
         elif data_np[check_y, check_x] == looking_for:
-            sum += walk(check_y, check_x, looking_for + 1, ends)
+            sum += walk(data_np, check_y, check_x, looking_for + 1, ends)
     return sum
 
 
-summe = 0
-for trailhead in trailheads:
-    k = set()
-    summe += walk(trailhead[0], trailhead[1], 1, k)
-    # summe+=len(k)
-print(summe)
+def Part2(input: typing.TextIO) -> int:
+    data_np, trailheads = parseInput(input)
+    summe = 0
+    for trailhead in trailheads:
+        k = set()
+        summe += walk(data_np, trailhead[0], trailhead[1], 1, k)
+        # summe+=len(k)
+    return summe

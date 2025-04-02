@@ -1,12 +1,5 @@
-import codecs
-import numpy as np
-
-with codecs.open("data.txt", encoding="utf8") as f:
-    data = [a.strip() for a in f.readlines()]
-
-data = [[int(num) for num in row] for row in data][0]
-largest_num = max(data)
-
+import typing
+from .part_1 import parseInput
 
 def expandToGroups(data):
     line = []
@@ -55,9 +48,10 @@ def handleRow(line, current_idx):
     return line
 
 
-line_data, max_num = expandToGroups(data)
-
-for i in range(max_num, 0, -1):
-    line_data = handleRow(line_data, i)
-line_data = [a for a, b in line_data for x in range(0, b)]
-print(sum([i * num for i, num in enumerate(line_data) if num >= 0]))
+def Part2(input: typing.TextIO) -> int:
+    data=parseInput(input)
+    line_data, max_num = expandToGroups(data)
+    for i in range(max_num, 0, -1):
+        line_data = handleRow(line_data, i)
+    line_data = [a for a, b in line_data for x in range(0, b)]
+    return sum([i * num for i, num in enumerate(line_data) if num >= 0])

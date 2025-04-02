@@ -1,7 +1,6 @@
 import codecs
 import numpy as np
 
-
 with codecs.open("data.txt", encoding="utf8") as f:
     data = [[ord(num) for num in a.strip()] for a in f.readlines()]
 data_np = np.array(data, dtype=np.uint)

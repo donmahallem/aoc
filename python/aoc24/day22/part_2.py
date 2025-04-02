@@ -59,7 +59,6 @@ def generatePatterns(data_np):
 
 unique_patterns, vendor_pattern_dict = generatePatterns(data_np)
 
-
 from tqdm import tqdm
 
 last_summe = None

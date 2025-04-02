@@ -1,4 +1,5 @@
-from part_1 import loadField, calculatePathCost
+import typing
+from .part_1 import loadField, calculatePathCost
 
 
 def getInverseSamplePath(cost_map_dict, target_value, end_position):
@@ -24,17 +25,13 @@ def getInverseSamplePath(cost_map_dict, target_value, end_position):
     return cells
 
 
-if __name__ == "__main__":
-    test_data = False
-    field, start, end = loadField("data.txt" if test_data else "data2.txt")
+def Part2(input: typing.TextIO) -> int:
+    field, start, end = loadField(input)
 
     path_cost_dict = calculatePathCost(field, start, end)
     shortest_path_cost = min(path_cost_dict[end[0], end[1]])
 
     turns = shortest_path_cost // 1000
     straights = (shortest_path_cost - turns) % 1000
-    print("Turns", turns, "Straights", straights)
-
-    print("Shortest path cost", shortest_path_cost)
     inverse = getInverseSamplePath(path_cost_dict, shortest_path_cost, end)
-    print(len(inverse))
+    return len(inverse)

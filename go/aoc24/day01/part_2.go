@@ -30,7 +30,7 @@ func Part2(in io.Reader) int {
 	}
 
 	var summe int = 0
-	for i := 0; i < len(left); i++ {
+	for i := range len(left) {
 		summe += left[i] * Count(right, left[i])
 	}
 	return summe

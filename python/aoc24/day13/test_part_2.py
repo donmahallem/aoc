@@ -1,17 +1,16 @@
 import unittest
 import io
-from aoc24.day11.part_2 import Part2
+from aoc24.day13.part_2 import Part2
+from .test_part_1 import testData
 
-testData = "125 17"
 
-
-class Test2024Day11Part02(unittest.TestCase):
+class Test2024Day13Part02(unittest.TestCase):
     def test_result(self):
         with io.StringIO() as f:
             f.write(testData)
             f.seek(0)
             result = Part2(f)
-            self.assertEqual(result, 65601038650482, "The sum is wrong.")
+            self.assertEqual(result, 875318608908, "The sum is wrong.")
 
 
 if __name__ == "__main__":

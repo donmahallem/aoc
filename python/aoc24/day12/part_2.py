@@ -1,8 +1,9 @@
 import typing
 import numpy as np
-from .part_1 import parseInput,find_connected
+from .part_1 import parseInput, find_connected
 
-def count_straight_edges(field,coords):
+
+def count_straight_edges(field, coords):
     test = np.zeros((field.shape[0] + 2, field.shape[1] + 2), dtype=np.int8)
     for y, x in coords:
         test[y + 1, x + 1] = 1
@@ -30,7 +31,7 @@ def count_straight_edges(field,coords):
 
 
 def Part2(input: typing.TextIO) -> int:
-    field=parseInput(input)
+    field = parseInput(input)
     checked_map = np.zeros((field.shape), dtype=np.uint8)
     groups = list()
     for y in range(field.shape[0]):
@@ -38,10 +39,10 @@ def Part2(input: typing.TextIO) -> int:
             if checked_map[y, x] == 1:
                 continue
             group = set({(y, x)})
-            find_connected(field,checked_map,y, x, field[y, x], group)
+            find_connected(field, checked_map, y, x, field[y, x], group)
             key = chr(field[y, x])
             groups.append((key, group))
     count = 0
     for key, group in groups:
-        count += count_straight_edges(field,group) * len(group)
+        count += count_straight_edges(field, group) * len(group)
     return count

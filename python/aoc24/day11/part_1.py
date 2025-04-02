@@ -2,12 +2,14 @@ import typing
 import math
 from functools import cache
 
-def Part1(input: typing.TextIO,blinks:int=25) -> int:
+
+def Part1(input: typing.TextIO, blinks: int = 25) -> int:
     data = [int(a) for a in input.readline().split(" ")]
     summe = 0
     for i in data:
         summe += christmas_tree(i, blinks)
     return summe
+
 
 @cache
 def christmas_tree(item, depth):
@@ -26,5 +28,3 @@ def christmas_tree(item, depth):
     else:
         result = christmas_tree(item * 2024, depth - 1)
         return result
-
-

@@ -1,18 +1,5 @@
-import codecs
-
-test_data = False
-with codecs.open("data.txt" if test_data else "data2.txt", encoding="utf8") as f:
-    data = [line.strip() for line in f.readlines()]
-
-register = [0, 0, 0]
-program = []
-for line in data:
-    if line.startswith("Register"):
-        line_data = line.split(" ")
-        register[ord(line_data[1][0]) - ord("A")] = int(line_data[2])
-    if line.startswith("Program:"):
-        program = [int(part) for part in line.split(" ")[1].split(",")]
-print(register, program)
+import typing
+from .part_1 import parseField
 
 
 def checkNum2(base_program, target, target_program):
@@ -53,13 +40,16 @@ def checkNum2(base_program, target, target_program):
     return output
 
 
-steps = 1
-j = 0
-for i in range(len(program) - 1, -1, -1):
-    while True:
-        result = checkNum2(program, j, program[i : len(program)])
-        if result == program[i : len(program)]:
-            print("Result:" if i == 0 else "Step:", j, result)
-            j *= 8
-            break
-        j += 1
+def Part2(input: typing.TextIO) -> int:
+    register, program = parseField(input)
+    steps = 1
+    j = 0
+    for i in range(len(program) - 1, -1, -1):
+        while True:
+            result = checkNum2(program, j, program[i : len(program)])
+            if result == program[i : len(program)]:
+                if i == 0:
+                    return j
+                j *= 8
+                break
+            j += 1

@@ -1,5 +1,5 @@
 name: black-action
-on: [push, pull_request]
+on: [push]
 jobs:
   linter_name:
     name: runner/black
@@ -43,4 +43,4 @@ jobs:
 
             Stay fabulous, sneks. We stan. 💖🐍
           base: ${{ github.head_ref }} # Creates pull request onto pull request or commit branch
-          branch: pretty
+          branch: pretty-${{ github.head_ref }}

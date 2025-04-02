@@ -1,35 +1,10 @@
-import codecs
+import typing
 import numpy as np
-
-with codecs.open("data.txt", encoding="utf8") as f:
-    data = [[ord(num) for num in a.strip()] for a in f.readlines()]
-data_np = np.array(data, dtype=np.uint)
-checked_map = np.zeros((data_np.shape), dtype=np.uint8)
+from .part_1 import parseInput, find_connected
 
 
-def find_connected(y, x, val, alread_connected):
-    dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
-    for dir_y, dir_x in dirs:
-        new_x, new_y = dir_x + x, dir_y + y
-        if (
-            new_x < 0
-            or new_y < 0
-            or new_x >= data_np.shape[1]
-            or new_y >= data_np.shape[0]
-        ):
-            continue
-        elif checked_map[new_y, new_x] == 1:
-            continue
-        elif (new_y, new_x) in alread_connected:
-            continue
-        if data_np[new_y, new_x] == val:
-            alread_connected.add((new_y, new_x))
-            checked_map[new_y, new_x] = 1
-            find_connected(new_y, new_x, val, alread_connected)
-
-
-def count_straight_edges(coords):
-    test = np.zeros((data_np.shape[0] + 2, data_np.shape[1] + 2), dtype=np.int8)
+def count_straight_edges(field, coords):
+    test = np.zeros((field.shape[0] + 2, field.shape[1] + 2), dtype=np.int8)
     for y, x in coords:
         test[y + 1, x + 1] = 1
     diff_0 = np.diff(test, axis=0)
@@ -55,16 +30,19 @@ def count_straight_edges(coords):
     return edges
 
 
-groups = list()
-for y in range(data_np.shape[0]):
-    for x in range(data_np.shape[1]):
-        if checked_map[y, x] == 1:
-            continue
-        group = set({(y, x)})
-        find_connected(y, x, data_np[y, x], group)
-        key = chr(data_np[y, x])
-        groups.append((key, group))
-summe = 0
-for key, group in groups:
-    summe += count_straight_edges(group) * len(group)
-print(summe)
+def Part2(input: typing.TextIO) -> int:
+    field = parseInput(input)
+    checked_map = np.zeros((field.shape), dtype=np.uint8)
+    groups = list()
+    for y in range(field.shape[0]):
+        for x in range(field.shape[1]):
+            if checked_map[y, x] == 1:
+                continue
+            group = set({(y, x)})
+            find_connected(field, checked_map, y, x, field[y, x], group)
+            key = chr(field[y, x])
+            groups.append((key, group))
+    count = 0
+    for key, group in groups:
+        count += count_straight_edges(field, group) * len(group)
+    return count

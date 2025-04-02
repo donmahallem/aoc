@@ -1,38 +1,6 @@
-import codecs
-import math
-
-with codecs.open("data.txt", encoding="utf8") as f:
-    data = [[int(num) for num in a.strip().split()] for a in f.readlines()]
-
-data = data[0]
-cache = dict()
+import typing
+from .part_1 import Part1
 
 
-def christmas_tree(item, depth):
-    if depth == 0:
-        return 1
-    elif (item, depth) in cache:
-        return cache[((item, depth))]
-    if item == 0:
-        result = christmas_tree(1, depth - 1)
-        cache[(item, depth)] = result
-        return result
-    item_length = int(math.log10(item)) + 1
-    if item_length % 2 == 0:
-        split_barrier = 10 ** (item_length / 2)
-        result = christmas_tree(int(item / split_barrier), depth - 1) + christmas_tree(
-            int(item % split_barrier), depth - 1
-        )
-        cache[(item, depth)] = result
-        return result
-    else:
-        result = christmas_tree(item * 2024, depth - 1)
-        cache[(item, depth)] = result
-        return result
-
-
-blink_num = 75
-summe = 0
-for i in data:
-    summe += christmas_tree(i, blink_num)
-print(summe)
+def Part2(input: typing.TextIO, blinks: int = 75) -> int:
+    return Part1(input, blinks)

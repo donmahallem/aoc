@@ -1,6 +1,7 @@
 package day14_test
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/donmahallem/aoc/aoc24/day14"
@@ -13,5 +14,11 @@ func TestStep(t *testing.T) {
 	day14.Step(&tests, &width, &height)
 	if tests[0] != expected {
 		t.Errorf(`Expected %v to match %v`, tests[0], expected)
+	}
+}
+
+func TestPart2(t *testing.T) {
+	if result := day14.Part2(strings.NewReader(testData)); result != 1 {
+		t.Errorf(`Expected %d to contain %d`, result, 1)
 	}
 }

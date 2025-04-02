@@ -27,6 +27,7 @@ for key in connections.keys():
                 items = tuple(sorted([key, test_key, con3]))
                 interconnected.add(items)
 
+
 def countT(items):
     sum = 0
     for item in items:
@@ -35,6 +36,7 @@ def countT(items):
                 sum += 1
                 break
     return sum
+
 
 def findLongest(connections, interconnected):
     connecting = 0
@@ -59,6 +61,7 @@ def findLongest(connections, interconnected):
                 connecting += 1
                 break
     return interconnected
+
 
 max_groups = findLongest(connections, interconnected)
 max_groups = sorted(max_groups, key=len)

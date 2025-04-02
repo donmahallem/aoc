@@ -1,6 +1,7 @@
 import typing
 import sys
 
+
 def Part2(input: typing.TextIO) -> int:
     data = [a.strip() for a in input.readlines()]
     data = "\n".join(data)
@@ -41,6 +42,7 @@ def Part2(input: typing.TextIO) -> int:
     for i in range(len(invalid_pages)):
         sort(invalid_pages[i])
     return sum([page[len(page) // 2] for page in invalid_pages])
+
 
 if __name__ == "__main__":
     Part2(sys.stdin)

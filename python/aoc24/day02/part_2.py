@@ -2,6 +2,7 @@ import typing
 import sys
 from .shared import checkRow
 
+
 def Part2(input: typing.TextIO) -> int:
     data = input.readlines()
 
@@ -16,6 +17,7 @@ def Part2(input: typing.TextIO) -> int:
         else:
             safe_count += 1
     return safe_count
+
 
 if __name__ == "__main__":
     Part2(sys.stdin)

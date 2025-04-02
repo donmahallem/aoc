@@ -2,6 +2,7 @@ import typing
 import sys
 import re
 
+
 def Part2(input: typing.TextIO) -> int:
     data = input.readlines()
     data = "\n".join(data)
@@ -19,6 +20,7 @@ def Part2(input: typing.TextIO) -> int:
             findings = comp2.findall(item)
             total += sum([int(a) * int(b) for a, b in findings])
     return total
+
 
 if __name__ == "__main__":
     Part2(sys.stdin)

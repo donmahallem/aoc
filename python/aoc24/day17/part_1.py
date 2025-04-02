@@ -1,5 +1,6 @@
 import typing
 
+
 def parseField(input: typing.TextIO):
     data = list(map(str.strip, input.readlines()))
 
@@ -12,6 +13,7 @@ def parseField(input: typing.TextIO):
         if line.startswith("Program:"):
             program = [int(part) for part in line.split(" ")[1].split(",")]
     return register, program
+
 
 def Part1(input: typing.TextIO) -> int:
     register, program = parseField(input)

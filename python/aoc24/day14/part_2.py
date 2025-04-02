@@ -21,9 +21,11 @@ for i, machine in enumerate(data):
 
 steps = 100
 
+
 def isTree(robots):
     a = np.unique(robots[:, 0:2], axis=0).shape[0]
     return a == robots.shape[0]
+
 
 i = 0
 while True:

@@ -28,6 +28,7 @@ for key in connections.keys():
                 interconnected.add(items)
 print("Combinations", len(interconnected))
 
+
 def countT(items):
     sum = 0
     for item in items:
@@ -36,5 +37,6 @@ def countT(items):
                 sum += 1
                 break
     return sum
+
 
 print("Counted Ts", countT(interconnected))

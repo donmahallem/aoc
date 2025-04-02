@@ -1,6 +1,7 @@
 import typing
 from .shared import parseInput, inside
 
+
 def Part2(input: typing.TextIO) -> int:
     occurences, width, height = parseInput(input)
 

@@ -1,6 +1,7 @@
 import typing
 from .shared import parseInput, inside
 
+
 def Part1(input: typing.TextIO) -> int:
     occurences, width, height = parseInput(input)
     antinodes = set()

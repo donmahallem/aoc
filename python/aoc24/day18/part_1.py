@@ -2,6 +2,7 @@ import typing
 import numpy as np
 from .shared import CELL_CORRUPTED, loadField
 
+
 def shortestPath(gameMap: np.typing.NDArray) -> np.typing.NDArray:
     check_next = [(0, 0)]
     dirs = (0, 1), (1, 0), (0, -1), (-1, 0)
@@ -28,6 +29,7 @@ def shortestPath(gameMap: np.typing.NDArray) -> np.typing.NDArray:
                 pathCost[next_y, next_x] = current_path_cost + 1
                 check_next.append((next_y, next_x))
     return pathCost
+
 
 def Part1(input: typing.TextIO, size: int = 71, steps: int = 1024) -> int:
     gameMap, _ = loadField(input, size, steps)

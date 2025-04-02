@@ -3,6 +3,7 @@ import io
 from aoc24.day20.part_2 import handle
 from .test_part_1 import testData
 
+
 class Test2024Day20Part02(unittest.TestCase):
     def test_handle_cheat20(self):
         with io.StringIO() as f:
@@ -17,6 +18,7 @@ class Test2024Day20Part02(unittest.TestCase):
             f.seek(0)
             result = handle(f, 72)
             self.assertEqual(result, 29, "The sum is wrong.")
+
 
 if __name__ == "__main__":
     unittest.main()

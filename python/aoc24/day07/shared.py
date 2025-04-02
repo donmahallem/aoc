@@ -1,5 +1,6 @@
 import typing
 
+
 def parseRows(input: typing.TextIO) -> tuple[int, list[int]]:
     data = [a.strip() for a in input.readlines()]
 

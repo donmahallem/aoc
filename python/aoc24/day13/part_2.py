@@ -27,6 +27,7 @@ for machine in data:
             new_machine["price"] = (int(reg_res.groups()[0]), int(reg_res.groups()[1]))
     machines.append(new_machine)
 
+
 def calc(v1, v2, target):
     x_1, y_1 = v1
     x_2, y_2 = v2
@@ -34,6 +35,7 @@ def calc(v1, v2, target):
     v2_factor = ((x_3 * y_1) - (x_1 * y_3)) / ((x_2 * y_1) - (x_1 * y_2))
     v1_factor = (x_3 - (v2_factor * x_2)) / x_1
     return (v1_factor, v2_factor)
+
 
 summe = 0
 for i, machine in enumerate(machines):

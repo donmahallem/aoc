@@ -1,5 +1,6 @@
 import typing
 
+
 def parseInput(input: typing.TextIO) -> tuple[list[str], list[str]]:
     data = input.readlines()
 

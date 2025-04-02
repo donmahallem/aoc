@@ -42,3 +42,9 @@ func TestFindNeighbours(t *testing.T) {
 		}
 	}
 }
+
+func TestPart1(t *testing.T) {
+	if result := day12.Part1(strings.NewReader(testData)); result != 1930 {
+		t.Errorf(`Expected %d to contain %d`, result, 1930)
+	}
+}

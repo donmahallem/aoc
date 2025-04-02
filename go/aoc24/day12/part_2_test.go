@@ -117,3 +117,9 @@ func TestCountStraightEdgesVertical_ReverseCBuckle(t *testing.T) {
 		t.Errorf(`Expected %d to match %d`, result, 6)
 	}
 }
+
+func TestPart2(t *testing.T) {
+	if result := day12.Part2(strings.NewReader(testData)); result != 1206 {
+		t.Errorf(`Expected %d to contain %d`, result, 1206)
+	}
+}

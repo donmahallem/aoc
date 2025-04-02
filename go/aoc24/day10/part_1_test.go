@@ -82,3 +82,9 @@ func TestSearchAll(t *testing.T) {
 		t.Errorf(`Expected %d to not match %d`, result, 36)
 	}
 }
+
+func TestPart1(t *testing.T) {
+	if result := day10.Part1(strings.NewReader(testData)); result != 36 {
+		t.Errorf(`Expected %d to contain %d`, result, 36)
+	}
+}

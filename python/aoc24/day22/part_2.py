@@ -8,7 +8,6 @@ test_data = False
 with codecs.open("data.txt" if test_data else "data2.txt", encoding="utf8") as f:
     data = [int(line.strip()) for line in f.readlines()]
 
-
 @functools.cache
 def calc(val):
     PRUNE_VALUE = 16777216
@@ -16,7 +15,6 @@ def calc(val):
     out = ((out // 32) ^ out) % PRUNE_VALUE
     out = ((out * 2048) ^ out) % PRUNE_VALUE
     return out
-
 
 def generatePricePattern(input_data, iterations=GENERATIONS):
     data_np = np.zeros((len(input_data), iterations, 2), dtype=np.int32)
@@ -29,9 +27,7 @@ def generatePricePattern(input_data, iterations=GENERATIONS):
             data_np[i, j, 1] = summe % 10 - data_np[i, j - 1, 0]
     return data_np
 
-
 data_np = generatePricePattern(data, GENERATIONS)
-
 
 def generatePatterns(data_np):
     output = set()
@@ -56,9 +52,7 @@ def generatePatterns(data_np):
             output.add(test)
     return output, vendor_pattern_dict
 
-
 unique_patterns, vendor_pattern_dict = generatePatterns(data_np)
-
 
 from tqdm import tqdm
 

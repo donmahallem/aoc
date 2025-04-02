@@ -1,7 +1,6 @@
 import typing
 from .part_1 import parseInput
 
-
 def walk(data_np, y, x, looking_for, ends):
     sum = 0
     dirs = [(0, 1), (1, 0), (-1, 0), (0, -1)]
@@ -20,7 +19,6 @@ def walk(data_np, y, x, looking_for, ends):
         elif data_np[check_y, check_x] == looking_for:
             sum += walk(data_np, check_y, check_x, looking_for + 1, ends)
     return sum
-
 
 def Part2(input: typing.TextIO) -> int:
     data_np, trailheads = parseInput(input)

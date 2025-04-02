@@ -8,7 +8,6 @@ from .shared import (
     translateMovement,
 )
 
-
 def parseField(input: typing.TextIO):
     inputData = list(map(str.strip, input.readlines()))
     splitIdx = inputData.index("")
@@ -27,7 +26,6 @@ def parseField(input: typing.TextIO):
 
     movementData = "".join(movementData)
     return field, player_position, list(map(translateMovement, movementData))
-
 
 def next_empty(
     field: np.typing.NDArray, cur_y: int, cur_x: int, dir_y: int, dir_x: int
@@ -62,7 +60,6 @@ def next_empty(
     else:
         return next_empty(field, next_y, next_x, dir_y, dir_x)
 
-
 def getMoveableY(field, cur_pos, dir):
     dir_y = dir[0]
     cur_y, cur_x = cur_pos
@@ -88,7 +85,6 @@ def getMoveableY(field, cur_pos, dir):
             items_to_move.extend(res)
     return items_to_move
 
-
 def moveY(field, cur_pos, dir) -> bool:
     next_pos = cur_pos[0] + dir[0], cur_pos[1] + dir[1]
     items = getMoveableY(field, next_pos, dir)
@@ -100,7 +96,6 @@ def moveY(field, cur_pos, dir) -> bool:
         field[y + dir[0], x + 1] = CELL_BOX_RIGHT
         field[y, x : x + 2] = CELL_EMPTY
     return True
-
 
 def printField(field, playerPosition):
     lines = []
@@ -119,7 +114,6 @@ def printField(field, playerPosition):
                 line += "-"
         lines.append(line)
     print("\r\n".join(lines))
-
 
 def Part2(input: typing.TextIO) -> int:
     field, playerPosition, movements = parseField(input)

@@ -13,7 +13,6 @@ bwurrg
 brgr
 bbrgwb"""
 
-
 class Test2024Day19Part01(unittest.TestCase):
     def test_result(self):
         with io.StringIO() as f:
@@ -21,7 +20,6 @@ class Test2024Day19Part01(unittest.TestCase):
             f.seek(0)
             result = Part1(f)
             self.assertEqual(result, 6, "The sum is wrong.")
-
 
 if __name__ == "__main__":
     unittest.main()

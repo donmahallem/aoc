@@ -28,7 +28,6 @@ testData = """5,4
 1,6
 2,0"""
 
-
 class Test2024Day18Part01(unittest.TestCase):
     def test_result(self):
         with io.StringIO() as f:
@@ -36,7 +35,6 @@ class Test2024Day18Part01(unittest.TestCase):
             f.seek(0)
             result = Part1(f, 7, 12)
             self.assertEqual(result, 22, "The sum is wrong.")
-
 
 if __name__ == "__main__":
     unittest.main()

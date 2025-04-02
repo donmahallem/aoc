@@ -1,7 +1,6 @@
 import typing
 import numpy as np
 
-
 def parseInput(input: typing.TextIO):
     data = [a.strip() for a in input.readlines()]
     data = [[int(item) for item in line.strip()] for line in data]
@@ -9,7 +8,6 @@ def parseInput(input: typing.TextIO):
     data_np = np.array(data, dtype=np.uint8)
     trailheads = list(zip(*np.where(data_np == 0)))
     return data_np, trailheads
-
 
 def Part1(input: typing.TextIO) -> int:
     data_np, trailheads = parseInput(input)

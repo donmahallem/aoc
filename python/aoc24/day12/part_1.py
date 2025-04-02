@@ -1,12 +1,10 @@
 import codecs
 import numpy as np
 
-
 with codecs.open("data.txt", encoding="utf8") as f:
     data = [[ord(num) for num in a.strip()] for a in f.readlines()]
 data_np = np.array(data, dtype=np.uint)
 checked_map = np.zeros((data_np.shape), dtype=np.uint8)
-
 
 def find_connected(y, x, val, alread_connected):
     dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
@@ -28,7 +26,6 @@ def find_connected(y, x, val, alread_connected):
             checked_map[new_y, new_x] = 1
             find_connected(new_y, new_x, val, alread_connected)
 
-
 def count_edges(coords):
     edge_count = 0
     dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
@@ -40,7 +37,6 @@ def count_edges(coords):
                 continue
             edge_count += 1
     return edge_count
-
 
 groups = list()
 for y in range(data_np.shape[0]):

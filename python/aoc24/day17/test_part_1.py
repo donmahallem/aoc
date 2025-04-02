@@ -8,7 +8,6 @@ Register C: 0
 
 Program: 0,1,5,4,3,0"""
 
-
 class Test2024Day15Part01(unittest.TestCase):
     def test_result(self):
         with io.StringIO() as f:
@@ -18,7 +17,6 @@ class Test2024Day15Part01(unittest.TestCase):
             self.assertEqual(
                 result, [4, 6, 3, 5, 6, 3, 5, 2, 1, 0], "The sum is wrong."
             )
-
 
 if __name__ == "__main__":
     unittest.main()

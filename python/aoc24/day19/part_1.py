@@ -2,7 +2,6 @@ import typing
 from functools import cache
 from .shared import parseInput
 
-
 def Part1(input: typing.TextIO) -> int:
     available_patterns, needed_patterns = parseInput(input)
 

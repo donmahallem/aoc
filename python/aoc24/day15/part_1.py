@@ -2,7 +2,6 @@ import typing
 import numpy as np
 from .shared import CELL_BOX, CELL_WALL, CELL_EMPTY, translateMovement
 
-
 def parseField(input: typing.TextIO):
     data = list(map(str.strip, input.readlines()))
     splitIdx = data.index("")
@@ -23,7 +22,6 @@ def parseField(input: typing.TextIO):
 
     return field, player_position, list(map(translateMovement, movementData))
 
-
 def next_empty(field, cur_y, cur_x, dir_y, dir_x):
     next_y, next_x = cur_y + dir_y, cur_x + dir_x
     if field[next_y, next_x] == CELL_WALL:
@@ -32,7 +30,6 @@ def next_empty(field, cur_y, cur_x, dir_y, dir_x):
         return (next_y, next_x)
     else:
         return next_empty(field, next_y, next_x, dir_y, dir_x)
-
 
 def Part1(input: typing.TextIO) -> int:
     field, playerPosition, movements = parseField(input)

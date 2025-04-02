@@ -1,6 +1,5 @@
 import typing
 
-
 def parseInput(
     input: typing.TextIO,
 ) -> tuple[typing.Dict[str, tuple[int, int]], int, int]:
@@ -19,7 +18,6 @@ def parseInput(
             else:
                 occurences[data[y][x]] = list([(y, x)])
     return occurences, width, height
-
 
 def inside(y, x, width, height):
     return x >= 0 and y >= 0 and x < width and y < height

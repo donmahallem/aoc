@@ -7,7 +7,6 @@ CELL_WALL = -1
 CELL_START = -2
 CELL_EMPTY = 0
 
-
 def loadField(input: typing.TextIO):
     data = [line.strip() for line in input.readlines()]
     field = np.zeros((len(data), len(data[0])))
@@ -22,7 +21,6 @@ def loadField(input: typing.TextIO):
             elif data[row][col] == "S":
                 player_position = (row, col)
     return field, player_position, end_position
-
 
 def calculatePathCost(field, start_pos, end_pos):
     check_next = [(0, (0, 1), [start_pos])]
@@ -54,7 +52,6 @@ def calculatePathCost(field, start_pos, end_pos):
                 cost_dict[next_pos] = set([next_cost])
             check_next.append((next_cost, dir, cur_path + [next_pos]))
     return cost_dict
-
 
 def Part1(input: typing.TextIO) -> int:
     field, start, end = loadField(input)

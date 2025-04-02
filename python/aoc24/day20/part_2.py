@@ -2,7 +2,6 @@ import typing
 import numpy as np
 from .shared import shortestPath, calculatePathCost, parseField, CountSheats
 
-
 def handle(input: typing.TextIO, cheatSavings: int) -> int:
     field, player_position, end_position = parseField(input)
     path_cost = calculatePathCost(field, player_position)
@@ -24,7 +23,6 @@ def handle(input: typing.TextIO, cheatSavings: int) -> int:
                 continue
             summe += 1
     return summe
-
 
 def Part2(input: typing.TextIO) -> int:
     return handle(input, 100)

@@ -2,7 +2,6 @@ import typing
 import numpy as np
 from .shared import CELL_CORRUPTED, loadField
 
-
 def shortestPath(gameMap: np.typing.NDArray):
     gameMapWidth = gameMap.shape[1]
     gameMapHeight = gameMap.shape[0]
@@ -54,7 +53,6 @@ def shortestPath(gameMap: np.typing.NDArray):
                 cur_x = next_x
                 cur_y = next_y
     return reverse_path
-
 
 def Part2(input: typing.TextIO, size: int = 71, steps: int = 1024) -> int:
     gameMap, data = loadField(input, size, steps)

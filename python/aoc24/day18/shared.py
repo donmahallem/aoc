@@ -1,7 +1,6 @@
 import typing
 import numpy as np
 
-
 def loadField(
     input: typing.TextIO, size: int, steps: int
 ) -> tuple[np.typing.NDArray, list[tuple[int, int]]]:
@@ -12,6 +11,5 @@ def loadField(
         y, x = data[i]
         gameMap[y, x] = CELL_CORRUPTED
     return gameMap, data
-
 
 CELL_CORRUPTED = 1

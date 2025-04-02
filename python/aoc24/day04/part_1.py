@@ -1,7 +1,6 @@
 import sys
 import typing
 
-
 def Part1(input: typing.TextIO) -> int:
     data = [a.strip() for a in input.readlines()]
     search_terms = "XMAS"
@@ -27,7 +26,6 @@ def Part1(input: typing.TextIO) -> int:
                 if checkDir(x, y, xdir, ydir, search_terms):
                     count += 1
     return count
-
 
 if __name__ == "__main__":
     Part1(sys.stdin)

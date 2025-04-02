@@ -2,7 +2,6 @@ import codecs
 import sys
 import typing
 
-
 def Part1(input: typing.TextIO) -> int:
     l1 = []
     l2 = []
@@ -17,7 +16,6 @@ def Part1(input: typing.TextIO) -> int:
     l2 = sorted(l2)
 
     return sum(abs(a - b) for a, b in zip(l1, l2))
-
 
 if __name__ == "__main__":
     Part1(sys.stdin)

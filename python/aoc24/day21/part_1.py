@@ -2,7 +2,6 @@ import codecs
 import itertools
 import functools
 
-
 def shortestPathRobotNumeric(sequence):
     current_position = (3, 2)
     output_seqence = []
@@ -32,7 +31,6 @@ def shortestPathRobotNumeric(sequence):
         current_position = (next_y, next_x)
     return output_seqence
 
-
 def shortestPathRobotNumericSingle(current_position, character):
     output_seqence = []
     location_dict = dict()
@@ -59,7 +57,6 @@ def shortestPathRobotNumericSingle(current_position, character):
     output_seqence += ["A"]
     return (next_y, next_x), output_seqence
 
-
 def shortestPathRobotDirectional(sequence, depth=0):
     current_position = (0, 2)
     output_seqence = []
@@ -85,7 +82,6 @@ def shortestPathRobotDirectional(sequence, depth=0):
         current_position = (next_y, next_x)
     return output_seqence
 
-
 @functools.cache
 def possiblePathsDirectionalCoord(start, end):
     start_y, start_x = start
@@ -100,7 +96,6 @@ def possiblePathsDirectionalCoord(start, end):
         output_seqence.remove(tuple(["<"] * abs(diff_x) + ["v"] * abs(diff_y)))
     return output_seqence
 
-
 @functools.cache
 def possiblePathsNumericalCoord(start, end):
     start_y, start_x = start
@@ -114,7 +109,6 @@ def possiblePathsNumericalCoord(start, end):
     elif start_y == 3 and end_x == 0:
         output_seqence.remove(tuple(["<"] * abs(diff_x) + ["^"] * abs(diff_y)))
     return output_seqence
-
 
 @functools.cache
 def possiblePathsNumerical(start, end):
@@ -137,7 +131,6 @@ def possiblePathsNumerical(start, end):
         )
     ]
 
-
 @functools.cache
 def possiblePathsDirectional(start, end):
     location_dict = dict()
@@ -152,7 +145,6 @@ def possiblePathsDirectional(start, end):
             location_dict[start], location_dict[end]
         )
     ]
-
 
 @functools.cache
 def findShortest(inp: tuple[str], max_depth=2, depth=0):
@@ -176,7 +168,6 @@ def findShortest(inp: tuple[str], max_depth=2, depth=0):
         sequence += seqs[0]
     return sequence
 
-
 def calculate_puzzle_output(data, numeric_keypads):
     summe = 0
     for line in data:
@@ -193,7 +184,6 @@ def calculate_puzzle_output(data, numeric_keypads):
         print(line, l, numeric_part)
         summe += numeric_part * l
     return summe
-
 
 if __name__ == "__main__":
     test_data = False

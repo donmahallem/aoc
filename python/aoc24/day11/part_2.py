@@ -7,7 +7,6 @@ with codecs.open("data.txt", encoding="utf8") as f:
 data = data[0]
 cache = dict()
 
-
 def christmas_tree(item, depth):
     if depth == 0:
         return 1
@@ -29,7 +28,6 @@ def christmas_tree(item, depth):
         result = christmas_tree(item * 2024, depth - 1)
         cache[(item, depth)] = result
         return result
-
 
 blink_num = 75
 summe = 0

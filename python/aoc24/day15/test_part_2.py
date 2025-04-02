@@ -3,7 +3,6 @@ import io
 from aoc24.day15.part_2 import Part2, parseField, next_empty
 from .test_part_1 import testData
 
-
 class Test2024Day15Part01(unittest.TestCase):
     def test_parseField(self):
         with io.StringIO() as f:
@@ -28,7 +27,6 @@ class Test2024Day15Part01(unittest.TestCase):
             field, player, movements = parseField(f)
             next = next_empty(field, player[0], player[1], 0, -1)
             self.assertEqual(next, (4, 5), "The sum is wrong.")
-
 
 if __name__ == "__main__":
     unittest.main()

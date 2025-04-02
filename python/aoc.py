@@ -3,7 +3,6 @@ import importlib.util
 import argparse
 import sys
 
-
 def getPart(year, day, part):
     compound = f"aoc{year}.day{day:02}.part_{part}"
     try:
@@ -16,7 +15,6 @@ def getPart(year, day, part):
     except BaseException as error:
         print(error)
         return None
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

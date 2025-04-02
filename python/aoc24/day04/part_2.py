@@ -1,7 +1,6 @@
 import typing
 import sys
 
-
 def Part2(input: typing.TextIO) -> int:
     data = [a.strip() for a in input.readlines()]
     zeilen = len(data)
@@ -24,7 +23,6 @@ def Part2(input: typing.TextIO) -> int:
             if matches == 2:
                 count += 1
     return count
-
 
 if __name__ == "__main__":
     Part2(sys.stdin)

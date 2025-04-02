@@ -24,7 +24,6 @@ vvv<<^>^v^^><<>>><>^<<><^vv^^<>vvv<>><^^v>^>vv<>v<<<<v<^v>^<^^>>>^<v<v
 ^^>vv<^v^v<vv>^<><v<^v>^^^>>>^^vvv^>vvv<>>>^<^>>>>>^<<^v>^vvv<>^<><<v>
 v^^>>><<^^<>>^v^<v^vv<>v^<<>^<^v^v><^<<<><<^<v><v<>vv>>v><v^<vv<>v^<<^"""
 
-
 class Test2024Day15Part01(unittest.TestCase):
     def test_result(self):
         with io.StringIO() as f:
@@ -32,7 +31,6 @@ class Test2024Day15Part01(unittest.TestCase):
             f.seek(0)
             result = Part1(f)
             self.assertEqual(result, 10092, "The sum is wrong.")
-
 
 if __name__ == "__main__":
     unittest.main()

@@ -14,29 +14,23 @@ with codecs.open("data.txt" if test_data else "data2.txt", encoding="utf8") as f
         tuple(item[0:3] + [item[4]]) for item in [line.split(" ") for line in wires]
     ]
 
-
 def isInitial(val):
     return val[0] in ["x", "y"] and val[1:3].isnumeric()
-
 
 def isEnd(val):
     return val[0] == "z" and val[1:3].isnumeric()
 
-
 def getInitialValue(val):
     return int(val[1:3])
 
-
 all_ends = [wire[3] for wire in wires if wire[3][1:].isnumeric() and wire[3][0] == "z"]
 all_ends = sorted(all_ends)
-
 
 def calcInverseConnections(wires):
     inverse_connections = dict()
     for wire in wires:
         inverse_connections[wire[3]] = tuple([wire[0], wire[2]])
     return inverse_connections
-
 
 def validateChild(cons, cur, target_value):
     count = 0
@@ -52,12 +46,10 @@ def validateChild(cons, cur, target_value):
                 count += 1
     return count == 2
 
-
 def validateEndPosition(cons, end_pos):
     target_val = getInitialValue(end_pos)
 
     return validateChild(cons, end_pos, target_val)
-
 
 def getInvalidChilds(cons, end_pos):
     target_val = getInitialValue(end_pos)
@@ -68,14 +60,12 @@ def getInvalidChilds(cons, end_pos):
         invalid_childs.append(a)
     return invalid_childs
 
-
 def getNotInPair(tp, exclude):
     if tp[0] == exclude:
         return tp[1]
     elif tp[1] == exclude:
         return tp[0]
     return None
-
 
 def getInput(wire_dict, z, operator):
     look_for_x = "x" + str(z).zfill(2)
@@ -85,13 +75,11 @@ def getInput(wire_dict, z, operator):
     elif (look_for_y, operator, look_for_x) in wire_dict:
         return wire_dict[(look_for_y, operator, look_for_x)]
 
-
 def findInWires(wires_dict, a, b, operator):
     if (a, operator, b) in wires_dict:
         return wires_dict[(a, operator, b)]
     elif (b, operator, a) in wires_dict:
         return wires_dict[(b, operator, a)]
-
 
 inverse_cons = calcInverseConnections(wires)
 carries = dict()

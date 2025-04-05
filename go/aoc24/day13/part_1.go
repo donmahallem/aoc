@@ -32,24 +32,6 @@ func ParseButton(data []byte) VecFloat64 {
 	}
 	return ret
 }
-func ParseResult(data []byte) VecFloat64 {
-	var ret VecFloat64
-	first := true
-	var val uint8
-	for i := range len(data) {
-		val = data[i] - '0'
-		if val <= 9 {
-			if first {
-				ret.Y = (ret.Y * 10) + float64(val)
-			} else {
-				ret.X = (ret.X * 10) + float64(val)
-			}
-		} else if data[i] == 'Y' {
-			first = false
-		}
-	}
-	return ret
-}
 func LoadFile(reader io.Reader) []Input {
 	obstacles := make([]Input, 0, 100)
 	s := bufio.NewScanner(reader)

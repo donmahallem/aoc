@@ -10,16 +10,16 @@ import (
 )
 
 func TestSortHorizontal(t *testing.T) {
-	test := [][2]int{{3, 3}, {3, 1}, {1, 1}}
-	expected := [][2]int{{1, 1}, {3, 1}, {3, 3}}
+	test := []day12.Point{{Y: 3, X: 3}, {Y: 3, X: 1}, {Y: 1, X: 1}}
+	expected := []day12.Point{{Y: 1, X: 1}, {Y: 3, X: 1}, {Y: 3, X: 3}}
 	slices.SortFunc(test, day12.SortHorizontal)
 	if !slices.Equal(test, expected) {
 		t.Errorf(`Expected %v to match %v`, test, expected)
 	}
 }
 func TestSortVertical(t *testing.T) {
-	test := [][2]int{{3, 3}, {3, 1}, {1, 1}, {4, 1}}
-	expected := [][2]int{{1, 1}, {3, 1}, {4, 1}, {3, 3}}
+	test := []day12.Point{{Y: 3, X: 3}, {Y: 3, X: 1}, {Y: 1, X: 1}, {Y: 4, X: 1}}
+	expected := []day12.Point{{Y: 1, X: 1}, {Y: 3, X: 1}, {Y: 4, X: 1}, {Y: 3, X: 3}}
 	slices.SortFunc(test, day12.SortVertical)
 	if !slices.Equal(test, expected) {
 		t.Errorf(`Expected %v to match %v`, test, expected)
@@ -103,7 +103,7 @@ func TestCountStraightEdgesHorizontal_V(t *testing.T) {
 }
 
 func TestCountStraightEdgesVertical_ReverseC(t *testing.T) {
-	test := [][2]int{{0, 0}, {0, 1}, {1, 1}, {2, 0}, {2, 1}}
+	test := []day12.Point{{Y: 0, X: 0}, {Y: 0, X: 1}, {Y: 1, X: 1}, {Y: 2, X: 0}, {Y: 2, X: 1}}
 	result := day12.CountStraightEdgesVertical(test)
 	if result != 4 {
 		t.Errorf(`Expected %d to match %d`, result, 4)
@@ -111,7 +111,7 @@ func TestCountStraightEdgesVertical_ReverseC(t *testing.T) {
 }
 
 func TestCountStraightEdgesVertical_ReverseCBuckle(t *testing.T) {
-	test := [][2]int{{0, 0}, {0, 1}, {1, 1}, {2, 0}, {2, 1}, {1, 2}}
+	test := []day12.Point{{Y: 0, X: 0}, {Y: 0, X: 1}, {Y: 1, X: 1}, {Y: 2, X: 0}, {Y: 2, X: 1}, {Y: 1, X: 2}}
 	result := day12.CountStraightEdgesVertical(test)
 	if result != 6 {
 		t.Errorf(`Expected %d to match %d`, result, 6)

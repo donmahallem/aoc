@@ -7,53 +7,53 @@ import (
 	"github.com/donmahallem/aoc/aoc_utils"
 )
 
-type VisitedMap map[[2]int]bool
+type VisitedMap map[Point]bool
 
-func SortHorizontal(a [2]int, b [2]int) int {
-	if a[0] == b[0] {
-		return a[1] - b[1]
+func SortHorizontal(a Point, b Point) int {
+	if a.Y == b.Y {
+		return a.X - b.X
 	}
-	return a[0] - b[0]
+	return a.Y - b.Y
 }
 
-func SortVertical(a [2]int, b [2]int) int {
-	if a[1] == b[1] {
-		return a[0] - b[0]
+func SortVertical(a Point, b Point) int {
+	if a.X == b.X {
+		return a.Y - b.Y
 	}
-	return a[1] - b[1]
+	return a.X - b.X
 }
 
-func CountStraightEdgesHorizontal(coords [][2]int) int {
+func CountStraightEdgesHorizontal(coords []Point) int {
 	slices.SortFunc(coords, SortHorizontal)
 	//fmt.Printf("Block %v\n", coords)
 	lines := 0
 	checkDirs := [2]int{-1, 1}
 	var inline bool = false
 	for _, checkDir := range checkDirs {
-		lastX := coords[0][1]
-		lastY := coords[0][0]
-		var neighbour [2]int = [2]int{coords[0][0] + checkDir, coords[0][1]}
+		lastX := coords[0].X
+		lastY := coords[0].Y
+		var neighbour Point = Point{Y: coords[0].Y + checkDir, X: coords[0].X}
 		inline = !slices.Contains(coords, neighbour)
 		for i := 1; i < len(coords); i++ {
-			neighbour[0] = coords[i][0] + checkDir
-			neighbour[1] = coords[i][1]
+			neighbour.Y = coords[i].Y + checkDir
+			neighbour.X = coords[i].X
 			hasNeighbour := slices.Contains(coords, neighbour)
 			if inline {
 				if hasNeighbour {
 					lines++
 					inline = false
-				} else if aoc_utils.Abs(lastX-coords[i][1]) > 1 || lastY != coords[i][0] {
+				} else if aoc_utils.Abs(lastX-coords[i].X) > 1 || lastY != coords[i].Y {
 					lines++
-					lastX = coords[i][1]
-					lastY = coords[i][0]
+					lastX = coords[i].X
+					lastY = coords[i].Y
 					inline = !hasNeighbour
 				} else {
-					lastX = coords[i][1]
-					lastY = coords[i][0]
+					lastX = coords[i].X
+					lastY = coords[i].Y
 				}
 			} else if !hasNeighbour {
-				lastX = coords[i][1]
-				lastY = coords[i][0]
+				lastX = coords[i].X
+				lastY = coords[i].Y
 				inline = true
 			}
 		}
@@ -63,39 +63,39 @@ func CountStraightEdgesHorizontal(coords [][2]int) int {
 	}
 	return lines
 }
-func CountStraightEdgesVertical(coords [][2]int) int {
+func CountStraightEdgesVertical(coords []Point) int {
 	slices.SortFunc(coords, SortVertical)
 	//fmt.Printf("Block %v\n", coords)
 	lines := 0
 	checkDirs := [2]int{-1, 1}
 	var inline bool = false
-	var neighbour [2]int
+	var neighbour Point
 	for _, checkDir := range checkDirs {
-		lastX := coords[0][1]
-		lastY := coords[0][0]
-		neighbour[0] = coords[0][0]
-		neighbour[1] = coords[0][1] + checkDir
+		lastX := coords[0].X
+		lastY := coords[0].Y
+		neighbour.Y = coords[0].Y
+		neighbour.X = coords[0].X + checkDir
 		inline = !slices.Contains(coords, neighbour)
 		for i := 1; i < len(coords); i++ {
-			neighbour[0] = coords[i][0]
-			neighbour[1] = coords[i][1] + checkDir
+			neighbour.Y = coords[i].Y
+			neighbour.X = coords[i].X + checkDir
 			hasNeighbour := slices.Contains(coords, neighbour)
 			if inline {
 				if hasNeighbour {
 					lines++
 					inline = false
-				} else if aoc_utils.Abs(lastY-coords[i][0]) > 1 || lastX != coords[i][1] {
+				} else if aoc_utils.Abs(lastY-coords[i].Y) > 1 || lastX != coords[i].X {
 					lines++
-					lastX = coords[i][1]
-					lastY = coords[i][0]
+					lastX = coords[i].X
+					lastY = coords[i].Y
 					inline = !hasNeighbour
 				} else {
-					lastX = coords[i][1]
-					lastY = coords[i][0]
+					lastX = coords[i].X
+					lastY = coords[i].Y
 				}
 			} else if !hasNeighbour && !inline {
-				lastX = coords[i][1]
-				lastY = coords[i][0]
+				lastX = coords[i].X
+				lastY = coords[i].Y
 				inline = true
 			}
 		}
@@ -106,7 +106,7 @@ func CountStraightEdgesVertical(coords [][2]int) int {
 	return lines
 }
 
-func CountStraightEdges(coords [][2]int) int {
+func CountStraightEdges(coords []Point) int {
 	edges := 0
 	edges += CountStraightEdgesHorizontal(coords)
 	edges += CountStraightEdgesVertical(coords)

@@ -226,7 +226,7 @@ func TestMoveBoxesVertically_Left(t *testing.T) {
 	day15.PrintField(&field, &testPlayer)
 	day15.MoveBoxesVertically(&field, &testPlayer, &testMove)
 	if len(testBoxes) != 4 {
-		t.Errorf(`Expected to recieve 2 move targets not %d`, len(testBoxes))
+		t.Errorf(`Expected to receive 2 move targets not %d`, len(testBoxes))
 	}
 	for i := range len(testBoxes) {
 		if !IsWideBox(&field, testBoxes[i].X, testBoxes[i].Y-1) {

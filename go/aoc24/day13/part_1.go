@@ -4,24 +4,27 @@ import (
 	"bufio"
 	"io"
 	"math"
+
+	"github.com/donmahallem/aoc/aoc_utils"
 )
 
+type VecFloat64 = aoc_utils.Point[float64]
 type Input struct {
-	vec1, vec2 [2]float64
-	target     [2]float64
+	vec1, vec2 VecFloat64
+	target     VecFloat64
 }
 
-func ParseButton(data []byte) [2]float64 {
-	var ret [2]float64
+func ParseButton(data []byte) VecFloat64 {
+	var ret VecFloat64
 	first := true
 	var val uint8
 	for i := range len(data) {
 		val = data[i] - '0'
-		if val >= 0 && val <= 9 {
+		if val <= 9 {
 			if first {
-				ret[0] = (ret[0] * 10) + float64(val)
+				ret.Y = (ret.Y * 10) + float64(val)
 			} else {
-				ret[1] = (ret[1] * 10) + float64(val)
+				ret.X = (ret.X * 10) + float64(val)
 			}
 		} else if data[i] == 'Y' {
 			first = false
@@ -29,17 +32,17 @@ func ParseButton(data []byte) [2]float64 {
 	}
 	return ret
 }
-func ParseResult(data []byte) [2]float64 {
-	var ret [2]float64
+func ParseResult(data []byte) VecFloat64 {
+	var ret VecFloat64
 	first := true
 	var val uint8
 	for i := range len(data) {
 		val = data[i] - '0'
-		if val >= 0 && val <= 9 {
+		if val <= 9 {
 			if first {
-				ret[0] = (ret[0] * 10) + float64(val)
+				ret.Y = (ret.Y * 10) + float64(val)
 			} else {
-				ret[1] = (ret[1] * 10) + float64(val)
+				ret.X = (ret.X * 10) + float64(val)
 			}
 		} else if data[i] == 'Y' {
 			first = false
@@ -75,8 +78,8 @@ func LoadFile(reader io.Reader) []Input {
 }
 
 func Calculate(inp *Input) (int, int, bool) {
-	vec2_factor := (((*inp).target[1] * (*inp).vec1[0]) - ((*inp).vec1[1] * (*inp).target[0])) / (((*inp).vec2[1] * (*inp).vec1[0]) - ((*inp).vec1[1] * (*inp).vec2[0]))
-	vec1_factor := ((*inp).target[1] - (vec2_factor * (*inp).vec2[1])) / (*inp).vec1[1]
+	vec2_factor := (((*inp).target.X * (*inp).vec1.Y) - ((*inp).vec1.X * (*inp).target.Y)) / (((*inp).vec2.X * (*inp).vec1.Y) - ((*inp).vec1.X * (*inp).vec2.Y))
+	vec1_factor := ((*inp).target.X - (vec2_factor * (*inp).vec2.X)) / (*inp).vec1.X
 	if math.Trunc(vec1_factor) == vec1_factor && math.Trunc(vec2_factor) == vec2_factor {
 		return int(vec1_factor), int(vec2_factor), true
 	}

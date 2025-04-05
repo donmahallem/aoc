@@ -25,7 +25,7 @@ Prize: X=18641, Y=10279`
 
 func TestOutOfBoundsShouldBeInside(t *testing.T) {
 	test := []byte(" X+94, Y+34")
-	expected := [2]float64{94, 34}
+	expected := day13.VecFloat64{X: 34, Y: 94}
 	if res := day13.ParseButton(test); res != expected {
 		t.Errorf(`Expected %v to match %v`, res, expected)
 	}

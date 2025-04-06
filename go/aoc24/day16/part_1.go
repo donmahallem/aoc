@@ -2,6 +2,7 @@ package day16
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 
 	"github.com/donmahallem/aoc/aoc_utils"
@@ -26,6 +27,32 @@ var DIR_DOWN Direction = Direction{X: 0, Y: 1}
 var DIR_LEFT Direction = Direction{X: -1, Y: 0}
 var DIR_RIGHT Direction = Direction{X: 1, Y: 0}
 
+func printField(field *Field, current *Point, dir *Direction) {
+	for y := range int16(len(*field)) {
+		for x := range int16(len((*field)[y])) {
+			if current.X == x && current.Y == y {
+				switch *dir {
+				case DIR_DOWN:
+					fmt.Print("v")
+				case DIR_UP:
+					fmt.Print("^")
+				case DIR_RIGHT:
+					fmt.Print(">")
+				case DIR_LEFT:
+					fmt.Print("<")
+				}
+				continue
+			}
+			switch (*field)[y][x] {
+			case CELL_EMPTY:
+				fmt.Print(".")
+			case CELL_WALL:
+				fmt.Print("#")
+			}
+		}
+		fmt.Println()
+	}
+}
 func ParseInput(in io.Reader) (Field, Point, Point) {
 	field := make(Field, 0)
 	s := bufio.NewScanner(in)
@@ -58,10 +85,10 @@ func translateLeft(dir *Direction) *Direction {
 		return &DIR_LEFT
 	case DIR_RIGHT:
 		return &DIR_UP
-	case DIR_LEFT:
-		return &DIR_DOWN
 	case DIR_DOWN:
 		return &DIR_RIGHT
+	case DIR_LEFT:
+		return &DIR_DOWN
 	default:
 		panic("Unknown Direction")
 	}

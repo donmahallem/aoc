@@ -21,6 +21,7 @@ import (
 	"github.com/donmahallem/aoc/aoc24/day13"
 	"github.com/donmahallem/aoc/aoc24/day14"
 	"github.com/donmahallem/aoc/aoc24/day15"
+	"github.com/donmahallem/aoc/aoc24/day16"
 	"github.com/donmahallem/aoc/aoc_utils"
 )
 
@@ -38,7 +39,8 @@ var implementedParts = [][]aoc_utils.AocPart{{day01.Part1, day01.Part2}, //day 1
 	{day12.Part1, day12.Part2},
 	{day13.Part1, day13.Part2},
 	{day14.Part1, day14.Part2},
-	{day15.Part1, day15.Part2}}
+	{day15.Part1, day15.Part2},
+	{day16.Part1, day16.Part2}}
 
 func Aoc24(day int, part int) error {
 	if day < 1 && day > len(implementedParts) {

@@ -37,7 +37,7 @@ func main() {
 	aoc24.RegisterParts(&partRegistry)
 	takeFun, ok := partRegistry.GetPart(partSelector)
 	if !ok {
-		fmt.Errorf("Could not find requested part %v", partSelector)
+		fmt.Printf("Could not find requested part %v", partSelector)
 		return
 	}
 	function := reflect.ValueOf(takeFun)
@@ -48,9 +48,16 @@ func main() {
 	res := results[0].Interface()
 	switch v := res.(type) {
 	case int:
-		fmt.Println("Result is int:", v)
+		fmt.Println("Result is:", v)
 	case []int:
-		fmt.Println("Result is []int:", v)
+		fmt.Print("Result is: ")
+		for i := range len(v) {
+			if i > 0 {
+				fmt.Print(",")
+			}
+			fmt.Printf("%d", v[i])
+		}
+		fmt.Println()
 	default:
 		fmt.Println("Unknown result type")
 	}

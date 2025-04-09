@@ -28,6 +28,7 @@ func (v Registry) CreateYearRegistry(year int) YearRegistryFunction {
 		case 1:
 			v.Register(year, day, 1, fn[0])
 		case 2:
+			v.Register(year, day, 1, fn[0])
 			v.Register(year, day, 2, fn[1])
 		default:
 			panic("Failed")

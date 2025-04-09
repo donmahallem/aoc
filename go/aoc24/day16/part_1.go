@@ -114,6 +114,8 @@ func translateRight(dir *Direction) *Direction {
 	}
 }
 
+// Takes the 2D field and sets the path cost values on empty cells, that are
+// reachable from the start
 func CalculatePathValues(field *Field, start *Point) {
 	toCheck := make([]Check, 0)
 	(*field)[start.Y][start.X] = 0
@@ -121,11 +123,15 @@ func CalculatePathValues(field *Field, start *Point) {
 	nextCoord := Point{}
 	checkDirs := make([]*Direction, 0, 3)
 	var currentFieldVal int
+	// Walks iterativly breath first... was MUCH faster than depth first
 	for len(toCheck) > 0 {
 		check := toCheck[0]
 		toCheck = toCheck[1:]
 		checkDirs = checkDirs[:0]
-		checkDirs = append(checkDirs, &check.dir, translateLeft(&check.dir), translateRight(&check.dir))
+		checkDirs = append(checkDirs,
+			&check.dir,
+			translateLeft(&check.dir),
+			translateRight(&check.dir))
 		for checkDirIdx, checkDir := range checkDirs {
 			nextCoord.X = check.point.X + checkDir.X
 			nextCoord.Y = check.point.Y + checkDir.Y
@@ -149,6 +155,5 @@ func CalculatePathValues(field *Field, start *Point) {
 func Part1(in io.Reader) int {
 	field, start, end := ParseInput(in)
 	CalculatePathValues(&field, &start)
-
 	return field[end.Y][end.X]
 }

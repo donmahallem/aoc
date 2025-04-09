@@ -7,21 +7,28 @@ import (
 
 type VisitedMap = map[Point]bool
 type TraceBackState struct {
-	pos           Point
-	value         int
+	// Position in the grid where you are
+	pos Point
+	// Value of cell where you are
+	value int
+	// Value of cell you are coming from
 	previousValue int
-	dir           Direction
+	// Direction you walked from the last cell
+	dir *Direction
 }
 
+// Takes a state and checks neighbours for cells that could have been walked form start to finish
 func walkBackPathValues(field *Field, traceState *TraceBackState, visited *VisitedMap) bool {
+	fmt.Printf("Tested: %v\n", traceState.pos)
 	if traceState.value == 0 {
+		// Endpoint reached
 		(*visited)[traceState.pos] = true
 		return true
 	}
 	var diff, nextValue int
 	status := false
 	var testCoord Point = Point{}
-	testDirs := [3]Direction{traceState.dir, *translateLeft(&traceState.dir), *translateRight(&traceState.dir)}
+	testDirs := [3]*Direction{traceState.dir, translateLeft(traceState.dir), translateRight(traceState.dir)}
 	for testDirIdx, testDir := range testDirs {
 		testCoord.X = traceState.pos.X + testDir.X
 		testCoord.Y = traceState.pos.Y + testDir.Y
@@ -36,16 +43,29 @@ func walkBackPathValues(field *Field, traceState *TraceBackState, visited *Visit
 				dir:           testDir,
 				previousValue: traceState.value}
 			status = walkBackPathValues(field, &state, visited) || status
-		} else if testDirIdx == 0 && traceState.previousValue-nextValue == 2 {
-			state := TraceBackState{pos: testCoord,
-				value:         nextValue,
-				dir:           testDir,
-				previousValue: traceState.previousValue - 1}
-			status = walkBackPathValues(field, &state, visited) || status
+		} else if testDirIdx == 0 {
+			// Check overlapping routes
+			diff = traceState.previousValue - nextValue
+			if diff == 2 {
+				state := TraceBackState{pos: testCoord,
+					value:         nextValue,
+					dir:           testDir,
+					previousValue: traceState.previousValue - 1}
+				status = walkBackPathValues(field, &state, visited) || status
+				continue
+			}
+			// Check interleaving routes
+			nextValue = (*field)[testCoord.Y+testDir.Y][testCoord.X+testDir.X]
+			if nextValue != CELL_WALL && traceState.value-nextValue == 2 {
+				state := TraceBackState{pos: testCoord,
+					value:         traceState.value - 1,
+					dir:           testDir,
+					previousValue: traceState.value}
+				status = walkBackPathValues(field, &state, visited) || status
+			}
 		}
 	}
 	if status {
-		fmt.Printf("%v\n", traceState.pos)
 		(*visited)[traceState.pos] = true
 	}
 	return status
@@ -66,7 +86,7 @@ func FindVisitedCells(field *Field, start *Point, end *Point) int {
 		}
 		diff = currentCellValue - nextCellValue
 		if diff == 1001 || diff == 1 {
-			tr := TraceBackState{value: nextCellValue, previousValue: currentCellValue, pos: testCoord, dir: dir}
+			tr := TraceBackState{value: nextCellValue, previousValue: currentCellValue, pos: testCoord, dir: &dir}
 			status = walkBackPathValues(field, &tr, &visited) || status
 		}
 	}

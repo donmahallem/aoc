@@ -54,7 +54,7 @@ func TestParseInput(t *testing.T) {
 	}
 }
 
-func fieldToCsv(f *day16.Field, m *day16.PathValueMap) {
+func fieldToCsv(f *day16.Field) {
 	p := day16.Point{}
 	for y := range len(*f) {
 		p.Y = int16(y)
@@ -63,11 +63,7 @@ func fieldToCsv(f *day16.Field, m *day16.PathValueMap) {
 			if x > 0 {
 				fmt.Print(",")
 			}
-			if val, ok := (*m)[p]; ok {
-				fmt.Printf("%d", val)
-			} else {
-				fmt.Print("0")
-			}
+			fmt.Printf("%d", (*f)[y][x])
 		}
 		fmt.Println()
 	}

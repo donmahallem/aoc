@@ -1,7 +1,6 @@
 package day16
 
 import (
-	"fmt"
 	"io"
 )
 
@@ -19,7 +18,6 @@ type TraceBackState struct {
 
 // Takes a state and checks neighbours for cells that could have been walked form start to finish
 func walkBackPathValues(field *Field, traceState *TraceBackState, visited *VisitedMap) bool {
-	fmt.Printf("Tested: %v\n", traceState.pos)
 	if traceState.value == 0 {
 		// Endpoint reached
 		(*visited)[traceState.pos] = true

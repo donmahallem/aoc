@@ -3,60 +3,81 @@ package day16
 import (
 	"fmt"
 	"io"
-	"slices"
 )
 
-func TakePath(field *Field, takenPath *[]Point, currentDir Direction, currentValue uint, maxValue uint, takenCells *map[Point]bool) bool {
-	initalPathLength := len(*takenPath)
-	currentCoord := (*takenPath)[initalPathLength-1]
-	if currentCoord.X == 13 && currentCoord.Y == 1 && maxValue == currentValue {
-		fmt.Printf("Val: %d\n", currentValue)
-		(*takenCells)[currentCoord] = true
-		return true
-	} else if maxValue < currentValue {
-		return false
-	}
-	checkDirs := make([]Direction, 0, 3)
-	checkDirs = append(checkDirs, currentDir, *translateLeft(&currentDir), *translateRight(&currentDir))
-	nextCoord := Point{}
-	valid := false
-	for checkDirIdx, checkDir := range checkDirs {
-		nextCoord.X = currentCoord.X + checkDir.X
-		nextCoord.Y = currentCoord.Y + checkDir.Y
-		if (*field)[nextCoord.Y][nextCoord.X] == CELL_WALL || slices.Contains(*takenPath, nextCoord) {
-			//fmt.Printf("Wall at %v\n", nextCoord)
-			continue
-		}
-		nextValue := currentValue + 1
-		// Idx 0 is straight ahead, all others are turned
-		if checkDirIdx > 0 {
-			nextValue += 1000
-		}
-		testPath := append(*takenPath, nextCoord)
-		if TakePath(field, &testPath, checkDir, nextValue, maxValue, takenCells) {
-			valid = true
-		}
-
-		//*takenPath = (*takenPath)[:initalPathLength-1]
-	}
-	if valid {
-		(*takenCells)[currentCoord] = true
-	}
-	return valid
+type VisitedMap = map[Point]bool
+type TraceBackState struct {
+	pos           Point
+	value         int
+	previousValue int
+	dir           Direction
 }
 
-func CountShortestPathCells(field *Field, start *Point, end *Point, pathValue uint) uint {
-	initialPath := make([]Point, 0)
-	takenCells := make(map[Point]bool)
-	initialPath = append(initialPath, *start)
-	TakePath(field, &initialPath, DIR_RIGHT, 0, pathValue, &takenCells)
-	fmt.Printf("%v", takenCells)
-	return uint(len(takenCells))
+func walkBackPathValues(field *Field, traceState *TraceBackState, visited *VisitedMap) bool {
+	if traceState.value == 0 {
+		(*visited)[traceState.pos] = true
+		return true
+	}
+	var diff, nextValue int
+	status := false
+	var testCoord Point = Point{}
+	testDirs := [3]Direction{traceState.dir, *translateLeft(&traceState.dir), *translateRight(&traceState.dir)}
+	for testDirIdx, testDir := range testDirs {
+		testCoord.X = traceState.pos.X + testDir.X
+		testCoord.Y = traceState.pos.Y + testDir.Y
+		nextValue = (*field)[testCoord.Y][testCoord.X]
+		if nextValue == CELL_WALL {
+			continue
+		}
+		diff = traceState.value - nextValue
+		if diff == 1 || diff == 1001 {
+			state := TraceBackState{pos: testCoord,
+				value:         nextValue,
+				dir:           testDir,
+				previousValue: traceState.value}
+			status = walkBackPathValues(field, &state, visited) || status
+		} else if testDirIdx == 0 && traceState.previousValue-nextValue == 2 {
+			state := TraceBackState{pos: testCoord,
+				value:         nextValue,
+				dir:           testDir,
+				previousValue: traceState.previousValue - 1}
+			status = walkBackPathValues(field, &state, visited) || status
+		}
+	}
+	if status {
+		fmt.Printf("%v\n", traceState.pos)
+		(*visited)[traceState.pos] = true
+	}
+	return status
+}
+
+func FindVisitedCells(field *Field, start *Point, end *Point) int {
+	visited := make(VisitedMap)
+	var testCoord Point = Point{}
+	var currentCellValue, nextCellValue, diff int
+	currentCellValue = (*field)[end.Y][end.X]
+	status := false
+	for _, dir := range DIRS_ALL {
+		testCoord.X = end.X + dir.X
+		testCoord.Y = end.Y + dir.Y
+		nextCellValue = (*field)[testCoord.Y][testCoord.X]
+		if nextCellValue == CELL_WALL {
+			continue
+		}
+		diff = currentCellValue - nextCellValue
+		if diff == 1001 || diff == 1 {
+			tr := TraceBackState{value: nextCellValue, previousValue: currentCellValue, pos: testCoord, dir: dir}
+			status = walkBackPathValues(field, &tr, &visited) || status
+		}
+	}
+	if status {
+		visited[*end] = true
+	}
+	return len(visited)
 }
 
 func Part2(in io.Reader) int {
 	field, start, end := ParseInput(in)
-	pathValue := FindShortestPath(&field, &start, &end)
-
-	return int(CountShortestPathCells(&field, &start, &end, pathValue))
+	CalculatePathValues(&field, &start)
+	return FindVisitedCells(&field, &start, &end)
 }

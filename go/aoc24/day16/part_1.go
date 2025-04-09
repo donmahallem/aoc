@@ -9,23 +9,25 @@ import (
 )
 
 const (
-	CELL_EMPTY uint8 = 0
-	CELL_WALL  uint8 = 1
+	CELL_EMPTY int = -16
+	CELL_WALL  int = -17
 )
 
 type Direction = aoc_utils.Point[int16]
-type Field = [][]uint8
+type Field = [][]int
 type Point = aoc_utils.Point[int16]
+type PathValueMap = map[Point]int
 type Check struct {
 	point Point
 	dir   Direction
-	score uint
+	score int
 }
 
 var DIR_UP Direction = Direction{X: 0, Y: -1}
 var DIR_DOWN Direction = Direction{X: 0, Y: 1}
 var DIR_LEFT Direction = Direction{X: -1, Y: 0}
 var DIR_RIGHT Direction = Direction{X: 1, Y: 0}
+var DIRS_ALL []Direction = []Direction{DIR_DOWN, DIR_LEFT, DIR_RIGHT, DIR_UP}
 
 func printField(field *Field, current *Point, dir *Direction) {
 	for y := range int16(len(*field)) {
@@ -60,7 +62,7 @@ func ParseInput(in io.Reader) (Field, Point, Point) {
 	end := Point{}
 	for s.Scan() {
 		line := s.Bytes()
-		row := make([]uint8, len(line))
+		row := make([]int, len(line))
 		for x := range len(line) {
 			switch line[x] {
 			case '#':
@@ -68,9 +70,13 @@ func ParseInput(in io.Reader) (Field, Point, Point) {
 			case 'S':
 				start.X = int16(x)
 				start.Y = int16(len(field))
+				row[x] = CELL_EMPTY
 			case 'E':
 				end.X = int16(x)
 				end.Y = int16(len(field))
+				row[x] = CELL_EMPTY
+			default:
+				row[x] = CELL_EMPTY
 			}
 		}
 		field = append(field, row)
@@ -108,9 +114,71 @@ func translateRight(dir *Direction) *Direction {
 	}
 }
 
-func FindShortestPath(field *Field, start *Point, end *Point) uint {
+func CalculatePathValues(field *Field, start *Point) {
 	toCheck := make([]Check, 0)
-	mapValues := make(map[Point]uint)
+	(*field)[start.Y][start.X] = 0
+	toCheck = append(toCheck, Check{point: *start, dir: DIR_RIGHT, score: 0})
+	nextCoord := Point{}
+	checkDirs := make([]*Direction, 0, 3)
+	var currentFieldVal int
+	for len(toCheck) > 0 {
+		check := toCheck[0]
+		toCheck = toCheck[1:]
+		checkDirs = checkDirs[:0]
+		checkDirs = append(checkDirs, &check.dir, translateLeft(&check.dir), translateRight(&check.dir))
+		for checkDirIdx, checkDir := range checkDirs {
+			nextCoord.X = check.point.X + checkDir.X
+			nextCoord.Y = check.point.Y + checkDir.Y
+			currentFieldVal = (*field)[nextCoord.Y][nextCoord.X]
+			if currentFieldVal == CELL_WALL {
+				continue
+			}
+			nextValue := check.score + 1
+			if checkDirIdx > 0 {
+				nextValue += 1000
+			}
+			if currentFieldVal != CELL_EMPTY && currentFieldVal < nextValue {
+				continue
+			}
+			(*field)[nextCoord.Y][nextCoord.X] = nextValue
+			toCheck = append(toCheck, Check{dir: *checkDir, point: nextCoord, score: nextValue})
+		}
+	}
+}
+
+type GraphNode struct {
+	X          int
+	Y          int
+	neighbours []*GraphNode
+	bestValue  int
+	dir        Direction
+}
+
+type GraphNodeMap = map[Point]GraphNode
+
+func WalkGraphStraight(field *Field, parent *Point, dir *Direction, startValue int) {
+	currentCoord := Point{X: parent.X, Y: parent.Y}
+	running := true
+	for running {
+		if (*field)[currentCoord.Y][currentCoord.X] == CELL_WALL {
+			running = false
+		}
+		rightMove := translateRight(dir)
+		checkCoord := Point{X: currentCoord.X, Y: currentCoord.Y}
+		checkCoord.X += rightMove.X
+		checkCoord.Y += rightMove.Y
+
+		currentCoord.X += dir.X
+		currentCoord.Y += dir.Y
+		startValue++
+	}
+}
+
+func CreateGraph(field *Field, start *Point) GraphNodeMap {
+	graphNodes := make(GraphNodeMap)
+	toCheck := make([]Check, 0)
+	mapValues := make(PathValueMap)
+	mapValues[*start] = 0
 	toCheck = append(toCheck, Check{point: *start, dir: DIR_RIGHT, score: 0})
 	nextCoord := Point{}
 	checkDirs := make([]*Direction, 0, 3)
@@ -137,10 +205,12 @@ func FindShortestPath(field *Field, start *Point, end *Point) uint {
 			toCheck = append(toCheck, Check{dir: *checkDir, point: nextCoord, score: nextValue})
 		}
 	}
-	return mapValues[*end]
+	return graphNodes
 }
 
 func Part1(in io.Reader) int {
 	field, start, end := ParseInput(in)
-	return int(FindShortestPath(&field, &start, &end))
+	CalculatePathValues(&field, &start)
+
+	return field[end.Y][end.X]
 }

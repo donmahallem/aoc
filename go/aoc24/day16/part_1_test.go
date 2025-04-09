@@ -1,6 +1,7 @@
 package day16_test
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 
@@ -53,11 +54,30 @@ func TestParseInput(t *testing.T) {
 	}
 }
 
+func fieldToCsv(f *day16.Field, m *day16.PathValueMap) {
+	p := day16.Point{}
+	for y := range len(*f) {
+		p.Y = int16(y)
+		for x := range len((*f)[y]) {
+			p.X = int16(x)
+			if x > 0 {
+				fmt.Print(",")
+			}
+			if val, ok := (*m)[p]; ok {
+				fmt.Printf("%d", val)
+			} else {
+				fmt.Print("0")
+			}
+		}
+		fmt.Println()
+	}
+}
+
 func TestFindShortestPath(t *testing.T) {
 	field, start, end := day16.ParseInput(strings.NewReader(testData1))
-	result := day16.FindShortestPath(&field, &start, &end)
-	if result != 7036 {
-		t.Errorf(`Expected %d to match 7036`, result)
+	day16.CalculatePathValues(&field, &start)
+	if field[end.Y][end.X] != 7036 {
+		t.Errorf(`Expected %d to match 7036`, field[end.Y][end.X])
 	}
 }
 

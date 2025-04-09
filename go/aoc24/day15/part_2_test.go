@@ -44,7 +44,6 @@ func TestTryMoveHorizontal_Left_SingleBlock(t *testing.T) {
 	testPlayer := day15.Player{Y: 4, X: 8}
 	testMove := day15.Move{Y: 0, X: -1}
 	testCandidates := make([]day15.Player, 0)
-	day15.PrintField(&field, &testPlayer)
 	ok := day15.TryMoveHorizontal(&field, &testPlayer, &testMove)
 	if !ok {
 		t.Errorf(`Expected offset to be ok and 1 not %d`, len(testCandidates))
@@ -61,7 +60,6 @@ func TestTryMoveHorizontal_Right_SingleBlock(t *testing.T) {
 	setDoubleBox(&field, 3, 4)
 	testPlayer := day15.Player{Y: 4, X: 2}
 	testMove := day15.Move{Y: 0, X: 1}
-	day15.PrintField(&field, &testPlayer)
 	ok := day15.TryMoveHorizontal(&field, &testPlayer, &testMove)
 	if !ok {
 		t.Errorf(`Expected to be ok`)
@@ -69,7 +67,6 @@ func TestTryMoveHorizontal_Right_SingleBlock(t *testing.T) {
 	if !IsWideBox(&field, 4, 4) {
 		t.Errorf(`Expected big box to be at position (4,4) not %v`, testPlayer)
 	}
-	day15.PrintField(&field, &testPlayer)
 }
 func TestTryMoveHorizontal_Right_DoubleBlock(t *testing.T) {
 	field := createEmptyDoubleWideField(10, 10)
@@ -77,7 +74,6 @@ func TestTryMoveHorizontal_Right_DoubleBlock(t *testing.T) {
 	setDoubleBox(&field, 5, 4)
 	testPlayer := day15.Player{Y: 4, X: 2}
 	testMove := day15.Move{Y: 0, X: 1}
-	day15.PrintField(&field, &testPlayer)
 	ok := day15.TryMoveHorizontal(&field, &testPlayer, &testMove)
 	if !ok {
 		t.Errorf(`Expected to be ok`)
@@ -88,7 +84,6 @@ func TestTryMoveHorizontal_Right_DoubleBlock(t *testing.T) {
 	if !IsWideBox(&field, 6, 4) {
 		t.Errorf(`Expected big box to be at position (6,4) not %v`, testPlayer)
 	}
-	day15.PrintField(&field, &testPlayer)
 	ok = day15.TryMoveHorizontal(&field, &testPlayer, &testMove)
 	if ok {
 		t.Errorf(`Expected to be not valid move`)
@@ -146,7 +141,6 @@ func TestFindMoveCandidates_SingleBlock(t *testing.T) {
 	setDoubleBox(&field, 5, 5)
 	testPlayer := day15.Player{Y: 5, X: 5}
 	testMove := day15.Move{Y: -1, X: 0}
-	day15.PrintField(&field, &testPlayer)
 	day15.MoveBoxesVertically(&field, &testPlayer, &testMove)
 	if !IsWideBox(&field, 5, 4) {
 		t.Errorf(`Expected return value to be true`)
@@ -164,7 +158,6 @@ func TestFindMoveCandidates_Triangle(t *testing.T) {
 	}
 	testPlayer := day15.Player{Y: 6, X: 5}
 	testMove := day15.Move{Y: -1, X: 0}
-	day15.PrintField(&field, &testPlayer)
 	ok := day15.IsMovableVertical(&field, &testPlayer, &testMove)
 	if !ok {
 		t.Errorf(`Expected return value to be true`)
@@ -183,7 +176,6 @@ func TestFindMoveCandidates_Checkmark(t *testing.T) {
 	}
 	testPlayer := day15.Player{Y: 5, X: 5}
 	testMove := day15.Move{Y: -1, X: 0}
-	day15.PrintField(&field, &testPlayer)
 	ok := day15.IsMovableVertical(&field, &testPlayer, &testMove)
 	if !ok {
 		t.Errorf(`Expected return value to be true`)
@@ -203,7 +195,6 @@ func TestFindMoveCandidates_Checkmark_Blocked(t *testing.T) {
 	field[2][3] = day15.CELL_WALL
 	testPlayer := day15.Player{Y: 5, X: 5}
 	testMove := day15.Move{Y: -1, X: 0}
-	day15.PrintField(&field, &testPlayer)
 	ok := day15.IsMovableVertical(&field, &testPlayer, &testMove)
 	if ok {
 		t.Errorf(`Expected return value to be false`)
@@ -223,7 +214,6 @@ func TestMoveBoxesVertically_Left(t *testing.T) {
 	}
 	testPlayer := day15.Player{Y: 5, X: 5}
 	testMove := day15.Move{Y: -1, X: 0}
-	day15.PrintField(&field, &testPlayer)
 	day15.MoveBoxesVertically(&field, &testPlayer, &testMove)
 	if len(testBoxes) != 4 {
 		t.Errorf(`Expected to receive 2 move targets not %d`, len(testBoxes))
@@ -233,7 +223,6 @@ func TestMoveBoxesVertically_Left(t *testing.T) {
 			t.Errorf(`Expected box to be at at (%d,%d)`, testBoxes[i].X, testBoxes[i].Y)
 		}
 	}
-	day15.PrintField(&field, &testPlayer)
 }
 func TestTryMoveVertical_Left_Down(t *testing.T) {
 	testBoxes := make([]day15.Candidate, 0, 4)
@@ -248,7 +237,6 @@ func TestTryMoveVertical_Left_Down(t *testing.T) {
 	}
 	testPlayer := day15.Player{Y: 4, X: 10}
 	testMove := day15.Move{Y: 1, X: 0}
-	day15.PrintField(&field, &testPlayer)
 	ok := day15.TryMoveVertical(&field, &testPlayer, &testMove)
 	if !ok {
 		t.Error(`Expected to result to be true`)
@@ -261,7 +249,6 @@ func TestTryMoveVertical_Left_Down(t *testing.T) {
 			t.Errorf(`Expected box to be at at (%d,%d)`, testBoxes[i].X, testBoxes[i].Y)
 		}
 	}
-	day15.PrintField(&field, &testPlayer)
 	ok = day15.TryMoveVertical(&field, &testPlayer, &testMove)
 	if ok {
 		t.Error(`Expected to result to be false`)
@@ -280,7 +267,6 @@ func TestTryMoveVertical_Left_Down_DoubleSpace(t *testing.T) {
 	}
 	testPlayer := day15.Player{Y: 3, X: 10}
 	testMove := day15.Move{Y: 1, X: 0}
-	day15.PrintField(&field, &testPlayer)
 	ok := day15.TryMoveVertical(&field, &testPlayer, &testMove)
 	if !ok {
 		t.Error(`Expected to result to be true`)
@@ -293,7 +279,6 @@ func TestTryMoveVertical_Left_Down_DoubleSpace(t *testing.T) {
 			t.Errorf(`Expected box to be at at (%d,%d)`, testBoxes[i].X, testBoxes[i].Y)
 		}
 	}
-	day15.PrintField(&field, &testPlayer)
 	ok = day15.TryMoveVertical(&field, &testPlayer, &testMove)
 	if !ok {
 		t.Error(`Expected to result to be false`)
@@ -312,7 +297,6 @@ func TestTryMoveVertical_Right_Down(t *testing.T) {
 	}
 	testPlayer := day15.Player{Y: 4, X: 11}
 	testMove := day15.Move{Y: 1, X: 0}
-	day15.PrintField(&field, &testPlayer)
 	ok := day15.TryMoveVertical(&field, &testPlayer, &testMove)
 	if !ok {
 		t.Error(`Expected to result to be true`)
@@ -325,7 +309,6 @@ func TestTryMoveVertical_Right_Down(t *testing.T) {
 			t.Errorf(`Expected box to be at at (%d,%d)`, testBoxes[i].X, testBoxes[i].Y)
 		}
 	}
-	day15.PrintField(&field, &testPlayer)
 	ok = day15.TryMoveVertical(&field, &testPlayer, &testMove)
 	if ok {
 		t.Error(`Expected to result to be false`)
@@ -344,7 +327,6 @@ func TestTryMoveVertical_Left_Down_AcrossEdge(t *testing.T) {
 	}
 	testPlayer := day15.Player{Y: 4, X: 10}
 	testMove := day15.Move{Y: 1, X: 0}
-	day15.PrintField(&field, &testPlayer)
 	ok := day15.TryMoveVertical(&field, &testPlayer, &testMove)
 	if !ok {
 		t.Error(`Expected to result to be true`)
@@ -357,7 +339,6 @@ func TestTryMoveVertical_Left_Down_AcrossEdge(t *testing.T) {
 			t.Errorf(`Expected box to be at at (%d,%d)`, testBoxes[i].X, testBoxes[i].Y)
 		}
 	}
-	day15.PrintField(&field, &testPlayer)
 	ok = day15.TryMoveVertical(&field, &testPlayer, &testMove)
 	if ok {
 		t.Error(`Expected to result to be false`)

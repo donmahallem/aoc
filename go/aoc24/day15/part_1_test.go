@@ -131,16 +131,17 @@ func TestFindNextEmptyCellOffset_BlocksAgainstWall(t *testing.T) {
 		t.Errorf(`Expected offset to be ok and 4 not %d`, off)
 	}
 }
-func TestPart1_large(t *testing.T) {
-	result := day15.Part1(strings.NewReader(testDataBig))
-	if result != 10092 {
-		t.Errorf(`Expected %d to match 10092`, result)
-	}
-}
-
-func TestPart1_small(t *testing.T) {
-	result := day15.Part1(strings.NewReader(testDataSmall))
-	if result != 2028 {
-		t.Errorf(`Expected %d to match 2028`, result)
-	}
+func TestPart1(t *testing.T) {
+	t.Run("large", func(t *testing.T) {
+		result := day15.Part1(strings.NewReader(testDataBig))
+		if result != 10092 {
+			t.Errorf(`Expected %d to match 10092`, result)
+		}
+	})
+	t.Run("small", func(t *testing.T) {
+		result := day15.Part1(strings.NewReader(testDataSmall))
+		if result != 2028 {
+			t.Errorf(`Expected %d to match 2028`, result)
+		}
+	})
 }

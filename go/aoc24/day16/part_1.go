@@ -146,68 +146,6 @@ func CalculatePathValues(field *Field, start *Point) {
 	}
 }
 
-type GraphNode struct {
-	X          int
-	Y          int
-	neighbours []*GraphNode
-	bestValue  int
-	dir        Direction
-}
-
-type GraphNodeMap = map[Point]GraphNode
-
-func WalkGraphStraight(field *Field, parent *Point, dir *Direction, startValue int) {
-	currentCoord := Point{X: parent.X, Y: parent.Y}
-	running := true
-	for running {
-		if (*field)[currentCoord.Y][currentCoord.X] == CELL_WALL {
-			running = false
-		}
-		rightMove := translateRight(dir)
-		checkCoord := Point{X: currentCoord.X, Y: currentCoord.Y}
-		checkCoord.X += rightMove.X
-		checkCoord.Y += rightMove.Y
-
-		currentCoord.X += dir.X
-		currentCoord.Y += dir.Y
-		startValue++
-	}
-}
-
-func CreateGraph(field *Field, start *Point) GraphNodeMap {
-	graphNodes := make(GraphNodeMap)
-	toCheck := make([]Check, 0)
-	mapValues := make(PathValueMap)
-	mapValues[*start] = 0
-	toCheck = append(toCheck, Check{point: *start, dir: DIR_RIGHT, score: 0})
-	nextCoord := Point{}
-	checkDirs := make([]*Direction, 0, 3)
-	for len(toCheck) > 0 {
-		check := toCheck[0]
-		toCheck = toCheck[1:]
-		checkDirs = checkDirs[:0]
-		checkDirs = append(checkDirs, &check.dir, translateLeft(&check.dir), translateRight(&check.dir))
-		for checkDirIdx, checkDir := range checkDirs {
-			nextCoord.X = check.point.X + checkDir.X
-			nextCoord.Y = check.point.Y + checkDir.Y
-			nextValue := check.score + 1
-			if (*field)[nextCoord.Y][nextCoord.X] == CELL_WALL {
-				continue
-			}
-			if checkDirIdx > 0 {
-				nextValue += 1000
-			}
-			val, ok := mapValues[nextCoord]
-			if ok && val < nextValue {
-				continue
-			}
-			mapValues[nextCoord] = nextValue
-			toCheck = append(toCheck, Check{dir: *checkDir, point: nextCoord, score: nextValue})
-		}
-	}
-	return graphNodes
-}
-
 func Part1(in io.Reader) int {
 	field, start, end := ParseInput(in)
 	CalculatePathValues(&field, &start)

@@ -2,4 +2,7 @@ package aoc_utils
 
 import "io"
 
-type AocPart func(in io.Reader) int
+type AocPartReturn interface {
+	int | []int
+}
+type AocPart[T AocPartReturn] func(in io.Reader) T

@@ -77,16 +77,17 @@ func TestFindShortestPath(t *testing.T) {
 	}
 }
 
-func TestPart1_testData1(t *testing.T) {
-	result := day16.Part1(strings.NewReader(testData1))
-	if result != 7036 {
-		t.Errorf(`Expected %d to match 7036`, result)
-	}
-}
-
-func TestPart1_testData2(t *testing.T) {
-	result := day16.Part1(strings.NewReader(testData2))
-	if result != 11048 {
-		t.Errorf(`Expected %d to match 11048`, result)
-	}
+func TestPart1(t *testing.T) {
+	t.Run("with testData1", func(t *testing.T) {
+		result := day16.Part1(strings.NewReader(testData1))
+		if result != 7036 {
+			t.Errorf(`Expected %d to match 7036`, result)
+		}
+	})
+	t.Run("with testData2", func(t *testing.T) {
+		result := day16.Part1(strings.NewReader(testData2))
+		if result != 11048 {
+			t.Errorf(`Expected %d to match 11048`, result)
+		}
+	})
 }

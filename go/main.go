@@ -3,35 +3,63 @@ package main
 import (
 	"fmt"
 	"os"
+	"reflect"
 	"strconv"
+	"time"
 
 	"github.com/donmahallem/aoc/aoc23"
 	"github.com/donmahallem/aoc/aoc24"
+	"github.com/donmahallem/aoc/aoc_utils"
 )
 
 func main() {
-
 	fmt.Print("AOC Solver\n")
-	var year, yearError = strconv.ParseUint(os.Args[1], 10, 32)
-	if yearError != nil {
-		fmt.Println(yearError)
+	var parseError error
+	partSelector := aoc_utils.PartSelector{}
+	partSelector.Year, parseError = strconv.Atoi(os.Args[1])
+	if parseError != nil {
+		fmt.Println(parseError)
 		return
 	}
-	var day, dayError = strconv.ParseUint(os.Args[2], 10, 32)
-	if dayError != nil {
-		fmt.Println(dayError)
+	partSelector.Day, parseError = strconv.Atoi(os.Args[2])
+	if parseError != nil {
+		fmt.Println(parseError)
 		return
 	}
-	var part, partError = strconv.ParseUint(os.Args[3], 10, 32)
-	if partError != nil {
-		fmt.Println(partError)
+	partSelector.Part, parseError = strconv.Atoi(os.Args[3])
+	if parseError != nil {
+		fmt.Println(parseError)
 		return
 	}
-	fmt.Printf("Requested parsing %d-%d Part: %d\n", year, day, part)
-	switch year {
-	case 23:
-		aoc23.Aoc23(int(day), int(part))
-	case 24:
-		aoc24.Aoc24(int(day), int(part))
+	fmt.Printf("Requested parsing %d-%d Part: %d\n", partSelector.Year, partSelector.Day, partSelector.Part)
+	partRegistry := aoc_utils.NewRegistry()
+	aoc23.RegisterParts(&partRegistry)
+	aoc24.RegisterParts(&partRegistry)
+	takeFun, ok := partRegistry.GetPart(partSelector)
+	if !ok {
+		fmt.Printf("Could not find requested part %v", partSelector)
+		return
 	}
+	function := reflect.ValueOf(takeFun)
+	var startTime = time.Now()
+	results := function.Call([]reflect.Value{reflect.ValueOf(os.Stdin)})
+	var endTime = time.Now()
+	// Checking the type of the first result for demonstration.
+	res := results[0].Interface()
+	switch v := res.(type) {
+	case int:
+		fmt.Println("Result is:", v)
+	case []int:
+		fmt.Print("Result is: ")
+		for i := range len(v) {
+			if i > 0 {
+				fmt.Print(",")
+			}
+			fmt.Printf("%d", v[i])
+		}
+		fmt.Println()
+	default:
+		fmt.Println("Unknown result type")
+	}
+	fmt.Printf("Took: %d\n", endTime.Sub(startTime).Microseconds())
 }

@@ -4,9 +4,9 @@ import codecs
 
 
 def parseInput(input: typing.TextIO) -> dict[str, list[str]]:
-    data="\n".join([ln.strip() for ln in input.readlines()])
-    register=list()
-    wires=list()
+    data = "\n".join([ln.strip() for ln in input.readlines()])
+    register = list()
+    wires = list()
     register, wires = data.split("\n\n")
 
     register = {
@@ -17,10 +17,10 @@ def parseInput(input: typing.TextIO) -> dict[str, list[str]]:
     wires = [
         tuple(item[0:3] + [item[4]]) for item in [line.split(" ") for line in wires]
     ]
-    return register,wires
+    return register, wires
 
 
-def combine(registers,wires):
+def combine(registers, wires):
     connected = True
     while connected:
         connected = False
@@ -49,6 +49,7 @@ def combine(registers,wires):
                 output_value += 1 << key_val
     return output_value
 
+
 def Part1(input: typing.TextIO) -> int:
-    registers,wires = parseInput(input)
-    return combine(registers,wires)
+    registers, wires = parseInput(input)
+    return combine(registers, wires)

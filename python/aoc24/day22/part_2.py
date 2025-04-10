@@ -1,13 +1,8 @@
 import functools
-import codecs
+import typing
 import numpy as np
 
-np.set_printoptions(linewidth=200)
 GENERATIONS = 2001
-test_data = False
-with codecs.open("data.txt" if test_data else "data2.txt", encoding="utf8") as f:
-    data = [int(line.strip()) for line in f.readlines()]
-
 
 @functools.cache
 def calc(val):
@@ -16,7 +11,6 @@ def calc(val):
     out = ((out // 32) ^ out) % PRUNE_VALUE
     out = ((out * 2048) ^ out) % PRUNE_VALUE
     return out
-
 
 def generatePricePattern(input_data, iterations=GENERATIONS):
     data_np = np.zeros((len(input_data), iterations, 2), dtype=np.int32)
@@ -28,10 +22,6 @@ def generatePricePattern(input_data, iterations=GENERATIONS):
             data_np[i, j, 0] = summe % 10
             data_np[i, j, 1] = summe % 10 - data_np[i, j - 1, 0]
     return data_np
-
-
-data_np = generatePricePattern(data, GENERATIONS)
-
 
 def generatePatterns(data_np):
     output = set()
@@ -56,25 +46,25 @@ def generatePatterns(data_np):
             output.add(test)
     return output, vendor_pattern_dict
 
+def Part2(input: typing.TextIO) -> int:
+    data = [int(line.strip()) for line in input.readlines()]
 
-unique_patterns, vendor_pattern_dict = generatePatterns(data_np)
+    data_np = generatePricePattern(data, GENERATIONS)
+    unique_patterns, vendor_pattern_dict = generatePatterns(data_np)
 
-from tqdm import tqdm
+    last_summe = None
+    last_pattern = None
+    for pattern_idx in unique_patterns:
+        summe = 0
+        for vendor_idx in range(data_np.shape[0]):
+            if not (pattern_idx in vendor_pattern_dict[vendor_idx]):
+                continue
+            summe += vendor_pattern_dict[vendor_idx][pattern_idx]
+        if last_summe == None and last_pattern == None:
+            last_pattern = pattern_idx
+            last_summe = summe
+        elif last_summe < summe:
+            last_pattern = pattern_idx
+            last_summe = summe
 
-last_summe = None
-last_pattern = None
-for pattern_idx in tqdm(unique_patterns):
-    summe = 0
-    for vendor_idx in range(data_np.shape[0]):
-        if not (pattern_idx in vendor_pattern_dict[vendor_idx]):
-            continue
-        summe += vendor_pattern_dict[vendor_idx][pattern_idx]
-    if last_summe == None and last_pattern == None:
-        last_pattern = pattern_idx
-        last_summe = summe
-    elif last_summe < summe:
-        last_pattern = pattern_idx
-        last_summe = summe
-
-print(last_pattern)
-print(last_summe)
+    return last_summe

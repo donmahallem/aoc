@@ -1,6 +1,7 @@
 import typing
 
-def parseField(input: typing.TextIO) ->dict[str,list[str]]:
+
+def parseField(input: typing.TextIO) -> dict[str, list[str]]:
     data = [line.strip() for line in input.readlines()]
 
     connections = dict()
@@ -17,6 +18,7 @@ def parseField(input: typing.TextIO) ->dict[str,list[str]]:
 
     return connections
 
+
 def findInterconnected(connections):
     interconnected = set()
     for key in connections.keys():
@@ -28,6 +30,7 @@ def findInterconnected(connections):
                     interconnected.add(items)
     return interconnected
 
+
 def countT(items) -> set[tuple[str]]:
     sum = 0
     for item in items:
@@ -37,7 +40,8 @@ def countT(items) -> set[tuple[str]]:
                 break
     return sum
 
+
 def Part1(input: typing.TextIO) -> int:
     data = parseField(input)
-    interconnected=findInterconnected(data)
+    interconnected = findInterconnected(data)
     return countT(interconnected)

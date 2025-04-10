@@ -1,5 +1,5 @@
 import typing
-from .part_1 import parseField,findInterconnected
+from .part_1 import parseField, findInterconnected
 
 
 def findLongest(connections, interconnected):
@@ -26,9 +26,10 @@ def findLongest(connections, interconnected):
                 break
     return interconnected
 
+
 def Part2(input: typing.TextIO) -> int:
     connections = parseField(input)
-    interconnected=findInterconnected(connections)
+    interconnected = findInterconnected(connections)
     max_groups = findLongest(connections, interconnected)
     max_groups = sorted(max_groups, key=len)
     return sorted(max_groups[-1], reverse=False)

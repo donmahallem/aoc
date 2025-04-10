@@ -4,6 +4,7 @@ import numpy as np
 
 np.set_printoptions(linewidth=200)
 
+
 def parseInput(input: typing.TextIO):
     return [int(line.strip()) for line in input.readlines()]
 

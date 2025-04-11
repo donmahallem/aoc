@@ -1,6 +1,26 @@
 import typing
 from .part_1 import parseInput
+from .operation import Operation
 
+
+
+def get_full_adder_output(data:list[Operation],adder:int):
+    key = "z"+str(adder).zfill(2)
+    for entry in data:
+        if entry.output==key:
+            return entry
+    raise Exception("Could not find output : "+key)
+
+def get_full_adder_input(data:list[Operation],adder:int):
+    key_x = str(adder).zfill(2)
+    key_x,key_y = "x"+key_x,"y"+key_x
+    inps=list()
+    for entry in data:
+        if key_x in entry.inputs or key_y in entry.inputs:
+            inps.append(entry)
+    return inps
+
+    
 def isInitial(val):
     return val[0] in ["x", "y"] and val[1:3].isnumeric()
 
@@ -64,23 +84,32 @@ def findInWires(wires_dict, a, b, operator):
         return wires_dict[(a, operator, b)]
     elif (b, operator, a) in wires_dict:
         return wires_dict[(b, operator, a)]
+type Wire=tuple[str,str,str,str]
+def findBitInfos(wires:list[Wire],input_bit:int)-> tuple[Wire,Wire,Wire]:
+    x_part=str(input_bit).zfill(2)
+    x_part,y_part,z_part="x"+x_part,"y"+x_part,"z"+x_part
+    
+
+
 
 def Part2(input: typing.TextIO) -> int:
     registers,wires = parseInput(input)
     all_ends = [wire[3] for wire in wires if wire[3][1:].isnumeric() and wire[3][0] == "z"]
     all_ends = sorted(all_ends)
-
+    print(wires)
 
 
     inverse_cons = calcInverseConnections(wires)
     carries = dict()
     # find initial carry
+    check_val = ("x00", "AND", "y00")
+    check_val_reversed =tuple(reversed(check_val))
     for wire in wires:
-        check_val = ("x00", "AND", "y00")
         # print(wire[0:3])
-        if wire[0:3] == check_val or wire[0:3] == tuple(reversed(check_val)):
+        if wire[0:3] == check_val or wire[0:3] == check_val_reversed:
             carries[0] = wire[3]
             break
+    print(check_val,check_val_reversed,carries)
     swaps=list()
     swapped = True
     while swapped:

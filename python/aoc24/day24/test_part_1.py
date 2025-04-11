@@ -1,6 +1,6 @@
 import unittest
 import io
-from aoc24.day24.part_1 import Part1
+from .part_1 import Part1
 
 testData = """x00: 1
 x01: 0

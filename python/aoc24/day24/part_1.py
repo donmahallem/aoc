@@ -1,9 +1,6 @@
 import typing
-import itertools
-import codecs
 
-
-def parseInput(input: typing.TextIO) -> dict[str, list[str]]:
+def parseInput(input: typing.TextIO) :
     data="\n".join([ln.strip() for ln in input.readlines()])
     register=list()
     wires=list()
@@ -18,7 +15,6 @@ def parseInput(input: typing.TextIO) -> dict[str, list[str]]:
         tuple(item[0:3] + [item[4]]) for item in [line.split(" ") for line in wires]
     ]
     return register,wires
-
 
 def combine(registers,wires):
     connected = True

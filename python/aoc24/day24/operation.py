@@ -41,13 +41,13 @@ class Operation:
         return self()^other
 
     def __call__(self, *args, **kwds):
-        a=self.Inputs[0]() if type(self.Inputs[0])==Operation else self.Inputs[0]
-        b=self.Inputs[1]() if type(self.Inputs[1])==Operation else self.Inputs[1]
-        if self.Operand=="AND":
+        a=self.__inputs[0]() if type(self.__inputs[0])==Operation else self.__inputs[0]
+        b=self.__inputs[1]() if type(self.__inputs[1])==Operation else self.__inputs[1]
+        if self.__operator=="AND":
             return a&b
-        elif self.Operand=="OR":
+        elif self.__operator=="OR":
             return a|b
-        elif self.Operand=="XOR":
+        elif self.__operator=="XOR":
             return a^b
         else:
-            raise Exception("Unknown operand: "+self.Operand)
+            raise Exception("Unknown operand: "+self.__operator)

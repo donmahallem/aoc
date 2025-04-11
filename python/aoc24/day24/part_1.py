@@ -2,10 +2,10 @@ import typing
 from .operation import Operation
 
 
-def parse_input(input: typing.TextIO)->tuple[list,list[Operation]] :
-    data="\n".join([ln.strip() for ln in input.readlines()])
-    register=list()
-    wires=list()
+def parse_input(input: typing.TextIO) -> tuple[list, list[Operation]]:
+    data = "\n".join([ln.strip() for ln in input.readlines()])
+    register = list()
+    wires = list()
     register, wires = data.split("\n\n")
 
     register = {
@@ -14,11 +14,13 @@ def parse_input(input: typing.TextIO)->tuple[list,list[Operation]] :
     }
     wires = [line.strip() for line in wires.split("\n")]
     wires = [
-        Operation([item[0],item[2]],item[1],item[4]) for item in [line.split(" ") for line in wires]
+        Operation([item[0], item[2]], item[1], item[4])
+        for item in [line.split(" ") for line in wires]
     ]
-    return register,wires
+    return register, wires
 
-def combine(registers,wires:list[Operation]):
+
+def combine(registers, wires: list[Operation]):
     connected = True
     while connected:
         connected = False
@@ -47,6 +49,7 @@ def combine(registers,wires:list[Operation]):
                 output_value += 1 << key_val
     return output_value
 
+
 def Part1(input: typing.TextIO) -> int:
-    registers,wires = parse_input(input)
-    return combine(registers,wires)
+    registers, wires = parse_input(input)
+    return combine(registers, wires)

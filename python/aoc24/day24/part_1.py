@@ -1,6 +1,8 @@
 import typing
+from .operation import Operation
 
-def parseInput(input: typing.TextIO) :
+
+def parse_input(input: typing.TextIO)->tuple[list,list[Operation]] :
     data="\n".join([ln.strip() for ln in input.readlines()])
     register=list()
     wires=list()
@@ -12,27 +14,27 @@ def parseInput(input: typing.TextIO) :
     }
     wires = [line.strip() for line in wires.split("\n")]
     wires = [
-        tuple(item[0:3] + [item[4]]) for item in [line.split(" ") for line in wires]
+        Operation([item[0],item[2]],item[1],item[4]) for item in [line.split(" ") for line in wires]
     ]
     return register,wires
 
-def combine(registers,wires):
+def combine(registers,wires:list[Operation]):
     connected = True
     while connected:
         connected = False
         for line in wires:
-            if line[3] in registers:
+            if line.output in registers:
                 continue
-            if line[0] in registers and line[2] in registers:
-                val_a = registers[line[0]]
-                val_b = registers[line[2]]
-                if line[1] == "AND":
+            if line.inputs[0] in registers and line.inputs[1] in registers:
+                val_a = registers[line.inputs[0]]
+                val_b = registers[line.inputs[1]]
+                if line.operator == "AND":
                     out = val_a and val_b
-                elif line[1] == "OR":
+                elif line.operator == "OR":
                     out = val_a or val_b
-                elif line[1] == "XOR":
+                elif line.operator == "XOR":
                     out = val_a ^ val_b
-                registers[line[3]] = out
+                registers[line.output] = out
                 connected = True
 
     sorted_keys = sorted(registers.keys())
@@ -46,5 +48,5 @@ def combine(registers,wires):
     return output_value
 
 def Part1(input: typing.TextIO) -> int:
-    registers,wires = parseInput(input)
+    registers,wires = parse_input(input)
     return combine(registers,wires)

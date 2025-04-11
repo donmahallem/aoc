@@ -1,5 +1,5 @@
 import typing
-from .part_1 import parseInput
+from .part_1 import parse_input
 from .operation import Operation
 
 
@@ -19,8 +19,23 @@ def get_full_adder_input(data:list[Operation],adder:int):
         if key_x in entry.inputs or key_y in entry.inputs:
             inps.append(entry)
     return inps
-
+def validate_full_adder_inputs(inputs:list[Operation,Operation],adder:int):
+    key_x = str(adder).zfill(2)
+    key_x,key_y = "x"+key_x,"y"+key_x
+    if [key_x,key_y]!= inputs[0].inputs and [key_x,key_y]!= inputs[1].inputs:
+        raise False
+    return True
+def get_full_adder(data:list[Operation],adder:int):
+    inputs=get_full_adder_input(data,adder)
+    output=get_full_adder_output(data,adder)
+    if len(inputs)!=2:
+        raise Exception(f"Found {len(inputs)}. Should be 2")
+    if not validate_full_adder_inputs(inputs,adder):
+        raise Exception("N")
     
+
+
+
 def isInitial(val):
     return val[0] in ["x", "y"] and val[1:3].isnumeric()
 
@@ -93,7 +108,7 @@ def findBitInfos(wires:list[Wire],input_bit:int)-> tuple[Wire,Wire,Wire]:
 
 
 def Part2(input: typing.TextIO) -> int:
-    registers,wires = parseInput(input)
+    registers,wires = parse_input(input)
     all_ends = [wire[3] for wire in wires if wire[3][1:].isnumeric() and wire[3][0] == "z"]
     all_ends = sorted(all_ends)
     print(wires)

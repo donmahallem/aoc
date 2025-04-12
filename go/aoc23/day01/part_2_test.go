@@ -22,3 +22,9 @@ func TestParseFilePart2(t *testing.T) {
 		t.Errorf(`Expected %v to match %v`, res, expected)
 	}
 }
+
+func BenchmarkPart2(b *testing.B) {
+	for b.Loop() {
+		day01.Part2(strings.NewReader(testData))
+	}
+}

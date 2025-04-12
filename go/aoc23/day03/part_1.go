@@ -1,7 +1,6 @@
 package day03
 
 import (
-	"fmt"
 	"io"
 	"slices"
 
@@ -150,7 +149,6 @@ func PairObjects(parts []Part, matches []Number) []Pair {
 func Part1(in io.Reader) int {
 	field, _ := aoc_utils.LoadField(in)
 	parts, matches := FindObjects(field)
-	fmt.Printf("Found %d - %d\n", len(parts), len(matches))
 	pairs := PairObjects(parts, matches)
 	summe := 0
 	for pairIdx := range len(pairs) {

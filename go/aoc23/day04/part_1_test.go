@@ -40,3 +40,9 @@ func TestPart1(t *testing.T) {
 		t.Errorf(`Expected winners to have a length of %d. Not %d`, 13, result)
 	}
 }
+
+func BenchmarkPart1(b *testing.B) {
+	for b.Loop() {
+		day04.Part1(strings.NewReader(testData))
+	}
+}

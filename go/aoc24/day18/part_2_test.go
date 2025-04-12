@@ -28,13 +28,19 @@ func TestIsPathAvailable(t *testing.T) {
 	})
 }
 
-func BenchmarkPart2(b *testing.B) {
-	if !test_utils.CheckTestDataExists(24, 18) {
-		b.Skip("Couldn't retrieve test file data")
-	}
-	sourceData, _ := test_utils.GetTestData(24, 18)
-	points := day18.ParseInput(strings.NewReader(sourceData))
-	b.Run("test large input", func(b *testing.B) {
+func BenchmarkFindFirstNonSolvable(b *testing.B) {
+	b.Run("sample dataset", func(b *testing.B) {
+		points := day18.ParseInput(strings.NewReader(testData))
+		for b.Loop() {
+			day18.FindFirstNonSolvable(points, 71, 71)
+		}
+	})
+	b.Run("large dataset", func(b *testing.B) {
+		if !test_utils.CheckTestDataExists(24, 18) {
+			b.Skip("Couldn't retrieve test file data")
+		}
+		sourceData, _ := test_utils.GetTestData(24, 18)
+		points := day18.ParseInput(strings.NewReader(sourceData))
 		for b.Loop() {
 			day18.FindFirstNonSolvable(points, 71, 71)
 		}

@@ -13,13 +13,11 @@ var (
 )
 
 func createTestFilePath(year int, day int) string {
-	fmt.Println(basepath)
 	return filepath.Join(basepath, fmt.Sprintf("../../data/%02d/%02d.txt", year, day))
 }
 
 func CheckTestDataExists(year int, day int) bool {
 	finalPath := createTestFilePath(year, day)
-	fmt.Println(finalPath)
 	if fileInfo, err := os.Stat(finalPath); err == nil {
 		return fileInfo.Mode().IsRegular()
 	} else {

@@ -9,8 +9,8 @@ import (
 	"github.com/donmahallem/aoc/test_utils"
 )
 
-// TestHelloName calls greetings.Hello with a name, checking
-// for a valid return value.
+const testDataPart2 string = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
+
 func TestDoReader(t *testing.T) {
 	t.Run("test irrelevant data", func(t *testing.T) {
 		const sourceData = "{\"id\": 10, \"name\": \"Pie\"}"
@@ -31,7 +31,7 @@ func TestDoReader(t *testing.T) {
 	})
 }
 func TestPart2(t *testing.T) {
-	var data = day03.Part2(strings.NewReader(testData))
+	var data = day03.Part2(strings.NewReader(testDataPart2))
 	expected := 48
 	if data != expected {
 		t.Errorf(`Expected %d to match %d`, data, expected)

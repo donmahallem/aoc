@@ -19,3 +19,9 @@ func TestOutOfBoundsShouldBeInside(t *testing.T) {
 		t.Errorf(`Expected %v to match %v`, res, expected)
 	}
 }
+
+func BenchmarkPart1(b *testing.B) {
+	for b.Loop() {
+		day01.Part1(strings.NewReader(testData))
+	}
+}

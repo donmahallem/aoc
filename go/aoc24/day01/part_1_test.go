@@ -20,3 +20,9 @@ func Test24Day01Part1(t *testing.T) {
 		t.Errorf(`Expected %d to match %d`, result, 11)
 	}
 }
+
+func BenchmarkPart1(b *testing.B) {
+	for b.Loop() {
+		day01.Part1(strings.NewReader(testData))
+	}
+}

@@ -69,15 +69,22 @@ func TestPairObjects(t *testing.T) {
 }
 
 func TestPart1(t *testing.T) {
-	result := day03.Part1(strings.NewReader(testData))
-	if result != 4484 {
-		t.Errorf(`Expected %d to be %d`, result, 4484)
-	}
+	t.Run("test sample data", func(t *testing.T) {
+		result := day03.Part1(strings.NewReader(testData))
+		if result != 4484 {
+			t.Errorf(`Expected %d to be %d`, result, 4484)
+		}
+	})
+	t.Run("test sample data", func(t *testing.T) {
+		result := day03.Part1(strings.NewReader("....@123\n456....."))
+		if result != 123 {
+			t.Errorf(`Expected %d to be %d`, result, 123)
+		}
+	})
 }
 
-func TestPart1_testData2(t *testing.T) {
-	result := day03.Part1(strings.NewReader("....@123\n456....."))
-	if result != 123 {
-		t.Errorf(`Expected %d to be %d`, result, 123)
+func BenchmarkPart1(b *testing.B) {
+	for b.Loop() {
+		day03.Part1(strings.NewReader(testData))
 	}
 }

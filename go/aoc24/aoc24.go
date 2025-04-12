@@ -41,5 +41,5 @@ func RegisterParts(registry *aoc_utils.Registry) {
 	regFunc(15, day15.Part1, day15.Part2)
 	regFunc(16, day16.Part1, day16.Part2)
 	regFunc(17, day17.Part1, day17.Part2)
-	regFunc(18, day18.Part1, day17.Part2)
+	regFunc(18, day18.Part1, day18.Part2)
 }

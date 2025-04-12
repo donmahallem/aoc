@@ -11,7 +11,8 @@ import (
 
 const CELL_CORRUPTED int = -1
 
-var DIRS_ALL [4]Point = [4]Point{Point{X: -1, Y: 0}, Point{X: 0, Y: -1}, Point{X: 1, Y: 0}, Point{X: 0, Y: 1}}
+// As you always walk top-left to right-bottom primarly use those first
+var DIRS_ALL [4]Point = [4]Point{{X: 1, Y: 0}, {X: 0, Y: 1}, {X: -1, Y: 0}, {X: 0, Y: -1}}
 
 type Field = [][]int
 type Point = aoc_utils.Point[int]
@@ -30,15 +31,19 @@ func ParseInput(in io.Reader) *[]Point {
 	return &points
 }
 
-func ConvertInputToField(points *[]Point, steps, width, height uint) *Field {
+func CreateEmptyField(width, height uint) *Field {
 	field := make(Field, 0, height)
 	for range height {
 		field = append(field, make([]int, width))
 	}
-	for step := range steps {
-		field[(*points)[step].Y][(*points)[step].X] = CELL_CORRUPTED
-	}
 	return &field
+}
+func ConvertInputToField(points *[]Point, steps, width, height uint) *Field {
+	field := CreateEmptyField(width, height)
+	for step := range steps {
+		(*field)[(*points)[step].Y][(*points)[step].X] = CELL_CORRUPTED
+	}
+	return field
 }
 
 func FindShortestPath(field *Field) int {

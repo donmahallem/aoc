@@ -40,7 +40,7 @@ func TestParseInput(t *testing.T) {
 	}
 }
 
-func TestPart1_testData1(t *testing.T) {
+func TestFindShortestPath(t *testing.T) {
 	points := day18.ParseInput(strings.NewReader(testData))
 	field := day18.ConvertInputToField(points, 12, 7, 7)
 

@@ -39,3 +39,12 @@ func TestParseInput(t *testing.T) {
 		t.Errorf(`Expected %d to match 25`, len(*points))
 	}
 }
+
+func TestPart1_testData1(t *testing.T) {
+	points := day18.ParseInput(strings.NewReader(testData))
+	field := day18.ConvertInputToField(points, 12, 7, 7)
+
+	if result := day18.FindShortestPath(field); result != 22 {
+		t.Errorf(`Expected %d to match 22`, result)
+	}
+}

@@ -3,7 +3,7 @@ package aoc_utils
 import "math"
 
 type IntType interface {
-	int | int8 | int16 | int32 | int64 | uint16
+	int | int8 | int16 | int32 | int64 | uint16 | uint
 }
 
 func Abs[T IntType](x T) T {

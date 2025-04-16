@@ -15,7 +15,18 @@ func (a *Point[A]) Diff(b Point[A]) *Point[A] {
 }
 
 func (a *Point[A]) DistanceManhatten(b Point[A]) A {
-	return b.X - a.X + b.Y - a.Y
+	var dst A = 0
+	if b.X < a.X {
+		dst += a.X - b.X
+	} else {
+		dst += b.X - a.X
+	}
+	if b.Y < a.Y {
+		dst += a.Y - b.Y
+	} else {
+		dst += b.Y - a.Y
+	}
+	return dst
 }
 
 func (a *Point[A]) DistanceEuclid(b Point[A]) float64 {

@@ -1,19 +1,15 @@
 package day22
 
 import (
+	"fmt"
 	"io"
 )
 
-func CreatePatterns(seed *uint32, iterations int) *[]int8 {
-	values := make([]int8, 1, iterations)
-	tmp := *seed
-	values[0] = int8(*seed) % 10
-	for i := 1; i < iterations; i++ {
-		tmp = Step(tmp)
-		values = append(values, int8(tmp%10))
-	}
-	return &values
+type CacheValue struct {
+	LastSeed *uint32
+	Value    uint32
 }
+type CacheMap = map[uint32]uint32
 
 const encodeBase19Shift3 uint32 = 6859
 const encodeBase19Shift2 uint32 = 361
@@ -27,43 +23,42 @@ func EncodeSequence(b *[]uint32) uint32 {
 	return tmp
 }
 
-type CacheMap = map[uint32]uint32
-
-func CreatePatterns2(seed *uint32, iterations int, cache *CacheMap) {
-	values := make([]uint32, 1, iterations)
-	previousValue := make([]uint32, 0, 4)
+func CreatePatterns(seed *uint32, iterations int, cache *CacheMap) {
+	previousDiffs := make([]uint32, 0, 4)
 	tmp := *seed
-	values[0] = ((*seed) % 10)
+	previousValue := ((*seed) % 10)
+	var currentValue uint32
 	for i := 1; i < iterations; i++ {
 		tmp = Step(tmp)
-		values = append(values, tmp%10)
-		if len(previousValue) == 4 {
-			previousValue = previousValue[1:]
+		currentValue = tmp % 10
+		if len(previousDiffs) == 4 {
+			previousDiffs = previousDiffs[1:]
 		}
-		previousValue = append(previousValue, 10+values[len(values)-1]-values[len(values)-2])
+		previousDiffs = append(previousDiffs, 10+currentValue-previousValue)
 		if i >= 4 {
-			key := EncodeSequence(&previousValue)
+			key := EncodeSequence(&previousDiffs)
 			if val, ok := (*cache)[key]; ok {
-				(*cache)[key] = val + values[i-1]
+				(*cache)[key] = val + currentValue
 			} else {
-				(*cache)[key] = values[i-1]
+				(*cache)[key] = currentValue
 			}
 		}
+		previousValue = currentValue
 	}
-}
-func CreatePatternDifferences(seed *uint32, iterations int) *[]int8 {
-	buffer := make([]int8, 0, iterations-1)
-	tmp := *seed
-	var tmp2 uint32
-	for range iterations - 1 {
-		tmp2 = Step(tmp)
-		buffer = append(buffer, int8(tmp2%10-tmp%10))
-		tmp = tmp2
-	}
-	return &buffer
 }
 
-func Part2(in io.Reader) uint {
+func Part2(in io.Reader) uint32 {
 	items := ParseInput(in)
-	return AddUpSecrets(items)
+	cache := make(CacheMap)
+	for _, item := range *items {
+		CreatePatterns(&item, 2000, &cache)
+	}
+	maxVal := uint32(0)
+	for key := range cache {
+		if cacheValue := cache[key]; cacheValue > maxVal {
+			fmt.Printf("Max Key %d - %d\n", key, cacheValue)
+			maxVal = cacheValue
+		}
+	}
+	return maxVal
 }

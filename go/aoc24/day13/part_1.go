@@ -32,6 +32,7 @@ func ParseButton(data []byte) VecFloat64 {
 	}
 	return ret
 }
+
 func LoadFile(reader io.Reader) []Input {
 	obstacles := make([]Input, 0, 100)
 	s := bufio.NewScanner(reader)
@@ -46,13 +47,10 @@ func LoadFile(reader io.Reader) []Input {
 		switch line[7] {
 		case 'A':
 			currentInput.vec1 = ParseButton(line[7:])
-			break
 		case 'B':
 			currentInput.vec2 = ParseButton(line[7:])
-			break
 		case 'X':
-			currentInput.target = ParseButton(line[6:])
-			break
+			currentInput.target = ParseButton(line[7:])
 		}
 	}
 	obstacles = append(obstacles, currentInput)

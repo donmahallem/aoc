@@ -29,8 +29,8 @@ var testCases []int = []int{
 func TestStep(t *testing.T) {
 	for idx := range len(testCases) - 1 {
 		t.Run(fmt.Sprintf("Expect %d to become %d", testCases[idx], testCases[idx+1]), func(t *testing.T) {
-			points := day22.Step(int32(testCases[idx]))
-			if points != int32(testCases[idx+1]) {
+			points := day22.Step(uint32(testCases[idx]))
+			if points != uint32(testCases[idx+1]) {
 				t.Errorf(`Expected %d to match %d`, points, testCases[idx+1])
 			}
 		})
@@ -48,7 +48,7 @@ func TestPart1(t *testing.T) {
 func BenchmarkStep(b *testing.B) {
 	for idx := range len(testCases) - 1 {
 		b.Run(fmt.Sprintf("Expect %d to become %d", testCases[idx], testCases[idx+1]), func(b *testing.B) {
-			testValue := int32(testCases[idx])
+			testValue := uint32(testCases[idx])
 			for b.Loop() {
 				day22.Step(testValue)
 			}

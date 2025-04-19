@@ -1,7 +1,6 @@
 package day22
 
 import (
-	"fmt"
 	"io"
 )
 
@@ -9,7 +8,7 @@ type CacheValue struct {
 	LastSeed *uint32
 	Value    uint32
 }
-type CacheMap = map[uint32]uint32
+type CacheMap = map[uint32]CacheValue
 
 const encodeBase19Shift3 uint32 = 6859
 const encodeBase19Shift2 uint32 = 361
@@ -38,9 +37,14 @@ func CreatePatterns(seed *uint32, iterations int, cache *CacheMap) {
 		if i >= 4 {
 			key := EncodeSequence(&previousDiffs)
 			if val, ok := (*cache)[key]; ok {
-				(*cache)[key] = val + currentValue
+				// prevent duplicates from same seed
+				if val.LastSeed != seed {
+					val.LastSeed = seed
+					val.Value = val.Value + currentValue
+					(*cache)[key] = val
+				}
 			} else {
-				(*cache)[key] = currentValue
+				(*cache)[key] = CacheValue{LastSeed: seed, Value: currentValue}
 			}
 		}
 		previousValue = currentValue
@@ -55,9 +59,8 @@ func Part2(in io.Reader) uint32 {
 	}
 	maxVal := uint32(0)
 	for key := range cache {
-		if cacheValue := cache[key]; cacheValue > maxVal {
-			fmt.Printf("Max Key %d - %d\n", key, cacheValue)
-			maxVal = cacheValue
+		if cacheValue := cache[key]; cacheValue.Value > maxVal {
+			maxVal = cacheValue.Value
 		}
 	}
 	return maxVal

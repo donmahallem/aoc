@@ -60,26 +60,50 @@ func TestCreatePatterns(t *testing.T) {
 		cache := make(day22.CacheMap)
 		day22.CreatePatterns(&seed, 2000, &cache)
 		lookup := uint32(59027) //sequence -2,1,-1,3
-		if result := cache[lookup]; result != 7 {
+		if result := cache[lookup]; result.Value != 7 {
 			t.Errorf(`Expected %d to be 7 at %d`, result, lookup)
 		}
 		seed = 2
 		cache = make(day22.CacheMap)
 		day22.CreatePatterns(&seed, 2000, &cache)
-		if result := cache[lookup]; result != 7 {
+		if result := cache[lookup]; result.Value != 7 {
 			t.Errorf(`Expected %d to be 7 at %d`, result, lookup)
 		}
 		seed = 3
 		cache = make(day22.CacheMap)
 		day22.CreatePatterns(&seed, 2000, &cache)
-		if result := cache[lookup]; result != 0 {
+		if result := cache[lookup]; result.Value != 0 {
 			t.Errorf(`Expected %d to be 0 at %d`, result, lookup)
 		}
 		seed = 2024
 		cache = make(day22.CacheMap)
 		day22.CreatePatterns(&seed, 2000, &cache)
-		if result := cache[lookup]; result != 9 {
+		if result := cache[lookup]; result.Value != 9 {
 			t.Errorf(`Expected %d to be 9 at %d`, result, lookup)
+		}
+	})
+	t.Run("test combine", func(t *testing.T) {
+		seed := uint32(1)
+		cache := make(day22.CacheMap)
+		day22.CreatePatterns(&seed, 2000, &cache)
+		lookup := uint32(59027) //sequence -2,1,-1,3
+		if result := cache[lookup]; result.Value != 7 {
+			t.Errorf(`Expected %d to be 7 at %d`, result, lookup)
+		}
+		seed = 2
+		day22.CreatePatterns(&seed, 2000, &cache)
+		if result := cache[lookup]; result.Value != 14 {
+			t.Errorf(`Expected %d to be 14 at %d`, result, lookup)
+		}
+		seed = 3
+		day22.CreatePatterns(&seed, 2000, &cache)
+		if result := cache[lookup]; result.Value != 14 {
+			t.Errorf(`Expected %d to be 14 at %d`, result, lookup)
+		}
+		seed = 2024
+		day22.CreatePatterns(&seed, 2000, &cache)
+		if result := cache[lookup]; result.Value != 23 {
+			t.Errorf(`Expected %d to be 23 at %d`, result, lookup)
 		}
 	})
 }

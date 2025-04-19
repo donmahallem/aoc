@@ -5,7 +5,7 @@ import (
 )
 
 type CacheValue struct {
-	LastSeed *uint32
+	LastSeed uint32
 	Value    uint32
 }
 type CacheMap = map[uint32]CacheValue
@@ -23,28 +23,26 @@ func EncodeSequence(b *[]uint32) uint32 {
 }
 
 func CreatePatterns(seed *uint32, iterations int, cache *CacheMap) {
-	previousDiffs := make([]uint32, 0, 4)
+	previousDiffs := make([]uint32, 4)
 	tmp := *seed
 	previousValue := ((*seed) % 10)
 	var currentValue uint32
 	for i := 1; i < iterations; i++ {
 		tmp = Step(tmp)
 		currentValue = tmp % 10
-		if len(previousDiffs) == 4 {
-			previousDiffs = previousDiffs[1:]
-		}
-		previousDiffs = append(previousDiffs, 10+currentValue-previousValue)
+		copy(previousDiffs, previousDiffs[1:])
+		previousDiffs[3] = 10 + currentValue - previousValue
 		if i >= 4 {
 			key := EncodeSequence(&previousDiffs)
 			if val, ok := (*cache)[key]; ok {
 				// prevent duplicates from same seed
-				if val.LastSeed != seed {
-					val.LastSeed = seed
+				if val.LastSeed != *seed {
+					val.LastSeed = *seed
 					val.Value = val.Value + currentValue
 					(*cache)[key] = val
 				}
 			} else {
-				(*cache)[key] = CacheValue{LastSeed: seed, Value: currentValue}
+				(*cache)[key] = CacheValue{LastSeed: *seed, Value: currentValue}
 			}
 		}
 		previousValue = currentValue

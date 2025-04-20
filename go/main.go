@@ -47,7 +47,7 @@ func main() {
 	// Checking the type of the first result for demonstration.
 	res := results[0].Interface()
 	switch v := res.(type) {
-	case int, uint, int32, uint32:
+	case int, uint, int32, uint32, uint16, uint8:
 		fmt.Println("Result is:", v)
 	case []int:
 		fmt.Print("Result is: ")

@@ -1,7 +1,6 @@
 package day23_test
 
 import (
-	"math/rand/v2"
 	"strings"
 	"testing"
 
@@ -42,41 +41,10 @@ tb-vc
 td-yn`
 
 func BenchmarkLookup(b *testing.B) {
-	test_2 := [][2]byte{}
-	for range 10000 {
-		test_2 = append(test_2, [2]byte{byte(rand.UintN(255)), byte(rand.UintN(255))})
-	}
-
-	b.Run("LookupA", func(b *testing.B) {
-		test := make(map[[2]byte]bool)
-		for _, entry := range test_2 {
-			test[entry] = true
-		}
-		for b.Loop() {
-			day23.LookupA(test, test_2[0])
-		}
-	})
-	b.Run("LookupB", func(b *testing.B) {
-		test := make(map[uint]bool)
-		test_keys := make([]uint, 0)
-		for _, entry := range test_2 {
-			test_key := uint(entry[0]*255 + entry[1])
-			test_keys = append(test_keys, test_key)
-			test[test_key] = true
-		}
-		for b.Loop() {
-			day23.LookupB(test, test_keys[0])
-		}
-	})
 	b.Run("HashId", func(b *testing.B) {
 		testKey := []byte{15, 125}
 		for b.Loop() {
 			day23.HashId(testKey)
-		}
-	})
-	b.Run("t", func(b *testing.B) {
-		for b.Loop() {
-			day23.ParseInput(strings.NewReader(testData))
 		}
 	})
 	b.Run("t2", func(b *testing.B) {
@@ -91,6 +59,19 @@ func TestFindTriplets(t *testing.T) {
 	data := day23.FindTriplets(points)
 	if data != 7 {
 		t.Errorf(`Expected %d to match 7`, data)
+	}
+}
+func TestParseInputMap(t *testing.T) {
+	points := day23.ParseInputMap(strings.NewReader(testData))
+	var keyTa []byte = []byte{'t', 'a'}
+	var hashTa day23.NodeHash = day23.HashId(keyTa)
+	if res := len((*points)[hashTa]); res != 0 {
+		t.Errorf(`Expected %v %d to have length %d not 0`, keyTa, hashTa, res)
+	}
+	keyTa = []byte{'c', 'o'}
+	hashTa = day23.HashId(keyTa)
+	if res := len((*points)[hashTa]); res != 4 {
+		t.Errorf(`Expected %v %d to have length %d not 4`, keyTa, hashTa, res)
 	}
 }
 

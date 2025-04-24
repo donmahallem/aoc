@@ -48,3 +48,9 @@ func TestPart1(t *testing.T) {
 		t.Errorf(`Expected %d to contain %d`, result, 1930)
 	}
 }
+
+func BenchmarkPart1(b *testing.B) {
+	for b.Loop() {
+		day12.Part1(strings.NewReader(testData))
+	}
+}

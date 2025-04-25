@@ -1,46 +1,52 @@
-import functools
-import itertools
-import codecs
+import typing
+from .operation import Operation
 
-test_data = False
-with codecs.open("data.txt" if test_data else "data2.txt", encoding="utf8") as f:
-    data = f.read()
-    register, wires = data.split("\r\n\r\n")
+
+def parse_input(input: typing.TextIO)->tuple[list,list[Operation]] :
+    data="\n".join([ln.strip() for ln in input.readlines()])
+    register=list()
+    wires=list()
+    register, wires = data.split("\n\n")
 
     register = {
         line.strip().split(":")[0]: int(line.strip().split(":")[1])
-        for line in register.split("\r\n")
+        for line in register.split("\n")
     }
-    wires = [line.strip() for line in wires.split("\r\n")]
+    wires = [line.strip() for line in wires.split("\n")]
     wires = [
-        tuple(item[0:3] + [item[4]]) for item in [line.split(" ") for line in wires]
+        Operation([item[0],item[2]],item[1],item[4]) for item in [line.split(" ") for line in wires]
     ]
+    return register,wires
 
-connected = True
-while connected:
-    connected = False
-    for line in wires:
-        if line[3] in register:
-            continue
-        if line[0] in register and line[2] in register:
-            val_a = register[line[0]]
-            val_b = register[line[2]]
-            if line[1] == "AND":
-                out = val_a and val_b
-            elif line[1] == "OR":
-                out = val_a or val_b
-            elif line[1] == "XOR":
-                out = val_a ^ val_b
-            register[line[3]] = out
-            connected = True
+def combine(registers,wires:list[Operation]):
+    connected = True
+    while connected:
+        connected = False
+        for line in wires:
+            if line.output in registers:
+                continue
+            if line.inputs[0] in registers and line.inputs[1] in registers:
+                val_a = registers[line.inputs[0]]
+                val_b = registers[line.inputs[1]]
+                if line.operator == "AND":
+                    out = val_a and val_b
+                elif line.operator == "OR":
+                    out = val_a or val_b
+                elif line.operator == "XOR":
+                    out = val_a ^ val_b
+                registers[line.output] = out
+                connected = True
 
-sorted_keys = sorted(register.keys())
+    sorted_keys = sorted(registers.keys())
 
-output_value = 0
-for key in sorted_keys:
-    if key[0] == "z":
-        if register[key] > 0:
-            key_val = int(key[1:])
-            output_value += 1 << key_val
+    output_value = 0
+    for key in sorted_keys:
+        if key[0] == "z":
+            if registers[key] > 0:
+                key_val = int(key[1:])
+                output_value += 1 << key_val
+    return output_value
 
-print(output_value)
+def Part1(input: typing.TextIO) -> int:
+    registers,wires = parse_input(input)
+    return combine(registers,wires)

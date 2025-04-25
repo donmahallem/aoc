@@ -29,10 +29,8 @@ func FindLongest(data *CombinationMap) []NodeHash {
 	for len(todo) > 0 {
 		current := todo[0]
 		todo = todo[1:]
-		//fmt.Printf("Current: %v\n", StringSequence(current))
 		previousKey := current[len(current)-1]
 		for _, key := range (*data)[previousKey] {
-			//fmt.Printf("  Check key: %v\n", string(*UnhashId(&key)))
 			valid := true
 			for idx := range len(current) - 1 {
 				if !slices.Contains((*data)[current[idx]], key) {
@@ -41,7 +39,6 @@ func FindLongest(data *CombinationMap) []NodeHash {
 				}
 			}
 			if valid {
-				//fmt.Printf("    Append: %v\n", string(*UnhashId(&key)))
 				tmpList := make([]NodeHash, len(current), len(current)+1)
 				copy(tmpList, current)
 				tmpList = append(tmpList, key)
@@ -49,13 +46,9 @@ func FindLongest(data *CombinationMap) []NodeHash {
 				if len(tmpList) > len(longest) {
 					longest = tmpList
 				}
-			} /*			 else if len(longest) < len(current) {
-				longest = append(longest, make([]NodeHash, len(current)-len(longest))...)
-				copy(longest, current)
-			}*/
+			}
 		}
 	}
-
 	return longest
 }
 

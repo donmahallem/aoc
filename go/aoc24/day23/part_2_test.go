@@ -30,3 +30,15 @@ func TestPart2(t *testing.T) {
 		t.Errorf(`Expected %s to match %s`, data, expected)
 	}
 }
+
+func BenchmarkFindLongest(b *testing.B) {
+	points := day23.ParseInputMap(strings.NewReader(testData))
+	for b.Loop() {
+		day23.FindLongest(points)
+	}
+}
+func BenchmarkPart2(b *testing.B) {
+	for b.Loop() {
+		day23.Part2(strings.NewReader(testData))
+	}
+}

@@ -89,3 +89,9 @@ func TestCalculateQuadrant(t *testing.T) {
 		t.Errorf(`Expected %v to match %v`, testSum, -1)
 	}
 }
+
+func BenchmarkPart1(b *testing.B) {
+	for b.Loop() {
+		day14.Part1(strings.NewReader(testData))
+	}
+}

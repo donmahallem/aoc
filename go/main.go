@@ -49,6 +49,8 @@ func main() {
 	switch v := res.(type) {
 	case int, uint, int32, uint32, uint16, uint8:
 		fmt.Println("Result is:", v)
+	case string:
+		fmt.Println("Result is:", v)
 	case []int:
 		fmt.Print("Result is: ")
 		for i := range len(v) {

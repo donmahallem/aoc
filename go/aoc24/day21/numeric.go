@@ -65,14 +65,14 @@ func WalkNumericSequenceSub(start *Point, end *Point, currentDepth uint, maxDept
 	}
 	if start.X == 0 && end.Y == 3 {
 		// First walk X than Y
-		return walkXFirstDirectional(start, end, dir, currentDepth, maxDepth)
+		return walkXFirstDirectional(dir, currentDepth, maxDepth)
 	} else if end.X == 0 && start.Y == 3 {
 		// First walk Y than X
-		return walkYFirstDirectional(start, end, dir, currentDepth, maxDepth)
+		return walkYFirstDirectional(dir, currentDepth, maxDepth)
 	} else {
 		// try first x and first y
-		endResultA := walkXFirstDirectional(start, end, dir, currentDepth, maxDepth)
-		if endResultB := walkYFirstDirectional(start, end, dir, currentDepth, maxDepth); endResultB < endResultA {
+		endResultA := walkXFirstDirectional(dir, currentDepth, maxDepth)
+		if endResultB := walkYFirstDirectional(dir, currentDepth, maxDepth); endResultB < endResultA {
 			return endResultB
 		}
 		return endResultA

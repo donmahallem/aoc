@@ -37,7 +37,7 @@ func main() {
 	aoc24.RegisterParts(&partRegistry)
 	takeFun, ok := partRegistry.GetPart(partSelector)
 	if !ok {
-		fmt.Printf("Could not find requested part %v", partSelector)
+		fmt.Printf("Could not find requested part %v\n", partSelector)
 		return
 	}
 	function := reflect.ValueOf(takeFun)

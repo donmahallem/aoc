@@ -10,7 +10,7 @@ var (
 	DIRECTIONAL_A     = Point{X: 2, Y: 0}
 )
 
-func walkXFirstDirectional(start *Point, end *Point, dir *Point, currentDepth uint, maxDepth uint) uint {
+func walkXFirstDirectional(dir *Point, currentDepth uint, maxDepth uint) uint {
 	var steps, tempSteps uint
 	steps = 0
 	current := &DIRECTIONAL_A /// ERSETZE MIT A WEIL START NICHT START IST
@@ -44,7 +44,7 @@ func walkXFirstDirectional(start *Point, end *Point, dir *Point, currentDepth ui
 	steps += tempSteps
 	return steps
 }
-func walkYFirstDirectional(start *Point, end *Point, dir *Point, currentDepth uint, maxDepth uint) uint {
+func walkYFirstDirectional(dir *Point, currentDepth uint, maxDepth uint) uint {
 	var steps, tempSteps uint
 	steps = 0
 	current := &DIRECTIONAL_A
@@ -89,14 +89,14 @@ func WalkDirectional(start *Point, end *Point, currentDepth uint, maxDepth uint)
 	}
 	if start.X == 0 && end.Y == 0 {
 		// First walk X than Y
-		return walkXFirstDirectional(start, end, dir, currentDepth, maxDepth)
+		return walkXFirstDirectional(dir, currentDepth, maxDepth)
 	} else if end.Y == 0 && start.X == 0 {
 		// First walk Y than X
-		return walkYFirstDirectional(start, end, dir, currentDepth, maxDepth)
+		return walkYFirstDirectional(dir, currentDepth, maxDepth)
 	} else {
 		// try first x and first y
-		endResultA := walkXFirstDirectional(start, end, dir, currentDepth, maxDepth)
-		if endResultB := walkYFirstDirectional(start, end, dir, currentDepth, maxDepth); endResultB < endResultA {
+		endResultA := walkXFirstDirectional(dir, currentDepth, maxDepth)
+		if endResultB := walkYFirstDirectional(dir, currentDepth, maxDepth); endResultB < endResultA {
 			return endResultB
 		}
 		return endResultA

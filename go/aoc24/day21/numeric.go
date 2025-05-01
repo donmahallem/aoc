@@ -1,18 +1,16 @@
 package day21
 
-import "fmt"
-
 var numericLookup map[byte]Point = map[byte]Point{
-	'0': {X: 1, Y: 3},
-	'1': {X: 0, Y: 3},
-	'2': {X: 1, Y: 3},
-	'3': {X: 2, Y: 1},
-	'4': {X: 0, Y: 1},
-	'5': {X: 1, Y: 1},
-	'6': {X: 2, Y: 1},
 	'7': {X: 0, Y: 0},
 	'8': {X: 1, Y: 0},
 	'9': {X: 2, Y: 0},
+	'4': {X: 0, Y: 1},
+	'5': {X: 1, Y: 1},
+	'6': {X: 2, Y: 1},
+	'1': {X: 0, Y: 2},
+	'2': {X: 1, Y: 2},
+	'3': {X: 2, Y: 2},
+	'0': {X: 1, Y: 3},
 	'A': {X: 2, Y: 3},
 }
 
@@ -81,15 +79,14 @@ func WalkNumericSequenceSub(start *Point, end *Point, currentDepth uint, maxDept
 	}
 }
 
-func WalkNumericSequence(sequence *[]byte, currentDepth uint, maxDepth uint) uint {
+func WalkNumericSequence(sequence *[]byte, maxDepth uint) uint {
 	var count uint = 0
 	var previousLetter byte = 'A'
-	for _, key := range *sequence {
-		fmt.Printf("Walk from %c to %c\n", previousLetter, key)
+	for _, currentLetter := range *sequence {
 		from := numericLookup[previousLetter]
-		to := numericLookup[key]
-		count += WalkNumericSequenceSub(&from, &to, currentDepth, maxDepth)
-		previousLetter = key
+		to := numericLookup[currentLetter]
+		count += WalkNumericSequenceSub(&from, &to, 0, maxDepth)
+		previousLetter = currentLetter
 	}
 	return count
 }

@@ -13,9 +13,52 @@ const testData string = `029A
 456A
 379A`
 
-func TestParseInput(t *testing.T) {
-	raceWay := day21.ParseInput(strings.NewReader(testData))
-	if len(*raceWay) != 5 {
-		t.Errorf(`Expected %d to match 5`, len(*raceWay))
+func TestIterateInput(t *testing.T) {
+	test := day21.IterateInput(strings.NewReader(testData))
+	items := make([][]byte, 0, 5)
+	for item := range test {
+		items = append(items, item)
+	}
+	if len(items) != 5 {
+		t.Errorf(`Expected %v to match 5`, items)
+	}
+}
+
+func TestParseIntValue(t *testing.T) {
+	test := day21.IterateInput(strings.NewReader(testData))
+	items := make([]uint, 0, 5)
+	for item := range test {
+		items = append(items, day21.ParseIntValue(&item))
+	}
+	if len(items) != 5 {
+		t.Errorf(`Expected %v to match 5`, items)
+	}
+	if items[0] != 29 {
+		t.Errorf(`Expected %d to match 29`, items[0])
+	}
+	if items[1] != 980 {
+		t.Errorf(`Expected %d to match 980`, items[1])
+	}
+	if items[2] != 179 {
+		t.Errorf(`Expected %d to match 179`, items[2])
+	}
+	if items[3] != 456 {
+		t.Errorf(`Expected %d to match 456`, items[3])
+	}
+	if items[4] != 379 {
+		t.Errorf(`Expected %d to match 379`, items[4])
+	}
+}
+func TestCalculateMoves(t *testing.T) {
+	test := day21.CalculateMoves(strings.NewReader(testData), 3)
+	if test != 126384 {
+		t.Errorf(`Expected %d to match 126384`, test)
+	}
+}
+
+func TestPart1(t *testing.T) {
+	test := day21.Part1(strings.NewReader(testData))
+	if test != 724554 {
+		t.Errorf(`Expected %d to match 724554`, test)
 	}
 }

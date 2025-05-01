@@ -9,15 +9,36 @@ import (
 
 type Point = aoc_utils.Point[int8]
 
-func ParseInput(in io.Reader) *[][]Point {
-	data := make([][]Point, 0)
-	s := bufio.NewScanner(in)
-	for s.Scan() {
-		line := s.Bytes()
-		data = append(data, make([]Point, 0, len(line)))
-		for x := range len(line) {
-			data[len(data)-1] = append(data[len(data)-1], *translateChar(&line[x]))
+func IterateInput(in io.Reader) chan []byte {
+	c := make(chan []byte)
+	go func() {
+		s := bufio.NewScanner(in)
+		for s.Scan() {
+			c <- s.Bytes()
+		}
+		close(c)
+	}()
+	return c
+}
+
+func ParseIntValue(data *[]byte) uint {
+	var val uint = 0
+	for _, b := range *data {
+		if b >= '0' && b <= '9' {
+			val = (val * 10) + uint(b-'0')
 		}
 	}
-	return &data
+	return val
+}
+
+func CalculateMoves(in io.Reader, depth uint) uint {
+	var total uint = 0
+	for pattern := range IterateInput(in) {
+		total += ParseIntValue(&pattern) * WalkNumericSequence(&pattern, depth)
+	}
+	return total
+}
+
+func Part1(in io.Reader) uint {
+	return CalculateMoves(in, 5)
 }

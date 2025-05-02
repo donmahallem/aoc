@@ -5,7 +5,7 @@ import (
 )
 
 func Part2(in io.Reader) uint {
-	return CalculateMoves(in, 24)
+	return CalculateMoves(in, 23)
 }
 
 //306335137543664

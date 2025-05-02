@@ -9,7 +9,7 @@ import (
 
 func TestPart2(t *testing.T) {
 	test := day21.Part2(strings.NewReader(testData))
-	if test != 724554 {
-		t.Errorf(`Expected %d to match 724554`, test)
+	if test != 154115708116294 {
+		t.Errorf(`Expected %d to match 154115708116294`, test)
 	}
 }

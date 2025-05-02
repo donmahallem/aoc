@@ -72,7 +72,7 @@ func TestCalculateMoves(t *testing.T) {
 
 func TestPart1(t *testing.T) {
 	test := day21.Part1(strings.NewReader(testData))
-	if test != 724554 {
-		t.Errorf(`Expected %d to match 724554`, test)
+	if test != 126384 {
+		t.Errorf(`Expected %d to match 126384`, test)
 	}
 }

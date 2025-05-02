@@ -50,10 +50,24 @@ func TestParseIntValue(t *testing.T) {
 	}
 }
 func TestCalculateMoves(t *testing.T) {
-	test := day21.CalculateMoves(strings.NewReader(testData), 3)
-	if test != 126384 {
-		t.Errorf(`Expected %d to match 126384`, test)
-	}
+	t.Run("Test depth 3", func(t *testing.T) {
+		test := day21.CalculateMoves(strings.NewReader(testData), 3)
+		if test != 126384 {
+			t.Errorf(`Expected %d to match 126384`, test)
+		}
+	})
+	t.Run("Test depth 4", func(t *testing.T) {
+		test := day21.CalculateMoves(strings.NewReader(testData), 4)
+		if test != 310188 {
+			t.Errorf(`Expected %d to match 310188`, test)
+		}
+	})
+	t.Run("Test depth 5", func(t *testing.T) {
+		test := day21.CalculateMoves(strings.NewReader(testData), 5)
+		if test != 757754 {
+			t.Errorf(`Expected %d to match 757754`, test)
+		}
+	})
 }
 
 func TestPart1(t *testing.T) {

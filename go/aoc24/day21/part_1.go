@@ -2,6 +2,7 @@ package day21
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 
 	"github.com/donmahallem/aoc/aoc_utils"
@@ -31,14 +32,15 @@ func ParseIntValue(data *[]byte) uint {
 	return val
 }
 
-func CalculateMoves(in io.Reader, depth uint) uint {
+func CalculateMoves(in io.Reader, depth uint8) uint {
 	var total uint = 0
 	for pattern := range IterateInput(in) {
 		total += ParseIntValue(&pattern) * WalkNumericSequence(&pattern, depth)
 	}
+	fmt.Printf("Cache size: %d\n", len(cache))
 	return total
 }
 
 func Part1(in io.Reader) uint {
-	return CalculateMoves(in, 5)
+	return CalculateMoves(in, 3)
 }

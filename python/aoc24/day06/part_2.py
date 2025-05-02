@@ -27,7 +27,7 @@ def moveNext(field, player_position, obstacle):
 
 def Part2(input: typing.TextIO) -> int:
     player_map, initial_player_position = parseField(input)
-    if initial_player_position==None:
+    if initial_player_position == None:
         raise Exception("No guard found")
     circular_maps_num = 0
     for y in range(player_map.shape[0]):

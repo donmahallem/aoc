@@ -56,7 +56,7 @@ def Part2(input: typing.TextIO) -> int:
     data_np = generatePricePattern(data, GENERATIONS)
     unique_patterns, vendor_pattern_dict = generatePatterns(data_np)
 
-    last_summe:int|None = None
+    last_summe: int | None = None
     last_pattern = None
     for pattern_idx in unique_patterns:
         summe = 0
@@ -72,4 +72,4 @@ def Part2(input: typing.TextIO) -> int:
             last_pattern = pattern_idx
             last_summe = summe
 
-    return typing.cast(int,last_summe)
+    return typing.cast(int, last_summe)

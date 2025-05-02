@@ -5,7 +5,9 @@ import sys
 def Part2(input: typing.TextIO) -> int:
     raw_lines = "\n".join([a.strip() for a in input.readlines()])
     ordering_raw, pages_raw = raw_lines.split("\n\n")
-    ordering = [tuple([int(a) for a in row.split("|")]) for row in ordering_raw.split("\n")]
+    ordering = [
+        tuple([int(a) for a in row.split("|")]) for row in ordering_raw.split("\n")
+    ]
     pages = [[int(a) for a in row.split(",")] for row in pages_raw.split("\n")]
 
     rules = dict()
@@ -15,7 +17,7 @@ def Part2(input: typing.TextIO) -> int:
         else:
             rules[a].append(b)
 
-    def validRow(row:list[int]):
+    def validRow(row: list[int]):
         valid = True
         for idx in range(len(row) - 1):
             if not (row[idx] in rules and row[idx + 1] in rules[row[idx]]):
@@ -33,7 +35,7 @@ def Part2(input: typing.TextIO) -> int:
                         items[n], items[i] = items[i], items[n]
                         invalid = True
 
-    invalid_pages :list[list[int]]= []
+    invalid_pages: list[list[int]] = []
     for page in pages:
         if not validRow(page):
             invalid_pages.append(page)

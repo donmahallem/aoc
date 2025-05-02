@@ -1,9 +1,11 @@
 import typing
 
 
-Position =tuple[int,int]
-PositionList=list[Position]
-AntennaDict = dict[str,PositionList]
+Position = tuple[int, int]
+PositionList = list[Position]
+AntennaDict = dict[str, PositionList]
+
+
 def parseInput(
     input: typing.TextIO,
 ) -> tuple[AntennaDict, int, int]:
@@ -12,7 +14,7 @@ def parseInput(
     height = len(data)
     width = len(data[0])
 
-    occurences :AntennaDict= dict()
+    occurences: AntennaDict = dict()
     for y in range(len(data)):
         for x in range(len(data[0])):
             if data[y][x] == ".":
@@ -24,5 +26,5 @@ def parseInput(
     return occurences, width, height
 
 
-def inside(y:int, x:int, width:int, height:int)->bool:
+def inside(y: int, x: int, width: int, height: int) -> bool:
     return x >= 0 and y >= 0 and x < width and y < height

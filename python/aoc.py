@@ -32,6 +32,6 @@ if __name__ == "__main__":
 
     solver = getPart(args.year, args.day, args.part)
     if solver:
-        print("Result:",solver(sys.stdin))
+        print("Result:", solver(sys.stdin))
     else:
         print("Could not find requested solver")

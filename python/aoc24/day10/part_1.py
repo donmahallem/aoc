@@ -2,11 +2,13 @@ import typing
 import numpy as np
 
 
-def parseInput(input: typing.TextIO):
-    data = [a.strip() for a in input.readlines()]
-    data = [[int(item) for item in line.strip()] for line in data]
+NpData=np.ndarray[tuple[int,int],np.dtype[np.uint8]]
+Point=tuple[int,int]
+def parseInput(input: typing.TextIO)->tuple[NpData,list[Point]]:
+    data_raw = [a.strip() for a in input.readlines()]
+    data = [[int(item) for item in line.strip()] for line in data_raw]
 
-    data_np = np.array(data, dtype=np.uint8)
+    data_np:NpData =typing.cast(NpData,np.array(data, dtype=np.uint8))
     trailheads = list(zip(*np.where(data_np == 0)))
     return data_np, trailheads
 
@@ -14,7 +16,7 @@ def parseInput(input: typing.TextIO):
 def Part1(input: typing.TextIO) -> int:
     data_np, trailheads = parseInput(input)
 
-    def walk(y, x, looking_for, ends):
+    def walk(y:int, x:int, looking_for:int, ends:set[Point]):
         sum = 0
         dirs = [(0, 1), (1, 0), (-1, 0), (0, -1)]
         for dir_y, dir_x in dirs:
@@ -33,9 +35,9 @@ def Part1(input: typing.TextIO) -> int:
                 sum += walk(check_y, check_x, looking_for + 1, ends)
         return sum
 
-    summe = 0
+    summe :int= 0
     for trailhead in trailheads:
-        k = set()
+        k :set[Point]= set()
         walk(trailhead[0], trailhead[1], 1, k)
         summe += len(k)
     return summe

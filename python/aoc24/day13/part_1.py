@@ -1,11 +1,17 @@
 import typing
 import re
 
+Button=tuple[str,int,int]
 
-def parseInput(input: typing.TextIO):
-    machines = list()
-    machine = {}
-    machine["buttons"] = list()
+class Machine(typing.TypedDict):
+    buttons: list[Button]
+    price: tuple[int,int]
+
+Machines=list[Machine]
+
+def parseInput(input: typing.TextIO)->Machines:
+    machines:Machines = list()
+    machine :Machine= Machine(buttons=list(),price=(0,0))
     button_regex = re.compile(
         r"(?:Button\s([A-Za-z]+)\:)\s(?:[XY]([+-]\d+)),\s(?:[XY]([+-]\d+))"
     )
@@ -16,7 +22,7 @@ def parseInput(input: typing.TextIO):
             continue
         reg_res = button_regex.match(line)
         if reg_res:
-            button = (
+            button :Button = (
                 reg_res.groups()[0],
                 int(reg_res.groups()[1]),
                 int(reg_res.groups()[2]),
@@ -26,12 +32,12 @@ def parseInput(input: typing.TextIO):
         if reg_res:
             machine["price"] = (int(reg_res.groups()[0]), int(reg_res.groups()[1]))
             machines.append(machine)
-            machine = {}
-            machine["buttons"] = list()
+            machine = Machine(buttons=list(),price=(0,0))
     return machines
 
+Vector=tuple[float,float]
 
-def calc(v1, v2, target):
+def calc(v1:Vector, v2:Vector, target)->Vector:
     x_1, y_1 = v1
     x_2, y_2 = v2
     x_3, y_3 = target
@@ -42,9 +48,8 @@ def calc(v1, v2, target):
 
 def Part1(input: typing.TextIO) -> int:
     machines = parseInput(input)
-    summe = 0
+    summe :int = 0
     for i, machine in enumerate(machines):
-        print(i, "/", len(machines))
         target_x, target_y = machine["price"]
         _, btn_a_x, btn_a_y = machine["buttons"][0]
         _, btn_b_x, btn_b_y = machine["buttons"][1]
@@ -52,5 +57,5 @@ def Part1(input: typing.TextIO) -> int:
             (btn_a_x, btn_a_y), (btn_b_x, btn_b_y), (target_x, target_y)
         )
         if fac_1.is_integer() and fac_2.is_integer():
-            summe += fac_1 * 3 + fac_2
+            summe += int(fac_1) * 3 + int(fac_2)
     return int(summe)

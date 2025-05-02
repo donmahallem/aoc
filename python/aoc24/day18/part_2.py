@@ -56,7 +56,7 @@ def shortestPath(gameMap: np.typing.NDArray):
     return reverse_path
 
 
-def Part2(input: typing.TextIO, size: int = 71, steps: int = 1024) -> int:
+def Part2(input: typing.TextIO, size: int = 71, steps: int = 1024) -> tuple[int,...]:
     gameMap, data = loadField(input, size, steps)
     last_path = shortestPath(gameMap)
 

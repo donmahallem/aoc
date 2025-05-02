@@ -4,8 +4,7 @@ import re
 
 
 def Part2(input: typing.TextIO) -> int:
-    data = input.readlines()
-    data = "\n".join(data)
+    data = "\n".join(input.readlines())
     enabled = True
     comp = re.compile(r"do(n\'t)?\(\)", flags=re.MULTILINE)
     comp2 = re.compile(r"mul\((\d+)\,(\d+)\)", flags=re.MULTILINE)

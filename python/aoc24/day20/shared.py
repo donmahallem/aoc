@@ -8,12 +8,12 @@ CELL_EMPTY = 0
 Position: typing.TypeAlias = tuple[int, int]
 
 
-def parseField(input: typing.TextIO) -> tuple[np.typing.NDArray, Position, Position]:
+NpData=np.ndarray[tuple[int,int],np.dtype[np.uint8]]
+def parseField(input: typing.TextIO) -> tuple[NpData, Position|None, Position|None]:
     data = [line.strip() for line in input.readlines()]
-
-    field = np.zeros((len(data), len(data[0])))
-    player_position = None
-    end_position = None
+    field :NpData= typing.cast(NpData,np.zeros((len(data), len(data[0]))))
+    player_position :Position|None= None
+    end_position :Position|None= None
     for row in range(0, len(data)):
         for col in range(0, len(data[row])):
             if data[row][col] == "#":

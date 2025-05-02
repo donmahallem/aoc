@@ -4,7 +4,7 @@ import typing
 def parseField(input: typing.TextIO) -> dict[str, list[str]]:
     data = [line.strip() for line in input.readlines()]
 
-    connections = dict()
+    connections :dict[str,list[str]]= dict()
     for line in data:
         a, b = line.split("-")
         if a in connections:
@@ -19,8 +19,8 @@ def parseField(input: typing.TextIO) -> dict[str, list[str]]:
     return connections
 
 
-def findInterconnected(connections):
-    interconnected = set()
+def findInterconnected(connections: dict[str, list[str]]):
+    interconnected:set[tuple[str,str,str]] = set()
     for key in connections.keys():
         test = connections[key]
         for test_key in test:
@@ -31,8 +31,8 @@ def findInterconnected(connections):
     return interconnected
 
 
-def countT(items) -> set[tuple[str]]:
-    sum = 0
+def countT(items:list[tuple[str,str,str]]) -> int:
+    sum:int = 0
     for item in items:
         for a in item:
             if "t" == a[0]:

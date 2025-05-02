@@ -4,10 +4,9 @@ import typing
 
 
 def Part1(input: typing.TextIO) -> int:
-    data = input.readlines()
-    data = "".join(data)
+    data = "".join(input.readlines())
     comp = re.compile(r"mul\((\d+)\,(\d+)\)", flags=re.MULTILINE)
-    findings = comp.findall(data)
+    findings:list[tuple[str,str]] = comp.findall(data)
     return sum([int(a) * int(b) for a, b in findings])
 
 

@@ -10,7 +10,7 @@ var (
 	DIRECTIONAL_A     = Point{X: 2, Y: 0}
 )
 
-func walkXFirstDirectional(dir *Point, currentDepth uint8, maxDepth uint8) uint {
+func walkXFirstDirectional(dir *Point, currentDepth uint8, maxDepth uint8, cache *Cache) uint {
 	var steps uint
 	steps = 0
 	current := &DIRECTIONAL_A // Stores current cursor
@@ -22,7 +22,7 @@ func walkXFirstDirectional(dir *Point, currentDepth uint8, maxDepth uint8) uint 
 			next = &DIRECTIONAL_RIGHT
 		}
 		for range aoc_utils.Abs(dir.X) {
-			steps += WalkDirectional(current, next, currentDepth+1, maxDepth)
+			steps += WalkDirectional(current, next, currentDepth+1, maxDepth, cache)
 			current = next
 		}
 	}
@@ -33,13 +33,13 @@ func walkXFirstDirectional(dir *Point, currentDepth uint8, maxDepth uint8) uint 
 			next = &DIRECTIONAL_DOWN
 		}
 		for range aoc_utils.Abs(dir.Y) {
-			steps += WalkDirectional(current, next, currentDepth+1, maxDepth)
+			steps += WalkDirectional(current, next, currentDepth+1, maxDepth, cache)
 			current = next
 		}
 	}
-	return steps + WalkDirectional(current, &DIRECTIONAL_A, currentDepth+1, maxDepth)
+	return steps + WalkDirectional(current, &DIRECTIONAL_A, currentDepth+1, maxDepth, cache)
 }
-func walkYFirstDirectional(dir *Point, currentDepth uint8, maxDepth uint8) uint {
+func walkYFirstDirectional(dir *Point, currentDepth uint8, maxDepth uint8, cache *Cache) uint {
 	var steps uint
 	steps = 0
 	current := &DIRECTIONAL_A // Stores current cursor
@@ -51,7 +51,7 @@ func walkYFirstDirectional(dir *Point, currentDepth uint8, maxDepth uint8) uint 
 			next = &DIRECTIONAL_DOWN
 		}
 		for range aoc_utils.Abs(dir.Y) {
-			steps += WalkDirectional(current, next, currentDepth+1, maxDepth)
+			steps += WalkDirectional(current, next, currentDepth+1, maxDepth, cache)
 			current = next
 		}
 	}
@@ -62,43 +62,41 @@ func walkYFirstDirectional(dir *Point, currentDepth uint8, maxDepth uint8) uint 
 			next = &DIRECTIONAL_RIGHT
 		}
 		for range aoc_utils.Abs(dir.X) {
-			steps += WalkDirectional(current, next, currentDepth+1, maxDepth)
+			steps += WalkDirectional(current, next, currentDepth+1, maxDepth, cache)
 			current = next
 		}
 	}
-	return steps + WalkDirectional(current, &DIRECTIONAL_A, currentDepth+1, maxDepth)
+	return steps + WalkDirectional(current, &DIRECTIONAL_A, currentDepth+1, maxDepth, cache)
 }
 
-var cache Cache = make(Cache)
-
-func WalkDirectional(start *Point, end *Point, currentDepth uint8, maxDepth uint8) uint {
+func WalkDirectional(start *Point, end *Point, currentDepth uint8, maxDepth uint8, cache *Cache) uint {
 	if currentDepth == maxDepth {
 		return 1
 	}
 	cacheKey := HashId(start, end, maxDepth-currentDepth)
-	if cachedValue, ok := cache[cacheKey]; ok {
+	if cachedValue, ok := (*cache)[cacheKey]; ok {
 		return cachedValue
 	}
 	dir := start.Diff(*end)
 	var returnValue uint
 	if dir.X == 0 && dir.Y == 0 {
 		// No walk necessary
-		returnValue = WalkDirectional(&DIRECTIONAL_A, &DIRECTIONAL_A, currentDepth+1, maxDepth)
+		returnValue = WalkDirectional(&DIRECTIONAL_A, &DIRECTIONAL_A, currentDepth+1, maxDepth, cache)
 	} else if start.X == 0 && end.Y == 0 {
 		// First walk X than Y
-		returnValue = walkXFirstDirectional(dir, currentDepth, maxDepth)
+		returnValue = walkXFirstDirectional(dir, currentDepth, maxDepth, cache)
 	} else if start.Y == 0 && end.X == 0 {
 		// First walk Y than X
-		returnValue = walkYFirstDirectional(dir, currentDepth, maxDepth)
+		returnValue = walkYFirstDirectional(dir, currentDepth, maxDepth, cache)
 	} else {
 		// try first x and first y
-		resultWalkXFirst := walkXFirstDirectional(dir, currentDepth, maxDepth)
-		if resultWalkYFirst := walkYFirstDirectional(dir, currentDepth, maxDepth); resultWalkYFirst < resultWalkXFirst {
+		resultWalkXFirst := walkXFirstDirectional(dir, currentDepth, maxDepth, cache)
+		if resultWalkYFirst := walkYFirstDirectional(dir, currentDepth, maxDepth, cache); resultWalkYFirst < resultWalkXFirst {
 			returnValue = resultWalkYFirst
 		} else {
 			returnValue = resultWalkXFirst
 		}
 	}
-	cache[cacheKey] = returnValue
+	(*cache)[cacheKey] = returnValue
 	return returnValue
 }

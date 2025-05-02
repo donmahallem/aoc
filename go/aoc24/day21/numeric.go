@@ -29,23 +29,23 @@ var (
 )
 
 // Helper function for WalkNumericSequence
-func walkNumericSequenceSub(start *Point, end *Point, currentDepth uint8, maxDepth uint8) uint {
+func walkNumericSequenceSub(start *Point, end *Point, currentDepth uint8, maxDepth uint8, cache *Cache) uint {
 	dir := start.Diff(*end)
 	if dir.X == 0 && dir.Y == 0 {
 		// No walking necessary
-		return WalkDirectional(&DIRECTIONAL_A, &DIRECTIONAL_A, currentDepth+1, maxDepth)
+		return WalkDirectional(&DIRECTIONAL_A, &DIRECTIONAL_A, currentDepth+1, maxDepth, cache)
 	}
 	if start.X == 0 && end.Y == 3 {
 		// First walk X than Y
 		// Relevant for moves from 1,4,7 to 0,A
-		return walkXFirstDirectional(dir, currentDepth, maxDepth)
+		return walkXFirstDirectional(dir, currentDepth, maxDepth, cache)
 	} else if end.X == 0 && start.Y == 3 {
 		// First walk Y than X
-		return walkYFirstDirectional(dir, currentDepth, maxDepth)
+		return walkYFirstDirectional(dir, currentDepth, maxDepth, cache)
 	} else {
 		// try first x and first y
-		endResultA := walkXFirstDirectional(dir, currentDepth, maxDepth)
-		if endResultB := walkYFirstDirectional(dir, currentDepth, maxDepth); endResultB < endResultA {
+		endResultA := walkXFirstDirectional(dir, currentDepth, maxDepth, cache)
+		if endResultB := walkYFirstDirectional(dir, currentDepth, maxDepth, cache); endResultB < endResultA {
 			return endResultB
 		}
 		return endResultA
@@ -53,13 +53,13 @@ func walkNumericSequenceSub(start *Point, end *Point, currentDepth uint8, maxDep
 }
 
 // Iterates over the given Byte-Sequence from the Numeric pad to a depth of maxDepth (inclusive)
-func WalkNumericSequence(sequence *[]byte, maxDepth uint8) uint {
+func WalkNumericSequence(sequence *[]byte, maxDepth uint8, cache *Cache) uint {
 	var pathCost uint = 0
 	var previousLetter byte = 'A'
 	for _, currentLetter := range *sequence {
 		from := numericLookup[previousLetter]
 		to := numericLookup[currentLetter]
-		pathCost += walkNumericSequenceSub(&from, &to, 0, maxDepth)
+		pathCost += walkNumericSequenceSub(&from, &to, 0, maxDepth, cache)
 		previousLetter = currentLetter
 	}
 	return pathCost

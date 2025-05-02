@@ -15,10 +15,10 @@ def parseField(input: typing.TextIO):
     return register, program
 
 
-def Part1(input: typing.TextIO) -> int:
+def Part1(input: typing.TextIO) -> list[int]:
     register, program = parseField(input)
-    pointer = 0
-    output = []
+    pointer: int = 0
+    output: list[int] = []
     while pointer < len(program):
         opcode = program[pointer]
         operand = program[pointer + 1]

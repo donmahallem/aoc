@@ -16,5 +16,5 @@ def Part2(input: typing.TextIO) -> int:
             (target_x + 10000000000000, target_y + 10000000000000),
         )
         if fac_1.is_integer() and fac_2.is_integer():
-            summe += fac_1 * 3 + fac_2
-    return int(summe)
+            summe += int(fac_1) * 3 + int(fac_2)
+    return summe

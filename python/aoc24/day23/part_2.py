@@ -2,11 +2,13 @@ import typing
 from .part_1 import parseField, findInterconnected
 
 
-def findLongest(connections, interconnected):
+def findLongest(
+    connections: dict[str, list[str]], interconnected: set[tuple[str, str, str]]
+):
     connecting = 0
-    interconnected = list(interconnected)
-    while connecting < len(interconnected):
-        connected = interconnected[connecting]
+    largerConnections: list[tuple[str, ...]] = list(interconnected)
+    while connecting < len(largerConnections):
+        connected = largerConnections[connecting]
         check = connected[-1]
         for to_check in connections[check]:
             if to_check in connected:
@@ -18,16 +20,16 @@ def findLongest(connections, interconnected):
                 else:
                     break
             if counter == len(connected) - 1:
-                interconnected[connecting] += (to_check,)
+                largerConnections[connecting] += (to_check,)
                 break
             else:
-                interconnected[connecting] = interconnected[connecting]
+                largerConnections[connecting] = largerConnections[connecting]
                 connecting += 1
                 break
-    return interconnected
+    return largerConnections
 
 
-def Part2(input: typing.TextIO) -> int:
+def Part2(input: typing.TextIO) -> tuple[str, ...]:
     connections = parseField(input)
     interconnected = findInterconnected(connections)
     max_groups = findLongest(connections, interconnected)

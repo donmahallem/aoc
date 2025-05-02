@@ -5,6 +5,8 @@ from .shared import shortestPath, calculatePathCost, parseField, CountSheats
 
 def handle(input: typing.TextIO, cheatSavings: int) -> int:
     field, player_position, end_position = parseField(input)
+    if player_position == None or end_position == None:
+        raise Exception("Error parsing")
     path_cost = calculatePathCost(field, player_position)
     normal_path_taken = shortestPath(field, path_cost, end_position)
 

@@ -1,8 +1,8 @@
 import typing
-from .part_1 import parseInput
+from .part_1 import parseInput, Point, NpData
 
 
-def walk(data_np, y, x, looking_for, ends):
+def walk(data_np: NpData, y: int, x: int, looking_for: int, ends: set[Point]):
     sum = 0
     dirs = [(0, 1), (1, 0), (-1, 0), (0, -1)]
     for dir_y, dir_x in dirs:
@@ -26,7 +26,7 @@ def Part2(input: typing.TextIO) -> int:
     data_np, trailheads = parseInput(input)
     summe = 0
     for trailhead in trailheads:
-        k = set()
+        k: set[Point] = set()
         summe += walk(data_np, trailhead[0], trailhead[1], 1, k)
         # summe+=len(k)
     return summe

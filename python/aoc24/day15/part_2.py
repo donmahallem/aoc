@@ -25,8 +25,8 @@ def parseField(input: typing.TextIO):
             elif fieldData[row][col] == "@":
                 player_position = (row, col * 2)
 
-    movementData = "".join(movementData)
-    return field, player_position, list(map(translateMovement, movementData))
+    movementDataStr = "".join(movementData)
+    return field, player_position, list(map(translateMovement, movementDataStr))
 
 
 def next_empty(

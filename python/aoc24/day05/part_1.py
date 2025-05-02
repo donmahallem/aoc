@@ -3,11 +3,12 @@ import sys
 
 
 def Part1(input: typing.TextIO) -> int:
-    data = [a.strip() for a in input.readlines()]
-    data = "\n".join(data)
-    ordering, pages = data.split("\n\n")
-    ordering = [tuple([int(a) for a in row.split("|")]) for row in ordering.split("\n")]
-    pages = [[int(a) for a in row.split(",")] for row in pages.split("\n")]
+    data = "\n".join([a.strip() for a in input.readlines()])
+    ordering_raw, pages_raw = data.split("\n\n")
+    ordering = [
+        tuple([int(a) for a in row.split("|")]) for row in ordering_raw.split("\n")
+    ]
+    pages = [[int(a) for a in row.split(",")] for row in pages_raw.split("\n")]
 
     rules = dict()
     for a, b in ordering:

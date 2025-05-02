@@ -1,11 +1,11 @@
 import typing
-from .shared import parseInput, inside
+from .shared import parseInput, inside, Position
 
 
 def Part2(input: typing.TextIO) -> int:
     occurences, width, height = parseInput(input)
 
-    antinodes = set()
+    antinodes: set[Position] = set()
     for key in occurences.keys():
         nodes = occurences[key]
         antinodes.update(nodes)

@@ -3,15 +3,15 @@ import codecs
 test_data = False
 with codecs.open("data.txt" if test_data else "data2.txt", encoding="utf8") as f:
     data = f.read()
-    register, wires = data.split("\r\n\r\n")
+    register_raw, wires_raw = data.split("\r\n\r\n")
 
     register = {
         line.strip().split(":")[0]: int(line.strip().split(":")[1])
-        for line in register.split("\r\n")
+        for line in register_raw.split("\r\n")
     }
-    wires = [line.strip() for line in wires.split("\r\n")]
+    wires2 = [line.strip() for line in wires_raw.split("\r\n")]
     wires = [
-        tuple(item[0:3] + [item[4]]) for item in [line.split(" ") for line in wires]
+        tuple(item[0:3] + [item[4]]) for item in [line.split(" ") for line in wires2]
     ]
 
 

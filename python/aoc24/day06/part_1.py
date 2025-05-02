@@ -17,7 +17,9 @@ def turnRight(cur_y, cur_x):
         raise IndexError(f"Invalid dir {cur_y},{cur_x}")
 
 
-def moveNext(field: np.typing.NDArray, player_position: Guard) -> Guard:
+def moveNext(
+    field: np.typing.NDArray, player_position: Guard
+) -> Guard | typing.Literal[False]:
     p_y, p_x, (test_dir_y, test_dir_x) = player_position
     while True:
         next_p_x, next_p_y = p_x + test_dir_x, p_y + test_dir_y
@@ -36,13 +38,16 @@ def moveNext(field: np.typing.NDArray, player_position: Guard) -> Guard:
     return player_position
 
 
-def parseField(input: typing.TextIO) -> tuple[np.typing.NDArray, Guard]:
+InputField = np.ndarray[tuple[int, int], np.dtype[np.uint8]]
+
+
+def parseField(input: typing.TextIO) -> tuple[InputField, Guard | None]:
     data = [a.strip() for a in input.readlines()]
 
     rows = len(data)
     columns = len(data[0])
-    player_map = np.zeros((rows, columns), dtype=np.uint8)
-    initial_player_position = None
+    player_map: InputField = np.zeros((rows, columns), dtype=np.uint8)
+    initial_player_position: Guard | None = None
     for y in range(0, rows):
         for x in range(0, columns):
             if data[y][x] == "#":
@@ -61,6 +66,8 @@ def parseField(input: typing.TextIO) -> tuple[np.typing.NDArray, Guard]:
 def Part1(input: typing.TextIO) -> int:
     player_map, player_position = parseField(input)
 
+    if player_position == None:
+        raise Exception("No guard found")
     stepper = 0
 
     path = set([(player_position[0], player_position[1])])

@@ -5,8 +5,8 @@ import (
 )
 
 func Part2(in io.Reader) uint {
-	return CalculateMoves(in, 23)
+	return CalculateMoves(in, 26)
 }
 
 //306335137543664
-//83475471570090
+//49502460620748

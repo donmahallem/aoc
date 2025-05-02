@@ -87,7 +87,7 @@ func WalkDirectional(start *Point, end *Point, currentDepth uint8, maxDepth uint
 	} else if start.X == 0 && end.Y == 0 {
 		// First walk X than Y
 		returnValue = walkXFirstDirectional(dir, currentDepth, maxDepth)
-	} else if end.Y == 0 && start.X == 0 {
+	} else if start.Y == 0 && end.X == 0 {
 		// First walk Y than X
 		returnValue = walkYFirstDirectional(dir, currentDepth, maxDepth)
 	} else {

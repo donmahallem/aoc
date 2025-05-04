@@ -7,3 +7,5 @@ Compile `go build -v ./main.go`
 Usage: `cat input.txt | ./main {shortYear} {day} {part}`
 
 Tested with go `1.24+`
+
+Slightly broken (Benchmark)[https://donmahallem.github.io/aoc/dev/bench/index.html]

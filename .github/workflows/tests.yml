@@ -32,9 +32,10 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Benchmark Go
-        #if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         run: go test ./... -bench . | tee output.txt
       - name: Store benchmark result
+        if: github.ref == 'refs/heads/main'
         uses: benchmark-action/github-action-benchmark@v1
         with:
           name: Go Benchmark

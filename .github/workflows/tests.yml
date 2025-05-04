@@ -3,6 +3,10 @@ on:
   push:
   pull_request:
   merge_group:
+
+permissions:
+  contents: write
+  deployments: write
 jobs:
   test_go:
     name: Run and Test GO
@@ -27,6 +31,17 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Benchmark Go
+        #if: github.ref == 'refs/heads/main'
+        run: go test ./... -bench . | tee output.txt
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          name: Go Benchmark
+          tool: "go"
+          output-file-path: examples/go/output.txt
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
   test_python:
     name: Run and Test Python
     runs-on: ubuntu-latest

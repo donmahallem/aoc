@@ -39,7 +39,7 @@ jobs:
         with:
           name: Go Benchmark
           tool: "go"
-          output-file-path: ./output.txt
+          output-file-path: ./go/output.txt
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
   test_python:

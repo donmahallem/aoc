@@ -1,4 +1,4 @@
-#include "../util/registry.h"
+#include "../aoc_util/registry.h"
 
 #include "./day01/part_1.cpp"
 

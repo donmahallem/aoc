@@ -80,4 +80,4 @@ jobs:
 
       - name: Build
         run: |
-          g++ -std=c++20  aoc.cpp ./util/registry.cpp ./util/aoc_input_error.cpp
+          make all

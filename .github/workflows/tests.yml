@@ -80,4 +80,7 @@ jobs:
 
       - name: Build
         run: |
-          make all
+          mkdir ./build
+          cd ./build
+          cmake ./..
+          cmake --build .

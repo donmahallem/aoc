@@ -1,8 +1,11 @@
 *
-!*/
+!aoc24/
+!aoc_util/
 !*.cpp
 !*.h
 !**/**/*.cpp
 !README.md
 !.gitignore
 !Makefile
+!CMakeLists.txt
+!aoc_util/CMakeLists.txt

@@ -84,3 +84,6 @@ jobs:
           cd ./build
           cmake ./..
           cmake --build .
+      - name: Test
+        run: |
+          ./bin/aoc_solver_test

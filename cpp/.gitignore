@@ -1,0 +1,7 @@
+*
+!*/
+!*.cpp
+!*.h
+!**/**/*.cpp
+!README.md
+!.gitignore

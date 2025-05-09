@@ -5,3 +5,4 @@
 !**/**/*.cpp
 !README.md
 !.gitignore
+!Makefile

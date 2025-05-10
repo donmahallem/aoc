@@ -9,18 +9,18 @@ namespace AocTest
         {
 
             // The fixture for testing class Foo.
-            class Day01Part1Test : public testing::Test
+            class Day01Part2Test : public testing::Test
             {
             protected:
                 // You can remove any or all of the following functions if their bodies would
                 // be empty.
 
-                Day01Part1Test()
+                Day01Part2Test()
                 {
                     // You can do set-up work for each test here.
                 }
 
-                ~Day01Part1Test() override
+                ~Day01Part2Test() override
                 {
                     // You can do clean-up work that doesn't throw exceptions here.
                 }
@@ -45,7 +45,7 @@ namespace AocTest
             };
 
             // Tests that the Foo::Bar() method does Abc.
-            TEST_F(Day01Part1Test, Part1)
+            TEST_F(Day01Part2Test, Part2)
             {
                 std::istringstream dummyStream("3   4\n"
                                                "4   3\n"
@@ -53,8 +53,8 @@ namespace AocTest
                                                "1   3\n"
                                                "3   9\n"
                                                "3   3");
-                int result = Aoc24Day01::Part1(dummyStream);
-                EXPECT_EQ(result, 11);
+                int result = Aoc24Day01::Part2(dummyStream);
+                EXPECT_EQ(result, 31);
             }
 
         }

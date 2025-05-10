@@ -3,7 +3,7 @@
 #include <format>
 #include <chrono>
 
-#include "./aoc24/aoc24.cpp"
+#include "./aoc24/aoc24.h"
 
 int main(int argc, char **argv)
 {

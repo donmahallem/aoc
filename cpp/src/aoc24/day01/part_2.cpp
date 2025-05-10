@@ -3,7 +3,7 @@
 
 namespace Aoc24Day01
 {
-    int Part1(std::istream &in)
+    int Part2(std::istream &in)
     {
         std::vector<int> left;
         std::vector<int> right;

@@ -15,6 +15,22 @@ option(BUILD_TESTS "Build tests" ON)
 add_subdirectory(./src)
 #target_link_libraries(aoc_solver PUBLIC libaoc_util)
 
+# Configure coverage flags if build type is Coverage.
+if(CMAKE_BUILD_TYPE STREQUAL "Coverage")
+    message(STATUS "Building in coverage mode")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -fprofile-arcs -ftest-coverage -fno-inline")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -g -fprofile-arcs -ftest-coverage -fno-inline")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -g -fprofile-arcs -ftest-coverage")
+endif()
+
+add_custom_target(coverage
+    COMMAND lcov --capture --directory . --output-file coverage.info
+    COMMAND lcov --remove coverage.info '/usr/*' --output-file coverage.info 
+    #COMMAND genhtml coverage.info --output-directory coverage_html 
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Generating HTML coverage report"
+)
+
 if(BUILD_TESTS)
   # Enable testing globally
   enable_testing()

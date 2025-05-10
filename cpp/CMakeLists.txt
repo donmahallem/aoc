@@ -24,9 +24,10 @@ if(CMAKE_BUILD_TYPE STREQUAL "Coverage")
 endif()
 
 add_custom_target(coverage
-    COMMAND lcov --capture --directory . --output-file coverage.info
+    COMMAND lcov --capture --ignore-errors mismatch --directory . --output-file coverage.info
     COMMAND lcov --remove coverage.info '/usr/*' --output-file coverage.info 
-    #COMMAND genhtml coverage.info --output-directory coverage_html 
+    COMMAND lcov --remove coverage.info '_deps/*' --output-file coverage.info 
+    COMMAND genhtml coverage.info --output-directory coverage_html 
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Generating HTML coverage report"
 )

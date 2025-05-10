@@ -80,7 +80,6 @@ jobs:
       - name: Install requirements
         run: |
           sudo apt-get update
-          sudo apt-get upgrade -y
           sudo apt-get -y install lcov
       - name: Build
         run: |
@@ -91,7 +90,11 @@ jobs:
       - name: Test
         run: |
           ./bin/aoc_solver_test
-      - name: Collect Coveragte
+      - name: Collect Coverage
         run: |
           cd build
           cmake --build . --target=coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

@@ -1,4 +1,4 @@
-#include "parse_input.h"
+#include "day01.h"
 
 namespace Aoc24Day01
 {

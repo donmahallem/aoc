@@ -1,5 +1,5 @@
-#ifndef AOC24_DAY01_PART01
-#define AOC24_DAY01_PART01
+#ifndef AOC24_DAY01_H
+#define AOC24_DAY01_H
 
 #include <string>
 #include <istream>
@@ -8,8 +8,9 @@
 
 namespace Aoc24Day01
 {
+    void parseInput(std::istream &in, std::vector<int> &left, std::vector<int> &right);
     int Part1(std::istream &in);
     int Part2(std::istream &in);
 }
 
-#endif // AOC24_DAY01_PART01
+#endif // AOC24_DAY01_H

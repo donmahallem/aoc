@@ -1,5 +1,4 @@
 #include "day01.h"
-#include "parse_input.h"
 
 namespace Aoc24Day01
 {
@@ -8,7 +7,7 @@ namespace Aoc24Day01
         std::vector<int> left;
         std::vector<int> right;
         std::string line;
-        Aoc24Day01::parseInput(in, left, right);
+        parseInput(in, left, right);
         std::sort(left.begin(), left.end());
         std::sort(right.begin(), right.end());
 

@@ -82,8 +82,12 @@ jobs:
         run: |
           mkdir ./build
           cd ./build
-          cmake ./..
+          cmake -DCMAKE_BUILD_TYPE=Coverage ./..
           cmake --build .
       - name: Test
         run: |
           ./bin/aoc_solver_test
+      - name: Collect Coveragte
+        run: |
+          cd build
+          cmake --build . --target=coverage

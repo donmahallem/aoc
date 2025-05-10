@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1746898437012,
+  "lastUpdate": 1746899155451,
   "repoUrl": "https://github.com/donmahallem/aoc",
   "entries": {
     "Go Benchmark": [
@@ -1206,6 +1206,408 @@ window.BENCHMARK_DATA = {
             "value": 71108,
             "unit": "ns/op",
             "extra": "16874 times\n4 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "donmahallem@users.noreply.github.com",
+            "name": "ò_ó",
+            "username": "donmahallem"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "550995883a2a342f80294f1f8f1752c4afdf7c26",
+          "message": "ci(codecov): add c++ component specification (#134)",
+          "timestamp": "2025-05-10T19:43:53+02:00",
+          "tree_id": "b0f679514e66c9b60e891616ced5358f4613d1a8",
+          "url": "https://github.com/donmahallem/aoc/commit/550995883a2a342f80294f1f8f1752c4afdf7c26"
+        },
+        "date": 1746899155007,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkPart1",
+            "value": 710.9,
+            "unit": "ns/op",
+            "extra": "1700422 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart2",
+            "value": 1072,
+            "unit": "ns/op",
+            "extra": "1000000 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart1",
+            "value": 1537,
+            "unit": "ns/op",
+            "extra": "717886 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart2",
+            "value": 1545,
+            "unit": "ns/op",
+            "extra": "738690 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart1",
+            "value": 2866,
+            "unit": "ns/op",
+            "extra": "412366 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart2",
+            "value": 2870,
+            "unit": "ns/op",
+            "extra": "414260 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart1",
+            "value": 2890,
+            "unit": "ns/op",
+            "extra": "401853 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart2",
+            "value": 3481,
+            "unit": "ns/op",
+            "extra": "349593 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart1",
+            "value": 4751,
+            "unit": "ns/op",
+            "extra": "251340 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart2",
+            "value": 5268,
+            "unit": "ns/op",
+            "extra": "232014 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart1",
+            "value": 1408,
+            "unit": "ns/op",
+            "extra": "828406 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart2",
+            "value": 1357,
+            "unit": "ns/op",
+            "extra": "910809 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart1",
+            "value": 1550,
+            "unit": "ns/op",
+            "extra": "682266 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart2",
+            "value": 2244,
+            "unit": "ns/op",
+            "extra": "515230 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart1",
+            "value": 367.9,
+            "unit": "ns/op",
+            "extra": "3252320 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart1",
+            "value": 4029,
+            "unit": "ns/op",
+            "extra": "302613 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart2",
+            "value": 2343,
+            "unit": "ns/op",
+            "extra": "525862 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart1",
+            "value": 121467,
+            "unit": "ns/op",
+            "extra": "8512 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart2",
+            "value": 623960,
+            "unit": "ns/op",
+            "extra": "1905 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart1",
+            "value": 35663,
+            "unit": "ns/op",
+            "extra": "33565 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart2",
+            "value": 32597,
+            "unit": "ns/op",
+            "extra": "36915 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart1",
+            "value": 1609,
+            "unit": "ns/op",
+            "extra": "758782 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart2",
+            "value": 1619,
+            "unit": "ns/op",
+            "extra": "766705 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart1",
+            "value": 1529,
+            "unit": "ns/op",
+            "extra": "790362 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart2",
+            "value": 1569,
+            "unit": "ns/op",
+            "extra": "764778 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkFindFirstNonSolvable/sample_dataset",
+            "value": 2206711,
+            "unit": "ns/op",
+            "extra": "542 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkParseFirstLine",
+            "value": 364.7,
+            "unit": "ns/op",
+            "extra": "3274120 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkParseInput",
+            "value": 1456,
+            "unit": "ns/op",
+            "extra": "841375 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart1",
+            "value": 5261,
+            "unit": "ns/op",
+            "extra": "224517 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart2",
+            "value": 7146,
+            "unit": "ns/op",
+            "extra": "165734 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkParseInput",
+            "value": 3179,
+            "unit": "ns/op",
+            "extra": "367140 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkCountCheats",
+            "value": 5696,
+            "unit": "ns/op",
+            "extra": "209732 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkCountCheats2",
+            "value": 1205,
+            "unit": "ns/op",
+            "extra": "976773 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkHashId",
+            "value": 1.557,
+            "unit": "ns/op",
+            "extra": "767205817 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkHashId2",
+            "value": 1.575,
+            "unit": "ns/op",
+            "extra": "772026618 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart1",
+            "value": 13843,
+            "unit": "ns/op",
+            "extra": "84919 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart2",
+            "value": 111122,
+            "unit": "ns/op",
+            "extra": "10796 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkStep/Expect_123_to_become_15887950",
+            "value": 1.869,
+            "unit": "ns/op",
+            "extra": "642202538 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkStep/Expect_15887950_to_become_16495136",
+            "value": 1.871,
+            "unit": "ns/op",
+            "extra": "641300926 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkStep/Expect_16495136_to_become_527345",
+            "value": 1.869,
+            "unit": "ns/op",
+            "extra": "642044175 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkStep/Expect_527345_to_become_704524",
+            "value": 1.877,
+            "unit": "ns/op",
+            "extra": "636743466 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkStep/Expect_704524_to_become_1553684",
+            "value": 1.871,
+            "unit": "ns/op",
+            "extra": "641810061 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkStep/Expect_1553684_to_become_12683156",
+            "value": 1.869,
+            "unit": "ns/op",
+            "extra": "641766386 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkStep/Expect_12683156_to_become_11100544",
+            "value": 1.887,
+            "unit": "ns/op",
+            "extra": "617817618 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkStep/Expect_11100544_to_become_12249484",
+            "value": 1.869,
+            "unit": "ns/op",
+            "extra": "641693341 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkStep/Expect_12249484_to_become_7753432",
+            "value": 1.867,
+            "unit": "ns/op",
+            "extra": "643118954 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkStep/Expect_7753432_to_become_5908254",
+            "value": 1.866,
+            "unit": "ns/op",
+            "extra": "643317537 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkAddUpSecrets",
+            "value": 22361,
+            "unit": "ns/op",
+            "extra": "53661 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart1",
+            "value": 23106,
+            "unit": "ns/op",
+            "extra": "51630 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart2",
+            "value": 806014,
+            "unit": "ns/op",
+            "extra": "1472 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkCreatePatterns/test_depth_10",
+            "value": 87.77,
+            "unit": "ns/op",
+            "extra": "13627705 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkCreatePatterns/test_depth_100",
+            "value": 1643,
+            "unit": "ns/op",
+            "extra": "729174 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkCreatePatterns/test_depth_1000",
+            "value": 18186,
+            "unit": "ns/op",
+            "extra": "65928 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkCreatePatterns/test_depth_10000",
+            "value": 197915,
+            "unit": "ns/op",
+            "extra": "5847 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup/HashId",
+            "value": 2.186,
+            "unit": "ns/op",
+            "extra": "544909734 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkLookup/t2",
+            "value": 3273,
+            "unit": "ns/op",
+            "extra": "373160 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart1",
+            "value": 4631,
+            "unit": "ns/op",
+            "extra": "261742 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkFindLongest",
+            "value": 3450,
+            "unit": "ns/op",
+            "extra": "343390 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkPart2",
+            "value": 7607,
+            "unit": "ns/op",
+            "extra": "158992 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkAdd/test_fifo_size_10",
+            "value": 69518,
+            "unit": "ns/op",
+            "extra": "17290 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkAdd/test_fifo_size_100",
+            "value": 69351,
+            "unit": "ns/op",
+            "extra": "17310 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkAdd/test_fifo_size_1000",
+            "value": 69327,
+            "unit": "ns/op",
+            "extra": "17313 times\n4 procs"
+          },
+          {
+            "name": "BenchmarkAdd/test_fifo_size_10000",
+            "value": 70387,
+            "unit": "ns/op",
+            "extra": "16918 times\n4 procs"
           }
         ]
       }

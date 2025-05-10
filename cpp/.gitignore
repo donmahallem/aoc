@@ -1,0 +1,13 @@
+*
+!/src
+!/src/**
+!/test
+!/test/**
+!src/*.cpp
+!src/*.h
+!**/**/*.cpp
+!README.md
+!.gitignore
+!Makefile
+!CMakeLists.txt
+!src/**/CMakeLists.txt

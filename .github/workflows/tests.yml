@@ -67,3 +67,34 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+  test_cpp:
+    name: Run and Test CPP
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./cpp
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Install requirements
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install lcov
+      - name: Build
+        run: |
+          mkdir ./build
+          cd ./build
+          cmake -DCMAKE_BUILD_TYPE=Coverage ./..
+          cmake --build .
+      - name: Test
+        run: |
+          ./bin/aoc_solver_test
+      - name: Collect Coverage
+        run: |
+          cd build
+          cmake --build . --target=coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

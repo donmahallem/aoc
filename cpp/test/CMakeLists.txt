@@ -1,7 +1,7 @@
 # test/CMakeLists.txt
 
 # Collect all test source files (or list them manually)
-file(GLOB_RECURSE TEST_FILES *.cpp)
+file(GLOB_RECURSE TEST_FILES *.cpp ./aoc24/**/*.cpp)
 
 # Create the test executable.
 add_executable(aoc_solver_test ${TEST_FILES})

@@ -15,6 +15,10 @@ component_management:
       name: GO
       paths:
         - go/**
+    - component_id: module_cpp
+      name: CPP
+      paths:
+        - cpp/**
 comment: # this is a top-level key
   layout: " diff, flags, files"
   behavior: default

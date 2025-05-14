@@ -16,18 +16,12 @@ def shortestPath(gameMap: np.typing.NDArray):
         current_path_cost = max(0, path_cost[cur_y, cur_x])
         for dir_y, dir_x in dirs:
             next_y, next_x = cur_y + dir_y, cur_x + dir_x
-            if (
-                next_y < 0
-                or next_x < 0
-                or next_x >= gameMapWidth
-                or next_y >= gameMapHeight
-                or gameMap[next_y, next_x] == CELL_CORRUPTED
-            ):
+            if (next_y < 0 or next_x < 0 or next_x >= gameMapWidth
+                    or next_y >= gameMapHeight
+                    or gameMap[next_y, next_x] == CELL_CORRUPTED):
                 continue
-            if (
-                path_cost[next_y, next_x] < 0
-                or current_path_cost + 1 < path_cost[next_y, next_x]
-            ):
+            if (path_cost[next_y, next_x] < 0
+                    or current_path_cost + 1 < path_cost[next_y, next_x]):
                 path_cost[next_y, next_x] = current_path_cost + 1
                 check_next.append((next_y, next_x))
     if path_cost[gameMapHeight - 1, gameMapWidth - 1] < 0:
@@ -40,13 +34,9 @@ def shortestPath(gameMap: np.typing.NDArray):
             break
         for dir_y, dir_x in dirs:
             next_y, next_x = cur_y + dir_y, cur_x + dir_x
-            if (
-                next_y < 0
-                or next_x < 0
-                or next_x >= gameMapWidth
-                or next_y >= gameMapHeight
-                or gameMap[next_y, next_x] == CELL_CORRUPTED
-            ):
+            if (next_y < 0 or next_x < 0 or next_x >= gameMapWidth
+                    or next_y >= gameMapHeight
+                    or gameMap[next_y, next_x] == CELL_CORRUPTED):
                 continue
             if path_cost[next_y, next_x] == next_val:
                 reverse_path.append((next_y, next_x))
@@ -56,7 +46,9 @@ def shortestPath(gameMap: np.typing.NDArray):
     return reverse_path
 
 
-def Part2(input: typing.TextIO, size: int = 71, steps: int = 1024) -> tuple[int, ...]:
+def Part2(input: typing.TextIO,
+          size: int = 71,
+          steps: int = 1024) -> tuple[int, ...]:
     gameMap, data = loadField(input, size, steps)
     last_path = shortestPath(gameMap)
 

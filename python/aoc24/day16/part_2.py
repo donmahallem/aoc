@@ -20,7 +20,8 @@ def getInverseSamplePath(cost_map_dict, target_value, end_position):
                 check_next.append((current_value - 1, dir, (next_y, next_x)))
                 cells.append((next_y, next_x))
             elif (current_value - 1001) in cost_map_dict[next_pos]:
-                check_next.append((current_value - 1001, dir, (next_y, next_x)))
+                check_next.append(
+                    (current_value - 1001, dir, (next_y, next_x)))
                 cells.append((next_y, next_x))
     return cells
 

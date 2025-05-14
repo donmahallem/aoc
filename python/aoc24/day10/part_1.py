@@ -1,7 +1,6 @@
 import typing
 import numpy as np
 
-
 NpData = np.ndarray[tuple[int, int], np.dtype[np.uint8]]
 Point = tuple[int, int]
 
@@ -23,12 +22,8 @@ def Part1(input: typing.TextIO) -> int:
         dirs = [(0, 1), (1, 0), (-1, 0), (0, -1)]
         for dir_y, dir_x in dirs:
             check_x, check_y = dir_x + x, dir_y + y
-            if (
-                check_x < 0
-                or check_y < 0
-                or check_y >= data_np.shape[0]
-                or check_x >= data_np.shape[1]
-            ):
+            if (check_x < 0 or check_y < 0 or check_y >= data_np.shape[0]
+                    or check_x >= data_np.shape[1]):
                 continue
             if looking_for == 9 and data_np[check_y, check_x] == 9:
                 sum += 1

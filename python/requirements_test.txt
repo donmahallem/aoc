@@ -1,1 +1,2 @@
 coverage>=7.6
+yapf>=0.43.0

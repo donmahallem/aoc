@@ -19,13 +19,13 @@ def getPart(year, day, part):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        prog="AOC Solver", description="Solves Aoc", epilog="Text at the bottom of help"
-    )
+    parser = argparse.ArgumentParser(prog="AOC Solver",
+                                     description="Solves Aoc",
+                                     epilog="Text at the bottom of help")
     parser.add_argument("year", type=int, choices=[24])  # positional argument
-    parser.add_argument(
-        "day", type=int, choices=list(range(1, 25))
-    )  # option that takes a value
+    parser.add_argument("day", type=int,
+                        choices=list(range(1,
+                                           25)))  # option that takes a value
     parser.add_argument("part", type=int, choices=[1, 2])
     args = parser.parse_args()
     print("Requested Year:", args.year, "Day:", args.day, "Part:", args.part)

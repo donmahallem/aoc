@@ -14,6 +14,7 @@ testData = """190: 10 19
 
 
 class Test2024Day07Part01(unittest.TestCase):
+
     def test_result(self):
         with io.StringIO() as f:
             f.write(testData)

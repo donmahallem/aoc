@@ -20,10 +20,10 @@ def christmas_tree(item, depth):
         return result
     item_length = int(math.log10(item)) + 1
     if item_length % 2 == 0:
-        split_barrier = 10 ** (item_length / 2)
-        result = christmas_tree(int(item / split_barrier), depth - 1) + christmas_tree(
-            int(item % split_barrier), depth - 1
-        )
+        split_barrier = 10**(item_length / 2)
+        result = christmas_tree(int(item / split_barrier),
+                                depth - 1) + christmas_tree(
+                                    int(item % split_barrier), depth - 1)
         return result
     else:
         result = christmas_tree(item * 2024, depth - 1)

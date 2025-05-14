@@ -5,7 +5,8 @@ import numpy as np
 
 def parseInput(input: typing.TextIO):
     data = [line.strip() for line in input.readlines()]
-    parse_regex = re.compile(r"p=([+-]?\d+),([+-]?\d+).+?([+-]?\d+),([+-]?\d+)")
+    parse_regex = re.compile(
+        r"p=([+-]?\d+),([+-]?\d+).+?([+-]?\d+),([+-]?\d+)")
     robots = np.zeros((len(data), 4), dtype=np.int64)
     for i, machine in enumerate(data):
         reg_res = parse_regex.match(machine)
@@ -17,9 +18,10 @@ def parseInput(input: typing.TextIO):
     return robots
 
 
-def Part1(
-    input: typing.TextIO, width: int = 101, height: int = 103, steps: int = 100
-) -> int:
+def Part1(input: typing.TextIO,
+          width: int = 101,
+          height: int = 103,
+          steps: int = 100) -> int:
     robots = parseInput(input)
     step = robots[:, 0:2] + robots[:, 2:4] * steps
     step[:, 0] = step[:, 0] % width

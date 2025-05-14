@@ -34,18 +34,15 @@ def generatePatterns(data_np):
         if not (vendor_idx in vendor_pattern_dict):
             vendor_pattern_dict[vendor_idx] = dict()
         for j in range(0, data_np.shape[1] - 4):
-            test = tuple(
-                [
-                    int(data_np[vendor_idx, j, 1]),
-                    int(data_np[vendor_idx, j + 1, 1]),
-                    int(data_np[vendor_idx, j + 2, 1]),
-                    int(data_np[vendor_idx, j + 3, 1]),
-                ]
-            )
+            test = tuple([
+                int(data_np[vendor_idx, j, 1]),
+                int(data_np[vendor_idx, j + 1, 1]),
+                int(data_np[vendor_idx, j + 2, 1]),
+                int(data_np[vendor_idx, j + 3, 1]),
+            ])
             if not (test in vendor_pattern_dict[vendor_idx]):
-                vendor_pattern_dict[vendor_idx][test] = int(
-                    data_np[vendor_idx, j + 3, 0]
-                )
+                vendor_pattern_dict[vendor_idx][test] = int(data_np[vendor_idx,
+                                                                    j + 3, 0])
             output.add(test)
     return output, vendor_pattern_dict
 

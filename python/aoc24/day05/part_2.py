@@ -6,7 +6,8 @@ def Part2(input: typing.TextIO) -> int:
     raw_lines = "\n".join([a.strip() for a in input.readlines()])
     ordering_raw, pages_raw = raw_lines.split("\n\n")
     ordering = [
-        tuple([int(a) for a in row.split("|")]) for row in ordering_raw.split("\n")
+        tuple([int(a) for a in row.split("|")])
+        for row in ordering_raw.split("\n")
     ]
     pages = [[int(a) for a in row.split(",")] for row in pages_raw.split("\n")]
 

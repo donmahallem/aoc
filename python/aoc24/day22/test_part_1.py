@@ -9,6 +9,7 @@ testData = """1
 
 
 class Test_Part01(unittest.TestCase):
+
     def test_result(self):
         with io.StringIO() as f:
             f.write(testData)

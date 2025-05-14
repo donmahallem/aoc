@@ -1,14 +1,11 @@
 import typing
 
-
 Position = tuple[int, int]
 PositionList = list[Position]
 AntennaDict = dict[str, PositionList]
 
 
-def parseInput(
-    input: typing.TextIO,
-) -> tuple[AntennaDict, int, int]:
+def parseInput(input: typing.TextIO, ) -> tuple[AntennaDict, int, int]:
     data = [a.strip() for a in input.readlines()]
 
     height = len(data)

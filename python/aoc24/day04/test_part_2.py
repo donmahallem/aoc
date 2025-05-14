@@ -6,6 +6,7 @@ from .test_part_1 import testData
 
 
 class Test2024Day04Part02(unittest.TestCase):
+
     def test_result(self):
         with io.StringIO() as f:
             f.write(testData)

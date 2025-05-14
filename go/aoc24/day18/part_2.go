@@ -5,8 +5,7 @@ import (
 )
 
 func IsPathAvailable(field Field, scoreField Field, pointIdx int, fieldWidth int, fieldHeight int) bool {
-	checkPositions := make([]Point, 0)
-	checkPositions = append(checkPositions, Point{X: 0, Y: 0})
+	checkPositions := []Point{{X: 0, Y: 0}}
 	var currentPosition Point
 	nextCoord := Point{}
 	for len(checkPositions) > 0 {

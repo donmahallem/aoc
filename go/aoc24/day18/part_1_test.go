@@ -50,6 +50,14 @@ func TestFindShortestPath(t *testing.T) {
 	}
 }
 
+func BenchmarkFindShortestPath(b *testing.B) {
+	reader := strings.NewReader(testData)
+	points := day18.ParseInput(reader)
+	field := day18.ConvertInputToField(points, 12, 7, 7)
+	for b.Loop() {
+		day18.FindShortestPath(field)
+	}
+}
 func BenchmarkParseInput(b *testing.B) {
 	reader := strings.NewReader(testData)
 	for b.Loop() {

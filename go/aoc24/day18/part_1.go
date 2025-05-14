@@ -33,7 +33,7 @@ func ParseInput(in io.Reader) []Point {
 
 func CreateEmptyField(width, height uint) Field {
 	field := make(Field, 0, height)
-	for range height {
+	for i := uint(0); i < height; i++ {
 		field = append(field, make([]int, width))
 	}
 	return field

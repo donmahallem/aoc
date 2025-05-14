@@ -50,6 +50,16 @@ func TestFindFirstNonSolvable(t *testing.T) {
 	})
 }
 
+func BenchmarkIsPathAvailable(b *testing.B) {
+	const TEST_WIDTH, TEST_HEIGHT uint = 7, 7
+	//reader := strings.NewReader(testData)
+	//points := day18.ParseInput(reader)
+	obstacleField := day18.CreateEmptyField(TEST_WIDTH, TEST_HEIGHT)
+	scoreField := day18.CreateEmptyField(TEST_WIDTH, TEST_HEIGHT)
+	for b.Loop() {
+		day18.IsPathAvailable(obstacleField, scoreField, 0, int(TEST_WIDTH), int(TEST_HEIGHT))
+	}
+}
 func BenchmarkFindFirstNonSolvable(b *testing.B) {
 	b.Run("sample dataset", func(b *testing.B) {
 		points := day18.ParseInput(strings.NewReader(testData))

@@ -6,6 +6,6 @@ namespace Aoc24
     {
         auto regFunc = registry->CreateYearRegistry(24);
         regFunc(1, Aoc24Day01::Part1, Aoc24Day01::Part2);
-        regFunc(1, Aoc24Day02::Part1, Aoc24Day02::Part2);
+        regFunc(2, Aoc24Day02::Part1, Aoc24Day02::Part2);
     }
 }

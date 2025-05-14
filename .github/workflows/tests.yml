@@ -66,7 +66,7 @@ jobs:
         run: |
           coverage run --source=. -m unittest discover
       - name: Run Lint
-        run: yapf -r .
+        run: yapf -r -q -p .
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:

@@ -9,7 +9,6 @@ namespace AocTest
     {
         namespace
         {
-            // Tests that the Foo::Bar() method does Abc.
             TEST(Day02Part1Test, Part2)
             {
                 std::istringstream dummyStream("7 6 4 2 1\n"

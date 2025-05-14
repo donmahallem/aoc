@@ -25,9 +25,9 @@ namespace Aoc24Day02
     {
         std::string line;
         int sum = 0;
-        parseInput(in, [&sum](std::vector<int> *numbers)
+        parseInput(in, [&sum](const std::vector<int> &numbers)
                    {
-                    if (checkLine(*numbers)){
+                    if (checkLine(numbers)){
                         sum+=1;
                     } });
 

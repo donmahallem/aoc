@@ -13,9 +13,9 @@ namespace AocTest
             {
                 std::istringstream dummyStream("7 6 4 2 1");
                 std::vector<std::vector<int>> resultVector;
-                std::function<void(std::vector<int> *)> testCallback = [&resultVector](std::vector<int> *numbers)
+                std::function<void(const std::vector<int> &)> testCallback = [&resultVector](const std::vector<int> &numbers)
                 {
-                    resultVector.push_back(*numbers);
+                    resultVector.push_back(numbers);
                 };
                 Aoc24Day02::parseInput(dummyStream, testCallback);
 
@@ -27,9 +27,9 @@ namespace AocTest
                 std::istringstream dummyStream("7 6 4 2 1\n"
                                                "1 2 7 8 9");
                 std::vector<std::vector<int>> resultVector;
-                std::function<void(std::vector<int> *)> testCallback = [&resultVector](std::vector<int> *numbers)
+                std::function<void(const std::vector<int> &)> testCallback = [&resultVector](const std::vector<int> &numbers)
                 {
-                    resultVector.push_back(*numbers);
+                    resultVector.push_back(numbers);
                 };
                 Aoc24Day02::parseInput(dummyStream, testCallback);
 

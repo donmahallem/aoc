@@ -6,7 +6,6 @@ namespace Aoc24Day02
         std::string line;
         std::size_t lastPos, pos;
         std::vector<int> numbers{};
-        std::vector<int> *pNumbers = &numbers;
         while (std::getline(in, line))
         {
             numbers.clear();
@@ -23,7 +22,7 @@ namespace Aoc24Day02
             {
                 numbers.push_back(std::stoi(line.substr(lastPos)));
             }
-            callback(pNumbers);
+            callback(numbers);
         }
     }
 }

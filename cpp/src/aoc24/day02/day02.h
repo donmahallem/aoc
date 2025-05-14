@@ -9,7 +9,7 @@
 
 namespace Aoc24Day02
 {
-    using lineCallback = std::function<void(std::vector<int> *)>;
+    using lineCallback = std::function<void(const std::vector<int> &)>;
     void parseInput(std::istream &in, lineCallback callback);
     int Part1(std::istream &in);
     int Part2(std::istream &in);

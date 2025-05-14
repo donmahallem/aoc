@@ -10,7 +10,6 @@ namespace AocTest
         namespace
         {
 
-            // Tests that the Foo::Bar() method does Abc.
             TEST(Day02Part1Test, Part1)
             {
                 std::istringstream dummyStream("7 6 4 2 1\n"
@@ -22,7 +21,6 @@ namespace AocTest
                 int result = Aoc24Day02::Part1(dummyStream);
                 EXPECT_EQ(result, 2);
             }
-            // Tests that the Foo::Bar() method does Abc.
             TEST(checklineTest, checkPasses)
             {
                 std::vector<int> testData{7, 6, 4, 2, 1};

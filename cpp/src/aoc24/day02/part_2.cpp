@@ -55,9 +55,9 @@ namespace Aoc24Day02
     {
         std::string line;
         int sum = 0;
-        std::function<void(std::vector<int> *)> cb = [&sum](std::vector<int> *numbers)
+        std::function<void(const std::vector<int> &)> cb = [&sum](const std::vector<int> &numbers)
         {
-            if (isLineFixable(*numbers))
+            if (isLineFixable(numbers))
             {
                 sum += 1;
             }

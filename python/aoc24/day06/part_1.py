@@ -17,18 +17,13 @@ def turnRight(cur_y, cur_x):
         raise IndexError(f"Invalid dir {cur_y},{cur_x}")
 
 
-def moveNext(
-    field: np.typing.NDArray, player_position: Guard
-) -> Guard | typing.Literal[False]:
+def moveNext(field: np.typing.NDArray,
+             player_position: Guard) -> Guard | typing.Literal[False]:
     p_y, p_x, (test_dir_y, test_dir_x) = player_position
     while True:
         next_p_x, next_p_y = p_x + test_dir_x, p_y + test_dir_y
-        if (
-            next_p_x < 0
-            or next_p_x >= field.shape[1]
-            or next_p_y < 0
-            or next_p_y >= field.shape[0]
-        ):
+        if (next_p_x < 0 or next_p_x >= field.shape[1] or next_p_y < 0
+                or next_p_y >= field.shape[0]):
             return False
         if field[next_p_y, next_p_x] == 1:
             test_dir_y, test_dir_x = turnRight(test_dir_y, test_dir_x)
@@ -79,11 +74,7 @@ def Part1(input: typing.TextIO) -> int:
         player_position = next_pos
         p_y, p_x, _ = player_position
         path.add((p_y, p_x))
-        if (
-            p_x < 0
-            or p_y < 0
-            or p_x >= player_map.shape[0]
-            or p_y >= player_map.shape[1]
-        ):
+        if (p_x < 0 or p_y < 0 or p_x >= player_map.shape[0]
+                or p_y >= player_map.shape[1]):
             break
     return len(path)

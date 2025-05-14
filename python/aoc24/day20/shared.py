@@ -7,11 +7,12 @@ CELL_EMPTY = 0
 
 Position: typing.TypeAlias = tuple[int, int]
 
-
 NpData = np.ndarray[tuple[int, int], np.dtype[np.uint8]]
 
 
-def parseField(input: typing.TextIO) -> tuple[NpData, Position | None, Position | None]:
+def parseField(
+        input: typing.TextIO
+) -> tuple[NpData, Position | None, Position | None]:
     data = [line.strip() for line in input.readlines()]
     field: NpData = typing.cast(NpData, np.zeros((len(data), len(data[0]))))
     player_position: Position | None = None
@@ -27,9 +28,8 @@ def parseField(input: typing.TextIO) -> tuple[NpData, Position | None, Position 
     return field, player_position, end_position
 
 
-def calculatePathCost(
-    test_map: np.typing.NDArray, player_position: Position
-) -> np.typing.NDArray:
+def calculatePathCost(test_map: np.typing.NDArray,
+                      player_position: Position) -> np.typing.NDArray:
     check_next = [(0, player_position)]
     dirs = (0, 1), (1, 0), (0, -1), (-1, 0)
     path_cost = np.zeros(test_map.shape, dtype=np.int32) - 1
@@ -43,10 +43,8 @@ def calculatePathCost(
             if test_map[next_y, next_x] == CELL_WALL:
                 continue
             next_path_value = last_val + 1
-            if (
-                path_cost[next_y, next_x] < 0
-                or path_cost[next_y, next_x] > next_path_value
-            ):
+            if (path_cost[next_y, next_x] < 0
+                    or path_cost[next_y, next_x] > next_path_value):
                 path_cost[next_y, next_x] = next_path_value
                 check_next.append((next_path_value, (next_y, next_x)))
     return path_cost
@@ -65,10 +63,8 @@ def shortestPath(field, path_cost, end_position):
             next_y, next_x = cur_y + dir_y, cur_x + dir_x
             if field[next_y, next_x] == CELL_WALL or (next_y, next_x) in cells:
                 continue
-            if (
-                path_cost[next_y, next_x] == current_value - 1
-                or path_cost[next_y, next_x] == current_value - 1001
-            ):
+            if (path_cost[next_y, next_x] == current_value - 1
+                    or path_cost[next_y, next_x] == current_value - 1001):
                 check_next.append((next_y, next_x))
                 cells.append((next_y, next_x))
 

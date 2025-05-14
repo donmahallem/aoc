@@ -46,7 +46,8 @@ def calculatePathCost(field, start_pos, end_pos):
                 continue
             next_cost = current_cost + (1001 if last_dir != dir else 1)
             next_pos = (next_y, next_x)
-            if next_pos in cost_dict and min(cost_dict[next_pos]) + 1001 < next_cost:
+            if next_pos in cost_dict and min(
+                    cost_dict[next_pos]) + 1001 < next_cost:
                 continue
             if next_pos in cost_dict:
                 cost_dict[next_pos].add(next_cost)

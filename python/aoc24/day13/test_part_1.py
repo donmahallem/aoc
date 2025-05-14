@@ -20,6 +20,7 @@ Prize: X=18641, Y=10279"""
 
 
 class Test2024Day13Part01(unittest.TestCase):
+
     def test_result(self):
         with io.StringIO() as f:
             f.write(testData)

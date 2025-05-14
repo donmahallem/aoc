@@ -15,6 +15,7 @@ testData = """....#.....
 
 
 class Test2024Day06Part01(unittest.TestCase):
+
     def test_result(self):
         with io.StringIO() as f:
             f.write(testData)

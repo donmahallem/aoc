@@ -6,6 +6,7 @@ testData = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,
 
 
 class Test2024Day03Part01(unittest.TestCase):
+
     def test_result(self):
         with io.StringIO() as f:
             f.write(testData)

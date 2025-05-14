@@ -13,19 +13,13 @@ def shortestPath(gameMap: np.typing.NDArray) -> np.typing.NDArray:
         current_path_cost = max(0, pathCost[cur_y, cur_x])
         for dir_y, dir_x in dirs:
             next_y, next_x = cur_y + dir_y, cur_x + dir_x
-            if (
-                next_y < 0
-                or next_x < 0
-                or next_x >= gameMap.shape[1]
-                or next_y >= gameMap.shape[0]
-                or gameMap[next_y, next_x] == CELL_CORRUPTED
-            ):
+            if (next_y < 0 or next_x < 0 or next_x >= gameMap.shape[1]
+                    or next_y >= gameMap.shape[0]
+                    or gameMap[next_y, next_x] == CELL_CORRUPTED):
                 # OUTSIDE MAP OR CORRUPTED
                 continue
-            if (
-                pathCost[next_y, next_x] < 0
-                or current_path_cost + 1 < pathCost[next_y, next_x]
-            ):
+            if (pathCost[next_y, next_x] < 0
+                    or current_path_cost + 1 < pathCost[next_y, next_x]):
                 pathCost[next_y, next_x] = current_path_cost + 1
                 check_next.append((next_y, next_x))
     return pathCost

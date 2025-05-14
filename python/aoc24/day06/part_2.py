@@ -8,12 +8,8 @@ def moveNext(field, player_position, obstacle):
     p_y, p_x, (test_dir_y, test_dir_x) = player_position
     while True:
         next_p_x, next_p_y = p_x + test_dir_x, p_y + test_dir_y
-        if (
-            next_p_x < 0
-            or next_p_x >= field.shape[1]
-            or next_p_y < 0
-            or next_p_y >= field.shape[0]
-        ):
+        if (next_p_x < 0 or next_p_x >= field.shape[1] or next_p_y < 0
+                or next_p_y >= field.shape[0]):
             return False
         if field[next_p_y, next_p_x] == 1:
             test_dir_y, test_dir_x = turnRight(test_dir_y, test_dir_x)
@@ -33,9 +29,8 @@ def Part2(input: typing.TextIO) -> int:
     for y in range(player_map.shape[0]):
         for x in range(player_map.shape[1]):
             player_position = initial_player_position
-            if player_map[y, x] == 1 or (
-                player_position[0] == y and player_position[1] == x
-            ):
+            if player_map[y, x] == 1 or (player_position[0] == y
+                                         and player_position[1] == x):
                 continue
             path = set([player_position])
             while True:

@@ -8,9 +8,10 @@ def isTree(robots):
     return a == robots.shape[0]
 
 
-def Part2(
-    input: typing.TextIO, width: int = 101, height: int = 103, maxSteps: int = 2000000
-) -> int:
+def Part2(input: typing.TextIO,
+          width: int = 101,
+          height: int = 103,
+          maxSteps: int = 2000000) -> int:
     robots = parseInput(input)
     i = 0
     while i < maxSteps:

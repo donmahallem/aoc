@@ -28,19 +28,17 @@ def handleRow(line, current_idx):
                 break
             # Spaces larger than group
             elif line[start_idx][1] > line[end_idx][1]:
-                line = (
-                    line[0:start_idx]
-                    + [line[end_idx], (-1, line[start_idx][1] - line[end_idx][1])]
-                    + line[start_idx + 1 : end_idx]
-                    + [(-1, line[end_idx][1])]
-                    + line[end_idx + 1 :]
-                )
+                line = (line[0:start_idx] + [
+                    line[end_idx], (-1, line[start_idx][1] - line[end_idx][1])
+                ] + line[start_idx + 1:end_idx] + [(-1, line[end_idx][1])] +
+                        line[end_idx + 1:])
                 runner = 0
                 while True:
                     if runner >= len(line) - 1:
                         break
                     if line[runner][0] == -1 and line[runner + 1][0] == -1:
-                        line[runner] = (-1, line[runner + 1][1] + line[runner][1])
+                        line[runner] = (-1,
+                                        line[runner + 1][1] + line[runner][1])
                         line.pop(runner + 1)
                     else:
                         runner += 1

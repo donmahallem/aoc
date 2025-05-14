@@ -12,8 +12,8 @@ def Part2(input: typing.TextIO) -> int:
         for test_pattern in available_patterns:
             if test_pattern == pattern:
                 valid_patterns += 1
-            elif pattern[0 : len(test_pattern)] == test_pattern:
-                valid_patterns += checkPattern(pattern[len(test_pattern) :])
+            elif pattern[0:len(test_pattern)] == test_pattern:
+                valid_patterns += checkPattern(pattern[len(test_pattern):])
         return valid_patterns
 
     summe = 0

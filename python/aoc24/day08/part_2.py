@@ -14,26 +14,24 @@ def Part2(input: typing.TextIO) -> int:
                 diff = (nodes[i][0] - nodes[j][0], nodes[i][1] - nodes[j][1])
                 for u in range(1, max(width, height)):
                     if inside(
-                        nodes[i][0] + (u * diff[0]),
-                        nodes[i][1] + (u * diff[1]),
-                        width,
-                        height,
+                            nodes[i][0] + (u * diff[0]),
+                            nodes[i][1] + (u * diff[1]),
+                            width,
+                            height,
                     ):
-                        antinodes.add(
-                            (nodes[i][0] + (u * diff[0]), nodes[i][1] + (u * diff[1]))
-                        )
+                        antinodes.add((nodes[i][0] + (u * diff[0]),
+                                       nodes[i][1] + (u * diff[1])))
                     else:
                         break
                 for u in range(1, max(width, height)):
                     if inside(
-                        nodes[j][0] - (u * diff[0]),
-                        nodes[j][1] - (u * diff[1]),
-                        width,
-                        height,
+                            nodes[j][0] - (u * diff[0]),
+                            nodes[j][1] - (u * diff[1]),
+                            width,
+                            height,
                     ):
-                        antinodes.add(
-                            (nodes[j][0] - (u * diff[0]), nodes[j][1] - (u * diff[1]))
-                        )
+                        antinodes.add((nodes[j][0] - (u * diff[0]),
+                                       nodes[j][1] - (u * diff[1])))
                     else:
                         break
     return len(antinodes)

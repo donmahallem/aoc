@@ -6,7 +6,8 @@ def find_connected(field, checked_map, y, x, val, alread_connected):
     dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
     for dir_y, dir_x in dirs:
         new_x, new_y = dir_x + x, dir_y + y
-        if new_x < 0 or new_y < 0 or new_x >= field.shape[1] or new_y >= field.shape[0]:
+        if new_x < 0 or new_y < 0 or new_x >= field.shape[
+                1] or new_y >= field.shape[0]:
             continue
         elif checked_map[new_y, new_x] == 1:
             continue
@@ -15,7 +16,8 @@ def find_connected(field, checked_map, y, x, val, alread_connected):
         if field[new_y, new_x] == val:
             alread_connected.add((new_y, new_x))
             checked_map[new_y, new_x] = 1
-            find_connected(field, checked_map, new_y, new_x, val, alread_connected)
+            find_connected(field, checked_map, new_y, new_x, val,
+                           alread_connected)
 
 
 def count_edges(coords):

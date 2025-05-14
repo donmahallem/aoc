@@ -4,7 +4,8 @@ import codecs
 import numpy as np
 
 test_data = False
-with codecs.open("data.txt" if test_data else "data2.txt", encoding="utf8") as f:
+with codecs.open("data.txt" if test_data else "data2.txt",
+                 encoding="utf8") as f:
     data = f.read()
     locks = data.split("\r\n\r\n")
 

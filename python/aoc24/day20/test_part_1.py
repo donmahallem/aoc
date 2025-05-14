@@ -20,6 +20,7 @@ testData = """###############
 
 
 class Test2024Day20Part01(unittest.TestCase):
+
     def test_handle_cheat20(self):
         with io.StringIO() as f:
             f.write(testData)

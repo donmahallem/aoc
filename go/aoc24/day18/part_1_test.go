@@ -1,6 +1,7 @@
 package day18_test
 
 import (
+	"io"
 	"strings"
 	"testing"
 
@@ -35,8 +36,8 @@ const testData string = `5,4
 
 func TestParseInput(t *testing.T) {
 	points := day18.ParseInput(strings.NewReader(testData))
-	if len(*points) != 25 {
-		t.Errorf(`Expected %d to match 25`, len(*points))
+	if len(points) != 25 {
+		t.Errorf(`Expected %d to match 25`, len(points))
 	}
 }
 
@@ -46,5 +47,20 @@ func TestFindShortestPath(t *testing.T) {
 
 	if result := day18.FindShortestPath(field); result != 22 {
 		t.Errorf(`Expected %d to match 22`, result)
+	}
+}
+
+func BenchmarkParseInput(b *testing.B) {
+	reader := strings.NewReader(testData)
+	for b.Loop() {
+		reader.Seek(0, io.SeekStart)
+		day18.ParseInput(reader)
+	}
+}
+func BenchmarkConvertInputToField(b *testing.B) {
+	reader := strings.NewReader(testData)
+	points := day18.ParseInput(reader)
+	for b.Loop() {
+		day18.ConvertInputToField(points, 12, 7, 7)
 	}
 }

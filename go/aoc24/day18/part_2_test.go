@@ -28,11 +28,33 @@ func TestIsPathAvailable(t *testing.T) {
 	})
 }
 
+func TestFindFirstNonSolvable(t *testing.T) {
+	points := day18.ParseInput(strings.NewReader(testData))
+	t.Run("find an end", func(t *testing.T) {
+		result, ok := day18.FindFirstNonSolvable(points, 7, 7)
+		if !ok {
+			t.Errorf(`Expected result to be ok`)
+		}
+		if result.X != 6 || result.Y != 1 {
+			t.Errorf(`Expected (6,1) and not %v`, result)
+		}
+	})
+	t.Run("find no end", func(t *testing.T) {
+		result, ok := day18.FindFirstNonSolvable([]day18.Point{}, 7, 7)
+		if ok {
+			t.Errorf(`Expected result to be false`)
+		}
+		if result != nil {
+			t.Errorf(`Expected result to be nil`)
+		}
+	})
+}
+
 func BenchmarkFindFirstNonSolvable(b *testing.B) {
 	b.Run("sample dataset", func(b *testing.B) {
 		points := day18.ParseInput(strings.NewReader(testData))
 		for b.Loop() {
-			day18.FindFirstNonSolvable(points, 71, 71)
+			day18.FindFirstNonSolvable(points, 7, 7)
 		}
 	})
 	b.Run("large dataset", func(b *testing.B) {

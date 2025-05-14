@@ -17,7 +17,7 @@ var DIRS_ALL [4]Point = [4]Point{{X: 1, Y: 0}, {X: 0, Y: 1}, {X: -1, Y: 0}, {X: 
 type Field = [][]int
 type Point = aoc_utils.Point[int]
 
-func ParseInput(in io.Reader) *[]Point {
+func ParseInput(in io.Reader) []Point {
 	points := make([]Point, 0)
 	s := bufio.NewScanner(in)
 	for s.Scan() {
@@ -28,35 +28,34 @@ func ParseInput(in io.Reader) *[]Point {
 		point.Y, _ = strconv.Atoi(line[commaIndex+1:])
 		points = append(points, point)
 	}
-	return &points
+	return points
 }
 
-func CreateEmptyField(width, height uint) *Field {
+func CreateEmptyField(width, height uint) Field {
 	field := make(Field, 0, height)
 	for range height {
 		field = append(field, make([]int, width))
 	}
-	return &field
+	return field
 }
-func ConvertInputToField(points *[]Point, steps, width, height uint) *Field {
+func ConvertInputToField(points []Point, steps, width, height uint) Field {
 	field := CreateEmptyField(width, height)
 	for step := range steps {
-		(*field)[(*points)[step].Y][(*points)[step].X] = CELL_CORRUPTED
+		field[points[step].Y][points[step].X] = CELL_CORRUPTED
 	}
 	return field
 }
 
-func FindShortestPath(field *Field) int {
-	fieldHeight := len(*field)
-	fieldWidth := len((*field)[0])
-	toCheck := make([]Point, 0)
-	toCheck = append(toCheck, Point{X: 0, Y: 0})
+func FindShortestPath(field Field) int {
+	fieldHeight := len(field)
+	fieldWidth := len(field[0])
+	queue := []Point{{X: 0, Y: 0}}
 	var currentCoord, nextCoord Point
 	var currentValue, nextValue int
-	for len(toCheck) > 0 {
-		currentCoord = toCheck[0]
-		toCheck = toCheck[1:]
-		currentValue = (*field)[currentCoord.Y][currentCoord.X]
+	for len(queue) > 0 {
+		currentCoord = queue[0]
+		queue = queue[1:]
+		currentValue = field[currentCoord.Y][currentCoord.X]
 		nextValue = currentValue + 1
 		for _, checkDir := range DIRS_ALL {
 			nextCoord.X = currentCoord.X + checkDir.X
@@ -64,16 +63,18 @@ func FindShortestPath(field *Field) int {
 			if nextCoord.X < 0 || nextCoord.Y < 0 || nextCoord.X >= fieldWidth || nextCoord.Y >= fieldHeight {
 				// next coord outside the field dimensions
 				continue
-			} else if currentNextValue := (*field)[nextCoord.Y][nextCoord.X]; currentNextValue == CELL_CORRUPTED ||
+			}
+			currentNextValue := field[nextCoord.Y][nextCoord.X]
+			if currentNextValue == CELL_CORRUPTED ||
 				(currentNextValue <= nextValue && currentNextValue > 0) {
 				// CELL IS ALREADY CORUPTED OR A Lower value was found
 				continue
 			}
-			(*field)[nextCoord.Y][nextCoord.X] = nextValue
-			toCheck = append(toCheck, nextCoord)
+			field[nextCoord.Y][nextCoord.X] = nextValue
+			queue = append(queue, nextCoord)
 		}
 	}
-	return (*field)[fieldHeight-1][fieldWidth-1]
+	return field[fieldHeight-1][fieldWidth-1]
 }
 
 func Part1(in io.Reader) int {

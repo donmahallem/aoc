@@ -9,9 +9,8 @@ namespace AocTest
     {
         namespace
         {
-
             // Tests that the Foo::Bar() method does Abc.
-            TEST(Day02Part1Test, Part1)
+            TEST(Day02Part1Test, Part2)
             {
                 std::istringstream dummyStream("7 6 4 2 1\n"
                                                "1 2 7 8 9\n"
@@ -19,27 +18,26 @@ namespace AocTest
                                                "1 3 2 4 5\n"
                                                "8 6 4 4 1\n"
                                                "1 3 6 7 9");
-                int result = Aoc24Day02::Part1(dummyStream);
-                EXPECT_EQ(result, 2);
+                int result = Aoc24Day02::Part2(dummyStream);
+                EXPECT_EQ(result, 4);
             }
-            // Tests that the Foo::Bar() method does Abc.
-            TEST(checklineTest, checkPasses)
+            TEST(isLineFixableTest, line_is_fixable)
             {
                 std::vector<int> testData{7, 6, 4, 2, 1};
-                EXPECT_TRUE(Aoc24Day02::checkLine(testData));
+                EXPECT_TRUE(Aoc24Day02::isLineFixable(testData));
                 testData = {1, 3, 6, 7, 9};
-                EXPECT_TRUE(Aoc24Day02::checkLine(testData));
+                EXPECT_TRUE(Aoc24Day02::isLineFixable(testData));
+                testData = {1, 3, 2, 4, 5};
+                EXPECT_TRUE(Aoc24Day02::isLineFixable(testData));
+                testData = {8, 6, 4, 4, 1};
+                EXPECT_TRUE(Aoc24Day02::isLineFixable(testData));
             }
-            TEST(checklineTest, checkFails)
+            TEST(isLineFixableTest, line_is_not_fixable)
             {
                 std::vector<int> testData{1, 2, 7, 8, 9};
-                EXPECT_FALSE(Aoc24Day02::checkLine(testData));
+                EXPECT_FALSE(Aoc24Day02::isLineFixable(testData));
                 testData = {9, 7, 6, 2, 1};
-                EXPECT_FALSE(Aoc24Day02::checkLine(testData));
-                testData = {1, 3, 2, 4, 5};
-                EXPECT_FALSE(Aoc24Day02::checkLine(testData));
-                testData = {8, 6, 4, 4, 1};
-                EXPECT_FALSE(Aoc24Day02::checkLine(testData));
+                EXPECT_FALSE(Aoc24Day02::isLineFixable(testData));
             }
         }
     }

@@ -1,12 +1,12 @@
 #include "day02.h"
-
 namespace Aoc24Day02
 {
     void parseInput(std::istream &in, lineCallback callback)
     {
         std::string line;
         std::size_t lastPos, pos;
-        std::vector<int> numbers;
+        std::vector<int> numbers{};
+        std::vector<int> *pNumbers = &numbers;
         while (std::getline(in, line))
         {
             numbers.clear();
@@ -15,7 +15,7 @@ namespace Aoc24Day02
             {
                 if (pos > lastPos)
                 {
-                    numbers.push_back(std::stoi(line.substr(lastPos, pos)));
+                    numbers.push_back(std::stoi(line.substr(lastPos, pos - lastPos)));
                 }
                 lastPos = pos + 1;
             }
@@ -23,7 +23,7 @@ namespace Aoc24Day02
             {
                 numbers.push_back(std::stoi(line.substr(lastPos)));
             }
-            lineCallback(numbers);
+            callback(pNumbers);
         }
     }
 }

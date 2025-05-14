@@ -4,6 +4,7 @@
 #include "../aoc_util/registry.h"
 
 #include "./day01/day01.h"
+#include "./day02/day02.h"
 
 namespace Aoc24
 {

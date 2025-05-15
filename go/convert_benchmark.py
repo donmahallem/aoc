@@ -6,7 +6,7 @@ KEY_ACTION="Action"
 KEY_TEST="Test"
 KEY_OUTPUT="Output"
 #INPUT_REGEX_STR=r"\W*(?P<iterations>[0-9]+)[(\\t)\W]+(?P<timing>[0-9]+) ns\/op"
-INPUT_REGEX_STR = r"\s*(?P<iterations>\d+)\s+(?P<timing>\d+)\s+ns/op"
+INPUT_REGEX_STR = r"\s*(?P<iterations>\d+)[\\t ]+(?P<timing>\d+)\s+ns/op"
 
 INPUT_REGEX=re.compile(INPUT_REGEX_STR)
 def parse(input_stream):

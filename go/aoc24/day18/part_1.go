@@ -58,25 +58,24 @@ type PathNode struct {
 func FindShortestPath(field Field, stepsTaken uint16, fieldWidth int16, fieldHeight int16) uint16 {
 	queue := make([]PathNode, 0, 64)
 	queue = append(queue, PathNode{coord: Point{X: 0, Y: 0}, len: 0})
-	visited := make(map[Point]bool, 128)
+	visited := make(map[Point]uint16, 128)
 	var currentNode PathNode
 	var shortestPath uint16 = math.MaxUint16
 	for len(queue) > 0 {
-		currentNode = queue[0]
-		queue = queue[1:]
+		currentNode = queue[len(queue)-1]
+		queue = queue[:len(queue)-1]
 		if currentNode.len+1 >= shortestPath {
 			continue
 		}
-
-		visited[currentNode.coord] = true
+		visited[currentNode.coord] = currentNode.len
 		for _, checkDir := range DIRS_ALL {
 			nextPoint := Point{X: currentNode.coord.X + checkDir.X, Y: currentNode.coord.Y + checkDir.Y}
 
-			if visited[currentNode.coord] {
-				continue
-			}
 			nextNode := PathNode{coord: nextPoint}
 			nextNode.len = currentNode.len + 1
+			if val, ok := visited[nextNode.coord]; ok && val <= nextNode.len {
+				continue
+			}
 			if nextNode.coord.X < 0 || nextNode.coord.Y < 0 || nextNode.coord.X >= fieldWidth || nextNode.coord.Y >= fieldHeight {
 				// next coord outside the field dimensions
 				continue

@@ -70,15 +70,15 @@ func Part2(in io.Reader) int {
 	basePath := leaveArea(&obstacles, guard)
 	blockages := 0
 	for key := range basePath {
-		if key[0] == guard.y && key[1] == guard.x {
+		if key.Y == guard.y && key.X == guard.x {
 			// skip as this is the start position and can't be blocked
 			continue
 		}
-		obstacles.Field[key[0]][key[1]] = true
+		obstacles.Field[key.Y][key.X] = true
 		if TestLoop(&obstacles, guard) {
 			blockages++
 		}
-		obstacles.Field[key[0]][key[1]] = false
+		obstacles.Field[key.Y][key.X] = false
 		// set temporary obstacle
 		// Check for loop
 		// remove temporary obstacle

@@ -3,10 +3,14 @@ package day08
 import (
 	"bufio"
 	"io"
+
+	"github.com/donmahallem/aoc/aoc_utils"
 )
 
-func readSource(reader io.Reader) (map[byte][][2]int16, int16, int16) {
-	data := make(map[byte][][2]int16, 0)
+type Point aoc_utils.Point[int16]
+
+func readSource(reader io.Reader) (map[byte][]Point, int16, int16) {
+	data := make(map[byte][]Point, 0)
 	s := bufio.NewScanner(reader)
 	y := int16(0)
 	width := int16(0)
@@ -22,9 +26,9 @@ func readSource(reader io.Reader) (map[byte][][2]int16, int16, int16) {
 				continue
 			}
 			if charData, ok := data[character]; ok {
-				data[character] = append(charData, [2]int16{y, int16(idx)})
+				data[character] = append(charData, Point{Y: y, X: int16(idx)})
 			} else {
-				data[character] = [][2]int16{{y, int16(idx)}}
+				data[character] = []Point{{Y: y, X: int16(idx)}}
 			}
 		}
 		y++
@@ -48,8 +52,8 @@ func Part1(in io.Reader) int {
 				if i == j {
 					continue
 				}
-				newX := 2*antennaList[i][1] - antennaList[j][1]
-				newY := 2*antennaList[i][0] - antennaList[j][0]
+				newX := 2*antennaList[i].X - antennaList[j].X
+				newY := 2*antennaList[i].Y - antennaList[j].Y
 				if !OutOfBounds(newX, newY, width, height) {
 					echos[[2]int16{newY, newX}] = true
 				}

@@ -33,9 +33,11 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Benchmark Go
         run: |
+          go test ./... --json -bench . 
+          go test ./... --json -bench . | python convert_benchmark.py 
           go test ./... --json -bench . | python convert_benchmark.py | tee benchmark.json
       - name: Store benchmark result
-        # if: github.ref == 'refs/heads/main'
+        #if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: benchmark-action/github-action-benchmark@v1
         with:
           name: Go Benchmark

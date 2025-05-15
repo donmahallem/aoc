@@ -1,6 +1,7 @@
 package day04_test
 
 import (
+	"io"
 	"strings"
 	"testing"
 
@@ -52,5 +53,13 @@ func Test24Day04Part1(t *testing.T) {
 
 	if result := day04.Part1(strings.NewReader(testData)); result != 18 {
 		t.Errorf(`Expected %d to match %d`, result, 18)
+	}
+}
+
+func BenchmarkPart1(b *testing.B) {
+	testData := strings.NewReader(testData)
+	for b.Loop() {
+		testData.Seek(0, io.SeekStart)
+		day04.Part1(testData)
 	}
 }

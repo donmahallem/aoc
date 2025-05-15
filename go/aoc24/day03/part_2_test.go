@@ -46,7 +46,7 @@ func BenchmarkPart2(b *testing.B) {
 	reader := strings.NewReader(sourceData)
 	b.Run("test large input", func(b *testing.B) {
 		for b.Loop() {
-			reader.Seek(0, 0)
+			reader.Seek(0, io.SeekStart)
 			day03.Part2(reader)
 		}
 	})

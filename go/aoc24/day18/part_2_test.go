@@ -19,7 +19,7 @@ func TestIsPathAvailable(t *testing.T) {
 		}
 	})
 	t.Run("test for 21 steps", func(t *testing.T) {
-		ok := day18.IsPathAvailable(field, 5, 7, 7)
+		ok := day18.IsPathAvailable(field, 25, 7, 7)
 		if ok {
 			t.Errorf(`Expected to be false`)
 		}

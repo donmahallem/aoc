@@ -10,7 +10,7 @@ import (
 type Point aoc_utils.Point[int16]
 
 func readSource(reader io.Reader) (map[byte][]Point, int16, int16) {
-	data := make(map[byte][]Point, 0)
+	data := make(map[byte][]Point, 8)
 	s := bufio.NewScanner(reader)
 	y := int16(0)
 	width := int16(0)
@@ -43,7 +43,8 @@ func OutOfBounds(x int16, y int16, width int16, height int16) bool {
 func Part1(in io.Reader) int {
 	antennas, width, height := readSource(in)
 	var antennaListLen int
-	echos := make(map[[2]int16]bool, 0)
+	var newPoint Point
+	echos := make(map[Point]bool, 0)
 	for antenna := range antennas {
 		antennaList := antennas[antenna]
 		antennaListLen = len(antennaList)
@@ -52,10 +53,10 @@ func Part1(in io.Reader) int {
 				if i == j {
 					continue
 				}
-				newX := 2*antennaList[i].X - antennaList[j].X
-				newY := 2*antennaList[i].Y - antennaList[j].Y
-				if !OutOfBounds(newX, newY, width, height) {
-					echos[[2]int16{newY, newX}] = true
+				newPoint.X = 2*antennaList[i].X - antennaList[j].X
+				newPoint.Y = 2*antennaList[i].Y - antennaList[j].Y
+				if !OutOfBounds(newPoint.X, newPoint.Y, width, height) {
+					echos[newPoint] = true
 				}
 			}
 		}

@@ -8,7 +8,8 @@ func Part2(in io.Reader) int {
 	antennas, width, height := readSource(in)
 	var antennaListLen int
 	var k int16 = 1
-	echos := make(map[Point]bool, 0)
+	var newPoint Point
+	echos := make(map[Point]bool, 100)
 	for antenna := range antennas {
 		antennaList := antennas[antenna]
 		antennaListLen = len(antennaList)
@@ -22,10 +23,10 @@ func Part2(in io.Reader) int {
 				diffY := antennaList[i].Y - antennaList[j].Y
 				k = 1
 				for {
-					newX := antennaList[i].X + (k * diffX)
-					newY := antennaList[i].Y + (k * diffY)
-					if !OutOfBounds(newX, newY, width, height) {
-						echos[Point{Y: newY, X: newX}] = true
+					newPoint.X = antennaList[i].X + (k * diffX)
+					newPoint.Y = antennaList[i].Y + (k * diffY)
+					if !OutOfBounds(newPoint.X, newPoint.Y, width, height) {
+						echos[newPoint] = true
 					} else {
 						break
 					}

@@ -60,6 +60,8 @@ func main() {
 			fmt.Printf("%d", v[i])
 		}
 		fmt.Println()
+	case aoc_utils.Point[int16]:
+		fmt.Printf("Result is: {X:%d,Y:%d}\n", v.X, v.Y)
 	default:
 		fmt.Println("Unknown result type")
 	}

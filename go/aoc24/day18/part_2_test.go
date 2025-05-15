@@ -9,19 +9,17 @@ import (
 )
 
 func TestIsPathAvailable(t *testing.T) {
-	points := day18.ParseInput(strings.NewReader(testData))
+	reader := strings.NewReader(testData)
+	points := day18.ParseInput(reader)
+	field := day18.PointsToField(points, 7, 7)
 	t.Run("test for 12 steps", func(t *testing.T) {
-		field := day18.ConvertInputToField(points, 12, 7, 7)
-		scoreField := day18.CreateEmptyField(7, 7)
-		ok := day18.IsPathAvailable(field, scoreField, 5, 7, 7)
+		ok := day18.IsPathAvailable(field, 5, 7, 7)
 		if !ok {
 			t.Errorf(`Expected to be true`)
 		}
 	})
 	t.Run("test for 21 steps", func(t *testing.T) {
-		field := day18.ConvertInputToField(points, 22, 7, 7)
-		scoreField := day18.CreateEmptyField(7, 7)
-		ok := day18.IsPathAvailable(field, scoreField, 5, 7, 7)
+		ok := day18.IsPathAvailable(field, 5, 7, 7)
 		if ok {
 			t.Errorf(`Expected to be false`)
 		}
@@ -29,42 +27,49 @@ func TestIsPathAvailable(t *testing.T) {
 }
 
 func TestFindFirstNonSolvable(t *testing.T) {
-	points := day18.ParseInput(strings.NewReader(testData))
+	reader := strings.NewReader(testData)
+	points := day18.ParseInput(reader)
+	field := day18.PointsToField(points, 7, 7)
+	numPoints := uint16(len(points))
 	t.Run("find an end", func(t *testing.T) {
-		result, ok := day18.FindFirstNonSolvable(points, 7, 7)
-		if !ok {
+		endPods := day18.FindFirstNonSolvable(field, numPoints, 7, 7)
+		if endPods == numPoints {
 			t.Errorf(`Expected result to be ok`)
 		}
-		if result.X != 6 || result.Y != 1 {
-			t.Errorf(`Expected (6,1) and not %v`, result)
+		expected := day18.Point{X: 6, Y: 1}
+		if points[endPods] != expected {
+			t.Errorf("Found %v. Expected: %v", points[endPods], expected)
 		}
 	})
 	t.Run("find no end", func(t *testing.T) {
-		result, ok := day18.FindFirstNonSolvable([]day18.Point{}, 7, 7)
-		if ok {
+		endPods := day18.FindFirstNonSolvable(field, numPoints, 7, 7)
+		if endPods == numPoints {
 			t.Errorf(`Expected result to be false`)
-		}
-		if result != nil {
-			t.Errorf(`Expected result to be nil`)
 		}
 	})
 }
 
+func createEmptyField(width, height uint16) day18.Field {
+
+	parsedField := make(day18.Field, height)
+	for y := range height {
+		parsedField[y] = make([]uint16, width)
+	}
+	return parsedField
+}
 func BenchmarkIsPathAvailable(b *testing.B) {
-	const TEST_WIDTH, TEST_HEIGHT uint = 7, 7
-	//reader := strings.NewReader(testData)
-	//points := day18.ParseInput(reader)
-	obstacleField := day18.CreateEmptyField(TEST_WIDTH, TEST_HEIGHT)
-	scoreField := day18.CreateEmptyField(TEST_WIDTH, TEST_HEIGHT)
+	const TEST_WIDTH, TEST_HEIGHT uint16 = 7, 7
+	obstacleField := createEmptyField(TEST_WIDTH, TEST_HEIGHT)
 	for b.Loop() {
-		day18.IsPathAvailable(obstacleField, scoreField, 0, int(TEST_WIDTH), int(TEST_HEIGHT))
+		day18.IsPathAvailable(obstacleField, 5, TEST_WIDTH, TEST_HEIGHT)
 	}
 }
 func BenchmarkFindFirstNonSolvable(b *testing.B) {
 	b.Run("sample dataset", func(b *testing.B) {
 		points := day18.ParseInput(strings.NewReader(testData))
+		field := day18.PointsToField(points, 7, 7)
 		for b.Loop() {
-			day18.FindFirstNonSolvable(points, 7, 7)
+			day18.FindFirstNonSolvable(field, uint16(len(points)), 7, 7)
 		}
 	})
 	b.Run("large dataset", func(b *testing.B) {
@@ -73,8 +78,9 @@ func BenchmarkFindFirstNonSolvable(b *testing.B) {
 		}
 		sourceData, _ := test_utils.GetTestData(24, 18)
 		points := day18.ParseInput(strings.NewReader(sourceData))
+		field := day18.PointsToField(points, 71, 71)
 		for b.Loop() {
-			day18.FindFirstNonSolvable(points, 71, 71)
+			day18.FindFirstNonSolvable(field, uint16(len(points)), 71, 71)
 		}
 	})
 }

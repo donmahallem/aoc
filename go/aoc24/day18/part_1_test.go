@@ -36,16 +36,19 @@ const testData string = `5,4
 
 func TestParseInput(t *testing.T) {
 	points := day18.ParseInput(strings.NewReader(testData))
+	field := day18.PointsToField(points, 7, 7)
 	if len(points) != 25 {
-		t.Errorf(`Expected %d to match 25`, len(points))
+		t.Errorf(`Expected 25 items. Not %d`, points)
+	}
+	if len(field) != 7 {
+		t.Errorf(`Expected %d to match 25`, len(field))
 	}
 }
 
 func TestFindShortestPath(t *testing.T) {
 	points := day18.ParseInput(strings.NewReader(testData))
-	field := day18.ConvertInputToField(points, 12, 7, 7)
-
-	if result := day18.FindShortestPath(field); result != 22 {
+	field := day18.PointsToField(points, 7, 7)
+	if result := day18.FindShortestPath(field, 12, 7, 7); result != 22 {
 		t.Errorf(`Expected %d to match 22`, result)
 	}
 }
@@ -53,9 +56,9 @@ func TestFindShortestPath(t *testing.T) {
 func BenchmarkFindShortestPath(b *testing.B) {
 	reader := strings.NewReader(testData)
 	points := day18.ParseInput(reader)
-	field := day18.ConvertInputToField(points, 12, 7, 7)
+	field := day18.PointsToField(points, 7, 7)
 	for b.Loop() {
-		day18.FindShortestPath(field)
+		day18.FindShortestPath(field, 12, 7, 7)
 	}
 }
 func BenchmarkParseInput(b *testing.B) {
@@ -63,12 +66,5 @@ func BenchmarkParseInput(b *testing.B) {
 	for b.Loop() {
 		reader.Seek(0, io.SeekStart)
 		day18.ParseInput(reader)
-	}
-}
-func BenchmarkConvertInputToField(b *testing.B) {
-	reader := strings.NewReader(testData)
-	points := day18.ParseInput(reader)
-	for b.Loop() {
-		day18.ConvertInputToField(points, 12, 7, 7)
 	}
 }

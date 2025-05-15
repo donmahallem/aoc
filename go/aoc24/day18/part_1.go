@@ -2,10 +2,8 @@ package day18
 
 import (
 	"bufio"
-	"container/list"
 	"io"
 	"math"
-	"slices"
 	"strconv"
 	"strings"
 
@@ -58,23 +56,25 @@ type PathNode struct {
 }
 
 func FindShortestPath(field Field, stepsTaken uint16, fieldWidth int16, fieldHeight int16) uint16 {
-	queue := list.New()
-	queue.PushBack(PathNode{coord: Point{X: 0, Y: 0}, len: 0})
-	visited := make([]Point, 0, fieldWidth+fieldHeight)
+	queue := make([]PathNode, 0, 64)
+	queue = append(queue, PathNode{coord: Point{X: 0, Y: 0}, len: 0})
+	visited := make(map[Point]bool, 128)
 	var currentNode PathNode
 	var shortestPath uint16 = math.MaxUint16
-	for queue.Len() > 0 {
-		currentNode = queue.Remove(queue.Front()).(PathNode)
+	for len(queue) > 0 {
+		currentNode = queue[0]
+		queue = queue[1:]
 		if currentNode.len+1 >= shortestPath {
 			continue
 		}
 
-		if slices.Contains(visited, currentNode.coord) {
-			continue
-		}
-		visited = append(visited, currentNode.coord)
+		visited[currentNode.coord] = true
 		for _, checkDir := range DIRS_ALL {
 			nextPoint := Point{X: currentNode.coord.X + checkDir.X, Y: currentNode.coord.Y + checkDir.Y}
+
+			if visited[currentNode.coord] {
+				continue
+			}
 			nextNode := PathNode{coord: nextPoint}
 			nextNode.len = currentNode.len + 1
 			if nextNode.coord.X < 0 || nextNode.coord.Y < 0 || nextNode.coord.X >= fieldWidth || nextNode.coord.Y >= fieldHeight {
@@ -89,7 +89,7 @@ func FindShortestPath(field Field, stepsTaken uint16, fieldWidth int16, fieldHei
 			if nextNode.coord.X == fieldWidth-1 && nextNode.coord.Y == fieldHeight-1 {
 				shortestPath = nextNode.len
 			} else {
-				queue.PushBack(nextNode)
+				queue = append(queue, nextNode)
 			}
 		}
 	}

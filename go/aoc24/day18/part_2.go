@@ -3,17 +3,19 @@ package day18
 import (
 	"fmt"
 	"io"
+
+	"container/list"
 )
 
 func IsPathAvailable(field Field, pointIdx uint16, fieldWidth uint16, fieldHeight uint16) bool {
 	fieldWidthInt := int16(fieldWidth)
 	fieldHeightInt := int16(fieldHeight)
-	queue := []Point{{X: 0, Y: 0}}
+	queue := list.New()
+	queue.PushBack(Point{X: 0, Y: 0})
 	visited := make(map[Point]bool, 64)
 	var currentPosition Point
-	for len(queue) > 0 {
-		currentPosition = queue[len(queue)-1]
-		queue = queue[:len(queue)-1]
+	for queue.Len() > 0 {
+		currentPosition = queue.Remove(queue.Back()).(Point)
 
 		visited[currentPosition] = true
 
@@ -34,7 +36,7 @@ func IsPathAvailable(field Field, pointIdx uint16, fieldWidth uint16, fieldHeigh
 			if nextPoint.X == fieldWidthInt-1 && nextPoint.Y == fieldHeightInt-1 {
 				return true
 			}
-			queue = append(queue, nextPoint)
+			queue.PushBack(nextPoint)
 		}
 	}
 	return false

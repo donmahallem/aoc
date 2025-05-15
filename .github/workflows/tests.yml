@@ -32,6 +32,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Benchmark Go
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           go test ./... --json -bench . | python convert_benchmark.py | tee benchmark.json
       - name: Store benchmark result

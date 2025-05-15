@@ -9,21 +9,21 @@ KEY_OUTPUT="Output"
 INPUT_REGEX_STR = r'(?P<iterations>\d+)\s+(?P<timing>\d+(\.\d+)?)\sns'
 
 INPUT_REGEX=re.compile(INPUT_REGEX_STR)
-INPUT_SHORT=re.compile("[\n\t(\\t)\s]+")
 def parse(input_stream):
     sys.stdout.write("[")
-    for line_idx,line in enumerate(input_stream.readlines()):
+    output_idx=0
+    for line in input_stream.readlines():
         parsed_line=json.loads(line)
         if KEY_ACTION not in parsed_line or parsed_line[KEY_ACTION]!="output":
             continue
         if "Test" not in parsed_line or not parsed_line["Test"].startswith("Benchmark"):
             continue
         reg_result=INPUT_REGEX.search(parsed_line[KEY_OUTPUT])
-        
         if reg_result:
             group_dict=reg_result.groupdict()
-            if line_idx>0:
+            if output_idx>0:
                 sys.stdout.write(",")
+            output_idx+=1
             sys.stdout.write(json.dumps({
                     "name": f"go_{parsed_line["Package"]}.{parsed_line["Test"]}",
                     "unit": "ns",

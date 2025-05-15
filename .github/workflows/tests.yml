@@ -40,8 +40,8 @@ jobs:
         uses: benchmark-action/github-action-benchmark@v1
         with:
           name: Go Benchmark
-          tool: "go"
-          output-file-path: ./go/output.txt
+          tool: "customSmallerIsBetter"
+          output-file-path: ./go/benchmark.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
   test_python:

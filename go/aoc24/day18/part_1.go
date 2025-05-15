@@ -3,6 +3,7 @@ package day18
 import (
 	"bufio"
 	"io"
+	"math"
 	"strconv"
 	"strings"
 
@@ -14,70 +15,88 @@ const CELL_CORRUPTED int = -1
 // As you always walk top-left to right-bottom primarly use those first
 var DIRS_ALL [4]Point = [4]Point{{X: 1, Y: 0}, {X: 0, Y: 1}, {X: -1, Y: 0}, {X: 0, Y: -1}}
 
-type Field = [][]int
-type Point = aoc_utils.Point[int]
+type Field = [][]uint16
+type Point = aoc_utils.Point[int16]
 
-func ParseInput(in io.Reader) *[]Point {
-	points := make([]Point, 0)
+func ParseInput(in io.Reader) []Point {
+	parsedPoints := make([]Point, 0, 64)
 	s := bufio.NewScanner(in)
-	for s.Scan() {
+	i := uint16(1)
+	for ; s.Scan(); i++ {
 		line := s.Text()
 		commaIndex := strings.Index(line, ",")
-		point := Point{}
-		point.X, _ = strconv.Atoi(line[0:commaIndex])
-		point.Y, _ = strconv.Atoi(line[commaIndex+1:])
-		points = append(points, point)
+		x, _ := strconv.Atoi(line[0:commaIndex])
+		y, _ := strconv.Atoi(line[commaIndex+1:])
+		point := Point{X: int16(x), Y: int16(y)}
+		parsedPoints = append(parsedPoints, point)
 	}
-	return &points
+	return parsedPoints
 }
 
-func CreateEmptyField(width, height uint) *Field {
-	field := make(Field, 0, height)
-	for range height {
-		field = append(field, make([]int, width))
+func PointsToField(points []Point, width uint8, height uint8) Field {
+
+	parsedField := make(Field, height)
+	for y := range height {
+		parsedField[y] = make([]uint16, width)
 	}
-	return &field
-}
-func ConvertInputToField(points *[]Point, steps, width, height uint) *Field {
-	field := CreateEmptyField(width, height)
-	for step := range steps {
-		(*field)[(*points)[step].Y][(*points)[step].X] = CELL_CORRUPTED
+	var cellValue uint16
+	for i, point := range points {
+		cellValue = uint16(i) + 1
+		if parsedField[point.Y][point.X] > 0 && parsedField[point.Y][point.X] < cellValue {
+			continue
+		}
+		parsedField[point.Y][point.X] = cellValue
 	}
-	return field
+	return parsedField
 }
 
-func FindShortestPath(field *Field) int {
-	fieldHeight := len(*field)
-	fieldWidth := len((*field)[0])
-	toCheck := make([]Point, 0)
-	toCheck = append(toCheck, Point{X: 0, Y: 0})
-	var currentCoord, nextCoord Point
-	var currentValue, nextValue int
-	for len(toCheck) > 0 {
-		currentCoord = toCheck[0]
-		toCheck = toCheck[1:]
-		currentValue = (*field)[currentCoord.Y][currentCoord.X]
-		nextValue = currentValue + 1
+type PathNode struct {
+	coord Point
+	len   uint16
+}
+
+func FindShortestPath(field Field, stepsTaken uint16, fieldWidth int16, fieldHeight int16) uint16 {
+	queue := make([]PathNode, 0, 64)
+	queue = append(queue, PathNode{coord: Point{X: 0, Y: 0}, len: 0})
+	visited := make(map[Point]uint16, 128)
+	var currentNode PathNode
+	var shortestPath uint16 = math.MaxUint16
+	for len(queue) > 0 {
+		currentNode = queue[len(queue)-1]
+		queue = queue[:len(queue)-1]
+		if currentNode.len+1 >= shortestPath {
+			continue
+		}
+		visited[currentNode.coord] = currentNode.len
 		for _, checkDir := range DIRS_ALL {
-			nextCoord.X = currentCoord.X + checkDir.X
-			nextCoord.Y = currentCoord.Y + checkDir.Y
-			if nextCoord.X < 0 || nextCoord.Y < 0 || nextCoord.X >= fieldWidth || nextCoord.Y >= fieldHeight {
-				// next coord outside the field dimensions
-				continue
-			} else if currentNextValue := (*field)[nextCoord.Y][nextCoord.X]; currentNextValue == CELL_CORRUPTED ||
-				(currentNextValue <= nextValue && currentNextValue > 0) {
-				// CELL IS ALREADY CORUPTED OR A Lower value was found
+			nextPoint := Point{X: currentNode.coord.X + checkDir.X, Y: currentNode.coord.Y + checkDir.Y}
+
+			nextNode := PathNode{coord: nextPoint}
+			nextNode.len = currentNode.len + 1
+			if val, ok := visited[nextNode.coord]; ok && val <= nextNode.len {
 				continue
 			}
-			(*field)[nextCoord.Y][nextCoord.X] = nextValue
-			toCheck = append(toCheck, nextCoord)
+			if nextNode.coord.X < 0 || nextNode.coord.Y < 0 || nextNode.coord.X >= fieldWidth || nextNode.coord.Y >= fieldHeight {
+				// next coord outside the field dimensions
+				continue
+			}
+			currentCellValue := field[nextNode.coord.Y][nextNode.coord.X]
+			if currentCellValue > 0 && currentCellValue <= stepsTaken {
+				// Cell Corrupted
+				continue
+			}
+			if nextNode.coord.X == fieldWidth-1 && nextNode.coord.Y == fieldHeight-1 {
+				shortestPath = nextNode.len
+			} else {
+				queue = append(queue, nextNode)
+			}
 		}
 	}
-	return (*field)[fieldHeight-1][fieldWidth-1]
+	return shortestPath
 }
 
-func Part1(in io.Reader) int {
+func Part1(in io.Reader) uint16 {
 	points := ParseInput(in)
-	field := ConvertInputToField(points, 1024, 71, 71)
-	return FindShortestPath(field)
+	field := PointsToField(points, 71, 71)
+	return FindShortestPath(field, 1024, 71, 71)
 }

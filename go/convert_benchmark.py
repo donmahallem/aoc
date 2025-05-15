@@ -23,7 +23,7 @@ with open('benchmark.txt','r') as input_file:
             group_dict=reg_result.groupdict()
             data.append(
     {
-        "name": f"{parsed_line["Package"]}.{parsed_line["Test"]}",
+        "name": f"go_{parsed_line["Package"]}.{parsed_line["Test"]}",
         "unit": "ns",
         "value": int(group_dict["timing"]),
         "extra": f"Number of Iterations: {group_dict["iterations"]}\n"

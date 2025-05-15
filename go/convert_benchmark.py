@@ -36,4 +36,3 @@ def parse(input_stream):
 import sys
 
 parse(sys.stdin)
-        

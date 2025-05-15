@@ -8,9 +8,9 @@ KEY_OUTPUT="Output"
 INPUT_REGEX_STR = r"\s*(?P<iterations>\d+)\s+(?P<timing>\d+)\s+ns/op"
 
 INPUT_REGEX=re.compile(INPUT_REGEX_STR)
-with open('benchmark.txt','r') as input_file:
+def parse(input_stream):
     data=list()
-    for line in input_file.readlines():
+    for line in input_stream.readlines():
         parsed_line=json.loads(line)
         if KEY_ACTION not in parsed_line or parsed_line[KEY_ACTION]!="output":
             continue
@@ -30,7 +30,9 @@ with open('benchmark.txt','r') as input_file:
     }
                 
             )
-    with open("benchmark.json","w") as output_file:
-        json.dump(data,output_file)
-    
-        
+    print(json.dumps(data))
+
+
+import sys
+
+parse(sys.stdin)

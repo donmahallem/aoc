@@ -8,7 +8,7 @@ KEY_OUTPUT="Output"
 INPUT_REGEX_STR = r"\s*(?P<iterations>\d+)\s+(?P<timing>\d+)\s+ns/op"
 
 INPUT_REGEX=re.compile(INPUT_REGEX_STR)
-with open('output.txt','r') as input_file:
+with open('benchmark.txt','r') as input_file:
     data=list()
     for line in input_file.readlines():
         parsed_line=json.loads(line)

@@ -4,15 +4,11 @@ import (
 	"bufio"
 	"io"
 	"reflect"
+
+	"github.com/donmahallem/aoc/aoc_utils"
 )
 
-type Position struct {
-	x, y uint16
-}
-
-func NewPosition(x uint16, y uint16) Position {
-	return Position{x, y}
-}
+type Position aoc_utils.Point[uint16]
 
 type Field struct {
 	width, height uint16
@@ -45,7 +41,7 @@ func LoadField(reader io.Reader) (Field, error) {
 		for idx, character := range line {
 			row[idx] = character - '0'
 			if row[idx] == 0 {
-				starts = append(starts, Position{uint16(idx), uint16(y)})
+				starts = append(starts, Position{X: uint16(idx), Y: y})
 			}
 		}
 		obstacles = append(obstacles, row)
@@ -54,9 +50,9 @@ func LoadField(reader io.Reader) (Field, error) {
 	return NewField(width, y, obstacles, starts), nil
 }
 
-func WalkDepth(data *Field, x uint16, y uint16, depth uint8, ends *map[[2]uint16]bool) int {
+func WalkDepth(data *Field, x uint16, y uint16, depth uint8, ends *map[Position]bool) int {
 	if depth == 9 {
-		(*ends)[[2]uint16{x, y}] = true
+		(*ends)[Position{X: x, Y: y}] = true
 		return 1
 	}
 	result := 0
@@ -79,8 +75,8 @@ func WalkDepth(data *Field, x uint16, y uint16, depth uint8, ends *map[[2]uint16
 func SearchAll(field *Field) int {
 	result := 0
 	for i := range len((*field).starts) {
-		mapper := make(map[[2]uint16]bool)
-		WalkDepth(field, (*field).starts[i].x, (*field).starts[i].y, 0, &mapper)
+		mapper := make(map[Position]bool)
+		WalkDepth(field, (*field).starts[i].X, (*field).starts[i].Y, 0, &mapper)
 		result += len(mapper)
 	}
 	return result

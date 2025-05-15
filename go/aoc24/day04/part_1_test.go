@@ -41,7 +41,7 @@ func TestCheckBlock1(t *testing.T) {
 
 func TestCheckBlock2(t *testing.T) {
 	count := 0
-	for i := 0; i < len(testDataString); i++ {
+	for i := range len(testDataString) {
 		count += day04.CheckBlock(testDataString[max(0, i-3) : i+1])
 	}
 	if count != 30 {

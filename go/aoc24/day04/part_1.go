@@ -3,27 +3,31 @@ package day04
 import (
 	"bufio"
 	"io"
+
+	"github.com/donmahallem/aoc/aoc_utils"
 )
 
+type Dir aoc_utils.Point[int16]
+
 var SearchTerm = []byte{'X', 'M', 'A', 'S'}
-var SearchTermDirections = [][]int{{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {-1, -1}, {1, -1}, {-1, 1}}
+var SearchTermDirections = []Dir{{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {-1, -1}, {1, -1}, {-1, 1}}
 
 func CheckBlock(block [][]byte) int {
-	height := len(block)
-	width := len(block[0])
+	height := int16(len(block))
+	width := int16(len(block[0]))
 	count := 0
 	found := false
 	for x := range width {
 		for y := range height {
 			for _, dir := range SearchTermDirections {
-				endX := x + dir[0]*3
-				endY := y + dir[1]*3
+				endX := x + dir.X*3
+				endY := y + dir.Y*3
 				if endX < 0 || endY < 0 || endX >= width || endY >= height {
 					continue
 				}
 				found = true
-				for i := range 4 {
-					if block[y+i*dir[1]][x+i*dir[0]] != SearchTerm[i] {
+				for i := range int16(4) {
+					if block[y+i*dir.Y][x+i*dir.X] != SearchTerm[i] {
 						found = false
 						break
 					}

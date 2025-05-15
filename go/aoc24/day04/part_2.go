@@ -5,24 +5,24 @@ import (
 	"io"
 )
 
-var SearchTermDirectionsMas = [][]int{{1, 1}, {-1, -1}, {1, -1}, {-1, 1}}
+var SearchTermDirectionsMas = []Dir{{1, 1}, {-1, -1}, {1, -1}, {-1, 1}}
 
 func CheckMasBlock(block [][]byte) int {
-	height := len(block)
-	width := len(block[0])
+	height := int16(len(block))
+	width := int16(len(block[0]))
 	count := 0
 	totalCounter := 0
-	for x := 1; x < width-1; x++ {
-		for y := 1; y < height-1; y++ {
+	for x := int16(1); x < width-1; x++ {
+		for y := int16(1); y < height-1; y++ {
 			if block[y][x] != 'A' {
 				continue
 			}
 			count = 0
 			for _, dir := range SearchTermDirectionsMas {
-				xStart := x + dir[0]
-				xEnd := x - dir[0]
-				yStart := y + dir[1]
-				yEnd := y - dir[1]
+				xStart := x + dir.X
+				xEnd := x - dir.X
+				yStart := y + dir.Y
+				yEnd := y - dir.Y
 				if block[yStart][xStart] == 'M' && block[yEnd][xEnd] == 'S' {
 					count++
 					if count >= 2 {

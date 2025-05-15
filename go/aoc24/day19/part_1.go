@@ -11,8 +11,8 @@ type TowelPatterns = map[TowelPattern]uint
 type Towel = string
 type Towels = []Towel
 
-func ParseFirstLine(line *string) (*TowelPatterns, *uint) {
-	numbers := strings.Split((*line), ",")
+func ParseFirstLine(line string) (TowelPatterns, uint) {
+	numbers := strings.Split(line, ",")
 	patterns := make(TowelPatterns, len(numbers))
 	var longestPattern uint = 0
 	var key string
@@ -23,12 +23,12 @@ func ParseFirstLine(line *string) (*TowelPatterns, *uint) {
 			longestPattern = keyLen
 		}
 	}
-	return &patterns, &longestPattern
+	return patterns, longestPattern
 }
 
-func ParseInput(in io.Reader) (*TowelPatterns, *Towels, *uint) {
-	var patterns *TowelPatterns
-	var keyLen *uint
+func ParseInput(in io.Reader) (TowelPatterns, Towels, uint) {
+	var patterns TowelPatterns
+	var keyLen uint
 	towels := make(Towels, 0)
 	firstLine := true
 	s := bufio.NewScanner(in)
@@ -38,26 +38,25 @@ func ParseInput(in io.Reader) (*TowelPatterns, *Towels, *uint) {
 			firstLine = false
 			continue
 		} else if firstLine {
-			patterns, keyLen = ParseFirstLine(&line)
+			patterns, keyLen = ParseFirstLine(line)
 		} else {
 			towels = append(towels, line)
 		}
 	}
-	return patterns, &towels, keyLen
+	return patterns, towels, keyLen
 }
 
-func Gogo(patterns *TowelPatterns, towel *Towel, toCheck *[]Towel) bool {
-	//toCheck := make([]Towel, 0)
-	*toCheck = append((*toCheck)[:0], *towel)
+func Gogo(patterns TowelPatterns, towel Towel, toCheck *[]Towel) bool {
+	*toCheck = append((*toCheck)[:0], towel)
 	var currentTowel Towel
 	for {
-		currentStackLength := len((*toCheck))
+		currentStackLength := len(*toCheck)
 		if currentStackLength == 0 {
 			break
 		}
 		currentTowel = (*toCheck)[currentStackLength-1]
 		(*toCheck) = (*toCheck)[0 : currentStackLength-1]
-		for pattern := range *patterns {
+		for pattern := range patterns {
 			if pattern == currentTowel {
 				return true
 			} else if strings.HasPrefix(currentTowel, pattern) {
@@ -72,8 +71,8 @@ func Part1(in io.Reader) uint {
 	patterns, towls, _ := ParseInput(in)
 	toCheck := make([]Towel, 0)
 	var count uint = 0
-	for _, towl := range *towls {
-		if Gogo(patterns, &towl, &toCheck) {
+	for _, towl := range towls {
+		if Gogo(patterns, towl, &toCheck) {
 			count++
 		}
 	}

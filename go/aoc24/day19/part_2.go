@@ -6,10 +6,10 @@ import (
 
 type ScoreCache = map[string]uint
 
-func BisectSearchPatterns(patterns *TowelPatterns, scoreCache *ScoreCache, subPattern Towel) uint {
+func BisectSearchPatterns(patterns TowelPatterns, scoreCache *ScoreCache, subPattern Towel) uint {
 	n := len(subPattern)
 	if n == 1 {
-		if _, ok := (*patterns)[subPattern]; ok {
+		if _, ok := patterns[subPattern]; ok {
 			return 1
 		}
 		return 0
@@ -23,7 +23,7 @@ func BisectSearchPatterns(patterns *TowelPatterns, scoreCache *ScoreCache, subPa
 	midpoint := n / 2
 	total := BisectSearchPatterns(patterns, scoreCache, subPattern[:midpoint]) * BisectSearchPatterns(patterns, scoreCache, subPattern[midpoint:])
 
-	for pattern := range *patterns {
+	for pattern := range patterns {
 		towelLen := len(pattern)
 		if towelLen > 1 && towelLen <= n {
 			for i := range towelLen - 1 {
@@ -45,8 +45,7 @@ func Part2(in io.Reader) uint {
 	patterns, towls, _ := ParseInput(in)
 	var count uint = 0
 	cache := make(ScoreCache)
-	for _, towl := range *towls {
-		//count += CountCombinations(patterns, &towl, keyLen)
+	for _, towl := range towls {
 		count += BisectSearchPatterns(patterns, &cache, towl)
 
 	}

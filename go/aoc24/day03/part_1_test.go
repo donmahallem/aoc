@@ -28,7 +28,9 @@ func TestPart1(t *testing.T) {
 }
 
 func BenchmarkPart1(b *testing.B) {
+	reader := strings.NewReader(testData)
 	for b.Loop() {
-		day03.Part1(strings.NewReader(testData))
+		reader.Seek(0, io.SeekStart)
+		day03.Part1(reader)
 	}
 }

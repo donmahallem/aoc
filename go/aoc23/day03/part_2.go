@@ -7,8 +7,8 @@ import (
 )
 
 func Part2(in io.Reader) int {
-	field, _ := aoc_utils.LoadField(in)
-	parts, matches := FindObjects(field)
+	field, _ := aoc_utils.LoadField[int16](in)
+	parts, matches := FindObjects(*field)
 	pairs := PairObjects(parts, matches)
 	summe := 0
 	for pairIdx := range len(pairs) {

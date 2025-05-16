@@ -28,8 +28,8 @@ func TestSortVertical(t *testing.T) {
 }
 
 func TestCountStraightEdges(t *testing.T) {
-	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
-	neighbours := day12.FindNeighbours(test, 0, 4)
+	test, _ := aoc_utils.LoadField[int16](strings.NewReader(testData))
+	neighbours := day12.FindNeighbours(*test, 0, 4)
 	result := day12.CountStraightEdges(neighbours)
 	if result != 4 {
 		t.Errorf(`Expected %d to match %d`, result, 4)
@@ -37,13 +37,13 @@ func TestCountStraightEdges(t *testing.T) {
 }
 
 func TestCountStraightEdgesHorizontal(t *testing.T) {
-	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
-	neighbours := day12.FindNeighbours(test, 0, 4)
+	test, _ := aoc_utils.LoadField[int16](strings.NewReader(testData))
+	neighbours := day12.FindNeighbours(*test, 0, 4)
 	result := day12.CountStraightEdgesHorizontal(neighbours)
 	if result != 2 {
 		t.Errorf(`Expected %d to match %d`, result, 2)
 	}
-	neighbours = day12.FindNeighbours(test, 0, 0)
+	neighbours = day12.FindNeighbours(*test, 0, 0)
 	result = day12.CountStraightEdgesHorizontal(neighbours)
 	if result != 5 {
 		t.Errorf(`Expected %d to match %d`, result, 5)
@@ -51,8 +51,8 @@ func TestCountStraightEdgesHorizontal(t *testing.T) {
 }
 
 func TestCountStraightEdgesVertical_0_4(t *testing.T) {
-	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
-	neighbours := day12.FindNeighbours(test, 0, 4)
+	test, _ := aoc_utils.LoadField[int16](strings.NewReader(testData))
+	neighbours := day12.FindNeighbours(*test, 0, 4)
 	result := day12.CountStraightEdgesVertical(neighbours)
 	if result != 2 {
 		t.Errorf(`Expected %d to match %d`, result, 2)
@@ -60,16 +60,16 @@ func TestCountStraightEdgesVertical_0_4(t *testing.T) {
 }
 
 func TestCountStraightEdgesVertical_R(t *testing.T) {
-	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
-	neighbours := day12.FindNeighbours(test, 0, 0)
+	test, _ := aoc_utils.LoadField[int16](strings.NewReader(testData))
+	neighbours := day12.FindNeighbours(*test, 0, 0)
 	result := day12.CountStraightEdgesVertical(neighbours)
 	if result != 5 {
 		t.Errorf(`Expected %d to match %d`, result, 5)
 	}
 }
 func TestCountStraightEdgesHorizontal_R(t *testing.T) {
-	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
-	neighbours := day12.FindNeighbours(test, 0, 0)
+	test, _ := aoc_utils.LoadField[int16](strings.NewReader(testData))
+	neighbours := day12.FindNeighbours(*test, 0, 0)
 	result := day12.CountStraightEdgesHorizontal(neighbours)
 	if result != 5 {
 		t.Errorf(`Expected %d to match %d`, result, 5)
@@ -77,8 +77,8 @@ func TestCountStraightEdgesHorizontal_R(t *testing.T) {
 }
 
 func TestCountStraightEdgesVertical_7_0(t *testing.T) {
-	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
-	neighbours := day12.FindNeighbours(test, 7, 0)
+	test, _ := aoc_utils.LoadField[int16](strings.NewReader(testData))
+	neighbours := day12.FindNeighbours(*test, 7, 0)
 	result := day12.CountStraightEdgesVertical(neighbours)
 	if result != 3 {
 		t.Errorf(`Expected %d to match %d`, result, 3)
@@ -86,8 +86,8 @@ func TestCountStraightEdgesVertical_7_0(t *testing.T) {
 }
 
 func TestCountStraightEdgesHorizontal_7_0(t *testing.T) {
-	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
-	neighbours := day12.FindNeighbours(test, 7, 0)
+	test, _ := aoc_utils.LoadField[int16](strings.NewReader(testData))
+	neighbours := day12.FindNeighbours(*test, 7, 0)
 	result := day12.CountStraightEdgesHorizontal(neighbours)
 	if result != 3 {
 		t.Errorf(`Expected %d to match %d`, result, 3)
@@ -95,8 +95,8 @@ func TestCountStraightEdgesHorizontal_7_0(t *testing.T) {
 }
 
 func TestCountStraightEdgesHorizontal_V(t *testing.T) {
-	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
-	neighbours := day12.FindNeighbours(test, 2, 0)
+	test, _ := aoc_utils.LoadField[int16](strings.NewReader(testData))
+	neighbours := day12.FindNeighbours(*test, 2, 0)
 	result := day12.CountStraightEdgesHorizontal(neighbours)
 	if result != 5 {
 		t.Errorf(`Expected %d to match %d`, result, 5)

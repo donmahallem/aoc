@@ -7,7 +7,8 @@ import (
 	"github.com/donmahallem/aoc/aoc_utils"
 )
 
-type Point = aoc_utils.Point[int]
+type Point = aoc_utils.Point[int16]
+type Field = aoc_utils.ByteField[int16]
 
 var dirs [4]Point = [4]Point{{Y: 0, X: 1}, {Y: 0, X: -1}, {Y: 1, X: 0}, {Y: -1, X: 0}}
 
@@ -28,17 +29,17 @@ func CountEdges(cells []Point) int {
 	return edgeCount
 }
 
-func findNeighboursInt(field *aoc_utils.ByteField, x int, y int, t byte, found *map[Point]bool) {
+func findNeighboursInt(field Field, x int16, y int16, t byte, found *map[Point]bool) {
 	var currentCoord Point = Point{}
 	for _, dir := range dirs {
 		currentCoord.Y = dir.Y + y
 		currentCoord.X = dir.X + x
 		if currentCoord.Y < 0 ||
 			currentCoord.X < 0 ||
-			currentCoord.Y >= int((*field).Height) ||
-			currentCoord.X >= int((*field).Width) {
+			currentCoord.Y >= field.Height ||
+			currentCoord.X >= field.Width {
 			continue
-		} else if (*field).Field[currentCoord.Y][currentCoord.X] == t {
+		} else if field.Field[currentCoord.Y][currentCoord.X] == t {
 			if _, ok := (*found)[currentCoord]; ok {
 				continue
 			} else {
@@ -49,10 +50,10 @@ func findNeighboursInt(field *aoc_utils.ByteField, x int, y int, t byte, found *
 	}
 }
 
-func FindNeighbours(field *aoc_utils.ByteField, y int, x int) []Point {
-	group := make(map[Point]bool, 0)
+func FindNeighbours(field Field, y int16, x int16) []Point {
+	group := make(map[Point]bool, 8)
 	group[Point{Y: y, X: x}] = true
-	findNeighboursInt(field, x, y, (*field).Field[y][x], &group)
+	findNeighboursInt(field, x, y, field.Field[y][x], &group)
 	keys := make([]Point, 0, len(group))
 	for idx := range group {
 		keys = append(keys, idx)
@@ -60,18 +61,18 @@ func FindNeighbours(field *aoc_utils.ByteField, y int, x int) []Point {
 	return keys
 }
 
-func FindGroups(field *aoc_utils.ByteField) [][]Point {
-	taken := make(map[Point]bool)
+func FindGroups(field Field) [][]Point {
+	taken := make(map[Point]bool, 32)
 	var coord Point
-	groups := make([][]Point, 0)
+	groups := make([][]Point, 0, 16)
 	for x := range field.Width {
 		for y := range field.Height {
-			coord.Y = int(y)
-			coord.X = int(x)
+			coord.Y = y
+			coord.X = x
 			if taken[coord] {
 				continue
 			}
-			neighbours := FindNeighbours(field, int(y), int(x))
+			neighbours := FindNeighbours(field, y, x)
 			for _, neighbour := range neighbours {
 				taken[neighbour] = true
 			}
@@ -82,8 +83,8 @@ func FindGroups(field *aoc_utils.ByteField) [][]Point {
 }
 
 func Part1(in io.Reader) int {
-	data, _ := aoc_utils.LoadField(in)
-	groups := FindGroups(data)
+	data, _ := aoc_utils.LoadField[int16](in)
+	groups := FindGroups(*data)
 	count := 0
 	for _, group := range groups {
 		count += len(group) * CountEdges(group)

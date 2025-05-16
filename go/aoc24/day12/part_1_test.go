@@ -30,8 +30,8 @@ func TestCountEdges(t *testing.T) {
 }
 
 func TestFindNeighbours(t *testing.T) {
-	test, _ := aoc_utils.LoadField(strings.NewReader(testData))
-	result := day12.FindNeighbours(test, 0, 4)
+	test, _ := aoc_utils.LoadField[int16](strings.NewReader(testData))
+	result := day12.FindNeighbours(*test, 0, 4)
 	expected := []day12.Point{{Y: 0, X: 5}, {Y: 0, X: 4}, {Y: 1, X: 4}, {Y: 1, X: 5}}
 	if len(result) != 4 {
 		t.Errorf(`Expected result to have a length of 4 not %d`, len(result))

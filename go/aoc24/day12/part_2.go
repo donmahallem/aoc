@@ -10,24 +10,24 @@ import (
 type VisitedMap map[Point]bool
 
 func SortHorizontal(a Point, b Point) int {
-	if a.Y == b.Y {
-		return a.X - b.X
+	if tmp := int(a.Y - b.Y); tmp != 0 {
+		return int(tmp)
 	}
-	return a.Y - b.Y
+	return int(a.X - b.X)
 }
 
 func SortVertical(a Point, b Point) int {
-	if a.X == b.X {
-		return a.Y - b.Y
+	if tmp := int(a.X - b.X); tmp != 0 {
+		return tmp
 	}
-	return a.X - b.X
+	return int(a.Y - b.Y)
+
 }
 
 func CountStraightEdgesHorizontal(coords []Point) int {
 	slices.SortFunc(coords, SortHorizontal)
-	//fmt.Printf("Block %v\n", coords)
 	lines := 0
-	checkDirs := [2]int{-1, 1}
+	checkDirs := [2]int16{-1, 1}
 	var inline bool = false
 	for _, checkDir := range checkDirs {
 		lastX := coords[0].X
@@ -67,7 +67,7 @@ func CountStraightEdgesVertical(coords []Point) int {
 	slices.SortFunc(coords, SortVertical)
 	//fmt.Printf("Block %v\n", coords)
 	lines := 0
-	checkDirs := [2]int{-1, 1}
+	checkDirs := [2]int16{-1, 1}
 	var inline bool = false
 	var neighbour Point
 	for _, checkDir := range checkDirs {
@@ -114,8 +114,8 @@ func CountStraightEdges(coords []Point) int {
 }
 
 func Part2(in io.Reader) int {
-	data, _ := aoc_utils.LoadField(in)
-	groups := FindGroups(data)
+	data, _ := aoc_utils.LoadField[int16](in)
+	groups := FindGroups(*data)
 	count := 0
 	for _, group := range groups {
 		count += len(group) * CountStraightEdges(group)

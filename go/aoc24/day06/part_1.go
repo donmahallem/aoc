@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+
+	"github.com/donmahallem/aoc/aoc_utils"
 )
 
 const (
@@ -89,9 +91,11 @@ func PrintField(field *Field) {
 	fmt.Print("\n")
 }
 
-func leaveArea(field *Field, guard Guard) map[[2]int16]bool {
-	stepsTaken := make(map[[2]int16]bool)
-	stepsTaken[[2]int16{guard.y, guard.x}] = true
+type Point aoc_utils.Point[int16]
+
+func leaveArea(field *Field, guard Guard) map[Point]bool {
+	stepsTaken := make(map[Point]bool)
+	stepsTaken[Point{Y: guard.y, X: guard.x}] = true
 	for {
 		if guard.dir == DIR_DOWN {
 			nextY := guard.y - 1
@@ -102,7 +106,7 @@ func leaveArea(field *Field, guard Guard) map[[2]int16]bool {
 				continue
 			} else {
 				guard.y = nextY
-				stepsTaken[[2]int16{nextY, guard.x}] = true
+				stepsTaken[Point{Y: nextY, X: guard.x}] = true
 			}
 		} else if guard.dir == DIR_UP {
 			nextY := guard.y + 1
@@ -113,7 +117,7 @@ func leaveArea(field *Field, guard Guard) map[[2]int16]bool {
 				continue
 			} else {
 				guard.y = nextY
-				stepsTaken[[2]int16{nextY, guard.x}] = true
+				stepsTaken[Point{Y: nextY, X: guard.x}] = true
 			}
 		} else if guard.dir == DIR_RIGHT {
 			nextX := guard.x + 1
@@ -124,7 +128,7 @@ func leaveArea(field *Field, guard Guard) map[[2]int16]bool {
 				continue
 			} else {
 				guard.x = nextX
-				stepsTaken[[2]int16{guard.y, nextX}] = true
+				stepsTaken[Point{Y: guard.y, X: nextX}] = true
 			}
 		} else if guard.dir == DIR_LEFT {
 			nextX := guard.x - 1
@@ -135,7 +139,7 @@ func leaveArea(field *Field, guard Guard) map[[2]int16]bool {
 				continue
 			} else {
 				guard.x = nextX
-				stepsTaken[[2]int16{guard.y, nextX}] = true
+				stepsTaken[Point{Y: guard.y, X: nextX}] = true
 			}
 		}
 	}

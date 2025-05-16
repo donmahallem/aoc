@@ -28,7 +28,7 @@ func WalkDepthPart2(data *Field, x uint16, y uint16, depth uint8) int {
 func SearchAll2(field *Field) int {
 	result := 0
 	for i := range len((*field).starts) {
-		result += WalkDepthPart2(field, (*field).starts[i].x, (*field).starts[i].y, 0)
+		result += WalkDepthPart2(field, (*field).starts[i].X, (*field).starts[i].Y, 0)
 		//result += len(mapper)
 	}
 	return result

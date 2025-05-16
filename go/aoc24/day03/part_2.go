@@ -36,7 +36,7 @@ func (a *DoReader) Read(p []byte) (int, error) {
 		return n, err
 	}
 	a.cache.Reset()
-	for i := 0; i < n; i++ {
+	for i := range n {
 		if a.state == DO_STATE_NONE {
 			if p[i] == 'd' {
 				a.state = DO_STATE_D

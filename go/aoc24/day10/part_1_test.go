@@ -8,7 +8,7 @@ import (
 	"github.com/donmahallem/aoc/aoc24/day10"
 )
 
-var testData string = `89010123
+const testData string = `89010123
 78121874
 87430965
 96549874
@@ -19,15 +19,15 @@ var testData string = `89010123
 
 func TestFieldCompare(t *testing.T) {
 	f1_1 := [][]byte{{5, 5}}
-	start_1 := []day10.Position{day10.NewPosition(1, 2)}
+	start_1 := []day10.Position{{X: 1, Y: 2}}
 	f1 := day10.NewField(2, 2, f1_1, start_1)
 
 	f2_1 := [][]byte{{5, 5}}
-	start_2 := []day10.Position{day10.NewPosition(1, 2)}
+	start_2 := []day10.Position{{X: 1, Y: 2}}
 	f2 := day10.NewField(2, 2, f2_1, start_2)
 
 	f3_1 := [][]byte{{5, 5}}
-	start_3 := []day10.Position{day10.NewPosition(1, 2), day10.NewPosition(3, 2)}
+	start_3 := []day10.Position{{X: 1, Y: 2}, {X: 3, Y: 2}}
 	f3 := day10.NewField(2, 2, f3_1, start_3)
 	if !f1.Compare(&f2) {
 		t.Errorf(`Expected %v to match %v`, f2, f1)
@@ -47,15 +47,15 @@ func TestLoadField(t *testing.T) {
 		[]uint8{3, 2, 0, 1, 9, 0, 1, 2},
 		[]uint8{0, 1, 3, 2, 9, 8, 0, 1},
 		[]uint8{1, 0, 4, 5, 6, 7, 3, 2}}
-	testStarts := []day10.Position{day10.NewPosition(2, 0),
-		day10.NewPosition(4, 0),
-		day10.NewPosition(4, 2),
-		day10.NewPosition(6, 4),
-		day10.NewPosition(2, 5),
-		day10.NewPosition(5, 5),
-		day10.NewPosition(0, 6),
-		day10.NewPosition(6, 6),
-		day10.NewPosition(1, 7)}
+	testStarts := []day10.Position{{X: 2, Y: 0},
+		{X: 4, Y: 0},
+		{X: 4, Y: 2},
+		{X: 6, Y: 4},
+		{X: 2, Y: 5},
+		{X: 5, Y: 5},
+		{X: 0, Y: 6},
+		{X: 6, Y: 6},
+		{X: 1, Y: 7}}
 	testField := day10.NewField(8, 8, testSubField, testStarts)
 	if !f1.Compare(&testField) {
 		t.Errorf(`Expected %v to not match %v`, f1, testField)
@@ -65,12 +65,12 @@ func TestLoadField(t *testing.T) {
 func TestWalkDepth(t *testing.T) {
 	f1, _ := day10.LoadField(strings.NewReader(testData))
 
-	result := make(map[[2]uint16]bool)
+	result := make(map[day10.Position]bool)
 	day10.WalkDepth(&f1, 2, 0, 0, &result)
 	if len(result) != 5 {
 		t.Errorf(`Expected %v to not match %d`, len(result), 5)
 	}
-	result = make(map[[2]uint16]bool)
+	result = make(map[day10.Position]bool)
 	day10.WalkDepth(&f1, 4, 0, 0, &result)
 	if len(result) != 6 {
 		t.Errorf(`Expected %v to not match %d`, len(result), 5)

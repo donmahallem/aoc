@@ -57,7 +57,7 @@ func CompactLess(inp *[]int16) {
 		if blockStart, blockEnd, blockOk := FindBlock(inp, &blockId, &lastBlockStart); blockOk {
 			blockSize := blockEnd - blockStart
 			if spaceStart, _, spaceOk := FindEmptySpace(inp, &blockSize, &blockStart); spaceOk {
-				for i := 0; i < blockSize; i++ {
+				for i := range blockSize {
 					(*inp)[spaceStart+i] = (*inp)[blockStart+i]
 					(*inp)[blockStart+i] = -1
 				}

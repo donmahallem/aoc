@@ -1,6 +1,7 @@
 package day20_test
 
 import (
+	"io"
 	"strings"
 	"testing"
 
@@ -49,8 +50,10 @@ func TestCountCheats(t *testing.T) {
 }
 
 func BenchmarkParseInput(b *testing.B) {
+	data := strings.NewReader(testData)
 	for b.Loop() {
-		day20.ParseInput(strings.NewReader(testData))
+		data.Seek(0, io.SeekStart)
+		day20.ParseInput(data)
 	}
 }
 

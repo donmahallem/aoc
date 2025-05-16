@@ -21,8 +21,8 @@ const testData = `467..114..
 .664.598..`
 
 func TestFindParts(t *testing.T) {
-	result, _ := aoc_utils.LoadField(strings.NewReader(testData))
-	parts, matches := day03.FindObjects(result)
+	result, _ := aoc_utils.LoadField[int16](strings.NewReader(testData))
+	parts, matches := day03.FindObjects(*result)
 	if len(parts) != 6 {
 		t.Errorf(`Expected to be 6 parts`)
 	}
@@ -60,8 +60,8 @@ func TestFindParts(t *testing.T) {
 }
 
 func TestPairObjects(t *testing.T) {
-	result, _ := aoc_utils.LoadField(strings.NewReader(testData))
-	parts, matches := day03.FindObjects(result)
+	result, _ := aoc_utils.LoadField[int16](strings.NewReader(testData))
+	parts, matches := day03.FindObjects(*result)
 	pairs := day03.PairObjects(parts, matches)
 	if len(pairs) != len(parts) {
 		t.Errorf(`Expected %d to be %v`, result, pairs)

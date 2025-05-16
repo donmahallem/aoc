@@ -35,6 +35,8 @@ func GetType(b byte) uint8 {
 	}
 }
 
+type Field = aoc_utils.ByteField[int16]
+
 var dirs = [8][2]int16{
 	{-1, 1},
 	{0, 1},
@@ -74,7 +76,7 @@ func SortNumbers(a Number, b Number) int {
 }
 
 // Searches the Field for Parts and Numbers
-func FindObjects(field *aoc_utils.ByteField) ([]Part, []Number) {
+func FindObjects(field Field) ([]Part, []Number) {
 	parts := make([]Part, 0)
 	matches := make([]Number, 0)
 	var currentMatch Number = Number{}
@@ -91,8 +93,8 @@ func FindObjects(field *aoc_utils.ByteField) ([]Part, []Number) {
 		currentMatch.Value = -1
 	}
 	var cellType uint8
-	for y := range int16(field.Height) {
-		for x := range int16(field.Width) {
+	for y := range field.Height {
+		for x := range field.Width {
 			cellType = GetType(field.Field[y][x])
 			if cellType == TYPE_NUM {
 				if currentMatch.Value < 0 {
@@ -147,8 +149,8 @@ func PairObjects(parts []Part, matches []Number) []Pair {
 }
 
 func Part1(in io.Reader) int {
-	field, _ := aoc_utils.LoadField(in)
-	parts, matches := FindObjects(field)
+	field, _ := aoc_utils.LoadField[int16](in)
+	parts, matches := FindObjects(*field)
 	pairs := PairObjects(parts, matches)
 	summe := 0
 	for pairIdx := range len(pairs) {

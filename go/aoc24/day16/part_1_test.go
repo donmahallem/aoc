@@ -2,6 +2,7 @@ package day16_test
 
 import (
 	"fmt"
+	"io"
 	"strings"
 	"testing"
 
@@ -90,4 +91,12 @@ func TestPart1(t *testing.T) {
 			t.Errorf(`Expected %d to match 11048`, result)
 		}
 	})
+}
+
+func BenchmarkPart1(b *testing.B) {
+	data := strings.NewReader(testData2)
+	for b.Loop() {
+		data.Seek(0, io.SeekStart)
+		day16.Part1(data)
+	}
 }

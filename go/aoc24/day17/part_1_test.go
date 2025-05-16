@@ -1,6 +1,7 @@
 package day17_test
 
 import (
+	"io"
 	"slices"
 	"strings"
 	"testing"
@@ -31,5 +32,13 @@ func TestPart1_testData1(t *testing.T) {
 	expected := []int{4, 6, 3, 5, 6, 3, 5, 2, 1, 0}
 	if !slices.Equal(result, expected) {
 		t.Errorf(`Expected %v to match %v`, result, expected)
+	}
+}
+
+func BenchmarkPart1(b *testing.B) {
+	data := strings.NewReader(testData2)
+	for b.Loop() {
+		data.Seek(0, io.SeekStart)
+		day17.Part1(data)
 	}
 }

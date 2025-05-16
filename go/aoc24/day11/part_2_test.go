@@ -18,6 +18,6 @@ func BenchmarkPart2(b *testing.B) {
 	data := strings.NewReader(testData)
 	for b.Loop() {
 		data.Seek(0, io.SeekStart)
-		day11.Part1(data)
+		day11.Part2(data)
 	}
 }

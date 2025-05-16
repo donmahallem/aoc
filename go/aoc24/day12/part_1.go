@@ -64,7 +64,7 @@ func FindNeighbours(field Field, y int16, x int16) []Point {
 func FindGroups(field Field) [][]Point {
 	taken := make(map[Point]bool, 32)
 	var coord Point
-	groups := make([][]Point, 16)
+	groups := make([][]Point, 0, 16)
 	for x := range field.Width {
 		for y := range field.Height {
 			coord.Y = y

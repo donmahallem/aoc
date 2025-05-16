@@ -7,28 +7,33 @@ import (
 	"github.com/donmahallem/aoc/aoc_utils"
 )
 
-func ParseLine(in io.Reader) ([]int, error) {
+func ParseLine(in io.Reader) ([]uint32, error) {
 	data, err := io.ReadAll(in)
 	if err != nil {
 		return nil, err
 	}
 	splitData := bytes.Split(data, []byte(` `))
-	retData := make([]int, len(splitData))
+	retData := make([]uint32, len(splitData))
 	for idx, val := range splitData {
-		retData[idx] = int(val[0] - '0')
+		retData[idx] = uint32(val[0] - '0')
 		for i := 1; i < len(val); i++ {
-			retData[idx] = (10 * retData[idx]) + int(val[i]-'0')
+			retData[idx] = (10 * retData[idx]) + uint32(val[i]-'0')
 		}
 	}
 	return retData, nil
 }
 
-func SplitStone(stone int, depth int, cache *map[[2]int]int) int {
+type CacheKey struct {
+	Stone uint32
+	Depth uint8
+}
+
+func SplitStone(stone uint32, depth uint8, cache map[CacheKey]int) int {
 	if depth == 0 {
 		return 1
 	}
-	cacheKey := [2]int{stone, depth}
-	if val, ok := (*cache)[cacheKey]; ok {
+	cacheKey := CacheKey{Stone: stone, Depth: depth}
+	if val, ok := cache[cacheKey]; ok {
 		return val
 	}
 	var result int
@@ -41,15 +46,15 @@ func SplitStone(stone int, depth int, cache *map[[2]int]int) int {
 	} else {
 		result = SplitStone(stone*2024, depth-1, cache)
 	}
-	(*cache)[cacheKey] = result
+	cache[cacheKey] = result
 	return result
 }
 
-func SplitStones(stones []int, depth int) int {
-	cache := make(map[[2]int]int)
+func SplitStones(stones []uint32, depth uint8) int {
+	cache := make(map[CacheKey]int, 512)
 	result := 0
 	for _, i := range stones {
-		result += SplitStone(i, depth, &cache)
+		result += SplitStone(i, depth, cache)
 	}
 	return result
 }

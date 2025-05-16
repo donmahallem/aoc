@@ -1,6 +1,7 @@
 package day14_test
 
 import (
+	"io"
 	"slices"
 	"strings"
 	"testing"
@@ -91,7 +92,9 @@ func TestCalculateQuadrant(t *testing.T) {
 }
 
 func BenchmarkPart1(b *testing.B) {
+	data := strings.NewReader(testData)
 	for b.Loop() {
-		day14.Part1(strings.NewReader(testData))
+		data.Seek(0, io.SeekStart)
+		day14.Part1(data)
 	}
 }

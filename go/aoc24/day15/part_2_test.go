@@ -1,6 +1,7 @@
 package day15_test
 
 import (
+	"io"
 	"strings"
 	"testing"
 
@@ -348,5 +349,13 @@ func TestPart2_large(t *testing.T) {
 	result := day15.Part2(strings.NewReader(testDataBig))
 	if result != 9021 {
 		t.Errorf(`Expected %d to match 9021`, result)
+	}
+}
+
+func BenchmarkPart2(b *testing.B) {
+	data := strings.NewReader(testDataBig)
+	for b.Loop() {
+		data.Seek(0, io.SeekStart)
+		day15.Part2(data)
 	}
 }

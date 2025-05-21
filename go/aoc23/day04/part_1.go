@@ -10,30 +10,34 @@ func IsNumber(b byte) bool {
 	return b >= '0' && b <= '9'
 }
 
-func ParseLine(data []byte) (int, *[]int, *[]int) {
-	ticket := -1
+func ParseLine(data []byte) (uint8, []uint8, []uint8) {
+	ticketFound := false
+	isInNumber := false
+	var ticket uint8 = 0
 	winningBlock := true
-	winningNumbers := make([]int, 0)
-	pickedNumbers := make([]int, 0)
-	currentNumber := -1
+	winningNumbers := make([]uint8, 0, 10)
+	pickedNumbers := make([]uint8, 0, 25)
+	var currentNumber uint8 = 0
 	finishNum := func() {
-		if currentNumber >= 0 {
-			if ticket < 0 {
+		if isInNumber {
+			if !ticketFound {
 				ticket = currentNumber
+				ticketFound = true
 			} else if winningBlock {
 				winningNumbers = append(winningNumbers, currentNumber)
 			} else {
 				pickedNumbers = append(pickedNumbers, currentNumber)
 			}
-			currentNumber = -1
+			isInNumber = false
 		}
 	}
 	for idx := 4; idx < len(data); idx++ {
 		if IsNumber(data[idx]) {
-			if currentNumber < 0 {
-				currentNumber = int(data[idx] - '0')
+			if !isInNumber {
+				currentNumber = data[idx] - '0'
+				isInNumber = true
 			} else {
-				currentNumber = (currentNumber * 10) + int(data[idx]-'0')
+				currentNumber = (currentNumber * 10) + data[idx] - '0'
 			}
 			continue
 		}
@@ -43,20 +47,20 @@ func ParseLine(data []byte) (int, *[]int, *[]int) {
 		}
 	}
 	finishNum()
-	return ticket, &winningNumbers, &pickedNumbers
+	return ticket, winningNumbers, pickedNumbers
 }
 
-func CountWinnings(winners *[]int, picks *[]int) int {
+func CountWinnings(winners []uint8, picks []uint8) int {
 	score := 0
-	for _, winner := range *winners {
-		if slices.Contains(*picks, winner) {
+	for _, winner := range winners {
+		if slices.Contains(picks, winner) {
 			score++
 		}
 	}
 	return score
 }
 
-func GetScore(winners *[]int, picks *[]int) int {
+func GetScore(winners []uint8, picks []uint8) int {
 	score := CountWinnings(winners, picks)
 	if score > 0 {
 		return 1 << (score - 1)

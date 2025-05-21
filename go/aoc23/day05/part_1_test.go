@@ -1,6 +1,7 @@
 package day05_test
 
 import (
+	"io"
 	"reflect"
 	"slices"
 	"strings"
@@ -91,7 +92,9 @@ func TestPart1(t *testing.T) {
 }
 
 func BenchmarkPart1(b *testing.B) {
+	reader := strings.NewReader(testData)
 	for b.Loop() {
-		day05.Part1(strings.NewReader(testData))
+		reader.Seek(0, io.SeekStart)
+		day05.Part1(reader)
 	}
 }

@@ -1,6 +1,7 @@
 package day04_test
 
 import (
+	"io"
 	"strings"
 	"testing"
 
@@ -16,11 +17,11 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11`
 
 func TestParseLine(t *testing.T) {
 	ticket, winners, picks := day04.ParseLine([]byte("Card 153: 41 48 83 86 17 | 83 86  6 31 17  9 48 53"))
-	if len(*winners) != 5 {
-		t.Errorf(`Expected winners to have a length of %d. Not %d`, 5, len(*winners))
+	if len(winners) != 5 {
+		t.Errorf(`Expected winners to have a length of %d. Not %d`, 5, len(winners))
 	}
-	if len(*picks) != 8 {
-		t.Errorf(`Expected picks to have a length of %d. Not %d`, 8, len(*picks))
+	if len(picks) != 8 {
+		t.Errorf(`Expected picks to have a length of %d. Not %d`, 8, len(picks))
 	}
 	if ticket != 153 {
 		t.Errorf(`Expected ticket to be %d. Not %d`, 153, ticket)
@@ -42,7 +43,9 @@ func TestPart1(t *testing.T) {
 }
 
 func BenchmarkPart1(b *testing.B) {
+	reader := strings.NewReader(testData)
 	for b.Loop() {
-		day04.Part1(strings.NewReader(testData))
+		reader.Seek(0, io.SeekStart)
+		day04.Part1(reader)
 	}
 }

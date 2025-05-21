@@ -77,8 +77,8 @@ func SortNumbers(a Number, b Number) int {
 
 // Searches the Field for Parts and Numbers
 func FindObjects(field Field) ([]Part, []Number) {
-	parts := make([]Part, 0)
-	matches := make([]Number, 0)
+	parts := make([]Part, 0, 16)
+	matches := make([]Number, 0, 16)
 	var currentMatch Number = Number{}
 	currentMatch.Value = -1
 	// Checks if a number was encountered.
@@ -94,16 +94,17 @@ func FindObjects(field Field) ([]Part, []Number) {
 	}
 	var cellType uint8
 	for y := range field.Height {
+		row := field.Field[y]
 		for x := range field.Width {
-			cellType = GetType(field.Field[y][x])
+			cellType = GetType(row[x])
 			if cellType == TYPE_NUM {
 				if currentMatch.Value < 0 {
-					currentMatch.Value = int(field.Field[y][x] - '0')
+					currentMatch.Value = int(row[x] - '0')
 					currentMatch.StartX = x
 					currentMatch.EndX = x
 					currentMatch.Y = y
 				} else {
-					currentMatch.Value = (currentMatch.Value * 10) + int(field.Field[y][x]-'0')
+					currentMatch.Value = (currentMatch.Value * 10) + int(row[x]-'0')
 					currentMatch.EndX = x
 				}
 				continue
@@ -111,7 +112,7 @@ func FindObjects(field Field) ([]Part, []Number) {
 			endNum()
 			if cellType == TYPE_PART {
 				part := Part{}
-				part.PartType = field.Field[y][x]
+				part.PartType = row[x]
 				part.X = x
 				part.Y = y
 				parts = append(parts, part)
@@ -125,7 +126,7 @@ func FindObjects(field Field) ([]Part, []Number) {
 
 // Search for
 func PairObjects(parts []Part, matches []Number) []Pair {
-	data := make([]Pair, 0)
+	data := make([]Pair, 0, len(parts))
 	var testX, testY int16
 	for partIdx := range len(parts) {
 		group := make([]Number, 0)

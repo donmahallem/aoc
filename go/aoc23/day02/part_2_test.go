@@ -1,6 +1,7 @@
 package day02_test
 
 import (
+	"io"
 	"strings"
 	"testing"
 
@@ -9,7 +10,7 @@ import (
 
 func TestCalculateMinBlock(t *testing.T) {
 	data := []byte(testDataSlices[0])
-	_, blocks := day02.ParseLine(&data)
+	_, blocks := day02.ParseLine(data)
 	if res := day02.CalculateMinBlock(&blocks); res != 48 {
 		t.Errorf(`Expected %d to be %d`, res, 48)
 	}
@@ -23,7 +24,9 @@ func TestPart2(t *testing.T) {
 }
 
 func BenchmarkPart2(b *testing.B) {
+	reader := strings.NewReader(testData)
 	for b.Loop() {
-		day02.Part1(strings.NewReader(testData))
+		reader.Seek(0, io.SeekStart)
+		day02.Part2(reader)
 	}
 }

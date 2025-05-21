@@ -47,5 +47,5 @@ func LoadFieldWithOffset[A IntType](reader io.Reader, offset byte) (*ByteField[A
 		obstacles = append(obstacles, row)
 		y++
 	}
-	return NewField[A](width, y, obstacles), nil
+	return NewField(width, y, obstacles), nil
 }

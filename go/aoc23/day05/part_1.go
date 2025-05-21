@@ -91,8 +91,8 @@ func ParseAlmanac(in io.Reader) Almanac {
 	return alma
 }
 
-func FindPos(k *[][]int, pos int) int {
-	for _, row := range *k {
+func FindPos(k [][]int, pos int) int {
+	for _, row := range k {
 		if pos >= row[1] && pos < row[1]+row[2] {
 			return pos + row[0] - row[1]
 		}
@@ -100,15 +100,15 @@ func FindPos(k *[][]int, pos int) int {
 	return pos
 }
 
-func GetPosition(a *Almanac, start int) int {
+func GetPosition(a Almanac, start int) int {
 	pos := start
-	pos = FindPos(&(*a).SeedToSoil, pos)
-	pos = FindPos(&(*a).SoilToFertilizer, pos)
-	pos = FindPos(&(*a).FertilizerToWater, pos)
-	pos = FindPos(&(*a).WaterToLight, pos)
-	pos = FindPos(&(*a).LightToTemperature, pos)
-	pos = FindPos(&(*a).TemperatureToHumidity, pos)
-	pos = FindPos(&(*a).HumidityToLocation, pos)
+	pos = FindPos(a.SeedToSoil, pos)
+	pos = FindPos(a.SoilToFertilizer, pos)
+	pos = FindPos(a.FertilizerToWater, pos)
+	pos = FindPos(a.WaterToLight, pos)
+	pos = FindPos(a.LightToTemperature, pos)
+	pos = FindPos(a.TemperatureToHumidity, pos)
+	pos = FindPos(a.HumidityToLocation, pos)
 	return pos
 }
 
@@ -116,7 +116,7 @@ func Part1(in io.Reader) int {
 	almanac := ParseAlmanac(in)
 	lowest := math.MaxInt
 	for _, seed := range almanac.Seeds {
-		lowest = aoc_utils.Min(lowest, GetPosition(&almanac, seed))
+		lowest = aoc_utils.Min(lowest, GetPosition(almanac, seed))
 	}
 	return lowest
 }

@@ -1,6 +1,7 @@
 package day05_test
 
 import (
+	"io"
 	"reflect"
 	"slices"
 	"strings"
@@ -77,7 +78,7 @@ func TestGetPosition(t *testing.T) {
 	almanac := day05.ParseAlmanac(strings.NewReader(testData))
 	tests := [][2]int{{79, 82}, {14, 43}, {55, 86}, {13, 35}}
 	for _, test := range tests {
-		if res := day05.GetPosition(&almanac, test[0]); res != test[1] {
+		if res := day05.GetPosition(almanac, test[0]); res != test[1] {
 			t.Errorf(`Expected %d to be %d for Input %d`, res, test[1], test[0])
 		}
 	}
@@ -91,7 +92,9 @@ func TestPart1(t *testing.T) {
 }
 
 func BenchmarkPart1(b *testing.B) {
+	reader := strings.NewReader(testData)
 	for b.Loop() {
-		day05.Part1(strings.NewReader(testData))
+		reader.Seek(0, io.SeekStart)
+		day05.Part1(reader)
 	}
 }

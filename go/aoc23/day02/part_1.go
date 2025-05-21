@@ -9,13 +9,13 @@ type Block struct {
 	Red, Green, Blue int
 }
 
-func ParseLine(line *[]byte) (int, []Block) {
+func ParseLine(line []byte) (int, []Block) {
 	game := 0
 	curBlock := Block{}
 	blocks := make([]Block, 0)
 	curVal := 0
-	for idx := 0; idx < len(*line); idx++ {
-		chr := (*line)[idx]
+	for idx := 0; idx < len(line); idx++ {
+		chr := line[idx]
 		if chr >= '0' && chr <= '9' {
 			curVal = (curVal * 10) + int(chr-'0')
 		} else if chr == ':' {
@@ -44,8 +44,8 @@ func ParseLine(line *[]byte) (int, []Block) {
 	return game, blocks
 }
 
-func ValidateBlocks(blocks *[]Block) bool {
-	for _, block := range *blocks {
+func ValidateBlocks(blocks []Block) bool {
+	for _, block := range blocks {
 		if block.Red > 12 || block.Green > 13 || block.Blue > 14 {
 			return false
 		}
@@ -58,8 +58,8 @@ func Part1(in io.Reader) int {
 	summe := 0
 	for s.Scan() {
 		d := s.Bytes()
-		gameId, blocks := ParseLine(&d)
-		if ValidateBlocks(&blocks) {
+		gameId, blocks := ParseLine(d)
+		if ValidateBlocks(blocks) {
 			summe += gameId
 		}
 	}

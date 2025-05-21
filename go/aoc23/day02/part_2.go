@@ -22,7 +22,7 @@ func Part2(in io.Reader) int {
 	summe := 0
 	for s.Scan() {
 		d := s.Bytes()
-		_, blocks := ParseLine(&d)
+		_, blocks := ParseLine(d)
 		summe += CalculateMinBlock(&blocks)
 	}
 	return summe

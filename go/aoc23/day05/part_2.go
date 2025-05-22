@@ -13,10 +13,7 @@ func Part2(in io.Reader) int {
 
 func IntersectInterval(a, b Interval) *Interval {
 	start := max(b.Start, a.Start)
-	end := a.End
-	if b.End < end {
-		end = b.End
-	}
+	end := min(b.End, a.End)
 	if start < end {
 		return &Interval{Start: start, End: end}
 	}

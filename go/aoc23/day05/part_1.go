@@ -10,6 +10,26 @@ import (
 	"github.com/donmahallem/aoc/aoc_utils"
 )
 
+// Interval half-open interval [Start, End)
+type Interval struct {
+	Start, End int
+}
+
+// Shift the interval
+func (a *Interval) Shift(offset int) Interval {
+	return Interval{Start: a.Start + offset, End: a.End + offset}
+}
+
+// Shift in place
+func (a *Interval) ShiftI(offset int) {
+	a.Start += offset
+	a.End += offset
+}
+
+type AlmanacRange struct {
+	From Interval
+	To   Interval
+}
 type Almanac struct {
 	SeedToSoil,
 	SoilToFertilizer,
@@ -17,7 +37,7 @@ type Almanac struct {
 	WaterToLight,
 	LightToTemperature,
 	TemperatureToHumidity,
-	HumidityToLocation [][]int
+	HumidityToLocation []AlmanacRange
 	Seeds []int
 }
 
@@ -29,61 +49,63 @@ const LIGHT_TO_TEMPERATURE string = "light-to-temperature"
 const TEMPERATURE_TO_HUMIDITY string = "temperature-to-humidity"
 const HUMIDITY_TO_LOCATION string = "humidity-to-location"
 
-func ParseMap(line *string, target *[]int) {
+func ParseMapping(line *string) AlmanacRange {
 	a := strings.Split(*line, " ")
-	for idx := range a {
-		if len(a[idx]) == 0 {
-			continue
-		}
-		val, _ := strconv.Atoi(a[idx])
-		*target = append(*target, val)
-	}
+	val1, _ := strconv.Atoi(a[0])
+	val2, _ := strconv.Atoi(a[1])
+	val3, _ := strconv.Atoi(a[2])
+	return AlmanacRange{From: Interval{Start: val2, End: val2 + val3}, To: Interval{Start: val1, End: val1 + val3}}
 }
 
-func TranslateMap(line *[]int, data *map[int]int) {
-	for i := range (*line)[2] {
-		(*data)[(*line)[1]+i] = (*line)[0] + i
+func ParseSeeds(line string) []int {
+	a := strings.Split(line, " ")
+	seeds := make([]int, len(a))
+	for idx, num := range a {
+		seeds[idx], _ = strconv.Atoi(num)
+	}
+	return seeds
+}
+
+func TranslateMap(line []int, data *map[int]int) {
+	for i := range line[2] {
+		(*data)[line[1]+i] = line[0] + i
 	}
 }
 
 func ParseAlmanac(in io.Reader) Almanac {
 	s := bufio.NewScanner(in)
 	alma := Almanac{}
-	var target *[][]int
+	var target *[]AlmanacRange
 	for s.Scan() {
 		line := s.Text()
 		if strings.HasPrefix(line, "seeds:") {
-			alma.Seeds = make([]int, 0)
-			data := line[6:]
-			ParseMap(&data, &alma.Seeds)
+			alma.Seeds = ParseSeeds(line[7:])
 			continue
 		} else if len(line) == 0 {
 			continue
 		} else if strings.HasPrefix(line, SEED_TO_SOIL) {
-			alma.SeedToSoil = make([][]int, 0)
+			alma.SeedToSoil = make([]AlmanacRange, 0)
 			target = &alma.SeedToSoil
 		} else if strings.HasPrefix(line, SOIL_TO_FERTILIZER) {
-			alma.SoilToFertilizer = make([][]int, 0)
+			alma.SoilToFertilizer = make([]AlmanacRange, 0)
 			target = &alma.SoilToFertilizer
 		} else if strings.HasPrefix(line, FERTILIZER_TO_WATER) {
-			alma.FertilizerToWater = make([][]int, 0)
+			alma.FertilizerToWater = make([]AlmanacRange, 0)
 			target = &alma.FertilizerToWater
 		} else if strings.HasPrefix(line, WATER_TO_LIGHT) {
-			alma.WaterToLight = make([][]int, 0)
+			alma.WaterToLight = make([]AlmanacRange, 0)
 			target = &alma.WaterToLight
 		} else if strings.HasPrefix(line, LIGHT_TO_TEMPERATURE) {
-			alma.LightToTemperature = make([][]int, 0)
+			alma.LightToTemperature = make([]AlmanacRange, 0)
 			target = &alma.LightToTemperature
 		} else if strings.HasPrefix(line, TEMPERATURE_TO_HUMIDITY) {
-			alma.TemperatureToHumidity = make([][]int, 0)
+			alma.TemperatureToHumidity = make([]AlmanacRange, 0)
 			target = &alma.TemperatureToHumidity
 		} else if strings.HasPrefix(line, HUMIDITY_TO_LOCATION) {
-			alma.HumidityToLocation = make([][]int, 0)
+			alma.HumidityToLocation = make([]AlmanacRange, 0)
 			target = &alma.HumidityToLocation
 		} else {
-			data := make([]int, 0, 3)
-			ParseMap(&line, &data)
-			*target = append(*target, data)
+			*target = append(*target, ParseMapping(&line))
 			//TranslateMap(&data, target)
 		}
 
@@ -91,10 +113,10 @@ func ParseAlmanac(in io.Reader) Almanac {
 	return alma
 }
 
-func FindPos(k [][]int, pos int) int {
+func FindPos(k []AlmanacRange, pos int) int {
 	for _, row := range k {
-		if pos >= row[1] && pos < row[1]+row[2] {
-			return pos + row[0] - row[1]
+		if pos >= row.From.Start && pos < row.From.End {
+			return pos + row.To.Start - row.From.Start
 		}
 	}
 	return pos

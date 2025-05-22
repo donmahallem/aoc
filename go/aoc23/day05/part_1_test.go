@@ -46,8 +46,18 @@ humidity-to-location map:
 
 func TestParseMap(t *testing.T) {
 	testData := "123 321 292"
-	testResult := make([]int, 0, 3)
-	day05.ParseMap(&testData, &testResult)
+	testResult := day05.ParseMapping(&testData)
+	expected := day05.AlmanacRange{
+		From: day05.Interval{Start: 321, End: 321 + 292},
+		To:   day05.Interval{Start: 123, End: 123 + 292},
+	}
+	if testResult != expected {
+		t.Errorf(`Expected %d to be %d`, testResult, expected)
+	}
+}
+func TestParseSeeds(t *testing.T) {
+	testData := "123 321 292"
+	testResult := day05.ParseSeeds(testData)
 	expected := []int{123, 321, 292}
 	if !slices.Equal(testResult, expected) {
 		t.Errorf(`Expected %d to be %d`, testResult, expected)
@@ -57,7 +67,7 @@ func TestParseMap(t *testing.T) {
 func TestParseTranslateMap(t *testing.T) {
 	testData := []int{50, 98, 2}
 	testResult := make(map[int]int)
-	day05.TranslateMap(&testData, &testResult)
+	day05.TranslateMap(testData, &testResult)
 	expected := make(map[int]int)
 	expected[98] = 50
 	expected[99] = 51
@@ -68,7 +78,7 @@ func TestParseTranslateMap(t *testing.T) {
 	expected[10] = 4
 	expected[11] = 5
 	expected[12] = 6
-	day05.TranslateMap(&testData, &testResult)
+	day05.TranslateMap(testData, &testResult)
 	if !reflect.DeepEqual(testResult, expected) {
 		t.Errorf(`Expected %d to be %d`, testResult, expected)
 	}

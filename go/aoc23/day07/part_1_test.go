@@ -17,6 +17,16 @@ QQQJA 483`
 const testData2 string = `32T3K 100
 43T4Q 200`
 
+const testData3 string = `32T3K 100
+43T4Q 200
+AQKQA 150
+QKQAK 250
+2777K 50
+2888A 75
+AAAAK 300
+KKKKA 350
+KQQKQ 250`
+
 func TestPart1(t *testing.T) {
 	t.Run("testData1", func(t *testing.T) {
 		var expected int = 6440

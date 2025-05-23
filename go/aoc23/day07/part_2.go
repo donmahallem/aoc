@@ -7,33 +7,23 @@ import (
 	"slices"
 )
 
-type Game struct {
-	/*
-		Hashing the hand is faster in comparison than iterating over the hand
-		base13 encoding
-	*/
-	HandHash int
-	Bid      int
-	Rating   int8
-}
-
-var cardRanks = map[byte]uint8{
-	'2': 0,
-	'3': 1,
-	'4': 2,
-	'5': 3,
-	'6': 4,
-	'7': 5,
-	'8': 6,
-	'9': 7,
-	'T': 8,
-	'J': 9,
+var cardRanksPart2 = map[byte]uint8{
+	'J': 0,
+	'2': 1,
+	'3': 2,
+	'4': 3,
+	'5': 4,
+	'6': 5,
+	'7': 6,
+	'8': 7,
+	'9': 8,
+	'T': 9,
 	'Q': 10,
 	'K': 11,
 	'A': 12,
 }
 
-func parseInput(in io.Reader) []Game {
+func parseInput2(in io.Reader) []Game {
 	s := bufio.NewScanner(in)
 	freq := [13]uint8{}
 	games := make([]Game, 0, 16)
@@ -44,11 +34,16 @@ func parseInput(in io.Reader) []Game {
 		}
 		data := s.Bytes()
 		game := Game{Bid: 0}
+		var countJokers uint8 = 0
 		for idx, ch := range data {
 			if idx < 5 {
-				if val, ok := cardRanks[ch]; ok {
+				if val, ok := cardRanksPart2[ch]; ok {
 					hand[idx] = val
-					freq[val]++
+					if val == 0 {
+						countJokers++
+					} else {
+						freq[val]++
+					}
 				} else {
 					panic(fmt.Sprintf("Unexpected character in input. Got: %b", ch))
 				}
@@ -57,7 +52,7 @@ func parseInput(in io.Reader) []Game {
 			}
 		}
 		slices.Sort(freq[:])
-		tmp := freq[12]
+		tmp := freq[12] + countJokers
 		if tmp == 5 {
 			game.Rating = 7
 		} else if tmp == 4 {
@@ -68,9 +63,9 @@ func parseInput(in io.Reader) []Game {
 			} else {
 				game.Rating = 4
 			}
-		} else if freq[12] == 2 && freq[11] == 2 {
+		} else if freq[12] == 2 && (countJokers == 1 || freq[11] == 2) {
 			game.Rating = 3
-		} else if freq[12] == 2 && freq[11] == 1 {
+		} else if freq[12] == 2 || countJokers == 1 {
 			game.Rating = 2
 		} else {
 			game.Rating = 1
@@ -84,8 +79,8 @@ func parseInput(in io.Reader) []Game {
 	return games
 }
 
-func Part1(in io.Reader) int {
-	games := parseInput(in)
+func Part2(in io.Reader) int {
+	games := parseInput2(in)
 	slices.SortFunc(games, func(a Game, b Game) int {
 		return a.HandHash - b.HandHash
 	})

@@ -2,108 +2,109 @@ package day07
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 	"slices"
-	"sort"
 )
 
 type Game struct {
-	Hand   [5]int8
-	Bid    uint
-	Rating int8
+	/*
+		Hashing the hand is faster in comparison than iterating over the hand
+		base13 encoding
+	*/
+	HandHash int
+	Bid      int
+	Rating   int8
+}
+
+var cardRanks = map[byte]uint8{
+	'2': 0,
+	'3': 1,
+	'4': 2,
+	'5': 3,
+	'6': 4,
+	'7': 5,
+	'8': 6,
+	'9': 7,
+	'T': 8,
+	'J': 9,
+	'Q': 10,
+	'K': 11,
+	'A': 12,
 }
 
 func parseInput(in io.Reader) []Game {
 	s := bufio.NewScanner(in)
+	freq := [13]uint8{}
 	games := make([]Game, 0, 16)
+	hand := [5]uint8{0, 0, 0, 0, 0}
 	for s.Scan() {
+		for idx := range 13 {
+			freq[idx] = 0
+		}
 		data := s.Bytes()
-		game := Game{Hand: [5]int8{0, 0, 0, 0, 0}, Bid: 0}
+		game := Game{Bid: 0}
 		for idx, ch := range data {
 			if idx < 5 {
-				switch ch {
-				case 'T':
-					game.Hand[idx] = 8
-				case 'J':
-					game.Hand[idx] = 9
-				case 'Q':
-					game.Hand[idx] = 10
-				case 'K':
-					game.Hand[idx] = 11
-				case 'A':
-					game.Hand[idx] = 12
-				default:
-					game.Hand[idx] = int8(ch - '2')
+				if val, ok := cardRanks[ch]; ok {
+					hand[idx] = val
+					freq[val]++
+				} else {
+					panic(fmt.Sprintf("Unexpected character in input. Got: %b", ch))
 				}
 			} else if ch >= '0' && ch <= '9' {
-				game.Bid = (10 * game.Bid) + (uint(ch - '0'))
+				game.Bid = (10 * game.Bid) + (int(ch - '0'))
 			}
+		}
+		var ones, twos, threes, fours, fives int
+		for _, count := range freq {
+			switch count {
+			case 1:
+				ones++
+			case 2:
+				twos++
+			case 3:
+				threes++
+			case 4:
+				fours++
+			case 5:
+				fives++
+			}
+		}
+
+		switch {
+		case fives == 1:
+			game.Rating = 7 // Five of a Kind
+		case fours == 1:
+			game.Rating = 6 // Four of a Kind
+		case threes == 1 && twos == 1:
+			game.Rating = 5 // Full House
+		case threes == 1 && ones == 2:
+			game.Rating = 4 // Three of a Kind
+		case twos == 2 && ones == 1:
+			game.Rating = 3 // Two Pair
+		case twos == 1 && ones == 3:
+			game.Rating = 2 // One Pair
+		default:
+			game.Rating = 1 // High Card
+		}
+		game.HandHash = int(game.Rating)
+		for i := range 5 {
+			game.HandHash = (game.HandHash * 13) + int(hand[i])
 		}
 		games = append(games, game)
 	}
 	return games
 }
 
-func rateCards(games []Game) {
-	var freq [13]int
-
-	for idx := range games {
-		for idx := range 13 {
-			freq[idx] = 0
-		}
-		for _, card := range games[idx].Hand {
-			freq[card]++
-		}
-
-		counts := []int{}
-		for _, c := range freq {
-			if c > 0 {
-				counts = append(counts, c)
-			}
-		}
-		sort.Slice(counts, func(i, j int) bool {
-			return counts[i] > counts[j]
-		})
-
-		switch {
-		case len(counts) == 1 && counts[0] == 5:
-			games[idx].Rating = 7
-		case len(counts) == 2 && counts[0] == 4:
-			games[idx].Rating = 6
-		case len(counts) == 2 && counts[0] == 3:
-			games[idx].Rating = 5
-		case len(counts) == 3 && counts[0] == 3:
-			games[idx].Rating = 4
-		case len(counts) == 3 && counts[0] == 2:
-			games[idx].Rating = 3
-		case len(counts) == 4:
-			games[idx].Rating = 2
-		default:
-			games[idx].Rating = 1
-		}
-	}
-}
-
-func Part1(in io.Reader) uint {
+func Part1(in io.Reader) int {
 	games := parseInput(in)
-	rateCards(games)
 	slices.SortFunc(games, func(a Game, b Game) int {
-		if a.Rating == b.Rating {
-			for i := range 5 {
-				if a.Hand[i] == b.Hand[i] {
-					continue
-				}
-				return int(a.Hand[i] - b.Hand[i])
-			}
-		}
-		return int(a.Rating - b.Rating)
+		return a.HandHash - b.HandHash
 	})
-	var total uint = 0
+	var total int = 0
 	for idx, game := range games {
-		if game.Rating <= 1 {
-			continue
-		}
-		total += uint(game.Bid * uint(idx+1))
+		total += game.Bid * int(idx+1)
 	}
 	return total
 }

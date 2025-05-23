@@ -7,6 +7,7 @@ import (
 	"github.com/donmahallem/aoc/aoc23/day04"
 	"github.com/donmahallem/aoc/aoc23/day05"
 	"github.com/donmahallem/aoc/aoc23/day06"
+	"github.com/donmahallem/aoc/aoc23/day07"
 	"github.com/donmahallem/aoc/aoc_utils"
 )
 
@@ -18,4 +19,5 @@ func RegisterParts(registry *aoc_utils.Registry) {
 	regFunc(4, day04.Part1, day04.Part2)
 	regFunc(5, day05.Part1, day05.Part2)
 	regFunc(6, day06.Part1, day06.Part2)
+	regFunc(7, day07.Part1, day06.Part2)
 }

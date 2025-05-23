@@ -14,12 +14,24 @@ KK677 28
 KTJJT 220
 QQQJA 483`
 
-func TestOutOfBoundsShouldBeInside(t *testing.T) {
-	var expected uint = 6440
-	reader := strings.NewReader(testData)
-	if res := day07.Part1(reader); res != expected {
-		t.Errorf(`Expected %v to match %v`, res, expected)
-	}
+const testData2 string = `32T3K 100
+43T4Q 200`
+
+func TestPart1(t *testing.T) {
+	t.Run("testData1", func(t *testing.T) {
+		var expected int = 6440
+		reader := strings.NewReader(testData)
+		if res := day07.Part1(reader); res != expected {
+			t.Errorf(`Expected %v to match %v`, res, expected)
+		}
+	})
+	t.Run("testData2", func(t *testing.T) {
+		var expected int = 500
+		reader := strings.NewReader(testData2)
+		if res := day07.Part1(reader); res != expected {
+			t.Errorf(`Expected %v to match %v`, res, expected)
+		}
+	})
 }
 
 func BenchmarkPart1(b *testing.B) {

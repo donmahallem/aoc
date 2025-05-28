@@ -28,10 +28,10 @@ func TestParseInput(t *testing.T) {
 	t.Run("testData1", func(t *testing.T) {
 		reader := strings.NewReader(testData)
 		res := day08.ParseInput(reader)
-		if len(res.Instruktions) != 2 {
-			t.Errorf(`Expected 2 instructions not %d`, len(res.Instruktions))
+		if len(res.Instructions) != 2 {
+			t.Errorf(`Expected 2 instructions not %d`, len(res.Instructions))
 		}
-		if res.Instruktions[0] != true || res.Instruktions[1] != false {
+		if res.Instructions[0] != true || res.Instructions[1] != false {
 			t.Errorf(`Expected the instructions to be true,false`)
 		}
 		if res.Start == nil {
@@ -50,10 +50,10 @@ func TestParseInput(t *testing.T) {
 	t.Run("testData2", func(t *testing.T) {
 		reader := strings.NewReader(testData2)
 		res := day08.ParseInput(reader)
-		if len(res.Instruktions) != 3 {
-			t.Errorf(`Expected 2 instructions not %d`, len(res.Instruktions))
+		if len(res.Instructions) != 3 {
+			t.Errorf(`Expected 2 instructions not %d`, len(res.Instructions))
 		}
-		if res.Instruktions[0] != false || res.Instruktions[1] != false || res.Instruktions[2] != true {
+		if res.Instructions[0] != false || res.Instructions[1] != false || res.Instructions[2] != true {
 			t.Errorf(`Expected the instructions to be false,false,true`)
 		}
 		if res.Start == nil {

@@ -25,6 +25,17 @@ func IntPow[T IntType](base T, exp T) T {
 	return result
 }
 
+func GcdInt[T IntType](a, b T) T {
+	for b != 0 {
+		a, b = b, a%b
+	}
+	return a
+}
+
+func LcmInt[T IntType](a, b T) T {
+	return Abs(a*b) / GcdInt(a, b)
+}
+
 func Log10Int[T IntType](n T) T {
 	return T(math.Log10(float64(n))) + 1
 }

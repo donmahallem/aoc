@@ -9,22 +9,31 @@ type PathInstructions []bool
 
 type Node struct {
 	Left, Right *Node
+	Id          uint32
+	EndsInZ     bool
+	EndsInA     bool
 }
 type Input struct {
-	Instruktions PathInstructions
+	// true if right else false
+	Instructions PathInstructions
 	Start        *Node
 	End          *Node
+	Nodes        map[uint32]*Node
 }
 
 func hashNodeId(id []byte) uint32 {
 	return uint32(id[0]-'A')<<12 + uint32(id[1]-'A')<<6 + uint32(id[2]-'A')
 }
 
-func getOrCreateNode(nodeMap *map[uint32]*Node, id uint32) *Node {
+func getOrCreateNode(nodeMap *map[uint32]*Node, strId []byte) *Node {
+	id := hashNodeId(strId)
 	if node, ok := (*nodeMap)[id]; ok {
 		return node
 	}
 	node := &Node{}
+	node.Id = id
+	node.EndsInZ = strId[2] == 'Z'
+	node.EndsInA = strId[2] == 'A'
 	(*nodeMap)[id] = node
 	return node
 }
@@ -34,31 +43,28 @@ func ParseInput(in io.Reader) Input {
 	endId := hashNodeId([]byte{'Z', 'Z', 'Z'})
 	s := bufio.NewScanner(in)
 	inp := Input{}
-	nodeMap := make(map[uint32]*Node, 64)
-	pNodeMap := &nodeMap
+	inp.Nodes = make(map[uint32]*Node, 64)
+	pNodeMap := &inp.Nodes
 	instructionsRead := false
 	for s.Scan() {
 		line := s.Bytes()
 		if len(line) == 0 {
 			continue
 		} else if !instructionsRead {
-			inp.Instruktions = make(PathInstructions, len(line))
+			inp.Instructions = make(PathInstructions, len(line))
 			for idx, ch := range line {
 				if ch == 'R' {
-					inp.Instruktions[idx] = true
+					inp.Instructions[idx] = true
 				}
 			}
 			instructionsRead = true
 		} else {
-			currentId := hashNodeId(line)
-			leftId := hashNodeId(line[7:10])
-			rightId := hashNodeId(line[12:15])
-			currentNode := getOrCreateNode(pNodeMap, currentId)
-			currentNode.Left = getOrCreateNode(pNodeMap, leftId)
-			currentNode.Right = getOrCreateNode(pNodeMap, rightId)
-			if currentId == startId {
+			currentNode := getOrCreateNode(pNodeMap, line)
+			currentNode.Left = getOrCreateNode(pNodeMap, line[7:10])
+			currentNode.Right = getOrCreateNode(pNodeMap, line[12:15])
+			if currentNode.Id == startId {
 				inp.Start = currentNode
-			} else if currentId == endId {
+			} else if currentNode.Id == endId {
 				inp.End = currentNode
 			}
 		}
@@ -69,13 +75,13 @@ func ParseInput(in io.Reader) Input {
 func Part1(in io.Reader) int {
 	games := ParseInput(in)
 	steps := 0
-	numInstructions := len(games.Instruktions)
+	numInstructions := len(games.Instructions)
 	current := games.Start
 	for ; ; steps++ {
 		if current == games.End {
 			break
 		}
-		if games.Instruktions[steps%numInstructions] {
+		if games.Instructions[steps%numInstructions] {
 			current = current.Right
 		} else {
 			current = current.Left

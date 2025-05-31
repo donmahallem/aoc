@@ -3,6 +3,8 @@ package day06
 import (
 	"bufio"
 	"io"
+
+	"github.com/donmahallem/aoc/aoc_utils/bytes"
 )
 
 func parseInputPart2(in io.Reader) Race {
@@ -13,9 +15,9 @@ func parseInputPart2(in io.Reader) Race {
 	for s.Scan() {
 		b := s.Bytes()
 		for _, c := range b {
-			if c >= '0' && c <= '9' {
+			if parsedInt, ok := bytes.ParseIntFromByte[int](c); ok {
 				currentNumber *= 10
-				currentNumber += int(c) - '0'
+				currentNumber += parsedInt
 			}
 		}
 		if firstNumber {

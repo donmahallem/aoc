@@ -5,6 +5,7 @@ import (
 	"io"
 
 	"github.com/donmahallem/aoc/aoc_utils"
+	"github.com/donmahallem/aoc/aoc_utils/bytes"
 )
 
 type Robot struct {
@@ -31,8 +32,8 @@ func ParseLine(line *[]byte) Robot {
 	currentPointer := &robot.pos.X
 	isNegative := false
 	for i := range len(*line) {
-		if (*line)[i] >= '0' && (*line)[i] <= '9' {
-			shiftVal = int((*line)[i] - '0')
+		if parsedInt, ok := bytes.ParseIntFromByte[int]((*line)[i]); ok {
+			shiftVal = parsedInt
 			if *currentPointer == 0 {
 				*currentPointer = shiftVal
 			} else {

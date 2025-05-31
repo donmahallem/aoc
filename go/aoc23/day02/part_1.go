@@ -3,6 +3,8 @@ package day02
 import (
 	"bufio"
 	"io"
+
+	"github.com/donmahallem/aoc/aoc_utils/bytes"
 )
 
 type Block struct {
@@ -16,8 +18,8 @@ func ParseLine(line []byte) (int, []Block) {
 	curVal := 0
 	for idx := 0; idx < len(line); idx++ {
 		chr := line[idx]
-		if chr >= '0' && chr <= '9' {
-			curVal = (curVal * 10) + int(chr-'0')
+		if val, ok := bytes.ParseIntFromByte[int](chr); ok {
+			curVal = (curVal * 10) + val
 		} else if chr == ':' {
 			game = curVal
 			curVal = 0

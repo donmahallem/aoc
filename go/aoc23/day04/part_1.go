@@ -4,11 +4,9 @@ import (
 	"bufio"
 	"io"
 	"slices"
-)
 
-func IsNumber(b byte) bool {
-	return b >= '0' && b <= '9'
-}
+	"github.com/donmahallem/aoc/aoc_utils/bytes"
+)
 
 func ParseLine(data []byte) (uint8, []uint8, []uint8) {
 	ticketFound := false
@@ -32,12 +30,12 @@ func ParseLine(data []byte) (uint8, []uint8, []uint8) {
 		}
 	}
 	for idx := 4; idx < len(data); idx++ {
-		if IsNumber(data[idx]) {
+		if parsedInt, ok := bytes.ParseIntFromByte[uint8](data[idx]); ok {
 			if !isInNumber {
-				currentNumber = data[idx] - '0'
+				currentNumber = parsedInt
 				isInNumber = true
 			} else {
-				currentNumber = (currentNumber * 10) + data[idx] - '0'
+				currentNumber = (currentNumber * 10) + parsedInt
 			}
 			continue
 		}

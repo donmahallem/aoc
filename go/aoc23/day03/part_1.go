@@ -5,6 +5,7 @@ import (
 	"slices"
 
 	"github.com/donmahallem/aoc/aoc_utils"
+	"github.com/donmahallem/aoc/aoc_utils/bytes"
 )
 
 const (
@@ -28,7 +29,7 @@ func NewNumber(t int, startX, endX, y int16) *Number {
 func GetType(b byte) uint8 {
 	if b == '.' {
 		return TYPE_SPACE
-	} else if b >= '0' && b <= '9' {
+	} else if bytes.ByteIsNumber(b) {
 		return TYPE_NUM
 	} else {
 		return TYPE_PART

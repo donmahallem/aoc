@@ -3,7 +3,7 @@ package day08
 import (
 	"io"
 
-	"github.com/donmahallem/aoc/aoc_utils"
+	"github.com/donmahallem/aoc/aoc_utils/math/lcm"
 )
 
 func GetCycleSize(instructions PathInstructions, node *Node) uint {
@@ -25,7 +25,7 @@ func Part2(in io.Reader) uint {
 	var currentBase uint = 1
 	for _, node := range games.Nodes {
 		if node.EndsInA {
-			currentBase = aoc_utils.LcmInt(currentBase, GetCycleSize(games.Instructions, node))
+			currentBase = lcm.LcmInt(currentBase, GetCycleSize(games.Instructions, node))
 		}
 	}
 	return currentBase

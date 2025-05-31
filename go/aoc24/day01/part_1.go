@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/donmahallem/aoc/aoc_utils"
+	"github.com/donmahallem/aoc/aoc_utils/math/abs"
 )
 
 func Part1(in io.Reader) int {
@@ -26,7 +26,7 @@ func Part1(in io.Reader) int {
 
 	var summe int = 0
 	for i := range len(left) {
-		summe += aoc_utils.Abs(left[i] - right[i])
+		summe += abs.AbsInt(left[i] - right[i])
 	}
 	return summe
 }

@@ -6,8 +6,6 @@ import (
 	"math"
 	"strconv"
 	"strings"
-
-	"github.com/donmahallem/aoc/aoc_utils"
 )
 
 // Interval half-open interval [Start, End)
@@ -138,7 +136,7 @@ func Part1(in io.Reader) int {
 	almanac := ParseAlmanac(in)
 	lowest := math.MaxInt
 	for _, seed := range almanac.Seeds {
-		lowest = aoc_utils.Min(lowest, GetPosition(almanac, seed))
+		lowest = min(lowest, GetPosition(almanac, seed))
 	}
 	return lowest
 }

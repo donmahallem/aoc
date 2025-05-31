@@ -3,8 +3,6 @@ package day04
 import (
 	"bufio"
 	"io"
-
-	"github.com/donmahallem/aoc/aoc_utils"
 )
 
 func CountTickets(valid []int, idx int) int {
@@ -17,7 +15,7 @@ func CountTickets(valid []int, idx int) int {
 		}
 	}
 	for i := range len(valid) {
-		for j := i + 1; j < aoc_utils.Min(i+1+valid[i], len(valid)); j++ {
+		for j := i + 1; j < min(i+1+valid[i], len(valid)); j++ {
 			add(j, 1+counter[i])
 		}
 		add(i, 1)

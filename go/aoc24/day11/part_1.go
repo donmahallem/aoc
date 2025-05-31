@@ -4,7 +4,8 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/donmahallem/aoc/aoc_utils"
+	"github.com/donmahallem/aoc/aoc_utils/math/log"
+	"github.com/donmahallem/aoc/aoc_utils/math/pow"
 )
 
 func ParseLine(in io.Reader) ([]uint32, error) {
@@ -39,8 +40,8 @@ func SplitStone(stone uint32, depth uint8, cache map[CacheKey]int) int {
 	var result int
 	if stone == 0 {
 		result = SplitStone(1, depth-1, cache)
-	} else if digits := aoc_utils.Log10Int(stone); digits%2 == 0 {
-		split := aoc_utils.IntPow(10, digits/2)
+	} else if digits := log.Log10Int(stone); digits%2 == 0 {
+		split := pow.IntPow(10, digits/2)
 		result = SplitStone(stone/split, depth-1, cache) +
 			SplitStone(stone%split, depth-1, cache)
 	} else {

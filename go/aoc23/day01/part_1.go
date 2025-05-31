@@ -3,17 +3,19 @@ package day01
 import (
 	"bufio"
 	"io"
+
+	"github.com/donmahallem/aoc/aoc_utils/bytes"
 )
 
 func ParseLine(line []byte) int {
 	var curVal, lastVal uint8 = 20, 20
 	for i := range line {
-		if (line)[i] >= '0' && (line)[i] <= '9' {
+		if val, ok := bytes.ParseIntFromByte[uint8](line[i]); ok {
 			if curVal >= 10 {
-				curVal = (line)[i] - '0'
-				lastVal = (line)[i] - '0'
+				curVal = val
+				lastVal = val
 			} else {
-				lastVal = (line)[i] - '0'
+				lastVal = val
 			}
 		}
 	}

@@ -3,6 +3,8 @@ package day03
 import (
 	"io"
 	"strconv"
+
+	"github.com/donmahallem/aoc/aoc_utils/bytes"
 )
 
 type MulReaderState int
@@ -62,30 +64,30 @@ func (a *MulReader) Read(p []byte) (int, error) {
 				a.state = MUL_STATE_NONE
 			}
 		} else if a.state == MUL_STATE_MUL_OPEN {
-			if p[i] >= '0' && p[i] <= '9' {
+			if val, ok := bytes.ParseIntFromByte[int](p[i]); ok {
 				a.state = MUL_STATE_MUL_OPEN_NUM1
-				a.num1cache = int(p[i] - '0')
+				a.num1cache = val
 			} else {
 				a.state = MUL_STATE_NONE
 			}
 		} else if a.state == MUL_STATE_MUL_OPEN_NUM1 {
-			if p[i] >= '0' && p[i] <= '9' {
-				a.num1cache = a.num1cache*10 + int(p[i]-'0')
+			if val, ok := bytes.ParseIntFromByte[int](p[i]); ok {
+				a.num1cache = a.num1cache*10 + val
 			} else if p[i] == ',' {
 				a.state = MUL_STATE_MUL_OPEN_COMMA
 			} else {
 				a.state = MUL_STATE_NONE
 			}
 		} else if a.state == MUL_STATE_MUL_OPEN_COMMA {
-			if p[i] >= '0' && p[i] <= '9' {
+			if val, ok := bytes.ParseIntFromByte[int](p[i]); ok {
 				a.state = MUL_STATE_MUL_OPEN_NUM2
-				a.num2cache = int(p[i] - '0')
+				a.num2cache = val
 			} else {
 				a.state = MUL_STATE_NONE
 			}
 		} else if a.state == MUL_STATE_MUL_OPEN_NUM2 {
-			if p[i] >= '0' && p[i] <= '9' {
-				a.num2cache = a.num2cache*10 + int(p[i]-'0')
+			if val, ok := bytes.ParseIntFromByte[int](p[i]); ok {
+				a.num2cache = a.num2cache*10 + val
 			} else if p[i] == ')' {
 				a.currentSum += a.num1cache * a.num2cache
 				a.state = MUL_STATE_NONE

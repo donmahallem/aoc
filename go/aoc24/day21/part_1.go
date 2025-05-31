@@ -5,6 +5,7 @@ import (
 	"io"
 
 	"github.com/donmahallem/aoc/aoc_utils"
+	"github.com/donmahallem/aoc/aoc_utils/bytes"
 )
 
 type Point = aoc_utils.Point[int8]
@@ -24,8 +25,8 @@ func IterateInput(in io.Reader) chan []byte {
 func ParseIntValue(data *[]byte) uint {
 	var val uint = 0
 	for _, b := range *data {
-		if b >= '0' && b <= '9' {
-			val = (val * 10) + uint(b-'0')
+		if parsedInt, ok := bytes.ParseIntFromByte[uint](b); ok {
+			val = (val * 10) + parsedInt
 		}
 	}
 	return val

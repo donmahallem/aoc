@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io"
 	"slices"
+
+	"github.com/donmahallem/aoc/aoc_utils/bytes"
 )
 
 type Game struct {
@@ -52,8 +54,8 @@ func parseInput(in io.Reader) []Game {
 				} else {
 					panic(fmt.Sprintf("Unexpected character in input. Got: %b", ch))
 				}
-			} else if ch >= '0' && ch <= '9' {
-				game.Bid = (10 * game.Bid) + (int(ch - '0'))
+			} else if parsedInt, ok := bytes.ParseIntFromByte[int](ch); ok {
+				game.Bid = (10 * game.Bid) + parsedInt
 			}
 		}
 		slices.Sort(freq[:])

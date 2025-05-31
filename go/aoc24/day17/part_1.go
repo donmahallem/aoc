@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/donmahallem/aoc/aoc_utils"
+	"github.com/donmahallem/aoc/aoc_utils/math/pow"
 )
 
 type Register = [3]int
@@ -48,7 +48,7 @@ func CalculateOutput(reg *Register, program *Program) *Program {
 		}
 		switch opcode {
 		case 0:
-			(*reg)[0] = (*reg)[0] / aoc_utils.IntPow(2, operand_value)
+			(*reg)[0] = (*reg)[0] / pow.IntPow(2, operand_value)
 		case 1:
 			(*reg)[1] = (*reg)[1] ^ operand
 		case 2:
@@ -63,9 +63,9 @@ func CalculateOutput(reg *Register, program *Program) *Program {
 		case 5:
 			output = append(output, operand_value%8)
 		case 6:
-			(*reg)[1] = (*reg)[0] / (aoc_utils.IntPow(2, operand_value))
+			(*reg)[1] = (*reg)[0] / (pow.IntPow(2, operand_value))
 		case 7:
-			(*reg)[2] = (*reg)[0] / (aoc_utils.IntPow(2, operand_value))
+			(*reg)[2] = (*reg)[0] / (pow.IntPow(2, operand_value))
 		}
 		pointer += 2
 	}

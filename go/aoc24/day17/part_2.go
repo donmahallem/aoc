@@ -4,7 +4,7 @@ import (
 	"io"
 	"slices"
 
-	"github.com/donmahallem/aoc/aoc_utils"
+	"github.com/donmahallem/aoc/aoc_utils/math/pow"
 )
 
 func SearchForNeutralElement(reg *Register, program *Program, targetProgram *Program) bool {
@@ -14,7 +14,7 @@ func SearchForNeutralElement(reg *Register, program *Program, targetProgram *Pro
 	var opcode, operand, operand_value, programLength int
 	for pointer < len(*program) {
 		programLength = len(output)
-		if programLength > 0 && !slices.Equal(output, (*targetProgram)[0:aoc_utils.Min(programLength, targetProgramLength)]) {
+		if programLength > 0 && !slices.Equal(output, (*targetProgram)[0:min(programLength, targetProgramLength)]) {
 			return false
 		}
 		opcode = (*program)[pointer]
@@ -26,7 +26,7 @@ func SearchForNeutralElement(reg *Register, program *Program, targetProgram *Pro
 		}
 		switch opcode {
 		case 0:
-			(*reg)[0] = (*reg)[0] / aoc_utils.IntPow(2, operand_value)
+			(*reg)[0] = (*reg)[0] / pow.IntPow(2, operand_value)
 		case 1:
 			(*reg)[1] = (*reg)[1] ^ operand
 		case 2:
@@ -41,9 +41,9 @@ func SearchForNeutralElement(reg *Register, program *Program, targetProgram *Pro
 		case 5:
 			output = append(output, operand_value%8)
 		case 6:
-			(*reg)[1] = (*reg)[0] / (aoc_utils.IntPow(2, operand_value))
+			(*reg)[1] = (*reg)[0] / (pow.IntPow(2, operand_value))
 		case 7:
-			(*reg)[2] = (*reg)[0] / (aoc_utils.IntPow(2, operand_value))
+			(*reg)[2] = (*reg)[0] / (pow.IntPow(2, operand_value))
 		}
 		pointer += 2
 	}

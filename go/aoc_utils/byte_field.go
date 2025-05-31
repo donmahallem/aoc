@@ -4,9 +4,11 @@ import (
 	"bufio"
 	"io"
 	"reflect"
+
+	"github.com/donmahallem/aoc/aoc_utils/math"
 )
 
-type ByteField[A IntType] struct {
+type ByteField[A math.IntType] struct {
 	Width, Height A
 	Field         [][]byte
 }
@@ -17,14 +19,14 @@ func (a *ByteField[A]) Compare(f *ByteField[A]) bool {
 		reflect.DeepEqual(a.Field, f.Field)
 }
 
-func NewField[A IntType](width A, height A, field [][]byte) *ByteField[A] {
+func NewField[A math.IntType](width A, height A, field [][]byte) *ByteField[A] {
 	return &ByteField[A]{Width: width, Height: height, Field: field}
 }
 
-func LoadField[A IntType](reader io.Reader) (*ByteField[A], error) {
+func LoadField[A math.IntType](reader io.Reader) (*ByteField[A], error) {
 	return LoadFieldWithOffset[A](reader, 0)
 }
-func LoadFieldWithOffset[A IntType](reader io.Reader, offset byte) (*ByteField[A], error) {
+func LoadFieldWithOffset[A math.IntType](reader io.Reader, offset byte) (*ByteField[A], error) {
 	obstacles := make([][]byte, 0)
 	s := bufio.NewScanner(reader)
 	y := A(0)

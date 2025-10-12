@@ -16,7 +16,7 @@ type Node struct {
 }
 type nodeMap = map[point]*Node
 
-// Bitmask für die 4 Richtungen
+// Bitmask for the 4 directions
 const (
 	DirU = 1 << iota
 	DirR

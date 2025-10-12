@@ -24,7 +24,7 @@ const (
 	DirL
 )
 
-// Mapping von Zeichen auf Richtungs-Bitmask
+// Mapping from characters to direction bitmask
 var char2mask = map[byte]uint8{
 	'J': DirU | DirL,
 	'-': DirR | DirL,

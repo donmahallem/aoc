@@ -32,7 +32,6 @@ func ParseInput(r io.Reader, emptyOffset int) []Galaxy {
 				p := point{X: x, Y: y}
 				galaxies = append(galaxies, Galaxy{Position: p})
 			}
-			x++
 		}
 		y++
 	}

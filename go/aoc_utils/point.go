@@ -3,7 +3,7 @@ package aoc_utils
 import "math"
 
 type PointType interface {
-	int | int8 | float32 | float64 | uint16 | int16 | uint
+	int | int8 | float32 | float64 | uint16 | int16 | uint | uint8 | int32 | uint32 | int64 | uint64
 }
 type Point[A PointType] struct {
 	X A

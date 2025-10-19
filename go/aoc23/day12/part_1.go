@@ -27,11 +27,11 @@ type Line struct {
  */
 func parseLine(line []byte, observationMultiplier int) Line {
 	splitIndex := bytes.IndexByte(line, ' ')
-	brokenPartSeries := line[splitIndex+1:]
-	numberOfBrokenGroups := (len(brokenPartSeries) / 2) + 1
+	brokenPartSeries := bytes.Split(line[splitIndex+1:], []byte{','})
+	numberOfBrokenGroups := len(brokenPartSeries)
 	brokenParts := make([]int, numberOfBrokenGroups*observationMultiplier)
 	for i := range numberOfBrokenGroups {
-		brokenParts[i], _ = bytesutil.ParseIntFromByte[int](line[splitIndex+1+(i*2)])
+		brokenParts[i] = bytesutil.ByteSequenceToInt[int](brokenPartSeries[i])
 	}
 	states := make([]SpringState, (splitIndex*observationMultiplier)+(observationMultiplier-1))
 	for idx, c := range line[:splitIndex] {

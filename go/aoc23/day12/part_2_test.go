@@ -14,7 +14,7 @@ func TestPart2(t *testing.T) {
 		result := day12.Part2(reader)
 		const expectedLen int = 525152
 		if result != expectedLen {
-			t.Errorf(`Expected %d galaxies to be parsed, got %d`, expectedLen, result)
+			t.Errorf(`Expected %d arrangements to be found, got %d`, expectedLen, result)
 		}
 	})
 }

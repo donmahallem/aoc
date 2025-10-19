@@ -21,7 +21,7 @@ func TestParseInput(t *testing.T) {
 		lines := day12.ParseInput(reader, 1)
 		const expectedLen int = 6
 		if len(lines) != expectedLen {
-			t.Errorf(`Expected %d galaxies to be parsed, got %d`, expectedLen, len(lines))
+			t.Errorf(`Expected %d lines to be parsed, got %d`, expectedLen, len(lines))
 		}
 	})
 }

@@ -72,21 +72,19 @@ func findAxis(axisData []int) (int, bool) {
 	}
 	return -1, false
 }
-func SolveBlock(b Block) int {
-	if rowAxis, ok := findAxis(b.Rows); ok {
-		return rowAxis * 100
-	}
-	if colAxis, ok := findAxis(b.Cols); ok {
-		return colAxis
-	}
-	panic("Could not find axis")
-}
 
 func Part1(in io.Reader) int {
 	start := ParseInput(in)
 	accum := 0
 	for _, block := range start {
-		accum += SolveBlock(block)
+		if rowAxis, ok := findAxis(block.Rows); ok {
+			accum += rowAxis * 100
+			continue
+		}
+		if colAxis, ok := findAxis(block.Cols); ok {
+			accum += colAxis
+			continue
+		}
 	}
 	return accum
 }

@@ -22,7 +22,7 @@ func TestParseInput(t *testing.T) {
 	t.Run("testData1", func(t *testing.T) {
 		const expected int = 10
 		reader := strings.NewReader(testData)
-		if res := day14.ParseInput(reader); len(res) != expected {
+		if res := day14.ParseInputPart1(reader); len(res) != expected {
 			t.Errorf(`Expected %d to be %d`, len(res), expected)
 		}
 
@@ -30,7 +30,7 @@ func TestParseInput(t *testing.T) {
 	t.Run("test block 1", func(t *testing.T) {
 
 		reader := strings.NewReader(testData)
-		res := day14.ParseInput(reader)
+		res := day14.ParseInputPart1(reader)
 		expectedRows := []uint{
 			5,
 			2,

@@ -5,7 +5,7 @@ import (
 	"io"
 )
 
-func ParseInput(r io.Reader) []uint {
+func ParseInputPart1(r io.Reader) []uint {
 	scanner := bufio.NewScanner(r)
 
 	var lastEmpties []uint16 = nil
@@ -33,7 +33,7 @@ func ParseInput(r io.Reader) []uint {
 }
 
 func Part1(in io.Reader) uint {
-	start := ParseInput(in)
+	start := ParseInputPart1(in)
 	accum := uint(0)
 	for idx, val := range start {
 		accum += val * uint(len(start)-idx)

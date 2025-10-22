@@ -54,8 +54,8 @@ func ParseInput(r io.Reader) []Block {
 }
 
 func validateAxis(items []int, center int) bool {
-	for offset := 1; center-offset-1 >= 0 && center+offset < len(items); offset++ {
-		if items[center-offset-1] != items[center+offset] {
+	for lower, upper := center-1, center; lower >= 0 && upper < len(items); lower, upper = lower-1, upper+1 {
+		if items[lower] != items[upper] {
 			return false
 		}
 	}

@@ -210,3 +210,11 @@ func TestPart2(t *testing.T) {
 		}
 	})
 }
+
+func BenchmarkPart2(b *testing.B) {
+	reader := strings.NewReader(testData)
+	for b.Loop() {
+		day14.Part2(reader)
+		reader.Seek(0, 0)
+	}
+}

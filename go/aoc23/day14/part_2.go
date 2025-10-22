@@ -25,8 +25,8 @@ const (
 )
 
 func ApplyGravity(field Field, dir Direction) {
-
-	if dir == DirDown {
+	switch dir {
+	case DirDown:
 		for colIdx := range field[0] {
 			lastEmptyIdx := len(field) - 1
 			for rowIdx := len(field) - 1; rowIdx >= 0; rowIdx-- {
@@ -42,10 +42,10 @@ func ApplyGravity(field Field, dir Direction) {
 				}
 			}
 		}
-	} else if dir == DirUp {
+	case DirUp:
 		for colIdx := range field[0] {
 			lastEmptyIdx := 0
-			for rowIdx := 0; rowIdx < len(field); rowIdx++ {
+			for rowIdx := range len(field) {
 				switch field[rowIdx][colIdx] {
 				case CellStone:
 					if lastEmptyIdx != rowIdx {
@@ -59,10 +59,10 @@ func ApplyGravity(field Field, dir Direction) {
 
 			}
 		}
-	} else if dir == DirLeft {
+	case DirLeft:
 		for rowIdx := range field {
 			lastEmptyIdx := 0
-			for colIdx := 0; colIdx < len(field[0]); colIdx++ {
+			for colIdx := range len(field[0]) {
 				switch field[rowIdx][colIdx] {
 				case CellStone:
 					if lastEmptyIdx != colIdx {
@@ -75,7 +75,7 @@ func ApplyGravity(field Field, dir Direction) {
 				}
 			}
 		}
-	} else if dir == DirRight {
+	case DirRight:
 		for rowIdx := range field {
 			lastEmptyIdx := len(field[0]) - 1
 			for colIdx := len(field[0]) - 1; colIdx >= 0; colIdx-- {
@@ -143,20 +143,24 @@ const totalCycles CycleMemory = 1000000000
 func Part2(in io.Reader) uint {
 	field := ParseInputPart2(in)
 
-	memory := make(map[uint64]CycleMemory)
+	memoryField := make(map[uint64]CycleMemory)
+	memoryScore := make(map[CycleMemory]uint)
 	/* Simulate subcycles and detect loops to skip ahead*/
 	for cycleIdx := CycleMemory(0); cycleIdx < totalCycles; cycleIdx++ {
 		CycleDirections(field)
 		encoded := encodeField(field)
-		if lastCycle, found := memory[encoded]; found {
+		if lastCycle, found := memoryField[encoded]; found {
 			skipCycles := totalCycles - cycleIdx - 1
 			cycleLength := cycleIdx - lastCycle
 			skips := skipCycles / cycleLength
 			cycleIdx += skips * cycleLength
+			remainingCycles := (totalCycles - cycleIdx - 1) % cycleLength
+			finalCycle := lastCycle + remainingCycles
+			return memoryScore[finalCycle]
 		} else {
-			memory[encoded] = cycleIdx
+			memoryField[encoded] = cycleIdx
+			memoryScore[cycleIdx] = CalculateBeamLoad(field)
 		}
 	}
-
-	return CalculateBeamLoad(field)
+	return 0
 }

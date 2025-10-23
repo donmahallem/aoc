@@ -4,7 +4,7 @@ import (
 	"io"
 )
 
-type Lense struct {
+type Lens struct {
 	Id          uint64
 	FocalLength uint64
 }
@@ -68,7 +68,7 @@ func Part2(in io.Reader) uint64 {
 		return 0
 	}
 
-	memory := make([][]Lense, 256)
+	memory := make([][]Lens, 256)
 
 	start := 0
 	for i := 0; i <= len(raw); i++ {
@@ -118,7 +118,7 @@ func Part2(in io.Reader) uint64 {
 					}
 				}
 				if !updated {
-					memory[hashedId] = append(box, Lense{Id: key, FocalLength: focal})
+					memory[hashedId] = append(box, Lens{Id: key, FocalLength: focal})
 				}
 			}
 		}

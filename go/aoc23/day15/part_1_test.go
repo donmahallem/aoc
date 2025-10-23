@@ -16,7 +16,7 @@ func TestPart1(t *testing.T) {
 		reader := strings.NewReader(testDataHash)
 		res := day15.Part1(reader)
 		if res != 52 {
-			t.Errorf(`Expected number of blocks to be 405, got %d`, res)
+			t.Errorf(`Expected number of blocks to be 52, got %d`, res)
 		}
 	})
 	t.Run("test sample 2", func(t *testing.T) {
@@ -24,7 +24,7 @@ func TestPart1(t *testing.T) {
 		reader := strings.NewReader(testData)
 		res := day15.Part1(reader)
 		if res != 1320 {
-			t.Errorf(`Expected number of blocks to be 405, got %d`, res)
+			t.Errorf(`Expected number of blocks to be 1320, got %d`, res)
 		}
 	})
 }

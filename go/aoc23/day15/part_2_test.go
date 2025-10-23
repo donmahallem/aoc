@@ -26,7 +26,16 @@ func TestPart2(t *testing.T) {
 		reader := strings.NewReader(testData)
 		res := day15.Part2(reader)
 		if res != 145 {
-			t.Errorf(`Expected number of blocks to be 405, got %d`, res)
+			t.Errorf(`Expected number of blocks to be 145, got %d`, res)
 		}
 	})
+}
+
+func BenchmarkPart2(b *testing.B) {
+
+	reader := strings.NewReader(testData)
+	for b.Loop() {
+		day15.Part2(reader)
+		reader.Seek(0, 0)
+	}
 }

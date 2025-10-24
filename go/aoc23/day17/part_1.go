@@ -5,14 +5,21 @@ import (
 	"io"
 )
 
-type Cell = uint
+type Cell = uint32
+
+type step struct {
+	x, y  int16
+	dir   uint8
+	steps uint8
+	cost  uint32
+}
 
 type Field struct {
 	Cells         []Cell
 	Width, Height int16
 }
 
-func ParseInputPart1(r io.Reader) Field {
+func ParseInput(r io.Reader) Field {
 	scanner := bufio.NewScanner(r)
 
 	field := Field{
@@ -26,14 +33,15 @@ func ParseInputPart1(r io.Reader) Field {
 			field.Width = int16(len(line))
 		}
 		field.Height++
-		for idx := range line {
-			field.Cells = append(field.Cells, uint(line[idx]-'0'))
+
+		for _, char := range line {
+			field.Cells = append(field.Cells, uint32(char-'0'))
 		}
 	}
 	return field
 }
 
-func findShortestPath(field Field) uint {
+func findShortestPath(field Field, minStraight, maxStraight uint8) uint32 {
 	if field.Width == 0 || field.Height == 0 {
 		return 0
 	}
@@ -41,11 +49,9 @@ func findShortestPath(field Field) uint {
 		return 0
 	}
 
-	const maxStraight = uint8(3)
-	maxCost := ^uint(0)
+	maxCost := ^uint32(0)
 
 	width, height := field.Width, field.Height
-	widthInt, heightInt := int(width), int(height)
 	targetX, targetY := width-1, height-1
 
 	directions := [4]struct {
@@ -57,13 +63,13 @@ func findShortestPath(field Field) uint {
 		{0, -1},
 	}
 
-	stateIndex := func(x, y int16, dir, steps uint8) int16 {
-		cellIdx := y*width + x
-		return ((cellIdx*4 + int16(dir)) * int16(maxStraight)) + int16(steps-1)
+	stateIndex := func(x, y int16, dir, steps uint8) uint32 {
+		cellIdx := uint32(y*width + x)
+		return ((cellIdx*4 + uint32(dir)) * uint32(maxStraight)) + uint32(steps-1)
 	}
 
-	totalStates := widthInt * heightInt * len(directions) * int(maxStraight)
-	best := make([]uint, totalStates)
+	totalStates := uint32(width*height) * uint32(len(directions)) * uint32(maxStraight)
+	best := make([]uint32, totalStates)
 	for i := range best {
 		best[i] = maxCost
 	}
@@ -71,13 +77,18 @@ func findShortestPath(field Field) uint {
 	cellCosts := field.Cells
 	queue := make([]step, 0, len(cellCosts))
 
-	for dirIdx, dir := range directions {
+	// Loop over directions
+	for dirIdx := uint8(0); dirIdx < uint8(len(directions)); dirIdx++ {
+		dir := directions[dirIdx]
 		nx, ny := dir.dx, dir.dy
+
 		if nx < 0 || nx >= width || ny < 0 || ny >= height {
 			continue
 		}
 		cost := cellCosts[ny*width+nx]
-		idx := stateIndex(nx, ny, uint8(dirIdx), 1)
+
+		idx := stateIndex(nx, ny, dirIdx, 1)
+
 		if cost >= best[idx] {
 			continue
 		}
@@ -85,7 +96,7 @@ func findShortestPath(field Field) uint {
 		queue = append(queue, step{
 			x:     nx,
 			y:     ny,
-			dir:   uint8(dirIdx),
+			dir:   dirIdx,
 			steps: 1,
 			cost:  cost,
 		})
@@ -94,7 +105,7 @@ func findShortestPath(field Field) uint {
 	bestTarget := maxCost
 
 	for head := 0; head < len(queue); head++ {
-		current := queue[head]
+		current := &queue[head]
 
 		if current.cost >= bestTarget {
 			continue
@@ -112,18 +123,55 @@ func findShortestPath(field Field) uint {
 			continue
 		}
 
-		for nextDirIdx, dir := range directions {
-			if nextDirIdx == (int(current.dir)+2)&3 {
-				continue
-			}
+		if current.steps < minStraight {
+			// Must continue in the same direction
+			dir := directions[current.dir]
 			nx := current.x + dir.dx
 			ny := current.y + dir.dy
+
+			if nx < 0 || nx >= width || ny < 0 || ny >= height {
+				continue
+			}
+
+			newCost := current.cost + cellCosts[ny*width+nx]
+			if newCost >= bestTarget {
+				continue
+			}
+
+			newStateIdx := stateIndex(nx, ny, current.dir, current.steps+1)
+
+			if best[newStateIdx] <= newCost {
+				continue
+			}
+			best[newStateIdx] = newCost
+
+			queue = append(queue, step{
+				x:     nx,
+				y:     ny,
+				dir:   current.dir,
+				steps: current.steps + 1,
+				cost:  newCost,
+			})
+			continue
+		}
+
+		// Loop over directions
+		for nextDirIdx := uint8(0); nextDirIdx < uint8(len(directions)); nextDirIdx++ {
+			dir := directions[nextDirIdx]
+
+			if nextDirIdx == (current.dir+2)&3 {
+				continue
+			}
+
+			nx := current.x + dir.dx
+			ny := current.y + dir.dy
+
 			if nx < 0 || nx >= width || ny < 0 || ny >= height {
 				continue
 			}
 
 			var steps uint8
-			if nextDirIdx == int(current.dir) {
+			if nextDirIdx == current.dir {
 				if current.steps >= maxStraight {
 					continue
 				}
@@ -132,21 +180,22 @@ func findShortestPath(field Field) uint {
 				steps = 1
 			}
 
-			newCost := current.cost + uint(cellCosts[ny*width+nx])
+			newCost := current.cost + cellCosts[ny*width+nx]
 			if newCost >= bestTarget {
 				continue
 			}
 
-			newStateIdx := stateIndex(nx, ny, uint8(nextDirIdx), steps)
+			newStateIdx := stateIndex(nx, ny, nextDirIdx, steps)
+
 			if best[newStateIdx] <= newCost {
 				continue
 			}
 			best[newStateIdx] = newCost
 
 			queue = append(queue, step{
-				x:     int16(nx),
-				y:     int16(ny),
-				dir:   uint8(nextDirIdx),
+				x:     nx,
+				y:     ny,
+				dir:   nextDirIdx,
 				steps: steps,
 				cost:  newCost,
 			})
@@ -159,7 +208,7 @@ func findShortestPath(field Field) uint {
 	return bestTarget
 }
 
-func Part1(in io.Reader) uint {
-	start := ParseInputPart1(in)
-	return findShortestPath(start)
+func Part1(in io.Reader) uint32 {
+	start := ParseInput(in)
+	return findShortestPath(start, 1, 3)
 }

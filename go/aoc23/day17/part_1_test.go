@@ -25,7 +25,7 @@ func TestParseInput(t *testing.T) {
 	t.Run("testData1", func(t *testing.T) {
 		const expected int = 13 * 13
 		reader := strings.NewReader(testData)
-		if res := day17.ParseInputPart1(reader); len(res.Cells) != expected {
+		if res := day17.ParseInput(reader); len(res.Cells) != expected {
 			t.Errorf(`Expected %d to be %d`, len(res.Cells), expected)
 		}
 

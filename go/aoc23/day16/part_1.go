@@ -97,109 +97,90 @@ func (f Field) cellAt(pos Position) *Cell {
 	return &f.Cells[f.index(pos)]
 }
 
-func SimulateStep(field Field, position Position, direction Position, memory MovementMemory) {
-	if position.X < 0 || position.X >= field.Width || position.Y < 0 || position.Y >= field.Height {
-		return
-	}
-	mask := dirMask(direction)
-	if mask == 0 {
-		return
-	}
-	idx := field.index(position)
-	if memory[idx]&mask != 0 {
-		return
-	}
-	memory[idx] |= mask
+func Simulate(field Field, memory MovementMemory, initial Movement) {
+	stack := make([]Movement, 0, 64)
+	stack = append(stack, initial)
 
-	currentCell := field.cellAt(position)
-	switch currentCell.Type {
-	case CellTypeHorizontal:
-		if direction.Y == 0 {
-			// pass through
-			nextPosition := Position{X: position.X + direction.X, Y: position.Y + direction.Y}
-			SimulateStep(field, nextPosition, direction, memory)
-			return
-		} else {
-			// split beam
-			SimulateStep(field, Position{X: position.X - 1, Y: position.Y}, dirLeft, memory)
-			SimulateStep(field, Position{X: position.X + 1, Y: position.Y}, dirRight, memory)
-			return
-		}
-	case CellTypeVertical:
-		if direction.X == 0 {
-			// pass through
-			nextPosition := Position{X: position.X + direction.X, Y: position.Y + direction.Y}
-			SimulateStep(field, nextPosition, direction, memory)
-			return
-		} else {
-			// split beam
-			SimulateStep(field, Position{X: position.X, Y: position.Y - 1}, dirUp, memory)
-			SimulateStep(field, Position{X: position.X, Y: position.Y + 1}, dirDown, memory)
-			return
-		}
-	case CellTypeRightUp:
-		if direction.X > 0 {
-			// right to up
-			SimulateStep(field, Position{X: position.X, Y: position.Y - 1}, dirUp, memory)
-			return
-		} else if direction.Y < 0 {
-			// up to right
-			SimulateStep(field, Position{X: position.X + 1, Y: position.Y}, dirRight, memory)
-			return
-		} else if direction.X < 0 {
-			// left to down
-			SimulateStep(field, Position{X: position.X, Y: position.Y + 1}, dirDown, memory)
-			return
-		} else if direction.Y > 0 {
-			// down to left
-			SimulateStep(field, Position{X: position.X - 1, Y: position.Y}, dirLeft, memory)
-			return
-		}
-	case CellTypeLeftUp:
-		if direction.X > 0 {
-			// right to down
-			SimulateStep(field, Position{X: position.X, Y: position.Y + 1}, dirDown, memory)
-			return
-		} else if direction.Y < 0 {
-			// up to left
-			SimulateStep(field, Position{X: position.X - 1, Y: position.Y}, dirLeft, memory)
-			return
-		} else if direction.X < 0 {
-			// left to up
-			SimulateStep(field, Position{X: position.X, Y: position.Y - 1}, dirUp, memory)
-			return
-		} else if direction.Y > 0 {
-			// down to right
-			SimulateStep(field, Position{X: position.X + 1, Y: position.Y}, dirRight, memory)
-			return
-		}
-	case CellTypeEmpty:
-		// go ahead
-		nextPosition := Position{X: position.X + direction.X, Y: position.Y + direction.Y}
-		SimulateStep(field, nextPosition, direction, memory)
-		return
-	}
-}
+	for len(stack) > 0 {
+		mv := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
 
-func Simulate(field Field) {
-	currentPosition := Position{X: 0, Y: 0}
-	currentDirection := Position{X: 1, Y: 0} // moving right
+		pos := mv.Pos
+		dir := mv.Dir
 
-	for {
-		if currentPosition.X < 0 || currentPosition.X >= field.Width || currentPosition.Y < 0 || currentPosition.Y >= field.Height {
-			return
+		if pos.X < 0 || pos.X >= field.Width || pos.Y < 0 || pos.Y >= field.Height {
+			continue
 		}
-		currentCell := field.cellAt(currentPosition)
-		//nextPosition := Position{X: currentPosition.X + currentDirection.X, Y: currentPosition.Y + currentDirection.Y}
+
+		mask := dirMask(dir)
+		if mask == 0 {
+			continue
+		}
+
+		idx := field.index(pos)
+		if memory[idx]&mask != 0 {
+			continue
+		}
+		memory[idx] |= mask
+
+		currentCell := field.cellAt(pos)
+
 		switch currentCell.Type {
 		case CellTypeHorizontal:
-			if currentDirection.Y == 0 {
-				// pass through
-				currentPosition.X += currentDirection.X
-				continue
+			if dir.Y == 0 {
+				next := Position{X: pos.X + dir.X, Y: pos.Y + dir.Y}
+				stack = append(stack, Movement{Pos: next, Dir: dir})
 			} else {
-				// split beam
+				stack = append(stack,
+					Movement{Pos: Position{X: pos.X - 1, Y: pos.Y}, Dir: dirLeft},
+					Movement{Pos: Position{X: pos.X + 1, Y: pos.Y}, Dir: dirRight},
+				)
 			}
+		case CellTypeVertical:
+			if dir.X == 0 {
+				next := Position{X: pos.X + dir.X, Y: pos.Y + dir.Y}
+				stack = append(stack, Movement{Pos: next, Dir: dir})
+			} else {
+				stack = append(stack,
+					Movement{Pos: Position{X: pos.X, Y: pos.Y - 1}, Dir: dirUp},
+					Movement{Pos: Position{X: pos.X, Y: pos.Y + 1}, Dir: dirDown},
+				)
+			}
+		case CellTypeRightUp:
+			var turn Position
+			switch {
+			case dir.X == 1 && dir.Y == 0:
+				turn = dirUp
+			case dir.X == -1 && dir.Y == 0:
+				turn = dirDown
+			case dir.X == 0 && dir.Y == -1:
+				turn = dirRight
+			case dir.X == 0 && dir.Y == 1:
+				turn = dirLeft
+			default:
+				continue
+			}
+			next := Position{X: pos.X + turn.X, Y: pos.Y + turn.Y}
+			stack = append(stack, Movement{Pos: next, Dir: turn})
+		case CellTypeLeftUp:
+			var turn Position
+			switch {
+			case dir.X == 1 && dir.Y == 0:
+				turn = dirDown
+			case dir.X == -1 && dir.Y == 0:
+				turn = dirUp
+			case dir.X == 0 && dir.Y == -1:
+				turn = dirLeft
+			case dir.X == 0 && dir.Y == 1:
+				turn = dirRight
+			default:
+				continue
+			}
+			next := Position{X: pos.X + turn.X, Y: pos.Y + turn.Y}
+			stack = append(stack, Movement{Pos: next, Dir: turn})
+		default:
+			next := Position{X: pos.X + dir.X, Y: pos.Y + dir.Y}
+			stack = append(stack, Movement{Pos: next, Dir: dir})
 		}
 	}
 }
@@ -207,7 +188,7 @@ func Simulate(field Field) {
 func Part1(in io.Reader) int {
 	start := ParseInputPart1(in)
 	memory := make(MovementMemory, start.Width*start.Height)
-	SimulateStep(start, Position{X: 0, Y: 0}, dirRight, memory)
+	Simulate(start, memory, Movement{Pos: Position{X: 0, Y: 0}, Dir: dirRight})
 	return countEnergized(memory)
 }
 

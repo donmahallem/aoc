@@ -47,7 +47,7 @@ const (
 )
 
 type Field struct {
-	Cells  [][]Cell
+	Cells  []Cell
 	Width  int
 	Height int
 }
@@ -56,7 +56,7 @@ func ParseInputPart1(r io.Reader) Field {
 	scanner := bufio.NewScanner(r)
 
 	field := Field{
-		Cells:  make([][]Cell, 0),
+		Cells:  make([]Cell, 0, 64),
 		Width:  0,
 		Height: 0,
 	}
@@ -67,11 +67,9 @@ func ParseInputPart1(r io.Reader) Field {
 			field.Width = len(line)
 		}
 		field.Height++
-		parsedLine := make([]Cell, len(line))
-		for i := range line {
-			parsedLine[i] = Cell{Type: CellType(line[i])}
+		for i := 0; i < len(line); i++ {
+			field.Cells = append(field.Cells, Cell{Type: CellType(line[i])})
 		}
-		field.Cells = append(field.Cells, parsedLine)
 	}
 	return field
 }
@@ -95,6 +93,10 @@ func (f Field) index(pos Position) int {
 	return pos.Y*f.Width + pos.X
 }
 
+func (f Field) cellAt(pos Position) *Cell {
+	return &f.Cells[f.index(pos)]
+}
+
 func SimulateStep(field Field, position Position, direction Position, memory MovementMemory) {
 	if position.X < 0 || position.X >= field.Width || position.Y < 0 || position.Y >= field.Height {
 		return
@@ -109,7 +111,7 @@ func SimulateStep(field Field, position Position, direction Position, memory Mov
 	}
 	memory[idx] |= mask
 
-	currentCell := &field.Cells[position.Y][position.X]
+	currentCell := field.cellAt(position)
 	switch currentCell.Type {
 	case CellTypeHorizontal:
 		if direction.Y == 0 {
@@ -184,7 +186,10 @@ func Simulate(field Field) {
 	currentDirection := Position{X: 1, Y: 0} // moving right
 
 	for {
-		currentCell := &field.Cells[currentPosition.Y][currentPosition.X]
+		if currentPosition.X < 0 || currentPosition.X >= field.Width || currentPosition.Y < 0 || currentPosition.Y >= field.Height {
+			return
+		}
+		currentCell := field.cellAt(currentPosition)
 		//nextPosition := Position{X: currentPosition.X + currentDirection.X, Y: currentPosition.Y + currentDirection.Y}
 		switch currentCell.Type {
 		case CellTypeHorizontal:

@@ -37,7 +37,14 @@ type Movement struct {
 	Dir Position
 }
 
-type MovementMemory map[Position]map[Position]bool
+type MovementMemory []uint8
+
+const (
+	dirBitRight uint8 = 1 << iota
+	dirBitLeft
+	dirBitUp
+	dirBitDown
+)
 
 type Field struct {
 	Cells  [][]Cell
@@ -69,21 +76,39 @@ func ParseInputPart1(r io.Reader) Field {
 	return field
 }
 
+func dirMask(dir Position) uint8 {
+	switch {
+	case dir.X == 1 && dir.Y == 0:
+		return dirBitRight
+	case dir.X == -1 && dir.Y == 0:
+		return dirBitLeft
+	case dir.X == 0 && dir.Y == -1:
+		return dirBitUp
+	case dir.X == 0 && dir.Y == 1:
+		return dirBitDown
+	default:
+		return 0
+	}
+}
+
+func (f Field) index(pos Position) int {
+	return pos.Y*f.Width + pos.X
+}
+
 func SimulateStep(field Field, position Position, direction Position, memory MovementMemory) {
 	if position.X < 0 || position.X >= field.Width || position.Y < 0 || position.Y >= field.Height {
 		return
 	}
-	if mem, ok := memory[position]; ok {
-		if _, ok2 := memory[position][direction]; ok2 {
-			return
-		}
-		mem[direction] = true
-	} else {
-		mem2 := make(map[Position]bool)
-		mem2[direction] = true
-		memory[position] = mem2
-
+	mask := dirMask(direction)
+	if mask == 0 {
+		return
 	}
+	idx := field.index(position)
+	if memory[idx]&mask != 0 {
+		return
+	}
+	memory[idx] |= mask
+
 	currentCell := &field.Cells[position.Y][position.X]
 	switch currentCell.Type {
 	case CellTypeHorizontal:
@@ -176,7 +201,17 @@ func Simulate(field Field) {
 
 func Part1(in io.Reader) int {
 	start := ParseInputPart1(in)
-	memory := make(MovementMemory)
+	memory := make(MovementMemory, start.Width*start.Height)
 	SimulateStep(start, Position{X: 0, Y: 0}, dirRight, memory)
-	return len(memory)
+	return countEnergized(memory)
+}
+
+func countEnergized(memory MovementMemory) int {
+	count := 0
+	for _, mask := range memory {
+		if mask != 0 {
+			count++
+		}
+	}
+	return count
 }

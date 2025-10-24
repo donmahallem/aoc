@@ -13,7 +13,7 @@ func TestPart2(t *testing.T) {
 		reader := strings.NewReader(testData)
 		res := day17.Part2(reader)
 		if res != 94 {
-			t.Errorf(`Expected number of blocks to be 102, got %d`, res)
+			t.Errorf(`Expected number of blocks to be 94, got %d`, res)
 		}
 	})
 }

@@ -19,14 +19,6 @@ const (
 	CellTypeHorizontal CellType = '-'
 )
 
-type Cell struct {
-	Type  CellType
-	North *Cell
-	East  *Cell
-	South *Cell
-	West  *Cell
-}
-
 var dirUp Position = Position{X: 0, Y: -1}
 var dirDown Position = Position{X: 0, Y: 1}
 var dirLeft Position = Position{X: -1, Y: 0}
@@ -47,7 +39,7 @@ const (
 )
 
 type Field struct {
-	Cells  []Cell
+	Cells  []CellType
 	Width  int
 	Height int
 }
@@ -56,7 +48,7 @@ func ParseInputPart1(r io.Reader) Field {
 	scanner := bufio.NewScanner(r)
 
 	field := Field{
-		Cells:  make([]Cell, 0, 64),
+		Cells:  make([]CellType, 0, 64),
 		Width:  0,
 		Height: 0,
 	}
@@ -68,7 +60,7 @@ func ParseInputPart1(r io.Reader) Field {
 		}
 		field.Height++
 		for i := 0; i < len(line); i++ {
-			field.Cells = append(field.Cells, Cell{Type: CellType(line[i])})
+			field.Cells = append(field.Cells, CellType(line[i]))
 		}
 	}
 	return field
@@ -93,7 +85,7 @@ func (f Field) index(pos Position) int {
 	return pos.Y*f.Width + pos.X
 }
 
-func (f Field) cellAt(pos Position) *Cell {
+func (f Field) cellAt(pos Position) *CellType {
 	return &f.Cells[f.index(pos)]
 }
 
@@ -125,7 +117,7 @@ func Simulate(field Field, memory MovementMemory, initial Movement) {
 
 		currentCell := field.cellAt(pos)
 
-		switch currentCell.Type {
+		switch *currentCell {
 		case CellTypeHorizontal:
 			if dir.Y == 0 {
 				next := Position{X: pos.X + dir.X, Y: pos.Y + dir.Y}

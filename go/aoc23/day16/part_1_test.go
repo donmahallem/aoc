@@ -20,7 +20,7 @@ var testData string = `.|...\....
 
 func TestParseInput(t *testing.T) {
 	t.Run("testData1", func(t *testing.T) {
-		const expected int = 10
+		const expected int = 100
 		reader := strings.NewReader(testData)
 		if res := day16.ParseInputPart1(reader); len(res.Cells) != expected {
 			t.Errorf(`Expected %d to be %d`, len(res.Cells), expected)
@@ -35,8 +35,8 @@ func TestPart1(t *testing.T) {
 
 		reader := strings.NewReader(testData)
 		res := day16.Part1(reader)
-		if res != 51 {
-			t.Errorf(`Expected number of blocks to be 51, got %d`, res)
+		if res != 46 {
+			t.Errorf(`Expected number of blocks to be 46, got %d`, res)
 		}
 	})
 }

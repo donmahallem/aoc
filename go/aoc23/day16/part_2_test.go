@@ -12,8 +12,8 @@ func TestPart2(t *testing.T) {
 
 		reader := strings.NewReader(testData)
 		res := day16.Part2(reader)
-		if res != 46 {
-			t.Errorf(`Expected number of blocks to be 46, got %d`, res)
+		if res != 51 {
+			t.Errorf(`Expected number of blocks to be 51, got %d`, res)
 		}
 	})
 }

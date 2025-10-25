@@ -3,7 +3,7 @@ component_management:
     statuses:
       - type: project # in this case every component that doens't have a status defined will have a project type one
         target: auto
-        threshold: 1
+        threshold: 2%
   individual_components:
     - component_id: module_python # this is an identifier that should not be changed
       name: Python # this is a display name, and can be changed freely
@@ -31,7 +31,7 @@ coverage:
     project:
       default:   # default is the status check's name, not default settings
         target: auto 
-        threshold: 2
+        threshold: 2%
         base: auto 
         branches: 
           - main

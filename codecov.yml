@@ -26,3 +26,12 @@ comment: # this is a top-level key
   hide_project_coverage: false # [true :: only show coverage on the git diff]
 ignore:
   - python/**/test_*.py
+coverage:
+  status:
+    project:
+      default:   # default is the status check's name, not default settings
+        target: auto 
+        threshold: 2
+        base: auto 
+        branches: 
+          - main

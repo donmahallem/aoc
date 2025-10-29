@@ -39,7 +39,7 @@ func TestPart1(t *testing.T) {
 		expected := 16
 		reader := strings.NewReader(testDataSample1)
 		res := day21.ParseInput(reader)
-		visitedCount := day21.CountVisited(&res, 6)
+		visitedCount := day21.CountVisited(&res, 6, true)
 		if visitedCount != expected {
 			t.Errorf(`Expected number of blocks to be %d, got %d`, expected, visitedCount)
 		}

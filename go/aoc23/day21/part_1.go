@@ -61,66 +61,88 @@ type queueItem struct {
 	depth int
 }
 
-func CountVisited(inp *parsedInput, maxDepth int) int {
+func CountVisited(inp *parsedInput, maxDepth int, finite bool) int {
+	queue := []queueItem{{x: inp.StartX, y: inp.StartY, depth: 0}}
+	visited := make(map[[2]int]byte, len(inp.data))
+	startKey := [2]int{inp.StartX, inp.StartY}
+	visited[startKey] = 2
 
-	queue := make([]queueItem, 0)
-	visited := make(map[int]byte)
-	startIdx := inp.StartY*inp.Width + inp.StartX
-	queue = append(queue, queueItem{
-		x:     inp.StartX,
-		y:     inp.StartY,
-		depth: 0,
-	})
-	visited[startIdx] = 2
+	width := inp.Width
+	height := inp.Height
+
 	for len(queue) > 0 {
-		currentQueueItem := queue[0]
+		current := queue[0]
 		queue = queue[1:]
-		x := currentQueueItem.x
-		y := currentQueueItem.y
-		if currentQueueItem.depth >= maxDepth {
+
+		if current.depth >= maxDepth {
 			continue
 		}
+
 		for _, dir := range directions {
-			newX := x + dir[0]
-			newY := y + dir[1]
-			if newX < 0 || newX >= inp.Width || newY < 0 || newY >= inp.Height {
+			newX := current.x + dir[0]
+			newY := current.y + dir[1]
+
+			var transposedX, transposedY int
+			if finite {
+				// part 1 finite grid
+				if newX < 0 || newX >= width || newY < 0 || newY >= height {
+					continue
+				}
+				transposedX, transposedY = newX, newY
+			} else {
+				// part 2 infinite grid
+				// wraps coordinates to grid
+				transposedX = newX % width
+				if transposedX < 0 {
+					transposedX += width
+				}
+				transposedY = newY % height
+				if transposedY < 0 {
+					transposedY += height
+				}
+			}
+
+			if inp.data[transposedY*width+transposedX] == cellStone {
 				continue
 			}
-			newIdx := newY*inp.Width + newX
-			if inp.data[newIdx] == cellStone {
+
+			nextDepth := current.depth + 1
+			visitByte := byte(1)
+			if nextDepth%2 == 0 {
+				visitByte = 2
+			}
+
+			key := [2]int{newX, newY}
+			if visited[key]&visitByte != 0 {
 				continue
 			}
-			newDepth := currentQueueItem.depth + 1
-			cellValue := byte(1)
-			if newDepth%2 == 0 {
-				cellValue = 2
-			}
-			if visited[newIdx]&cellValue != 0 {
-				continue
-			}
-			visited[newIdx] |= cellValue
-			if newDepth < maxDepth {
-				queue = append(queue, queueItem{
-					x:     newX,
-					y:     newY,
-					depth: newDepth,
-				})
+			visited[key] |= visitByte
+
+			if nextDepth < maxDepth {
+				queue = append(queue, queueItem{x: newX, y: newY, depth: nextDepth})
 			}
 		}
 	}
+
 	targetParity := byte(1)
 	if maxDepth%2 == 0 {
 		targetParity = 2
 	}
-	counter := 0
-	for _, v := range visited {
-		if v&targetParity != 0 {
-			counter++
+
+	count := 0
+	for _, val := range visited {
+		if val&targetParity != 0 {
+			count++
 		}
 	}
-	return counter
+	return count
 }
+
+func CountVisitedInfinite(inp *parsedInput, maxDepth int) int {
+	return CountVisited(inp, maxDepth, false)
+}
+
 func Part1(in io.Reader) int {
 	inp := ParseInput(in)
-	return CountVisited(&inp, 64)
+	return CountVisited(&inp, 64, true)
 }

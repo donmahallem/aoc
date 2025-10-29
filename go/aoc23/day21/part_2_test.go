@@ -26,7 +26,7 @@ func TestPart2(t *testing.T) {
 		t.Run(fmt.Sprintf("test sample %d", td.input), func(t *testing.T) {
 			reader := strings.NewReader(testDataSample1)
 			res := day21.ParseInput(reader)
-			visitedCount := day21.CountVisited(&res, td.input)
+			visitedCount := day21.CountVisited(&res, td.input, false)
 			if visitedCount != td.expected {
 				t.Errorf(`Expected number of blocks to be %d, got %d`, td.expected, visitedCount)
 			}

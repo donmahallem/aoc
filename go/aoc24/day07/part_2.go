@@ -19,11 +19,17 @@ func OpConcat(a, b int) int {
 
 func CheckLinePart2(line *ParsedLineData) bool {
 	numTerms := len(line.TestValues)
+	if numTerms == 0 {
+		return false
+	}
 	runnerTarget := pow.IntPow(3, numTerms-1)
 	for i := range runnerTarget {
 		testResult := line.TestValues[0]
+		operationType := i
 		for pos := 1; pos < numTerms; pos++ {
-			switch (i / pow.IntPow(3, pos-1)) % 3 {
+			operation := operationType % 3
+			operationType /= 3
+			switch operation {
 			case 0:
 				testResult += line.TestValues[pos]
 			case 1:

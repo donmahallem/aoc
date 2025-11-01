@@ -24,7 +24,7 @@ p=9,5 v=-3,-3`
 
 func TestParseLine(t *testing.T) {
 	testString := []byte("p=0,4 v=3,-3")
-	test := day14.ParseLine(&testString)
+	test := day14.ParseLine(testString)
 	expected := *day14.NewRobot(0, 4, 3, -3)
 	if expected != test {
 		t.Errorf(`Expected %v to match %v`, test, expected)
@@ -33,7 +33,7 @@ func TestParseLine(t *testing.T) {
 
 func TestParseLineLongValue(t *testing.T) {
 	testString := []byte("p=-20,145 v=3,-253")
-	test := day14.ParseLine(&testString)
+	test := day14.ParseLine(testString)
 	expected := *day14.NewRobot(-20, 145, 3, -253)
 	if expected != test {
 		t.Errorf(`Expected %v to match %v`, test, expected)
@@ -62,7 +62,7 @@ func TestLoadFile(t *testing.T) {
 
 func TestCountQuadrant(t *testing.T) {
 	test := day14.LoadFile(strings.NewReader(testData))
-	testSum := day14.CountQuadrant(&test, 100, 11, 7)
+	testSum := day14.CountQuadrant(test, 100, 11, 7)
 	if testSum != 12 {
 		t.Errorf(`Expected %v to match %v`, testSum, 12)
 	}

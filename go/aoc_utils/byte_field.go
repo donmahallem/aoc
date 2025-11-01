@@ -2,51 +2,56 @@ package aoc_utils
 
 import (
 	"bufio"
+	"bytes"
 	"io"
-	"reflect"
+	"slices"
 
 	"github.com/donmahallem/aoc/aoc_utils/math"
 )
 
-type ByteField[A math.IntType] struct {
+type ByteField[A math.IntType, B math.IntType] struct {
 	Width, Height A
-	Field         [][]byte
+	field         []B
 }
 
-func (a *ByteField[A]) Compare(f *ByteField[A]) bool {
+func (a *ByteField[A, B]) Compare(f *ByteField[A, B]) bool {
 	return a.Width == f.Width &&
 		a.Height == f.Height &&
-		reflect.DeepEqual(a.Field, f.Field)
+		a.field != nil &&
+		f.field != nil &&
+		slices.Equal(a.field, f.field)
 }
 
-func NewField[A math.IntType](width A, height A, field [][]byte) *ByteField[A] {
-	return &ByteField[A]{Width: width, Height: height, Field: field}
+func NewField[A math.IntType, B math.IntType](width A, height A, field []B) *ByteField[A, B] {
+	return &ByteField[A, B]{Width: width, Height: height, field: field}
 }
 
-func LoadField[A math.IntType](reader io.Reader) (*ByteField[A], error) {
-	return LoadFieldWithOffset[A](reader, 0)
+func (bf *ByteField[A, B]) Get(x A, y A) B {
+	return bf.field[y*bf.Width+x]
 }
-func LoadFieldWithOffset[A math.IntType](reader io.Reader, offset byte) (*ByteField[A], error) {
-	obstacles := make([][]byte, 0)
+
+func LoadField[A math.IntType, B math.IntType](reader io.Reader) (*ByteField[A, B], error) {
+	return LoadFieldWithOffset[A, B](reader, 0)
+}
+func LoadFieldWithOffset[A math.IntType, B math.IntType](reader io.Reader, offset byte) (*ByteField[A, B], error) {
+	obstacles := make([]B, 0)
 	s := bufio.NewScanner(reader)
 	y := A(0)
 	width := A(0)
 	for s.Scan() {
-		line := s.Bytes()
+		line := bytes.TrimSuffix(s.Bytes(), []byte{'\r'})
 		if width == 0 {
 			width = A(len(line))
 		} else if width != A(len(line)) {
 			panic("Line length is uneven")
 		}
-		row := make([]byte, len(line))
-		if offset == 0 {
-			copy(row, line)
-		} else {
-			for idx, character := range line {
-				row[idx] = character - offset
+		for _, character := range line {
+			if offset == 0 {
+				obstacles = append(obstacles, B(character))
+			} else {
+				obstacles = append(obstacles, B(character-offset))
 			}
 		}
-		obstacles = append(obstacles, row)
 		y++
 	}
 	return NewField(width, y, obstacles), nil

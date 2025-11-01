@@ -115,7 +115,7 @@ func CountStraightEdges(coords []Point) int {
 }
 
 func Part2(in io.Reader) int {
-	data, _ := aoc_utils.LoadField[int16](in)
+	data, _ := aoc_utils.LoadField[int16, byte](in)
 	groups := FindGroups(*data)
 	count := 0
 	for _, group := range groups {

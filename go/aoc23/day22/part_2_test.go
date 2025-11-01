@@ -9,7 +9,7 @@ import (
 
 func TestPart2(t *testing.T) {
 	t.Run("test sample 1", func(t *testing.T) {
-		expected := 9
+		expected := 7
 		reader := strings.NewReader(testDataSample1)
 		result := day22.Part2(reader)
 		if result != expected {

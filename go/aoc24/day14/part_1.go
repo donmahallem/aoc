@@ -25,36 +25,33 @@ const (
 	ParsePosition_Y2
 )
 
-func ParseLine(line *[]byte) Robot {
+func ParseLine(line []byte) Robot {
 	robot := Robot{}
 	var shiftVal int
 	// Pointer to the current selected output field in robot
 	currentPointer := &robot.pos.X
 	isNegative := false
-	for i := range len(*line) {
-		if parsedInt, ok := bytes.ParseIntFromByte[int]((*line)[i]); ok {
+	for _, c := range line {
+		if parsedInt, ok := bytes.ParseIntFromByte[int](c); ok {
 			shiftVal = parsedInt
 			if *currentPointer == 0 {
 				*currentPointer = shiftVal
 			} else {
 				*currentPointer = (*currentPointer * 10) + shiftVal
 			}
-		} else if (*line)[i] == '-' {
+		} else if c == '-' {
 			isNegative = true
-		} else if (*line)[i] == 'v' || (*line)[i] == ',' {
+		} else if c == 'v' || c == ',' {
 			if isNegative {
 				*currentPointer *= -1
 			}
 			switch currentPointer {
 			case &robot.pos.X:
 				currentPointer = &robot.pos.Y
-				break
 			case &robot.pos.Y:
 				currentPointer = &robot.vec.X
-				break
 			case &robot.vec.X:
 				currentPointer = &robot.vec.Y
-				break
 			}
 			isNegative = false
 		}
@@ -71,7 +68,7 @@ func LoadFile(reader io.Reader) []Robot {
 	s := bufio.NewScanner(reader)
 	for s.Scan() {
 		line := s.Bytes()
-		obstacles = append(obstacles, ParseLine(&line))
+		obstacles = append(obstacles, ParseLine(line))
 	}
 	return obstacles
 }
@@ -100,9 +97,9 @@ func CalculateQuadrant(robot *Robot, steps int, width int, height int) int8 {
 	return val
 }
 
-func CountQuadrant(robots *[]Robot, steps int, width int, height int) int {
+func CountQuadrant(robots []Robot, steps int, width int, height int) int {
 	quadrantMap := [4]int{}
-	for _, robot := range *robots {
+	for _, robot := range robots {
 		quadrant := CalculateQuadrant(&robot, steps, width, height)
 		if quadrant >= 0 {
 			quadrantMap[quadrant]++
@@ -119,7 +116,7 @@ func CountQuadrant(robots *[]Robot, steps int, width int, height int) int {
 }
 
 func Part1(in io.Reader) int {
-	data := LoadFile(in)
-	totalSum := CountQuadrant(&data, 100, 101, 103)
+	robots := LoadFile(in)
+	totalSum := CountQuadrant(robots, 100, 101, 103)
 	return totalSum
 }

@@ -11,43 +11,53 @@ func SortHorizontal(a, b Robot) int {
 	return a.pos.Y - b.pos.Y
 }
 
-func Step(robots *[]Robot, width *int, height *int) {
-	for i := range *robots {
-		(*robots)[i].pos.X = ((*robots)[i].pos.X + (*robots)[i].vec.X) % *width
-		(*robots)[i].pos.Y = ((*robots)[i].pos.Y + (*robots)[i].vec.Y) % *height
-		if (*robots)[i].pos.X < 0 {
-			(*robots)[i].pos.X = *width + (*robots)[i].pos.X
+func Step(robots []Robot, width int, height int) {
+	for i := range robots {
+		robot := &robots[i]
+		robot.pos.X = (robot.pos.X + robot.vec.X) % width
+		robot.pos.Y = (robot.pos.Y + robot.vec.Y) % height
+		if robot.pos.X < 0 {
+			robot.pos.X = width + robot.pos.X
 		}
-		if (*robots)[i].pos.Y < 0 {
-			(*robots)[i].pos.Y = *height + (*robots)[i].pos.Y
+		if robot.pos.Y < 0 {
+			robot.pos.Y = height + robot.pos.Y
 		}
 	}
 }
 
-func FindNonDouble(robots *[]Robot, maxDepth int, width *int, height *int) int {
+func FindNonDouble(robots []Robot, maxDepth int, width int, height int) int {
 	if maxDepth < 0 {
 		return -1
 	}
-	Step(robots, width, height)
-	numRobots := len(*robots)
-	duplicateFound := false
-	for i := 0; i < numRobots-1 && !duplicateFound; i++ {
-		for j := i + 1; j < numRobots; j++ {
-			if (*robots)[i].pos == (*robots)[j].pos {
+	fieldSize := width * height
+	if fieldSize <= 0 {
+		return -1
+	}
+	visited := make([]int, fieldSize)
+	stepID := 0
+	for remaining := maxDepth; remaining >= 0; remaining-- {
+		Step(robots, width, height)
+		stepID++
+		duplicateFound := false
+		for i := range robots {
+			pos := robots[i].pos
+			idx := pos.Y*width + pos.X
+			if visited[idx] == stepID {
 				duplicateFound = true
 				break
 			}
+			visited[idx] = stepID
+		}
+		if !duplicateFound {
+			return remaining - 1
 		}
 	}
-	if !duplicateFound {
-		return maxDepth - 1
-	}
-	return FindNonDouble(robots, maxDepth-1, width, height)
+	return -1
 }
 
 func Part2(in io.Reader) int {
 	data := LoadFile(in)
 	width, height, maxDepth := 101, 103, 10000000
-	totalSum := FindNonDouble(&data, maxDepth, &width, &height)
+	totalSum := FindNonDouble(data, maxDepth, width, height)
 	return maxDepth - totalSum
 }

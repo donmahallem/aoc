@@ -20,11 +20,34 @@ const testData string = `190: 10 19
 
 // TestHelloName calls greetings.Hello with a name, checking
 // for a valid return value.
-func TestHelloName32(t *testing.T) {
+func TestCheckLinePart1(t *testing.T) {
 	result := 190
 	terms := []int{10, 19}
-	if i := day07.CheckLinePart1(&result, &terms); !i {
+	testData := day07.ParsedLineData{
+		Result:     result,
+		TestValues: terms,
+	}
+	if i := day07.CheckLinePart1(&testData); !i {
 		t.Errorf(`Expected %v to be %d and not %t`, terms, result, i)
+	}
+}
+
+func TestParseLine(t *testing.T) {
+	rawLine := []byte("190: 10 19")
+	expectedResult := 190
+	expectedTerms := []int{10, 19}
+	parsedLine := &day07.ParsedLineData{}
+	day07.ParseLine(rawLine, parsedLine)
+	if parsedLine.Result != expectedResult {
+		t.Errorf(`Expected result to be %d, got %d`, expectedResult, parsedLine.Result)
+	}
+	if len(parsedLine.TestValues) != len(expectedTerms) {
+		t.Errorf(`Expected number of terms to be %d, got %d`, len(expectedTerms), len(parsedLine.TestValues))
+	}
+	for i, term := range expectedTerms {
+		if parsedLine.TestValues[i] != term {
+			t.Errorf(`Expected term %d to be %d, got %d`, i, term, parsedLine.TestValues[i])
+		}
 	}
 }
 

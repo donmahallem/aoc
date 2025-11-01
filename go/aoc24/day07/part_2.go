@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"io"
 	"math"
-	"sync"
 
 	"github.com/donmahallem/aoc/aoc_utils/math/pow"
 )
@@ -18,28 +17,25 @@ func OpConcat(a, b int) int {
 	return (a * pow.IntPow(10, offset)) + b
 }
 
-func CheckLinePart2(result *int, terms *[]int) bool {
-	numTerms := len(*terms)
+func CheckLinePart2(line *ParsedLineData) bool {
+	numTerms := len(line.TestValues)
 	runnerTarget := pow.IntPow(3, numTerms-1)
 	for i := range runnerTarget {
-		testResult := (*terms)[0]
+		testResult := line.TestValues[0]
 		for pos := 1; pos < numTerms; pos++ {
 			switch (i / pow.IntPow(3, pos-1)) % 3 {
 			case 0:
-				testResult += (*terms)[pos]
-				break
+				testResult += line.TestValues[pos]
 			case 1:
-				testResult *= (*terms)[pos]
-				break
+				testResult *= line.TestValues[pos]
 			case 2:
-				testResult = OpConcat(testResult, (*terms)[pos])
-				break
+				testResult = OpConcat(testResult, line.TestValues[pos])
 			}
-			if testResult > *result {
+			if testResult > line.Result {
 				break
 			}
 		}
-		if testResult == *result {
+		if testResult == line.Result {
 			return true
 		}
 	}
@@ -49,23 +45,13 @@ func CheckLinePart2(result *int, terms *[]int) bool {
 func Part2(in io.Reader) int {
 	s := bufio.NewScanner(in)
 	validSum := 0
-	resultChannel := make(chan int, 50000)
-	var wg sync.WaitGroup
+	parsedLine := ParsedLineData{}
 	for s.Scan() {
-		line := s.Text()
-		wg.Add(1)
-		go func(lineData *string) {
-			defer wg.Done()
-			expectedSum, terms := parseLine(lineData)
-			if CheckLinePart2(expectedSum, terms) {
-				resultChannel <- *expectedSum
-			}
-		}(&line)
-	}
-	wg.Wait()
-	close(resultChannel)
-	for item := range resultChannel {
-		validSum += item
+		line := s.Bytes()
+		ParseLine(line, &parsedLine)
+		if CheckLinePart2(&parsedLine) {
+			validSum += parsedLine.Result
+		}
 	}
 	return validSum
 }

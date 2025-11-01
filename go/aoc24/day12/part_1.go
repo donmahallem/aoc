@@ -8,7 +8,7 @@ import (
 )
 
 type Point = aoc_utils.Point[int16]
-type Field = aoc_utils.ByteField[int16]
+type Field = aoc_utils.ByteField[int16, byte]
 
 var dirs [4]Point = [4]Point{{Y: 0, X: 1}, {Y: 0, X: -1}, {Y: 1, X: 0}, {Y: -1, X: 0}}
 
@@ -39,7 +39,7 @@ func findNeighboursInt(field Field, x int16, y int16, t byte, found *map[Point]b
 			currentCoord.Y >= field.Height ||
 			currentCoord.X >= field.Width {
 			continue
-		} else if field.Field[currentCoord.Y][currentCoord.X] == t {
+		} else if field.Get(currentCoord.X, currentCoord.Y) == t {
 			if _, ok := (*found)[currentCoord]; ok {
 				continue
 			} else {
@@ -53,7 +53,7 @@ func findNeighboursInt(field Field, x int16, y int16, t byte, found *map[Point]b
 func FindNeighbours(field Field, y int16, x int16) []Point {
 	group := make(map[Point]bool, 8)
 	group[Point{Y: y, X: x}] = true
-	findNeighboursInt(field, x, y, field.Field[y][x], &group)
+	findNeighboursInt(field, x, y, field.Get(x, y), &group)
 	keys := make([]Point, 0, len(group))
 	for idx := range group {
 		keys = append(keys, idx)
@@ -83,7 +83,7 @@ func FindGroups(field Field) [][]Point {
 }
 
 func Part1(in io.Reader) int {
-	data, _ := aoc_utils.LoadField[int16](in)
+	data, _ := aoc_utils.LoadField[int16, byte](in)
 	groups := FindGroups(*data)
 	count := 0
 	for _, group := range groups {

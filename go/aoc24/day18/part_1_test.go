@@ -65,8 +65,16 @@ func BenchmarkParseInput(b *testing.B) {
 
 func BenchmarkPart1Base(b *testing.B) {
 	testData := strings.NewReader(testData)
-	for b.Loop() {
-		testData.Seek(0, io.SeekStart)
-		day18.Part1Base(testData, 12, 7, 7)
-	}
+	b.Run("sample dataset", func(b *testing.B) {
+		for b.Loop() {
+			testData.Seek(0, io.SeekStart)
+			day18.Part1Base(testData, 12, 7, 7)
+		}
+	})
+	b.Run("large dataset", func(b *testing.B) {
+		for b.Loop() {
+			testData.Seek(0, io.SeekStart)
+			day18.Part1Base(testData, 5000, 71, 71)
+		}
+	})
 }

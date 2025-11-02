@@ -2,43 +2,57 @@ package day18
 
 import (
 	"io"
-
-	"container/list"
 )
 
 func IsPathAvailable(field Field, pointIdx, fieldWidth, fieldHeight int16) bool {
-	fieldWidthInt := fieldWidth
-	fieldHeightInt := fieldHeight
-	queue := list.New()
-	queue.PushBack(Point{X: 0, Y: 0})
-	visited := make(map[Point]bool, 64)
-	var currentPosition Point
-	for queue.Len() > 0 {
-		currentPosition = queue.Remove(queue.Back()).(Point)
 
-		visited[currentPosition] = true
+	totalCells := fieldWidth * fieldHeight
+	startIdx := int16(0)
+	endIdx := int16(totalCells - 1)
+	if (field[startIdx] > 0 && field[startIdx] <= pointIdx) ||
+		(field[endIdx] > 0 && field[endIdx] <= pointIdx) {
+		return false
+	}
+
+	queue := make([]int16, 0, 128)
+	queue = append(queue, startIdx)
+
+	visited := make([]bool, totalCells)
+	visited[0] = true
+
+	for len(queue) > 0 {
+		positionIdx := queue[len(queue)-1]
+		queue = queue[:len(queue)-1]
+		currentPositionX := positionIdx % fieldWidth
+		currentPositionY := positionIdx / fieldWidth
 
 		for _, checkDir := range DIRS_ALL {
-			nextPoint := Point{X: currentPosition.X + checkDir.X, Y: currentPosition.Y + checkDir.Y}
-			if visited[nextPoint] {
+			nextX := currentPositionX + checkDir.X
+			nextY := currentPositionY + checkDir.Y
+			if nextX < 0 || nextY < 0 || nextX >= fieldWidth || nextY >= fieldHeight {
 				continue
 			}
-			if nextPoint.X < 0 || nextPoint.Y < 0 || nextPoint.X >= fieldWidthInt || nextPoint.Y >= fieldHeightInt {
-				// next coord outside the field dimensions
+
+			nextPointIdx := nextY*fieldWidth + nextX
+			nextIdxInt := int(nextPointIdx)
+			if visited[nextIdxInt] {
 				continue
 			}
-			idx := nextPoint.Y*fieldWidthInt + nextPoint.X
-			currentCellValue := field[idx]
-			if currentCellValue > 0 && currentCellValue <= pointIdx {
-				// Cell Corrupted
+
+			cellValue := field[nextPointIdx]
+			if cellValue > 0 && cellValue <= pointIdx {
 				continue
 			}
-			if nextPoint.X == fieldWidthInt-1 && nextPoint.Y == fieldHeightInt-1 {
+
+			if nextPointIdx == endIdx {
 				return true
 			}
-			queue.PushBack(nextPoint)
+
+			visited[nextIdxInt] = true
+			queue = append(queue, nextPointIdx)
 		}
 	}
+
 	return false
 }
 

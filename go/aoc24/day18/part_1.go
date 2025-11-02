@@ -2,8 +2,10 @@ package day18
 
 import (
 	"bufio"
+	"container/heap"
 	"io"
 	"math"
+	"sync"
 
 	"github.com/donmahallem/aoc/aoc_utils"
 )
@@ -45,55 +47,115 @@ func ParseInput(in io.Reader, width, height int16) ParseResult {
 	return ParseResult{Field: field, CorruptionOrder: order}
 }
 
-type PathNode struct {
-	X, Y, Steps int16
+type QueueItem struct {
+	Idx      int16
+	Priority int16
+}
+
+type PriorityQueue []*QueueItem
+
+func (pq PriorityQueue) Len() int { return len(pq) }
+
+func (pq PriorityQueue) Less(i, j int) bool {
+	return pq[i].Priority < pq[j].Priority
+}
+
+func (pq PriorityQueue) Swap(i, j int) {
+	pq[i], pq[j] = pq[j], pq[i]
+}
+
+func (pq *PriorityQueue) Push(x interface{}) {
+	*pq = append(*pq, x.(*QueueItem))
+}
+
+func (pq *PriorityQueue) Pop() interface{} {
+	old := *pq
+	n := len(old)
+	item := old[n-1]
+	*pq = old[0 : n-1]
+	return item
 }
 
 func FindShortestPath(field Field, stepsTaken, fieldWidth, fieldHeight int16) int16 {
+	var itemPool = sync.Pool{
+		New: func() interface{} {
+			return &QueueItem{}
+		},
+	}
+
 	totalCells := fieldWidth * fieldHeight
 	if totalCells <= 0 {
 		return math.MaxInt16
 	}
 
-	startIdx := 0
+	startIdx := int16(0)
 	endIdx := totalCells - 1
 	if (field[startIdx] > 0 && field[startIdx] <= stepsTaken) ||
 		(field[endIdx] > 0 && field[endIdx] <= stepsTaken) {
 		return math.MaxInt16
 	}
 
-	visited := make([]bool, totalCells)
-	queue := make([]PathNode, 0, totalCells)
-	queue = append(queue, PathNode{0, 0, 0})
-	visited[startIdx] = true
+	targetX := fieldWidth - 1
+	targetY := fieldHeight - 1
 
-	for head := 0; head < len(queue); head++ {
-		currentNode := queue[head]
+	// Store steps taken to reach each cell
+	steps := make([]int16, totalCells)
+	for i := range steps {
+		steps[i] = math.MaxInt16
+	}
+	steps[startIdx] = 0
+
+	pq := make(PriorityQueue, 0, totalCells)
+	heap.Init(&pq)
+
+	// Manhattan distance heuristic
+	heuristic := func(x, y int16) int16 {
+		return (targetX - x) + (targetY - y)
+	}
+
+	item := itemPool.Get().(*QueueItem)
+	item.Idx = startIdx
+	item.Priority = heuristic(0, 0)
+	heap.Push(&pq, item)
+
+	for pq.Len() > 0 {
+		currentItem := heap.Pop(&pq).(*QueueItem)
+		currentIdx := currentItem.Idx
+		currentSteps := steps[currentIdx]
+
+		// Return item to pool after use
+		itemPool.Put(currentItem)
+
+		currentX := currentIdx % fieldWidth
+		currentY := currentIdx / fieldWidth
+
+		if currentX == targetX && currentY == targetY {
+			return currentSteps
+		}
 
 		for _, dir := range DIRS_ALL {
-			nextX := currentNode.X + dir.X
-			nextY := currentNode.Y + dir.Y
+			nextX := currentX + dir.X
+			nextY := currentY + dir.Y
 			if nextX < 0 || nextY < 0 || nextX >= fieldWidth || nextY >= fieldHeight {
 				continue
 			}
 
-			idx := nextY*fieldWidth + nextX
-			if visited[idx] {
-				continue
-			}
-
-			cellValue := field[idx]
+			nextIdx := nextY*fieldWidth + nextX
+			cellValue := field[nextIdx]
 			if cellValue > 0 && cellValue <= stepsTaken {
 				continue
 			}
 
-			nextLen := currentNode.Steps + 1
-			if nextX == fieldWidth-1 && nextY == fieldHeight-1 {
-				return nextLen
-			}
+			nextSteps := currentSteps + 1
+			if nextSteps < steps[nextIdx] {
+				steps[nextIdx] = nextSteps
+				priority := nextSteps + heuristic(nextX, nextY)
 
-			visited[idx] = true
-			queue = append(queue, PathNode{X: nextX, Y: nextY, Steps: nextLen})
+				nextItem := itemPool.Get().(*QueueItem)
+				nextItem.Idx = nextIdx
+				nextItem.Priority = priority
+				heap.Push(&pq, nextItem)
+			}
 		}
 	}
 	return math.MaxInt16

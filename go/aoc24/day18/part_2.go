@@ -1,15 +1,14 @@
 package day18
 
 import (
-	"fmt"
 	"io"
 
 	"container/list"
 )
 
-func IsPathAvailable(field Field, pointIdx uint16, fieldWidth uint16, fieldHeight uint16) bool {
-	fieldWidthInt := int16(fieldWidth)
-	fieldHeightInt := int16(fieldHeight)
+func IsPathAvailable(field Field, pointIdx, fieldWidth, fieldHeight int16) bool {
+	fieldWidthInt := fieldWidth
+	fieldHeightInt := fieldHeight
 	queue := list.New()
 	queue.PushBack(Point{X: 0, Y: 0})
 	visited := make(map[Point]bool, 64)
@@ -28,7 +27,8 @@ func IsPathAvailable(field Field, pointIdx uint16, fieldWidth uint16, fieldHeigh
 				// next coord outside the field dimensions
 				continue
 			}
-			currentCellValue := field[nextPoint.Y][nextPoint.X]
+			idx := nextPoint.Y*fieldWidthInt + nextPoint.X
+			currentCellValue := field[idx]
 			if currentCellValue > 0 && currentCellValue <= pointIdx {
 				// Cell Corrupted
 				continue
@@ -42,12 +42,12 @@ func IsPathAvailable(field Field, pointIdx uint16, fieldWidth uint16, fieldHeigh
 	return false
 }
 
-func FindFirstNonSolvable(points Field, maxStep uint16, fieldWidth uint16, fieldHeight uint16) uint16 {
-	var left uint16 = 0
+func FindFirstNonSolvable(field Field, maxStep, fieldWidth, fieldHeight int16) int16 {
+	var left int16 = 0
 	right := maxStep
 	for left < right-1 {
 		mid := (left + right) / 2
-		ok := IsPathAvailable(points, mid, fieldWidth, fieldHeight)
+		ok := IsPathAvailable(field, mid, fieldWidth, fieldHeight)
 		if ok {
 			left = mid
 		} else {
@@ -57,10 +57,24 @@ func FindFirstNonSolvable(points Field, maxStep uint16, fieldWidth uint16, field
 	return left
 }
 
-func Part2(in io.Reader) Point {
-	points := ParseInput(in)
-	field := PointsToField(points, 71, 71)
-	result := FindFirstNonSolvable(field, uint16(len(points)), 71, 71)
-	fmt.Printf("%v\n", [2]int16{points[result].X, points[result].Y})
-	return points[result]
+func Part2Base(in io.Reader, width, height int16) Point {
+	parsedData := ParseInput(in, width, height)
+	result := FindFirstNonSolvable(parsedData.Field, int16(len(parsedData.CorruptionOrder)), width, height)
+	sourcePoint := parsedData.CorruptionOrder[result]
+	return Point{X: sourcePoint % width, Y: sourcePoint / width}
+}
+
+var Part2 func(in io.Reader) Point
+
+var Part1 func(in io.Reader) int16
+
+const fieldDim = 71
+
+func init() {
+	Part1 = func(in io.Reader) int16 {
+		return Part1Base(in, 1024, fieldDim, fieldDim)
+	}
+	Part2 = func(in io.Reader) Point {
+		return Part2Base(in, fieldDim, fieldDim)
+	}
 }

@@ -5,7 +5,6 @@ import (
 	"container/heap"
 	"io"
 	"math"
-	"sync"
 
 	"github.com/donmahallem/aoc/aoc_utils"
 )
@@ -14,11 +13,9 @@ const CELL_CORRUPTED int = -1
 
 type Point = aoc_utils.Point[int16]
 
-// As you always walk top-left to right-bottom primarly use those first
 var DIRS_ALL [4]Point = [4]Point{{X: 1, Y: 0}, {X: 0, Y: 1}, {X: -1, Y: 0}, {X: 0, Y: -1}}
 
-type Field = []int16
-
+type Field = map[int16]int16
 type ParseResult struct {
 	Field           Field
 	CorruptionOrder []int16
@@ -26,8 +23,11 @@ type ParseResult struct {
 
 func ParseInput(in io.Reader, width, height int16) ParseResult {
 	s := bufio.NewScanner(in)
-	field := make(Field, width*height)
-	order := make([]int16, 0, width*height)
+	totalCells := width * height
+	field := make(Field, totalCells)
+
+	// Pre-allocate capacity to reduce slice re-allocations
+	order := make([]int16, 0, totalCells/10)
 
 	for pointIdx := int16(1); s.Scan(); pointIdx++ {
 		line := s.Bytes()
@@ -47,6 +47,7 @@ func ParseInput(in io.Reader, width, height int16) ParseResult {
 	return ParseResult{Field: field, CorruptionOrder: order}
 }
 
+// Revert: Hold pointers again to avoid value boxing/copying in the interface
 type QueueItem struct {
 	Idx      int16
 	Priority int16
@@ -57,6 +58,7 @@ type PriorityQueue []*QueueItem
 func (pq PriorityQueue) Len() int { return len(pq) }
 
 func (pq PriorityQueue) Less(i, j int) bool {
+	// Compare priorities of the pointed-to items
 	return pq[i].Priority < pq[j].Priority
 }
 
@@ -65,6 +67,7 @@ func (pq PriorityQueue) Swap(i, j int) {
 }
 
 func (pq *PriorityQueue) Push(x interface{}) {
+	// Push the pointer
 	*pq = append(*pq, x.(*QueueItem))
 }
 
@@ -73,15 +76,11 @@ func (pq *PriorityQueue) Pop() interface{} {
 	n := len(old)
 	item := old[n-1]
 	*pq = old[0 : n-1]
+	// Return the pointer
 	return item
 }
 
 func FindShortestPath(field Field, stepsTaken, fieldWidth, fieldHeight int16) int16 {
-	var itemPool = sync.Pool{
-		New: func() interface{} {
-			return &QueueItem{}
-		},
-	}
 
 	totalCells := fieldWidth * fieldHeight
 	if totalCells <= 0 {
@@ -108,23 +107,43 @@ func FindShortestPath(field Field, stepsTaken, fieldWidth, fieldHeight int16) in
 	pq := make(PriorityQueue, 0, totalCells)
 	heap.Init(&pq)
 
+	// --- Allocation Reduction: Object Pooling Setup ---
+
+	// Pre-allocate a large slice of QueueItem structs (the pool)
+	// This performs a single, large allocation instead of many small ones.
+	itemPool := make([]QueueItem, totalCells)
+	itemPoolIdx := int16(0)
+
+	// Helper function to get a pre-allocated and reused *QueueItem
+	getReusableItem := func(idx, priority int16) *QueueItem {
+		if itemPoolIdx >= totalCells {
+			// This is a safety fallback. If this triggers, your capacity might be too low,
+			// but it ensures the program doesn't crash. This fallback *will* allocate.
+			return &QueueItem{Idx: idx, Priority: priority}
+		}
+
+		item := &itemPool[itemPoolIdx]
+		item.Idx = idx
+		item.Priority = priority
+		itemPoolIdx++
+		return item
+	}
+	// --- End Object Pooling Setup ---
+
 	// Manhattan distance heuristic
 	heuristic := func(x, y int16) int16 {
 		return (targetX - x) + (targetY - y)
 	}
 
-	item := itemPool.Get().(*QueueItem)
-	item.Idx = startIdx
-	item.Priority = heuristic(0, 0)
-	heap.Push(&pq, item)
+	// Use the reusable item from the pool
+	startItem := getReusableItem(startIdx, heuristic(0, 0))
+	heap.Push(&pq, startItem)
 
 	for pq.Len() > 0 {
+		// Pop returns a *QueueItem
 		currentItem := heap.Pop(&pq).(*QueueItem)
 		currentIdx := currentItem.Idx
 		currentSteps := steps[currentIdx]
-
-		// Return item to pool after use
-		itemPool.Put(currentItem)
 
 		currentX := currentIdx % fieldWidth
 		currentY := currentIdx / fieldWidth
@@ -151,9 +170,8 @@ func FindShortestPath(field Field, stepsTaken, fieldWidth, fieldHeight int16) in
 				steps[nextIdx] = nextSteps
 				priority := nextSteps + heuristic(nextX, nextY)
 
-				nextItem := itemPool.Get().(*QueueItem)
-				nextItem.Idx = nextIdx
-				nextItem.Priority = priority
+				// Allocation Reduction: Get a pre-allocated, reused *QueueItem
+				nextItem := getReusableItem(nextIdx, priority)
 				heap.Push(&pq, nextItem)
 			}
 		}

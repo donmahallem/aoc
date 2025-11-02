@@ -1,53 +1,67 @@
 package day18
 
 import (
-	"fmt"
 	"io"
-
-	"container/list"
 )
 
-func IsPathAvailable(field Field, pointIdx uint16, fieldWidth uint16, fieldHeight uint16) bool {
-	fieldWidthInt := int16(fieldWidth)
-	fieldHeightInt := int16(fieldHeight)
-	queue := list.New()
-	queue.PushBack(Point{X: 0, Y: 0})
-	visited := make(map[Point]bool, 64)
-	var currentPosition Point
-	for queue.Len() > 0 {
-		currentPosition = queue.Remove(queue.Back()).(Point)
+func IsPathAvailable(field Field, pointIdx, fieldWidth, fieldHeight int16) bool {
 
-		visited[currentPosition] = true
+	totalCells := fieldWidth * fieldHeight
+	startIdx := int16(0)
+	endIdx := int16(totalCells - 1)
+	if (field[startIdx] > 0 && field[startIdx] <= pointIdx) ||
+		(field[endIdx] > 0 && field[endIdx] <= pointIdx) {
+		return false
+	}
+
+	queue := make([]int16, 0, 128)
+	queue = append(queue, startIdx)
+
+	visited := make([]bool, totalCells)
+	visited[0] = true
+
+	for len(queue) > 0 {
+		positionIdx := queue[len(queue)-1]
+		queue = queue[:len(queue)-1]
+		currentPositionX := positionIdx % fieldWidth
+		currentPositionY := positionIdx / fieldWidth
 
 		for _, checkDir := range DIRS_ALL {
-			nextPoint := Point{X: currentPosition.X + checkDir.X, Y: currentPosition.Y + checkDir.Y}
-			if visited[nextPoint] {
+			nextX := currentPositionX + checkDir.X
+			nextY := currentPositionY + checkDir.Y
+			if nextX < 0 || nextY < 0 || nextX >= fieldWidth || nextY >= fieldHeight {
 				continue
 			}
-			if nextPoint.X < 0 || nextPoint.Y < 0 || nextPoint.X >= fieldWidthInt || nextPoint.Y >= fieldHeightInt {
-				// next coord outside the field dimensions
+
+			nextPointIdx := nextY*fieldWidth + nextX
+			nextIdxInt := int(nextPointIdx)
+			if visited[nextIdxInt] {
 				continue
 			}
-			currentCellValue := field[nextPoint.Y][nextPoint.X]
-			if currentCellValue > 0 && currentCellValue <= pointIdx {
-				// Cell Corrupted
+
+			cellValue := field[nextPointIdx]
+			if cellValue > 0 && cellValue <= pointIdx {
 				continue
 			}
-			if nextPoint.X == fieldWidthInt-1 && nextPoint.Y == fieldHeightInt-1 {
+
+			if nextPointIdx == endIdx {
 				return true
 			}
-			queue.PushBack(nextPoint)
+
+			visited[nextIdxInt] = true
+			queue = append(queue, nextPointIdx)
 		}
 	}
+
 	return false
 }
 
-func FindFirstNonSolvable(points Field, maxStep uint16, fieldWidth uint16, fieldHeight uint16) uint16 {
-	var left uint16 = 0
+func FindFirstNonSolvable(field Field, maxStep, fieldWidth, fieldHeight int16) int16 {
+	var left int16 = 0
 	right := maxStep
 	for left < right-1 {
 		mid := (left + right) / 2
-		ok := IsPathAvailable(points, mid, fieldWidth, fieldHeight)
+		ok := IsPathAvailable(field, mid, fieldWidth, fieldHeight)
 		if ok {
 			left = mid
 		} else {
@@ -57,10 +71,24 @@ func FindFirstNonSolvable(points Field, maxStep uint16, fieldWidth uint16, field
 	return left
 }
 
-func Part2(in io.Reader) Point {
-	points := ParseInput(in)
-	field := PointsToField(points, 71, 71)
-	result := FindFirstNonSolvable(field, uint16(len(points)), 71, 71)
-	fmt.Printf("%v\n", [2]int16{points[result].X, points[result].Y})
-	return points[result]
+func Part2Base(in io.Reader, width, height int16) Point {
+	parsedData := ParseInput(in, width, height)
+	result := FindFirstNonSolvable(parsedData.Field, int16(len(parsedData.CorruptionOrder)), width, height)
+	sourcePoint := parsedData.CorruptionOrder[result]
+	return Point{X: sourcePoint % width, Y: sourcePoint / width}
+}
+
+var Part2 func(in io.Reader) Point
+
+var Part1 func(in io.Reader) int16
+
+const fieldDim = 71
+
+func init() {
+	Part1 = func(in io.Reader) int16 {
+		return Part1Base(in, 1024, fieldDim, fieldDim)
+	}
+	Part2 = func(in io.Reader) Point {
+		return Part2Base(in, fieldDim, fieldDim)
+	}
 }

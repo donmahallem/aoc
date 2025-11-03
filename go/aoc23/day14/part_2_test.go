@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc23/day14"
+	"github.com/donmahallem/aoc/go/aoc23/day14"
 )
 
 func TestParseInput2(t *testing.T) {

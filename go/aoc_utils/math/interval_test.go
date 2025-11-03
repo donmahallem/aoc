@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc_utils/math"
+	"github.com/donmahallem/aoc/go/aoc_utils/math"
 )
 
 func TestIntervalSize(t *testing.T) {

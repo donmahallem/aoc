@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc_utils/queues"
+	"github.com/donmahallem/aoc/go/aoc_utils/queues"
 )
 
 func TestOutOfBoundsShouldBeInside(t *testing.T) {

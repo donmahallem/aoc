@@ -1,6 +1,6 @@
 package pow
 
-import "github.com/donmahallem/aoc/aoc_utils/math"
+import "github.com/donmahallem/aoc/go/aoc_utils/math"
 
 func IntPow[T math.IntType](base T, exp T) T {
 	var result T = 1

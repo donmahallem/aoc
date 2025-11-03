@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc23/day09"
+	"github.com/donmahallem/aoc/go/aoc23/day09"
 )
 
 func TestPredictLeft(t *testing.T) {

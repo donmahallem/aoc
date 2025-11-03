@@ -4,7 +4,7 @@ import (
 	"io"
 	"strconv"
 
-	"github.com/donmahallem/aoc/aoc_utils/bytes"
+	"github.com/donmahallem/aoc/go/aoc_utils/bytes"
 )
 
 type MulReaderState int

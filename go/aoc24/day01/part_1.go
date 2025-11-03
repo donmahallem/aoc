@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/donmahallem/aoc/aoc_utils/math/abs"
+	"github.com/donmahallem/aoc/go/aoc_utils/math/abs"
 )
 
 func Part1(in io.Reader) int {

@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc24/day07"
+	"github.com/donmahallem/aoc/go/aoc24/day07"
 )
 
 // TestHelloName calls greetings.Hello with a name, checking

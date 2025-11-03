@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc23/day12"
+	"github.com/donmahallem/aoc/go/aoc23/day12"
 )
 
 var testData string = `???.### 1,1,3

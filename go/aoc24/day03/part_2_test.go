@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc24/day03"
-	"github.com/donmahallem/aoc/test_utils"
+	"github.com/donmahallem/aoc/go/aoc24/day03"
+	"github.com/donmahallem/aoc/go/test_utils"
 )
 
 const testDataPart2 string = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"

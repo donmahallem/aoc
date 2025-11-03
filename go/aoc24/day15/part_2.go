@@ -3,7 +3,7 @@ package day15
 import (
 	"io"
 
-	"github.com/donmahallem/aoc/aoc_utils"
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
 type Candidate = aoc_utils.Point[int16]

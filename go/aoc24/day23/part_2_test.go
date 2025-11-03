@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc24/day23"
+	"github.com/donmahallem/aoc/go/aoc24/day23"
 )
 
 func TestStringifySequence(t *testing.T) {

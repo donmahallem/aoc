@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc24/day20"
+	"github.com/donmahallem/aoc/go/aoc24/day20"
 )
 
 func TestCountCheats2(t *testing.T) {

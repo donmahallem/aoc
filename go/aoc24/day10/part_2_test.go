@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc24/day10"
+	"github.com/donmahallem/aoc/go/aoc24/day10"
 )
 
 func TestPart2(t *testing.T) {

@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc23/day22"
+	"github.com/donmahallem/aoc/go/aoc23/day22"
 )
 
 var testDataSample1 string = `1,0,1~1,2,1

@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/donmahallem/aoc/aoc_utils/math/pow"
+	"github.com/donmahallem/aoc/go/aoc_utils/math/pow"
 )
 
 type Register = [3]int

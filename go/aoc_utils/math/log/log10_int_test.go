@@ -3,7 +3,7 @@ package log_test
 import (
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc_utils/math/log"
+	"github.com/donmahallem/aoc/go/aoc_utils/math/log"
 )
 
 func TestLog10Int(t *testing.T) {

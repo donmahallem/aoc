@@ -3,7 +3,7 @@ package day08
 import (
 	"io"
 
-	"github.com/donmahallem/aoc/aoc_utils/math/lcm"
+	"github.com/donmahallem/aoc/go/aoc_utils/math/lcm"
 )
 
 func GetCycleSize(instructions PathInstructions, node *Node) uint {

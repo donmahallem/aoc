@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc23/day01"
+	"github.com/donmahallem/aoc/go/aoc23/day01"
 )
 
 const testDataPart2 string = `two1nine

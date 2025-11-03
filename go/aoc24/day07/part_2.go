@@ -5,7 +5,7 @@ import (
 	"io"
 	"math"
 
-	"github.com/donmahallem/aoc/aoc_utils/math/pow"
+	"github.com/donmahallem/aoc/go/aoc_utils/math/pow"
 )
 
 func NumDigits(val int) int {

@@ -5,7 +5,7 @@ import (
 	"io"
 	"math"
 
-	"github.com/donmahallem/aoc/aoc_utils"
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
 type VecFloat64 = aoc_utils.Point[float64]

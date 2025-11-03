@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc24/day09"
+	"github.com/donmahallem/aoc/go/aoc24/day09"
 )
 
 const testData string = "2333133121414131402"

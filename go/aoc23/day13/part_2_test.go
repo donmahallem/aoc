@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc23/day13"
+	"github.com/donmahallem/aoc/go/aoc23/day13"
 )
 
 func TestOneBitApart(t *testing.T) {

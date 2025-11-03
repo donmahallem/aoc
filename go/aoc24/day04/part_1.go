@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"io"
 
-	"github.com/donmahallem/aoc/aoc_utils"
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
 type Dir aoc_utils.Point[int16]

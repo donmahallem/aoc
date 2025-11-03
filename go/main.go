@@ -7,9 +7,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/donmahallem/aoc/aoc23"
-	"github.com/donmahallem/aoc/aoc24"
-	"github.com/donmahallem/aoc/aoc_utils"
+	"github.com/donmahallem/aoc/go/aoc23"
+	"github.com/donmahallem/aoc/go/aoc24"
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
 func main() {

@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc24/day19"
+	"github.com/donmahallem/aoc/go/aoc24/day19"
 )
 
 const testData string = `r, wr, b, g, bwu, rb, gb, br

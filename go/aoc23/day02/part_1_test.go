@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc23/day02"
+	"github.com/donmahallem/aoc/go/aoc23/day02"
 )
 
 const testData string = `Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green

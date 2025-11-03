@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc23/day08"
+	"github.com/donmahallem/aoc/go/aoc23/day08"
 )
 
 var testData3 string = `LR

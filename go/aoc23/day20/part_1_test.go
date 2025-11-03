@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc23/day20"
+	"github.com/donmahallem/aoc/go/aoc23/day20"
 )
 
 var testDataSample1 string = `broadcaster -> a, b, c

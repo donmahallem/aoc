@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc23/day19"
+	"github.com/donmahallem/aoc/go/aoc23/day19"
 )
 
 var testData string = `px{a<2006:qkq,m>2090:A,rfg}

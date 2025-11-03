@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc23/day20"
+	"github.com/donmahallem/aoc/go/aoc23/day20"
 )
 
 const testOutputId int = ('o' << 40) + ('u' << 32) + ('t' << 24) + ('p' << 16) + ('u' << 8) + 't'

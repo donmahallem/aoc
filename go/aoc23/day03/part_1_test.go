@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc23/day03"
-	"github.com/donmahallem/aoc/aoc_utils"
+	"github.com/donmahallem/aoc/go/aoc23/day03"
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
 const testData = `467..114..

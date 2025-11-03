@@ -1,7 +1,7 @@
 package day21
 
 import (
-	"github.com/donmahallem/aoc/aoc_utils/math/abs"
+	"github.com/donmahallem/aoc/go/aoc_utils/math/abs"
 )
 
 var (

@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc23/day17"
+	"github.com/donmahallem/aoc/go/aoc23/day17"
 )
 
 var testData string = `2413432311323

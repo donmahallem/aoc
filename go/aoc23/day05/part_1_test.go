@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc23/day05"
+	"github.com/donmahallem/aoc/go/aoc23/day05"
 )
 
 const testData string = `seeds: 79 14 55 13

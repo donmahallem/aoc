@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc23/day02"
+	"github.com/donmahallem/aoc/go/aoc23/day02"
 )
 
 func TestCalculateMinBlock(t *testing.T) {

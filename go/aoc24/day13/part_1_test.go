@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc24/day13"
+	"github.com/donmahallem/aoc/go/aoc24/day13"
 )
 
 const testData string = `Button A: X+94, Y+34

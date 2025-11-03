@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"io"
 
-	"github.com/donmahallem/aoc/aoc_utils/bytes"
+	"github.com/donmahallem/aoc/go/aoc_utils/bytes"
 )
 
 func ParseLine(line []byte) int {

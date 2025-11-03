@@ -3,7 +3,7 @@ package day03
 import (
 	"io"
 
-	"github.com/donmahallem/aoc/aoc_utils"
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
 func Part2(in io.Reader) int {

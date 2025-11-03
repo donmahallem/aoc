@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc24/day18"
-	"github.com/donmahallem/aoc/test_utils"
+	"github.com/donmahallem/aoc/go/aoc24/day18"
+	"github.com/donmahallem/aoc/go/test_utils"
 )
 
 func TestIsPathAvailable(t *testing.T) {

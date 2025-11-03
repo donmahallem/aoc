@@ -6,7 +6,7 @@ import (
 	"io"
 	"slices"
 
-	"github.com/donmahallem/aoc/aoc_utils/math"
+	"github.com/donmahallem/aoc/go/aoc_utils/math"
 )
 
 type ByteField[A math.IntType, B math.IntType] struct {

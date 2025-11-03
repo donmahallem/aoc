@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc23/day06"
+	"github.com/donmahallem/aoc/go/aoc23/day06"
 )
 
 const testData string = `Time:      7  15   30

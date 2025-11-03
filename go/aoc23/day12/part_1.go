@@ -5,7 +5,7 @@ import (
 	"bytes"
 	"io"
 
-	bytesutil "github.com/donmahallem/aoc/aoc_utils/bytes"
+	bytesutil "github.com/donmahallem/aoc/go/aoc_utils/bytes"
 )
 
 type SpringState uint8

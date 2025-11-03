@@ -4,8 +4,8 @@ import (
 	"io"
 	"slices"
 
-	"github.com/donmahallem/aoc/aoc_utils"
-	"github.com/donmahallem/aoc/aoc_utils/math/abs"
+	"github.com/donmahallem/aoc/go/aoc_utils"
+	"github.com/donmahallem/aoc/go/aoc_utils/math/abs"
 )
 
 type VisitedMap map[Point]bool

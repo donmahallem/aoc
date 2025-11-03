@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/donmahallem/aoc/aoc24/day09"
+	"github.com/donmahallem/aoc/go/aoc24/day09"
 )
 
 func TestFindEmptySpace(t *testing.T) {

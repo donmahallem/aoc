@@ -3,7 +3,7 @@ package log
 import (
 	"math"
 
-	util_math "github.com/donmahallem/aoc/aoc_utils/math"
+	util_math "github.com/donmahallem/aoc/go/aoc_utils/math"
 )
 
 func Log10Int[T util_math.IntType](n T) T {

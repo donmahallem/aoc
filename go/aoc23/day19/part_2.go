@@ -3,7 +3,7 @@ package day19
 import (
 	"io"
 
-	aocutil "github.com/donmahallem/aoc/aoc_utils/math"
+	aocutil "github.com/donmahallem/aoc/go/aoc_utils/math"
 )
 
 type IntInterval = aocutil.Interval[int]

@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/donmahallem/aoc/aoc_utils/math/log"
-	"github.com/donmahallem/aoc/aoc_utils/math/pow"
+	"github.com/donmahallem/aoc/go/aoc_utils/math/log"
+	"github.com/donmahallem/aoc/go/aoc_utils/math/pow"
 )
 
 func ParseLine(in io.Reader) ([]uint32, error) {

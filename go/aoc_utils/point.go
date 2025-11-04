@@ -29,6 +29,41 @@ func (a *Point[A]) DistanceManhatten(b Point[A]) A {
 	return dst
 }
 
+func (a *Point[A]) Add(b Point[A]) {
+	a.X += b.X
+	a.Y += b.Y
+}
+
+func (a *Point[A]) AddXY(x, y A) {
+	a.X += x
+	a.Y += y
+}
+
+func (a *Point[A]) Sub(b Point[A]) {
+	a.X -= b.X
+	a.Y -= b.Y
+}
+
+func (a *Point[A]) SubXY(x, y A) {
+	a.X -= x
+	a.Y -= y
+}
+
+func (a *Point[A]) Multiply(b Point[A]) {
+	a.X *= b.X
+	a.Y *= b.Y
+}
+
+func (a *Point[A]) MultiplyXY(x, y A) {
+	a.X *= x
+	a.Y *= y
+}
+
+// Clone creates a new Point with the same coordinates.
+func (a *Point[A]) Clone() *Point[A] {
+	return &Point[A]{X: a.X, Y: a.Y}
+}
+
 func (a *Point[A]) DistanceEuclid(b Point[A]) float64 {
 	return math.Sqrt(math.Pow(float64(b.X-a.X), 2) + math.Pow(float64(b.Y-a.Y), 2))
 }

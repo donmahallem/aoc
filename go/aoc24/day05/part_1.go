@@ -30,29 +30,6 @@ func validateLine(f facts, line []int64) (int64, bool) {
 	return line[n/2], true
 }
 
-// parseLine tokenises a comma-separated list of page numbers into dst.
-func parseLine(line []byte, dst []int64) []int64 {
-	dst = dst[:0]
-	var value int64
-	hasDigit := false
-	for _, b := range line {
-		if bytes.ByteIsNumber(b) {
-			value = value*10 + int64(b-'0')
-			hasDigit = true
-			continue
-		}
-		if hasDigit {
-			dst = append(dst, value)
-			value = 0
-			hasDigit = false
-		}
-	}
-	if hasDigit {
-		dst = append(dst, value)
-	}
-	return dst
-}
-
 func Part1(in io.Reader) int64 {
 	s := bufio.NewScanner(in)
 	baseData := true
@@ -83,7 +60,7 @@ func Part1(in io.Reader) int64 {
 			continue
 		}
 
-		numbers = parseLine(lineData, numbers)
+		bytes.ParseIntSequence(lineData, ',', &numbers)
 		if len(numbers) == 0 {
 			continue
 		}

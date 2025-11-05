@@ -59,7 +59,7 @@ func Part2(in io.Reader) int64 {
 			continue
 		}
 
-		numbers = parseLine(lineData, numbers)
+		bytes.ParseIntSequence(lineData, ',', &numbers)
 		if len(numbers) == 0 {
 			continue
 		}

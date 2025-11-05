@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1762332569906,
+  "lastUpdate": 1762344906417,
   "repoUrl": "https://github.com/donmahallem/aoc",
   "entries": {
     "Go Benchmark": [
@@ -25398,6 +25398,714 @@ window.BENCHMARK_DATA = {
             "value": 69344,
             "unit": "ns",
             "extra": "Number of Iterations: 17302\n"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "donmahallem@users.noreply.github.com",
+            "name": "ò_ó",
+            "username": "donmahallem"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "497965ebb8b7fd19c543a0c4ec0b844565dd4d8c",
+          "message": "feat(go): add ParseIntSequence method (#186)",
+          "timestamp": "2025-11-05T13:11:54+01:00",
+          "tree_id": "6d495eea7aa78d17f8b04df24d40ee0d204c6728",
+          "url": "https://github.com/donmahallem/aoc/commit/497965ebb8b7fd19c543a0c4ec0b844565dd4d8c"
+        },
+        "date": 1762344905958,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day01.BenchmarkPart1",
+            "value": 829.9,
+            "unit": "ns",
+            "extra": "Number of Iterations: 1260192\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day01.BenchmarkPart2",
+            "value": 1109,
+            "unit": "ns",
+            "extra": "Number of Iterations: 1000000\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day02.BenchmarkPart1",
+            "value": 1757,
+            "unit": "ns",
+            "extra": "Number of Iterations: 656450\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day02.BenchmarkPart2",
+            "value": 1747,
+            "unit": "ns",
+            "extra": "Number of Iterations: 694052\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day03.BenchmarkPart1",
+            "value": 2518,
+            "unit": "ns",
+            "extra": "Number of Iterations: 472927\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day03.BenchmarkPart2",
+            "value": 2522,
+            "unit": "ns",
+            "extra": "Number of Iterations: 437091\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day04.BenchmarkPart1",
+            "value": 2052,
+            "unit": "ns",
+            "extra": "Number of Iterations: 594289\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day04.BenchmarkPart2",
+            "value": 2534,
+            "unit": "ns",
+            "extra": "Number of Iterations: 506164\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day05.BenchmarkPart1",
+            "value": 4005,
+            "unit": "ns",
+            "extra": "Number of Iterations: 291139\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day05.BenchmarkPart2",
+            "value": 7242,
+            "unit": "ns",
+            "extra": "Number of Iterations: 169159\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day06.BenchmarkPart1",
+            "value": 916.2,
+            "unit": "ns",
+            "extra": "Number of Iterations: 1316038\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day06.BenchmarkPart2",
+            "value": 681.4,
+            "unit": "ns",
+            "extra": "Number of Iterations: 1755006\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day07.BenchmarkPart1",
+            "value": 1752,
+            "unit": "ns",
+            "extra": "Number of Iterations: 597862\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day07.BenchmarkPart2",
+            "value": 1806,
+            "unit": "ns",
+            "extra": "Number of Iterations: 712201\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day08.BenchmarkPart1",
+            "value": 1718,
+            "unit": "ns",
+            "extra": "Number of Iterations: 692448\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day08.BenchmarkPart2",
+            "value": 1921,
+            "unit": "ns",
+            "extra": "Number of Iterations: 626989\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day09.BenchmarkPart1",
+            "value": 1347,
+            "unit": "ns",
+            "extra": "Number of Iterations: 887904\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day09.BenchmarkPart2",
+            "value": 1261,
+            "unit": "ns",
+            "extra": "Number of Iterations: 1000000\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day11.BenchmarkPart1",
+            "value": 2984,
+            "unit": "ns",
+            "extra": "Number of Iterations: 405061\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day12.BenchmarkPart1",
+            "value": 6807,
+            "unit": "ns",
+            "extra": "Number of Iterations: 173814\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day12.BenchmarkPart2",
+            "value": 58558,
+            "unit": "ns",
+            "extra": "Number of Iterations: 20188\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day14.BenchmarkPart2",
+            "value": 9348,
+            "unit": "ns",
+            "extra": "Number of Iterations: 128480\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day15.BenchmarkPart2",
+            "value": 690.9,
+            "unit": "ns",
+            "extra": "Number of Iterations: 1752258\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day16.BenchmarkPart1",
+            "value": 1398,
+            "unit": "ns",
+            "extra": "Number of Iterations: 789378\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day16.BenchmarkPart2",
+            "value": 15261,
+            "unit": "ns",
+            "extra": "Number of Iterations: 81178\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day17.BenchmarkPart1",
+            "value": 84726,
+            "unit": "ns",
+            "extra": "Number of Iterations: 14277\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day17.BenchmarkPart2",
+            "value": 71877,
+            "unit": "ns",
+            "extra": "Number of Iterations: 16646\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day18.BenchmarkPart1",
+            "value": 2196,
+            "unit": "ns",
+            "extra": "Number of Iterations: 508069\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day18.BenchmarkPart2",
+            "value": 2392,
+            "unit": "ns",
+            "extra": "Number of Iterations: 496747\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day19.BenchmarkPart1",
+            "value": 6171,
+            "unit": "ns",
+            "extra": "Number of Iterations: 198234\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day19.BenchmarkPart2",
+            "value": 6764,
+            "unit": "ns",
+            "extra": "Number of Iterations: 178222\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day20.BenchmarkPart1",
+            "value": 224994,
+            "unit": "ns",
+            "extra": "Number of Iterations: 5312\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day20.BenchmarkPart2",
+            "value": 2892,
+            "unit": "ns",
+            "extra": "Number of Iterations: 442490\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day21.BenchmarkPart1",
+            "value": 10080,
+            "unit": "ns",
+            "extra": "Number of Iterations: 119120\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day21.BenchmarkPart2",
+            "value": 108693,
+            "unit": "ns",
+            "extra": "Number of Iterations: 10000\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day22.BenchmarkPart1",
+            "value": 1683,
+            "unit": "ns",
+            "extra": "Number of Iterations: 673158\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc23/day22.BenchmarkPart2",
+            "value": 1963,
+            "unit": "ns",
+            "extra": "Number of Iterations: 628572\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day01.BenchmarkPart1",
+            "value": 1427,
+            "unit": "ns",
+            "extra": "Number of Iterations: 790123\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day01.BenchmarkPart2",
+            "value": 1349,
+            "unit": "ns",
+            "extra": "Number of Iterations: 795213\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day02.BenchmarkPart1",
+            "value": 1569,
+            "unit": "ns",
+            "extra": "Number of Iterations: 765066\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day02.BenchmarkPart2",
+            "value": 2303,
+            "unit": "ns",
+            "extra": "Number of Iterations: 521248\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day03.BenchmarkPart1",
+            "value": 356.7,
+            "unit": "ns",
+            "extra": "Number of Iterations: 3340096\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day04.BenchmarkPart1",
+            "value": 1747,
+            "unit": "ns",
+            "extra": "Number of Iterations: 681412\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day04.BenchmarkPart2",
+            "value": 967.7,
+            "unit": "ns",
+            "extra": "Number of Iterations: 1228612\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day05.BenchmarkPart1",
+            "value": 4359,
+            "unit": "ns",
+            "extra": "Number of Iterations: 279366\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day05.BenchmarkPart2",
+            "value": 4617,
+            "unit": "ns",
+            "extra": "Number of Iterations: 260157\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day06.BenchmarkPart1",
+            "value": 4460,
+            "unit": "ns",
+            "extra": "Number of Iterations: 269425\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day06.BenchmarkPart2",
+            "value": 95241,
+            "unit": "ns",
+            "extra": "Number of Iterations: 12585\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day07.BenchmarkPart1",
+            "value": 1167,
+            "unit": "ns",
+            "extra": "Number of Iterations: 964302\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day07.BenchmarkPart2",
+            "value": 2519,
+            "unit": "ns",
+            "extra": "Number of Iterations: 460545\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day08.BenchmarkPart1",
+            "value": 2051,
+            "unit": "ns",
+            "extra": "Number of Iterations: 582398\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day08.BenchmarkPart2",
+            "value": 2660,
+            "unit": "ns",
+            "extra": "Number of Iterations: 440487\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day09.BenchmarkPart1",
+            "value": 395.1,
+            "unit": "ns",
+            "extra": "Number of Iterations: 3025586\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day09.BenchmarkPart2",
+            "value": 717.1,
+            "unit": "ns",
+            "extra": "Number of Iterations: 1680208\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day10.BenchmarkPart1",
+            "value": 3961,
+            "unit": "ns",
+            "extra": "Number of Iterations: 289752\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day10.BenchmarkPart2",
+            "value": 2429,
+            "unit": "ns",
+            "extra": "Number of Iterations: 498253\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day11.BenchmarkParseLine",
+            "value": 158.4,
+            "unit": "ns",
+            "extra": "Number of Iterations: 7701930\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day11.BenchmarkPart1",
+            "value": 89233,
+            "unit": "ns",
+            "extra": "Number of Iterations: 13454\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day11.BenchmarkPart2",
+            "value": 609665,
+            "unit": "ns",
+            "extra": "Number of Iterations: 1964\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day12.BenchmarkPart1",
+            "value": 29562,
+            "unit": "ns",
+            "extra": "Number of Iterations: 40332\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day12.BenchmarkPart2",
+            "value": 26668,
+            "unit": "ns",
+            "extra": "Number of Iterations: 44840\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day13.BenchmarkPart1",
+            "value": 1708,
+            "unit": "ns",
+            "extra": "Number of Iterations: 677701\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day13.BenchmarkPart2",
+            "value": 1629,
+            "unit": "ns",
+            "extra": "Number of Iterations: 784455\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day14.BenchmarkPart1",
+            "value": 1662,
+            "unit": "ns",
+            "extra": "Number of Iterations: 781659\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day14.BenchmarkPart2",
+            "value": 10821,
+            "unit": "ns",
+            "extra": "Number of Iterations: 114651\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day15.BenchmarkPart1",
+            "value": 9152,
+            "unit": "ns",
+            "extra": "Number of Iterations: 134678\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day15.BenchmarkPart2",
+            "value": 12589,
+            "unit": "ns",
+            "extra": "Number of Iterations: 101450\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day16.BenchmarkPart1",
+            "value": 9139,
+            "unit": "ns",
+            "extra": "Number of Iterations: 132004\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day16.BenchmarkPart2",
+            "value": 18323,
+            "unit": "ns",
+            "extra": "Number of Iterations: 65940\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day17.BenchmarkPart1",
+            "value": 1439,
+            "unit": "ns",
+            "extra": "Number of Iterations: 812274\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day17.BenchmarkPart2",
+            "value": 6573,
+            "unit": "ns",
+            "extra": "Number of Iterations: 185113\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day18.BenchmarkFindShortestPath",
+            "value": 3339,
+            "unit": "ns",
+            "extra": "Number of Iterations: 351458\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day18.BenchmarkParseInput",
+            "value": 1985,
+            "unit": "ns",
+            "extra": "Number of Iterations: 631339\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day18.BenchmarkPart1Base/sample_dataset",
+            "value": 5187,
+            "unit": "ns",
+            "extra": "Number of Iterations: 224235\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day18.BenchmarkPart1Base/large_dataset",
+            "value": 293110,
+            "unit": "ns",
+            "extra": "Number of Iterations: 3998\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day18.BenchmarkIsPathAvailable",
+            "value": 450.8,
+            "unit": "ns",
+            "extra": "Number of Iterations: 2644796\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day18.BenchmarkFindFirstNonSolvable/sample_dataset",
+            "value": 7634,
+            "unit": "ns",
+            "extra": "Number of Iterations: 154936\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day19.BenchmarkParseFirstLine",
+            "value": 315.3,
+            "unit": "ns",
+            "extra": "Number of Iterations: 3809851\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day19.BenchmarkParseInput",
+            "value": 1498,
+            "unit": "ns",
+            "extra": "Number of Iterations: 787072\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day19.BenchmarkPart1",
+            "value": 5350,
+            "unit": "ns",
+            "extra": "Number of Iterations: 208044\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day19.BenchmarkPart2",
+            "value": 7070,
+            "unit": "ns",
+            "extra": "Number of Iterations: 170961\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day20.BenchmarkParseInput",
+            "value": 3274,
+            "unit": "ns",
+            "extra": "Number of Iterations: 359562\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day20.BenchmarkCountCheats",
+            "value": 5680,
+            "unit": "ns",
+            "extra": "Number of Iterations: 211080\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day20.BenchmarkCountCheats2",
+            "value": 1254,
+            "unit": "ns",
+            "extra": "Number of Iterations: 957794\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day21.BenchmarkHashId",
+            "value": 1.869,
+            "unit": "ns",
+            "extra": "Number of Iterations: 640295430\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day21.BenchmarkHashId2",
+            "value": 1.866,
+            "unit": "ns",
+            "extra": "Number of Iterations: 643252358\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day21.BenchmarkPart1",
+            "value": 14351,
+            "unit": "ns",
+            "extra": "Number of Iterations: 82390\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day21.BenchmarkPart2",
+            "value": 110755,
+            "unit": "ns",
+            "extra": "Number of Iterations: 9847\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkStep/Expect_123_to_become_15887950",
+            "value": 2.182,
+            "unit": "ns",
+            "extra": "Number of Iterations: 548897750\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkStep/Expect_15887950_to_become_16495136",
+            "value": 2.178,
+            "unit": "ns",
+            "extra": "Number of Iterations: 550607144\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkStep/Expect_16495136_to_become_527345",
+            "value": 2.177,
+            "unit": "ns",
+            "extra": "Number of Iterations: 550701450\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkStep/Expect_527345_to_become_704524",
+            "value": 2.184,
+            "unit": "ns",
+            "extra": "Number of Iterations: 550335415\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkStep/Expect_704524_to_become_1553684",
+            "value": 2.177,
+            "unit": "ns",
+            "extra": "Number of Iterations: 551126850\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkStep/Expect_1553684_to_become_12683156",
+            "value": 2.179,
+            "unit": "ns",
+            "extra": "Number of Iterations: 550779799\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkStep/Expect_12683156_to_become_11100544",
+            "value": 2.178,
+            "unit": "ns",
+            "extra": "Number of Iterations: 551394697\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkStep/Expect_11100544_to_become_12249484",
+            "value": 2.178,
+            "unit": "ns",
+            "extra": "Number of Iterations: 550353216\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkStep/Expect_12249484_to_become_7753432",
+            "value": 2.18,
+            "unit": "ns",
+            "extra": "Number of Iterations: 550161652\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkStep/Expect_7753432_to_become_5908254",
+            "value": 2.178,
+            "unit": "ns",
+            "extra": "Number of Iterations: 550574547\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkAddUpSecrets",
+            "value": 22336,
+            "unit": "ns",
+            "extra": "Number of Iterations: 53691\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkPart1",
+            "value": 23118,
+            "unit": "ns",
+            "extra": "Number of Iterations: 51957\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkPart2",
+            "value": 801771,
+            "unit": "ns",
+            "extra": "Number of Iterations: 1460\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkCreatePatterns/test_depth_10",
+            "value": 84.61,
+            "unit": "ns",
+            "extra": "Number of Iterations: 14147742\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkCreatePatterns/test_depth_100",
+            "value": 1657,
+            "unit": "ns",
+            "extra": "Number of Iterations: 715900\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkCreatePatterns/test_depth_1000",
+            "value": 18251,
+            "unit": "ns",
+            "extra": "Number of Iterations: 65535\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day22.BenchmarkCreatePatterns/test_depth_10000",
+            "value": 197460,
+            "unit": "ns",
+            "extra": "Number of Iterations: 5814\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day23.BenchmarkLookup/HashId",
+            "value": 1.868,
+            "unit": "ns",
+            "extra": "Number of Iterations: 640081840\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day23.BenchmarkLookup/t2",
+            "value": 3258,
+            "unit": "ns",
+            "extra": "Number of Iterations: 366661\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day23.BenchmarkPart1",
+            "value": 4633,
+            "unit": "ns",
+            "extra": "Number of Iterations: 250933\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day23.BenchmarkFindLongest",
+            "value": 3508,
+            "unit": "ns",
+            "extra": "Number of Iterations: 346206\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc24/day23.BenchmarkPart2",
+            "value": 7762,
+            "unit": "ns",
+            "extra": "Number of Iterations: 155808\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc_utils/queues.BenchmarkAdd/test_fifo_size_10",
+            "value": 69282,
+            "unit": "ns",
+            "extra": "Number of Iterations: 17311\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc_utils/queues.BenchmarkAdd/test_fifo_size_100",
+            "value": 69272,
+            "unit": "ns",
+            "extra": "Number of Iterations: 17319\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc_utils/queues.BenchmarkAdd/test_fifo_size_1000",
+            "value": 71245,
+            "unit": "ns",
+            "extra": "Number of Iterations: 16843\n"
+          },
+          {
+            "name": "go_github.com/donmahallem/aoc/go/aoc_utils/queues.BenchmarkAdd/test_fifo_size_10000",
+            "value": 69580,
+            "unit": "ns",
+            "extra": "Number of Iterations: 17242\n"
           }
         ]
       }

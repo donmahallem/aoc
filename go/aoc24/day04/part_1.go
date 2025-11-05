@@ -9,30 +9,39 @@ import (
 
 type Dir aoc_utils.Point[int16]
 
-var SearchTerm = []byte{'X', 'M', 'A', 'S'}
-var SearchTermDirections = []Dir{{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {-1, -1}, {1, -1}, {-1, 1}}
+var searchTerm = []byte{'X', 'M', 'A', 'S'}
+var searchTermReverse = []byte{'S', 'A', 'M', 'X'}
 
-func CheckBlock(block [][]byte) int {
-	height := int16(len(block))
-	width := int16(len(block[0]))
+// Checks the first four rows of the block for occurrences of the search term in all 6 directions except horizontal.
+func CheckBlock(block []byte, width int) int {
+	if width <= 0 || len(block)%width != 0 {
+		return 0
+	}
+	searchLen := len(searchTerm)
+	directions := [][2]int{{1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}}
+
 	count := 0
-	found := false
-	for x := range width {
-		for y := range height {
-			for _, dir := range SearchTermDirections {
-				endX := x + dir.X*3
-				endY := y + dir.Y*3
-				if endX < 0 || endY < 0 || endX >= width || endY >= height {
+	for row := range 4 {
+		for col := range width {
+			if block[row*width+col] != searchTerm[0] {
+				continue
+			}
+			for _, dir := range directions {
+				endRow := row + dir[0]*(searchLen-1)
+				endCol := col + dir[1]*(searchLen-1)
+				if endRow < 0 || endRow >= 4 || endCol < 0 || endCol >= width {
 					continue
 				}
-				found = true
-				for i := range int16(4) {
-					if block[y+i*dir.Y][x+i*dir.X] != SearchTerm[i] {
-						found = false
+				match := true
+				for i := 1; i < searchLen; i++ {
+					r := row + dir[0]*i
+					c := col + dir[1]*i
+					if block[r*width+c] != searchTerm[i] {
+						match = false
 						break
 					}
 				}
-				if found {
+				if match {
 					count++
 				}
 			}
@@ -40,13 +49,61 @@ func CheckBlock(block [][]byte) int {
 	}
 	return count
 }
+
+const searchTermLength = 4
+
+// CheckLine counts forward and backward horizontal occurrences of the search term.
+func CheckLine(line []byte, width int) int {
+	if width < searchTermLength {
+		// nothing to check
+		return 0
+	}
+	count := 0
+	for i := 0; i <= width-searchTermLength; i++ {
+		matchForward := true
+		matchBackward := true
+		for j := 0; j < searchTermLength; j++ {
+			if matchForward && line[i+j] != searchTerm[j] {
+				matchForward = false
+			}
+			if matchBackward && line[i+j] != searchTermReverse[j] {
+				matchBackward = false
+			}
+			if !matchForward && !matchBackward {
+				break
+			}
+		}
+		if matchForward {
+			count++
+		}
+		if matchBackward {
+			count++
+		}
+	}
+	return count
+}
+
 func Part1(in io.Reader) int {
 	s := bufio.NewScanner(in)
-	data := [][]byte{}
-	for s.Scan() {
+	var data []byte = nil
+	width := -1
+	count := 0
+	for lines := 0; s.Scan(); lines++ {
 		lineData := s.Bytes()
-		data = append(data, make([]byte, len(lineData)))
-		copy(data[len(data)-1], lineData)
+		if width < 0 {
+			width = len(lineData)
+			data = make([]byte, 4*width)
+		}
+		count += CheckLine(lineData, width)
+		if lines < 4 {
+			copy(data[lines*width:], lineData)
+		} else {
+			copy(data, data[width:])
+			copy(data[3*width:], lineData)
+		}
+		if lines >= 3 {
+			count += CheckBlock(data, width)
+		}
 	}
-	return CheckBlock(data)
+	return count
 }

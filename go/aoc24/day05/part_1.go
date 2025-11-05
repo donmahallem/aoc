@@ -2,57 +2,93 @@ package day05
 
 import (
 	"bufio"
+	"fmt"
 	"io"
-	"slices"
-	"strconv"
-	"strings"
+
+	"github.com/donmahallem/aoc/go/aoc_utils/bytes"
 )
 
-func ValidateLine(facts *map[int][]int, line *[]int) (int, bool) {
-	for i := 1; i < len(*line); i++ {
-		if !slices.Contains((*facts)[(*line)[i-1]], (*line)[i]) {
-			return -1, false
-		}
-	}
-	return (*line)[len(*line)/2], true
+type facts map[int64]struct{}
+
+func encodePair(a, b int64) int64 {
+	return (a << 32) | b
 }
 
-func ParseLine(line string) ([]int, error) {
-	data := strings.Split(line, ",")
-	parsedData := make([]int, len(data))
-	for idx, dataStr := range data {
-		currentNum, err := strconv.Atoi(dataStr)
-		if err != nil {
-			return nil, err
-		}
-		parsedData[idx] = currentNum
+// validateLine ensures no ordering rules are violated and returns the median entry.
+func validateLine(f facts, line []int64) (int64, bool) {
+	n := len(line)
+	if n == 0 {
+		return 0, false
 	}
-	return parsedData, nil
+	for i := 0; i < n; i++ {
+		for j := i + 1; j < n; j++ {
+			if _, violates := f[encodePair(line[j], line[i])]; violates {
+				return 0, false
+			}
+		}
+	}
+	return line[n/2], true
 }
 
-func Part1(in io.Reader) int {
+// parseLine tokenises a comma-separated list of page numbers into dst.
+func parseLine(line []byte, dst []int64) []int64 {
+	dst = dst[:0]
+	var value int64
+	hasDigit := false
+	for _, b := range line {
+		if bytes.ByteIsNumber(b) {
+			value = value*10 + int64(b-'0')
+			hasDigit = true
+			continue
+		}
+		if hasDigit {
+			dst = append(dst, value)
+			value = 0
+			hasDigit = false
+		}
+	}
+	if hasDigit {
+		dst = append(dst, value)
+	}
+	return dst
+}
+
+func Part1(in io.Reader) int64 {
 	s := bufio.NewScanner(in)
-	m := make(map[int][]int)
 	baseData := true
-	counter := 0
+	counter := int64(0)
+	var numberA, numberB int64
+	encodedRules := make(facts)
+	numbers := make([]int64, 0, 16)
+
 	for s.Scan() {
-		lineData := s.Text()
+		lineData := s.Bytes()
 		if len(lineData) == 0 {
 			baseData = false
-		} else if baseData {
-			data := strings.Split(lineData, "|")
-			num_a, _ := strconv.Atoi(data[0])
-			num_b, _ := strconv.Atoi(data[1])
-			if _, ok := m[num_a]; ok {
-				m[num_a] = append(m[num_a], num_b)
-			} else {
-				m[num_a] = []int{num_b}
+			continue
+		}
+		if baseData {
+			numberA, numberB = 0, 0
+			currentNumber := &numberA
+			for _, c := range lineData {
+				if bytes.ByteIsNumber(c) {
+					*currentNumber = (*currentNumber)*10 + int64(c-'0')
+				} else if c == '|' {
+					currentNumber = &numberB
+				} else {
+					panic(fmt.Sprintf("Unexpected character %c in base data", c))
+				}
 			}
-		} else {
-			parsedLine, _ := ParseLine(lineData)
-			if midValue, ok := ValidateLine(&m, &parsedLine); ok {
-				counter += midValue
-			}
+			encodedRules[encodePair(numberA, numberB)] = struct{}{}
+			continue
+		}
+
+		numbers = parseLine(lineData, numbers)
+		if len(numbers) == 0 {
+			continue
+		}
+		if midValue, ok := validateLine(encodedRules, numbers); ok {
+			counter += midValue
 		}
 	}
 	return counter

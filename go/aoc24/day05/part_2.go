@@ -2,50 +2,73 @@ package day05
 
 import (
 	"bufio"
+	"fmt"
 	"io"
-	"slices"
-	"strconv"
-	"strings"
+	"sort"
+
+	"github.com/donmahallem/aoc/go/aoc_utils/bytes"
 )
 
-func FixLine(facts *map[int][]int, line *[]int) (int, bool) {
-	slices.SortFunc(*line, func(i, j int) int {
-		if slices.Contains((*facts)[j], i) {
-			return 1
+// tryFixLine reorders the update to satisfy all rules and returns its median entry.
+func tryFixLine(f facts, line []int64) (int64, bool) {
+	sort.SliceStable(line, func(i, j int) bool {
+		a := line[i]
+		b := line[j]
+		pairBA := encodePair(b, a)
+		if _, ok := f[encodePair(a, b)]; ok {
+			if _, reverse := f[pairBA]; reverse {
+				return a < b
+			}
+			return true
 		}
-		return -1
+		if _, ok := f[pairBA]; ok {
+			return false
+		}
+		return a < b
 	})
-	if val, ok := ValidateLine(facts, line); ok {
-		return val, true
-	}
-	return -1, false
+	return validateLine(f, line)
 }
-func Part2(in io.Reader) int {
+
+func Part2(in io.Reader) int64 {
 	s := bufio.NewScanner(in)
-	m := make(map[int][]int)
 	baseData := true
-	counter := 0
+	rules := make(facts)
+	var numberA, numberB int64
+	total := int64(0)
+	numbers := make([]int64, 0, 16)
+
 	for s.Scan() {
-		lineData := s.Text()
+		lineData := s.Bytes()
 		if len(lineData) == 0 {
 			baseData = false
-		} else if baseData {
-			data := strings.Split(lineData, "|")
-			num_a, _ := strconv.Atoi(data[0])
-			num_b, _ := strconv.Atoi(data[1])
-			if _, ok := m[num_a]; ok {
-				m[num_a] = append(m[num_a], num_b)
-			} else {
-				m[num_a] = []int{num_b}
+			continue
+		}
+		if baseData {
+			numberA, numberB = 0, 0
+			currentNumber := &numberA
+			for _, c := range lineData {
+				if bytes.ByteIsNumber(c) {
+					*currentNumber = (*currentNumber)*10 + int64(c-'0')
+				} else if c == '|' {
+					currentNumber = &numberB
+				} else {
+					panic(fmt.Sprintf("Unexpected character %c in base data", c))
+				}
 			}
-		} else {
-			parsedLine, _ := ParseLine(lineData)
-			if _, ok := ValidateLine(&m, &parsedLine); ok {
-				continue //counter += midValue
-			} else if midValue, ok := FixLine(&m, &parsedLine); ok {
-				counter += midValue
-			}
+			rules[encodePair(numberA, numberB)] = struct{}{}
+			continue
+		}
+
+		numbers = parseLine(lineData, numbers)
+		if len(numbers) == 0 {
+			continue
+		}
+		if _, ok := validateLine(rules, numbers); ok {
+			continue
+		}
+		if mid, ok := tryFixLine(rules, numbers); ok {
+			total += mid
 		}
 	}
-	return counter
+	return total
 }

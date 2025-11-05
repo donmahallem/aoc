@@ -1,87 +1,98 @@
 package day06
 
-import (
-	"io"
-)
+import "io"
 
-func TestLoop(field *Field, guard Guard) bool {
-	walked := make(map[[3]int16]bool)
+func checkForLoop(field *Field, guard Guard, visited []int32, token int32) bool {
 	for {
-		if guard.dir == DIR_DOWN {
+		stateIdx := int32(translateToIndex(guard.x, guard.y, field.width))*4 + int32(guard.dir)
+		if visited[stateIdx] == token {
+			return true
+		}
+		visited[stateIdx] = token
+
+		switch guard.dir {
+		case DIR_DOWN:
+			if guard.y == 0 {
+				return false
+			}
 			nextY := guard.y - 1
-			key := [3]int16{nextY, guard.x, guard.dir}
-			if OutOfBounds(field, &guard.x, &nextY) {
-				return false
-			} else if (*field).Field[nextY][guard.x] {
+			if field.HasObstacle(guard.x, nextY) {
 				guard.dir = DIR_RIGHT
-			} else if walked[key] {
-				return true
-			} else {
-				guard.y = nextY
-				walked[key] = true
+				continue
 			}
-		} else if guard.dir == DIR_UP {
+			guard.y = nextY
+
+		case DIR_UP:
+			if guard.y+1 >= field.height {
+				return false
+			}
 			nextY := guard.y + 1
-			key := [3]int16{nextY, guard.x, guard.dir}
-			if OutOfBounds(field, &guard.x, &nextY) {
-				return false
-			} else if (*field).Field[nextY][guard.x] {
+			if field.HasObstacle(guard.x, nextY) {
 				guard.dir = DIR_LEFT
-			} else if walked[key] {
-				return true
-			} else {
-				guard.y = nextY
-				walked[key] = true
+				continue
 			}
-		} else if guard.dir == DIR_RIGHT {
+			guard.y = nextY
+
+		case DIR_RIGHT:
+			if guard.x+1 >= field.width {
+				return false
+			}
 			nextX := guard.x + 1
-			key := [3]int16{guard.y, nextX, guard.dir}
-			if OutOfBounds(field, &nextX, &guard.y) {
-				return false
-			} else if (*field).Field[guard.y][nextX] {
+			if field.HasObstacle(nextX, guard.y) {
 				guard.dir = DIR_UP
-			} else if walked[key] {
-				return true
-			} else {
-				guard.x = nextX
-				walked[key] = true
+				continue
 			}
-		} else if guard.dir == DIR_LEFT {
-			nextX := guard.x - 1
-			key := [3]int16{guard.y, nextX, guard.dir}
-			if OutOfBounds(field, &nextX, &guard.y) {
+			guard.x = nextX
+
+		case DIR_LEFT:
+			if guard.x == 0 {
 				return false
-			} else if (*field).Field[guard.y][nextX] {
-				guard.dir = DIR_DOWN
-			} else if walked[key] {
-				return true
-			} else {
-				guard.x = nextX
-				walked[key] = true
 			}
+			nextX := guard.x - 1
+			if field.HasObstacle(nextX, guard.y) {
+				guard.dir = DIR_DOWN
+				continue
+			}
+			guard.x = nextX
 		}
 	}
 }
+
+func translateFromIndex(idx, width uint16) (uint16, uint16) {
+	return idx % width, idx / width
+}
+
 func Part2(in io.Reader) int {
-	obstacles, guard, err := ReadSource(in)
+	field, guard, err := ReadSource(in)
 	if err != nil {
 		panic(err)
 	}
-	basePath := leaveArea(&obstacles, guard)
+	pathInfo := leaveArea(&field, guard)
+	startIdx := translateToIndex(guard.x, guard.y, field.width)
+
+	stateSlots := make([]int32, int(field.width)*int(field.height)*4)
+	token := int32(1)
+
 	blockages := 0
-	for key := range basePath {
-		if key.Y == guard.y && key.X == guard.x {
-			// skip as this is the start position and can't be blocked
+	for _, step := range pathInfo.Steps {
+		if step.Index == startIdx {
 			continue
 		}
-		obstacles.Field[key.Y][key.X] = true
-		if TestLoop(&obstacles, guard) {
+
+		if token == 0 {
+			for i := range stateSlots {
+				stateSlots[i] = 0
+			}
+			token = 1
+		}
+
+		field.obstacles[step.Index] = struct{}{}
+		if checkForLoop(&field, step.PreGuard, stateSlots, token) {
 			blockages++
 		}
-		obstacles.Field[key.Y][key.X] = false
-		// set temporary obstacle
-		// Check for loop
-		// remove temporary obstacle
+		delete(field.obstacles, step.Index)
+		token++
 	}
+
 	return blockages
 }

@@ -2,154 +2,187 @@ package day06
 
 import (
 	"bufio"
-	"fmt"
 	"io"
-
-	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
 const (
-	DIR_UP    int16 = 0
-	DIR_RIGHT       = 1
-	DIR_DOWN        = 2
-	DIR_LEFT        = 3
+	DIR_UP    uint16 = 0
+	DIR_RIGHT        = 1
+	DIR_DOWN         = 2
+	DIR_LEFT         = 3
 )
 
 type Guard struct {
-	x   int16
-	y   int16
-	dir int16
+	x   uint16
+	y   uint16
+	dir uint16
 }
 
 func (a *Guard) cmp(g *Guard) bool {
 	return (*a).x == (*g).x && (*a).y == (*g).y && (*a).dir == (*g).dir
 }
-
-func NewGuard(x int16, y int16, dir int16) *Guard {
-	return &Guard{x: x, y: y, dir: dir}
+func translateToIndex(x, y uint16, width uint16) uint16 {
+	return y*width + x
 }
 
 type Field struct {
-	width, height int16
-	Field         [][]bool
+	width, height uint16
+	obstacles     map[uint16]struct{}
 }
 
-func NewField(width int16, height int16, field [][]bool) Field {
-	return Field{width: width, height: height, Field: field}
+func NewField(width uint16, height uint16, obstacles map[uint16]struct{}) Field {
+	return Field{width: width, height: height, obstacles: obstacles}
+}
+
+func (f *Field) HasObstacle(x, y uint16) bool {
+	_, ok := f.obstacles[(y*f.width)+x]
+	return ok
+}
+
+func (f *Field) Put(x, y uint16) {
+	f.obstacles[(y*f.width)+x] = struct{}{}
+}
+
+func NewGuard(x, y uint16, dir uint16) *Guard {
+	return &Guard{x: x, y: y, dir: dir}
 }
 
 func ReadSource(reader io.Reader) (Field, Guard, error) {
-	obstacles := make([][]bool, 0)
+	obstacles := make(map[uint16]struct{})
 	var guard *Guard
 	s := bufio.NewScanner(reader)
-	y := int16(0)
-	width := int16(0)
+	y := uint16(0)
+	width := uint16(0)
 	for s.Scan() {
 		line := s.Bytes()
 		if width == 0 {
-			width = int16(len(line))
-		} else if width != int16(len(line)) {
+			width = uint16(len(line))
+		} else if width != uint16(len(line)) {
 			panic("Line length is uneven")
 		}
-		row := make([]bool, len(line))
-		for idx, character := range line {
+		for idx := uint16(0); idx < width; idx++ {
+			character := line[idx]
 			switch character {
 			case '^':
-				guard = NewGuard(int16(idx), y, DIR_DOWN)
+				guard = NewGuard(idx, y, DIR_DOWN)
 			case '>':
-				guard = NewGuard(int16(idx), y, DIR_RIGHT)
+				guard = NewGuard(idx, y, DIR_RIGHT)
 			case '<':
-				guard = NewGuard(int16(idx), y, DIR_LEFT)
+				guard = NewGuard(idx, y, DIR_LEFT)
 			case 'v':
-				guard = NewGuard(int16(idx), y, DIR_UP)
+				guard = NewGuard(idx, y, DIR_UP)
 			case '#':
-				row[idx] = true
+				obstacles[translateToIndex(idx, y, width)] = struct{}{}
 			}
 		}
-		obstacles = append(obstacles, row)
 		y++
+	}
+	if guard == nil {
+		panic("guard not found in input")
 	}
 	return NewField(width, y, obstacles), *guard, nil
 }
-func OutOfBounds(field *Field, x *int16, y *int16) bool {
-	return *x < 0 || *y < 0 || *x >= (*field).width || *y >= (*field).height
+
+type PathStep struct {
+	Index    uint16
+	PreGuard Guard
 }
 
-func PrintField(field *Field) {
-	for y := range field.height {
-		if y > 0 {
-			fmt.Print("\n")
-		}
-		for x := range field.width {
-			if field.Field[y][x] {
-				fmt.Printf("1")
-			} else {
-				fmt.Printf("0")
-			}
-		}
-	}
-	fmt.Print("\n")
+type PathInfo struct {
+	UniqueCount int
+	Steps       []PathStep
 }
 
-type Point aoc_utils.Point[int16]
+/*
+resolves the path taken by the guard until it leaves the area
+*/
+func leaveArea(field *Field, guard Guard) PathInfo {
+	total := int(field.width) * int(field.height)
+	visited := make([]bool, total)
+	steps := make([]PathStep, 0, total)
 
-func leaveArea(field *Field, guard Guard) map[Point]bool {
-	stepsTaken := make(map[Point]bool)
-	stepsTaken[Point{Y: guard.y, X: guard.x}] = true
+	startIdx := translateToIndex(guard.x, guard.y, field.width)
+	visited[int(startIdx)] = true
+	unique := 1
+
 	for {
-		if guard.dir == DIR_DOWN {
+		switch guard.dir {
+		case DIR_DOWN:
+			if guard.y == 0 {
+				return PathInfo{UniqueCount: unique, Steps: steps}
+			}
 			nextY := guard.y - 1
-			if OutOfBounds(field, &guard.x, &nextY) {
-				return stepsTaken
-			} else if (*field).Field[nextY][guard.x] {
+			if field.HasObstacle(guard.x, nextY) {
 				guard.dir = DIR_RIGHT
 				continue
-			} else {
-				guard.y = nextY
-				stepsTaken[Point{Y: nextY, X: guard.x}] = true
 			}
-		} else if guard.dir == DIR_UP {
+			targetIdx := translateToIndex(guard.x, nextY, field.width)
+			if !visited[int(targetIdx)] {
+				visited[int(targetIdx)] = true
+				steps = append(steps, PathStep{Index: targetIdx, PreGuard: guard})
+				unique++
+			}
+			guard.y = nextY
+
+		case DIR_UP:
+			if guard.y+1 >= field.height {
+				return PathInfo{UniqueCount: unique, Steps: steps}
+			}
 			nextY := guard.y + 1
-			if OutOfBounds(field, &guard.x, &nextY) {
-				return stepsTaken
-			} else if (*field).Field[nextY][guard.x] {
+			if field.HasObstacle(guard.x, nextY) {
 				guard.dir = DIR_LEFT
 				continue
-			} else {
-				guard.y = nextY
-				stepsTaken[Point{Y: nextY, X: guard.x}] = true
 			}
-		} else if guard.dir == DIR_RIGHT {
+			targetIdx := translateToIndex(guard.x, nextY, field.width)
+			if !visited[int(targetIdx)] {
+				visited[int(targetIdx)] = true
+				steps = append(steps, PathStep{Index: targetIdx, PreGuard: guard})
+				unique++
+			}
+			guard.y = nextY
+
+		case DIR_RIGHT:
+			if guard.x+1 >= field.width {
+				return PathInfo{UniqueCount: unique, Steps: steps}
+			}
 			nextX := guard.x + 1
-			if OutOfBounds(field, &nextX, &guard.y) {
-				return stepsTaken
-			} else if (*field).Field[guard.y][nextX] {
+			if field.HasObstacle(nextX, guard.y) {
 				guard.dir = DIR_UP
 				continue
-			} else {
-				guard.x = nextX
-				stepsTaken[Point{Y: guard.y, X: nextX}] = true
 			}
-		} else if guard.dir == DIR_LEFT {
+			targetIdx := translateToIndex(nextX, guard.y, field.width)
+			if !visited[int(targetIdx)] {
+				visited[int(targetIdx)] = true
+				steps = append(steps, PathStep{Index: targetIdx, PreGuard: guard})
+				unique++
+			}
+			guard.x = nextX
+
+		case DIR_LEFT:
+			if guard.x == 0 {
+				return PathInfo{UniqueCount: unique, Steps: steps}
+			}
 			nextX := guard.x - 1
-			if OutOfBounds(field, &nextX, &guard.y) {
-				return stepsTaken
-			} else if (*field).Field[guard.y][nextX] {
+			if field.HasObstacle(nextX, guard.y) {
 				guard.dir = DIR_DOWN
 				continue
-			} else {
-				guard.x = nextX
-				stepsTaken[Point{Y: guard.y, X: nextX}] = true
 			}
+			targetIdx := translateToIndex(nextX, guard.y, field.width)
+			if !visited[int(targetIdx)] {
+				visited[int(targetIdx)] = true
+				steps = append(steps, PathStep{Index: targetIdx, PreGuard: guard})
+				unique++
+			}
+			guard.x = nextX
 		}
 	}
 }
 
 func Part1(in io.Reader) int {
-	obstacles, guard, err := ReadSource(in)
+	field, guard, err := ReadSource(in)
 	if err != nil {
 		panic(err)
 	}
-	return len(leaveArea(&obstacles, guard))
-
+	info := leaveArea(&field, guard)
+	return info.UniqueCount
 }

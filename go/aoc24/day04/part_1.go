@@ -10,10 +10,9 @@ import (
 type Dir aoc_utils.Point[int16]
 
 var searchTerm = []byte{'X', 'M', 'A', 'S'}
-var searchTermReverse = []byte{'S', 'A', 'M', 'X'}
 
 // Checks the first four rows of the block for occurrences of the search term in all 6 directions except horizontal.
-func CheckBlock(block []byte, width int) int {
+func checkBlock(block []byte, width int) int {
 	if width <= 0 || len(block)%width != 0 {
 		return 0
 	}
@@ -51,6 +50,8 @@ func CheckBlock(block []byte, width int) int {
 }
 
 const searchTermLength = 4
+const hashForward uint32 = 'X'<<24 | 'M'<<16 | 'A'<<8 | 'S'
+const hashBackward uint32 = 'S'<<24 | 'A'<<16 | 'M'<<8 | 'X'
 
 // CheckLine counts forward and backward horizontal occurrences of the search term.
 func CheckLine(line []byte, width int) int {
@@ -59,24 +60,10 @@ func CheckLine(line []byte, width int) int {
 		return 0
 	}
 	count := 0
-	for i := 0; i <= width-searchTermLength; i++ {
-		matchForward := true
-		matchBackward := true
-		for j := 0; j < searchTermLength; j++ {
-			if matchForward && line[i+j] != searchTerm[j] {
-				matchForward = false
-			}
-			if matchBackward && line[i+j] != searchTermReverse[j] {
-				matchBackward = false
-			}
-			if !matchForward && !matchBackward {
-				break
-			}
-		}
-		if matchForward {
-			count++
-		}
-		if matchBackward {
+	var runningHash uint32
+	for i := range width {
+		runningHash = (runningHash << 8) | uint32(line[i])
+		if i+1 >= searchTermLength && (runningHash == hashForward || runningHash == hashBackward) {
 			count++
 		}
 	}
@@ -102,7 +89,7 @@ func Part1(in io.Reader) int {
 			copy(data[3*width:], lineData)
 		}
 		if lines >= 3 {
-			count += CheckBlock(data, width)
+			count += checkBlock(data, width)
 		}
 	}
 	return count

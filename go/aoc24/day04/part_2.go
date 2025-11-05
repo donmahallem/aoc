@@ -6,11 +6,10 @@ import (
 )
 
 /*
-	CheckMasBlock counts MAS crosses inside the three-row window
-
+checkMasBlock counts MAS crosses inside the three-row window
 and the index of the row that represents the current top line.
 */
-func CheckMasBlock(block []byte, width, topIdx int) int {
+func checkMasBlock(block []byte, width, topIdx int) int {
 	const windowHeight = 3
 	if width < 3 || len(block) != windowHeight*width {
 		return 0
@@ -66,7 +65,7 @@ func Part2(in io.Reader) int {
 
 		if rowsSeen >= windowHeight-1 {
 			topIdx := (idx + 1) % windowHeight
-			total += CheckMasBlock(data, width, topIdx)
+			total += checkMasBlock(data, width, topIdx)
 		}
 
 	}

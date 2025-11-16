@@ -8,6 +8,9 @@ import (
 	"github.com/donmahallem/aoc/go/test_utils"
 )
 
+//go:embed sample.txt
+var testData string
+
 func Test_createGraph(t *testing.T) {
 	t.Run("respect slope", func(t *testing.T) {
 		t.Run("test sample", func(t *testing.T) {

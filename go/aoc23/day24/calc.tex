@@ -1,0 +1,126 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{geometry}
+\geometry{a4paper}
+
+\title{Advent of Code 2023 - Day 24 Solution - Part 2}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Definitions}
+
+\begin{align*}
+    i, j &\in \mathbb{N} & \text{indices of specific hailstones} \\
+    \vec{r}_s &= [r_{sx}, r_{sy}, r_{sz}]^T & \text{stone initial position (unknown)} \\
+    \vec{v}_s &= [v_{sx}, v_{sy}, v_{sz}]^T & \text{stone velocity (unknown)} \\
+    \vec{r}_i, \vec{v}_i & & \text{position and velocity of hailstone } i \\
+    t_i & & \text{collision time with hailstone } i
+\end{align*}
+
+\section*{The Collinearity Constraint}
+
+For the stone to collide with hailstone $i$, they must occupy the same point in space at time $t_i$:
+\begin{align}
+    \vec{r}_s + t_i \vec{v}_s = \vec{r}_i + t_i \vec{v}_i
+\end{align}
+Rearranging to group terms involving time:
+\begin{align}
+    \vec{r}_s - \vec{r}_i = t_i (\vec{v}_i - \vec{v}_s)
+\end{align}
+This equation implies that the vector difference in positions $(\vec{r}_s - \vec{r}_i)$ is parallel to the vector difference in velocities $(\vec{v}_i - \vec{v}_s)$, as one is a scalar multiple ($t_i$) of the other.
+
+\section*{Linearization via Cross Product}
+
+Since the two vectors are parallel, their cross product must be zero:
+\begin{align}
+    (\vec{r}_s - \vec{r}_i) \times (\vec{v}_i - \vec{v}_s) = \vec{0}
+\end{align}
+Expanding this cross product:
+\begin{align}
+    (\vec{r}_s \times \vec{v}_i) - (\vec{r}_s \times \vec{v}_s) - (\vec{r}_i \times \vec{v}_i) + (\vec{r}_i \times \vec{v}_s) = \vec{0}
+\end{align}
+Rearranging to isolate the non-linear term $(\vec{r}_s \times \vec{v}_s)$:
+\begin{align} \label{eq:cross}
+    \vec{r}_s \times \vec{v}_s = (\vec{r}_s \times \vec{v}_i) + (\vec{r}_i \times \vec{v}_s) - (\vec{r}_i \times \vec{v}_i)
+\end{align}
+The term $\vec{r}_s \times \vec{v}_s$ contains the product of two unknowns. However, this term is identical for \textbf{every} hailstone. We can eliminate it by considering a second hailstone $j$ and subtracting the two equations.
+
+Using equation (\ref{eq:cross}) for hailstone $j$:
+\begin{align}
+    \vec{r}_s \times \vec{v}_s = (\vec{r}_s \times \vec{v}_j) + (\vec{r}_j \times \vec{v}_s) - (\vec{r}_j \times \vec{v}_j)
+\end{align}
+Equating the RHS for $i$ and $j$:
+\begin{align*}
+    (\vec{r}_s \times \vec{v}_i) + (\vec{r}_i \times \vec{v}_s) - (\vec{r}_i \times \vec{v}_i) &= (\vec{r}_s \times \vec{v}_j) + (\vec{r}_j \times \vec{v}_s) - (\vec{r}_j \times \vec{v}_j)
+\end{align*}
+Grouping unknowns ($\vec{r}_s, \vec{v}_s$) on the left and knowns on the right:
+\begin{align}
+    \vec{r}_s \times (\vec{v}_i - \vec{v}_j) + \vec{v}_s \times (\vec{r}_j - \vec{r}_i) = (\vec{r}_i \times \vec{v}_i) - (\vec{r}_j \times \vec{v}_j)
+\end{align}
+This is now a \textbf{linear vector equation}. Since it represents a cross product in 3D, it provides 3 scalar linear equations for every pair of hailstones.
+
+\section*{System Construction}
+
+Let the unknowns be the state vector $\mathbf{x} = [r_{sx}, r_{sy}, r_{sz}, v_{sx}, v_{sy}, v_{sz}]^T$.
+We use two pairs of hailstones (e.g., $1 \to 2$ and $1 \to 3$) to generate 6 equations for our 6 unknowns.
+
+Let $\Delta \vec{v}_{ij} = \vec{v}_i - \vec{v}_j$ and $\Delta \vec{r}_{ji} = \vec{r}_j - \vec{r}_i$.
+The equation is:
+\[
+\vec{r}_s \times \Delta \vec{v}_{ij} + \vec{v}_s \times \Delta \vec{r}_{ji} = \vec{C}_{ij}
+\]
+where $\vec{C}_{ij} = (\vec{r}_i \times \vec{v}_i) - (\vec{r}_j \times \vec{v}_j)$.
+
+\subsection*{Matrix Form}
+The cross product $\vec{a} \times \vec{b}$ can be written as matrix multiplication $[\vec{a}]_\times \vec{b}$, where $[\vec{a}]_\times$ is the skew-symmetric matrix:
+\[
+[\vec{a}]_\times = 
+\begin{bmatrix}
+0 & -a_z & a_y \\
+a_z & 0 & -a_x \\
+-a_y & a_x & 0
+\end{bmatrix}
+\]
+Note that $\vec{r}_s \times \Delta \vec{v}_{ij} = -\Delta \vec{v}_{ij} \times \vec{r}_s = -[\Delta \vec{v}_{ij}]_\times \vec{r}_s = [\Delta \vec{v}_{ji}]_\times \vec{r}_s$.
+
+Therefore, for a pair of hailstones $i, j$, we obtain a $3 \times 6$ block of the matrix $A$:
+\[
+\begin{bmatrix}
+    [\vec{v}_j - \vec{v}_i]_\times & [\vec{r}_j - \vec{r}_i]_\times
+\end{bmatrix}
+\begin{bmatrix}
+    \vec{r}_s \\ \vec{v}_s
+\end{bmatrix}
+= 
+(\vec{r}_i \times \vec{v}_i) - (\vec{r}_j \times \vec{v}_j)
+\]
+
+\section*{Explicit Matrix $A$}
+
+To solve for the 6 unknowns, we stack the blocks for pair $(1,2)$ and pair $(1,3)$.
+
+Let $\Delta v_{x} = v_{2x} - v_{1x}$, $\Delta r_{x} = r_{2x} - r_{1x}$, etc.
+The first 3 rows (derived from pair 1, 2) are:
+
+\[
+\begin{bmatrix}
+    0 & -\Delta v_z & \Delta v_y & 0 & -\Delta r_z & \Delta r_y \\
+    \Delta v_z & 0 & -\Delta v_x & \Delta r_z & 0 & -\Delta r_x \\
+    -\Delta v_y & \Delta v_x & 0 & -\Delta r_y & \Delta r_x & 0
+\end{bmatrix}
+\begin{bmatrix}
+    r_{sx} \\ r_{sy} \\ r_{sz} \\ v_{sx} \\ v_{sy} \\ v_{sz}
+\end{bmatrix}
+= 
+\vec{b}_{12}
+\]
+\textit{(Note the sign flip in the $\Delta v$ block because $\vec{r}_s$ was the first term in the cross product).}
+
+Repeating this for pair $(1,3)$ gives the bottom 3 rows. The resulting system $Ax = b$ can be solved via Gaussian elimination or standard linear solver libraries.
+
+\end{document}

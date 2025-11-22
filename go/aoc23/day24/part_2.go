@@ -134,7 +134,7 @@ func Part2(in io.Reader) int64 {
 	aAddress := &A
 	bAddress := &b
 	sAddress := &S
-	// Try the first group of 3. If singular, slide the window.
+	// brute for non linear system by trying all triplets
 	for i := 0; i < len(inp)-2; i++ {
 		buildPairLinearSystem(aAddress, bAddress, inp, i, i+1, i+2)
 		res, err = solveLinear(aAddress, bAddress, sAddress)

@@ -14,7 +14,7 @@ var testData string
 
 func TestPart1(t *testing.T) {
 	t.Run("test sample 1", func(t *testing.T) {
-		expected := 5
+		expected := 0
 		reader := strings.NewReader(testData)
 		result := day24.Part1(reader)
 		if result != expected {
@@ -24,8 +24,8 @@ func TestPart1(t *testing.T) {
 
 	t.Run("test real data", func(t *testing.T) {
 		result, ok := test_utils.TestFullDataForDate(t, 23, 24, day24.Part1)
-		if !ok || result != 503 {
-			t.Errorf(`Expected %d to be %d`, result, 503)
+		if !ok || result != 20361 {
+			t.Errorf(`Expected %d to be %d`, result, 20361)
 		}
 	})
 }

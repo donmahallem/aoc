@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/donmahallem/aoc/go/aoc24/day23"
+	"github.com/donmahallem/aoc/go/test_utils"
 )
 
 func TestStringifySequence(t *testing.T) {
@@ -15,30 +16,35 @@ func TestStringifySequence(t *testing.T) {
 	}
 }
 
-func TestFindLongest(t *testing.T) {
-	points := day23.ParseInputMap(strings.NewReader(testData))
-	data := day23.FindLongest(points)
-	if len(data) != 4 {
-		t.Errorf(`Expected %d to match 8`, data)
-	}
-}
-
 func TestPart2(t *testing.T) {
-	data := day23.Part2(strings.NewReader(testData))
-	expected := "co,de,ka,ta"
-	if data != expected {
-		t.Errorf(`Expected %s to match %s`, data, expected)
-	}
-}
+	t.Run("test sample 1", func(t *testing.T) {
+		expected := "co,de,ka,ta"
+		reader := strings.NewReader(testData)
+		result := day23.Part2(reader)
+		if result != expected {
+			t.Errorf(`Expected number of blocks to be "%s", got "%s"`, expected, result)
+		}
+	})
 
-func BenchmarkFindLongest(b *testing.B) {
-	points := day23.ParseInputMap(strings.NewReader(testData))
-	for b.Loop() {
-		day23.FindLongest(points)
-	}
+	t.Run("test real data", func(t *testing.T) {
+		result, ok := test_utils.TestFullDataForDate(t, 24, 23, day23.Part2)
+		expected := "az,ed,hz,it,ld,nh,pc,td,ty,ux,wc,yg,zz"
+		if !ok || result != expected {
+			t.Errorf(`Expected "%s" to be "%s"`, result, expected)
+		}
+	})
 }
 func BenchmarkPart2(b *testing.B) {
-	for b.Loop() {
-		day23.Part2(strings.NewReader(testData))
-	}
+	b.Run("benchmark sample data", func(b *testing.B) {
+
+		reader := strings.NewReader(testData)
+		for b.Loop() {
+			day23.Part2(reader)
+			reader.Seek(0, 0)
+		}
+	})
+
+	b.Run("benchmark full data", func(b *testing.B) {
+		test_utils.BenchmarkFullDataForDate(b, 24, 23, day23.Part2)
+	})
 }

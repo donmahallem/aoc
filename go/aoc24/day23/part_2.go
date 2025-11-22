@@ -1,8 +1,8 @@
 package day23
 
 import (
+	"fmt"
 	"io"
-	"slices"
 )
 
 type NodeHashList = []NodeHash
@@ -13,46 +13,63 @@ func StringifySequence(a []NodeHash) string {
 		if len(out) > 0 {
 			out += ","
 		}
-		out += string(*UnhashId(&item))
+		unhashed := UnhashId(item)
+		out += fmt.Sprintf("%c%c", unhashed[0], unhashed[1])
 	}
 	return out
 }
 
-func FindLongest(data *CombinationMap) []NodeHash {
-	todo := make([]NodeHashList, 0)
-	for key := range *data {
-		for _, key2 := range (*data)[key] {
-			todo = append(todo, []NodeHash{key, key2})
-		}
-	}
-	longest := make([]NodeHash, 0)
-	for len(todo) > 0 {
-		current := todo[0]
-		todo = todo[1:]
-		previousKey := current[len(current)-1]
-		for _, key := range (*data)[previousKey] {
+func findLongest(data CombinationMap) []NodeHash {
+	var longest []NodeHash
+	n := len(data)
+	path := make([]NodeHash, n)
+	used := make(map[NodeHash]struct{}, n)
+
+	var dfs func(depth int)
+	dfs = func(depth int) {
+		last := path[depth-1]
+		extended := false
+		for next := range data[last] {
+			if _, ok := used[next]; ok {
+				continue
+			}
+			// Check clique property
 			valid := true
-			for idx := range len(current) - 1 {
-				if !slices.Contains((*data)[current[idx]], key) {
+			for i := range depth {
+				if _, ok := data[path[i]][next]; !ok {
 					valid = false
 					break
 				}
 			}
-			if valid {
-				tmpList := make([]NodeHash, len(current), len(current)+1)
-				copy(tmpList, current)
-				tmpList = append(tmpList, key)
-				todo = append(todo, tmpList)
-				if len(tmpList) > len(longest) {
-					longest = tmpList
-				}
+			if !valid {
+				continue
 			}
+			used[next] = struct{}{}
+			path[depth] = next
+			dfs(depth + 1)
+			delete(used, next)
+			extended = true
+		}
+		if !extended && depth > len(longest) {
+			longest = append([]NodeHash(nil), path[:depth]...)
+		}
+	}
+
+	for key := range data {
+		for key2 := range data[key] {
+			used[key] = struct{}{}
+			used[key2] = struct{}{}
+			path[0] = key
+			path[1] = key2
+			dfs(2)
+			delete(used, key)
+			delete(used, key2)
 		}
 	}
 	return longest
 }
 
 func Part2(in io.Reader) string {
-	items := ParseInputMap(in)
-	return StringifySequence(FindLongest(items))
+	items := parseInput(in)
+	return StringifySequence(findLongest(items))
 }

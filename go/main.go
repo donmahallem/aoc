@@ -9,6 +9,7 @@ import (
 
 	"github.com/donmahallem/aoc/go/aoc23"
 	"github.com/donmahallem/aoc/go/aoc24"
+	"github.com/donmahallem/aoc/go/aoc25"
 	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
@@ -35,6 +36,7 @@ func main() {
 	partRegistry := aoc_utils.NewRegistry()
 	aoc23.RegisterParts(&partRegistry)
 	aoc24.RegisterParts(&partRegistry)
+	aoc25.RegisterParts(&partRegistry)
 	takeFun, ok := partRegistry.GetPart(partSelector)
 	if !ok {
 		fmt.Printf("Could not find requested part %v\n", partSelector)

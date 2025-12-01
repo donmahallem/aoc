@@ -2,6 +2,8 @@ package day01
 
 import (
 	"io"
+
+	"github.com/donmahallem/aoc/go/aoc_utils/math/abs"
 )
 
 func mod100(n int) int {
@@ -13,36 +15,38 @@ func mod100(n int) int {
 }
 
 func Part2(in io.Reader) int {
-	data := parseInput(in)
 	currentPosition := 50
 	zeros := 0
-	for _, d := range data {
+	for d := range parseInputGen(in) {
 		start := currentPosition
-		if d.distance == 0 {
+		if d == 0 {
 			if start == 0 {
 				zeros++
 			}
-			// position unchanged
 			continue
 		}
 
-		zeroHits := 0
-		if d.left {
-			zeroHits = start % 100
+		steps := abs.AbsInt(d)
+		left := d < 0
+
+		firstHit := 0
+		if left {
+			firstHit = start % 100
 		} else {
-			zeroHits = (100 - start) % 100
+			firstHit = (100 - start) % 100
 		}
-		if zeroHits == 0 {
-			zeroHits = 100
-		}
-		if d.distance >= zeroHits {
-			zeros += 1 + (d.distance-zeroHits)/100
+		if firstHit == 0 {
+			firstHit = 100
 		}
 
-		if d.left {
-			currentPosition = mod100(start - d.distance)
+		if steps >= firstHit {
+			zeros += 1 + (steps-firstHit)/100
+		}
+
+		if left {
+			currentPosition = mod100(start - steps)
 		} else {
-			currentPosition = mod100(start + d.distance)
+			currentPosition = mod100(start + steps)
 		}
 	}
 	return zeros

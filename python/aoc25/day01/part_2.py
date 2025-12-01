@@ -23,7 +23,8 @@ def Part2(inp: typing.TextIO) -> int:
         if steps >= first_hit:
             zeros += 1 + (steps - first_hit) // 100
 
-        current_position = (start - steps) % 100 if left else (start + steps) % 100
+        current_position = (start - steps) % 100 if left else (start +
+                                                               steps) % 100
 
     return zeros
 

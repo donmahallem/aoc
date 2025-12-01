@@ -18,5 +18,6 @@ def Part1(input: typing.TextIO) -> int:
             zeros += 1
     return zeros
 
+
 if __name__ == "__main__":
     Part1(sys.stdin)

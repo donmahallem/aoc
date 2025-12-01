@@ -32,5 +32,6 @@ def Part2(input: typing.TextIO) -> int:
             current_position = (start + distance) % 100
     return zeros
 
+
 if __name__ == "__main__":
     Part2(sys.stdin)

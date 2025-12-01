@@ -1,37 +1,32 @@
 import sys
 import typing
-from .parse_input import parseInput
+from .parse_input import parseInputGen
 
 
-def Part2(input: typing.TextIO) -> int:
-    l = parseInput(input)
-
+def Part2(inp: typing.TextIO) -> int:
     current_position = 50
     zeros = 0
-    for turn_left, distance in l:
+    for distance in parseInputGen(inp):
         start = current_position
         if distance == 0:
             if start == 0:
                 zeros += 1
-            # position unchanged
             continue
 
-        zero_hits = 0
-        if turn_left:
-            zero_hits = start % 100
-        else:
-            zero_hits = (100 - start) % 100
-        if zero_hits == 0:
-            zero_hits = 100
-        if distance >= zero_hits:
-            zeros += 1 + (distance - zero_hits) // 100
+        left = distance < 0
+        steps = abs(distance)
 
-        if turn_left:
-            current_position = (start - distance) % 100
-        else:
-            current_position = (start + distance) % 100
+        # first step t >= 1 that reaches 0
+        first_hit = start % 100 if left else (100 - start) % 100
+        if first_hit == 0:
+            first_hit = 100
+        if steps >= first_hit:
+            zeros += 1 + (steps - first_hit) // 100
+
+        current_position = (start - steps) % 100 if left else (start + steps) % 100
+
     return zeros
 
 
 if __name__ == "__main__":
-    Part2(sys.stdin)
+    print(Part2(sys.stdin))

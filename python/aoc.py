@@ -22,7 +22,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog="AOC Solver",
                                      description="Solves Aoc",
                                      epilog="Text at the bottom of help")
-    parser.add_argument("year", type=int, choices=[24])  # positional argument
+    parser.add_argument("year", type=int, choices=[24,
+                                                   25])  # positional argument
     parser.add_argument("day", type=int,
                         choices=list(range(1,
                                            25)))  # option that takes a value

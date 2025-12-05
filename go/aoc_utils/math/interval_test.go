@@ -60,6 +60,7 @@ func TestIntervalOverlaps(t *testing.T) {
 		other    math.Interval[int]
 		expected bool
 	}{
+		"inside":         {other: math.Interval[int]{Min: 8, Max: 9}, expected: true},
 		"overlap middle": {other: math.Interval[int]{Min: 8, Max: 12}, expected: true},
 		"touch lower":    {other: math.Interval[int]{Min: 1, Max: 5}, expected: true},
 		"touch upper":    {other: math.Interval[int]{Min: 10, Max: 15}, expected: true},

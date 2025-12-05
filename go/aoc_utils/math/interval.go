@@ -7,7 +7,7 @@ type Interval[A IntType] struct {
 }
 
 // Size returns the size of the interval
-func (iv Interval[A]) Size() A {
+func (iv *Interval[A]) Size() A {
 	if iv.Max < iv.Min {
 		return 0
 	}
@@ -15,17 +15,17 @@ func (iv Interval[A]) Size() A {
 }
 
 // Contains returns true if the interval contains the given value
-func (iv Interval[A]) Contains(value A) bool {
+func (iv *Interval[A]) Contains(value A) bool {
 	return value >= iv.Min && value <= iv.Max
 }
 
 // Overlaps returns true if two intervals overlap
-func (iv Interval[A]) Overlaps(other Interval[A]) bool {
+func (iv *Interval[A]) Overlaps(other Interval[A]) bool {
 	return iv.Min <= other.Max && other.Min <= iv.Max
 }
 
 // Intersection returns the intersection of two intervals and a boolean indicating
-func (iv Interval[A]) Intersection(other Interval[A]) (Interval[A], bool) {
+func (iv *Interval[A]) Intersection(other Interval[A]) (Interval[A], bool) {
 	if !iv.Overlaps(other) {
 		return Interval[A]{}, false
 	}

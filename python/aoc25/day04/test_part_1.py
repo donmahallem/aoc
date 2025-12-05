@@ -1,6 +1,6 @@
 import unittest
 import io
-from aoc25.day03.part_1 import Part1
+from aoc25.day04.part_1 import Part1
 
 testData = """..@@.@@@@.
 @@@.@.@.@@

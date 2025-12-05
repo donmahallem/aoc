@@ -1,7 +1,7 @@
 import unittest
 import io
 from aoc25.day04.part_2 import Part2
-from aoc25.day03.test_part_2 import testData
+from aoc25.day04.test_part_1 import testData
 
 
 class Test2025Day04Part02(unittest.TestCase):

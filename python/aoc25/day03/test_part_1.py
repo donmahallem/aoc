@@ -15,7 +15,7 @@ class Test2025Day03Part01(unittest.TestCase):
             f.write(testData)
             f.seek(0)
             result = Part1(f)
-            self.assertEqual(result, 17452, "The sum is wrong.")
+            self.assertEqual(result, 357, "The sum is wrong.")
 
 
 if __name__ == "__main__":

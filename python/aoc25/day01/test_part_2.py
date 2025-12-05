@@ -1,6 +1,6 @@
 import unittest
 import io
-from aoc24.day01.part_2 import Part2
+from aoc25.day01.part_2 import Part2
 
 testData = """L68
 L30
@@ -14,7 +14,7 @@ R14
 L82"""
 
 
-class Test2024Day01Part02(unittest.TestCase):
+class Test2025Day01Part02(unittest.TestCase):
 
     def test_result(self):
         with io.StringIO() as f:

@@ -2,13 +2,13 @@ import sys
 import typing
 import re
 
+
 def __parseInput(
         input: typing.TextIO) -> tuple[list[tuple[int, int]], list[str]]:
     pattern = re.compile(
         r'^(?P<numbers>\s*\d+(?:\s+\d+)+\s*)$'  # lines with numbers
         r'|^(?P<operators>\s*[+*](?:\s+[+*])*\s*)$',  # lines with +/*
-        re.MULTILINE
-    )
+        re.MULTILINE)
 
     nums = list()
     ops = list()

@@ -14,7 +14,5 @@ def Part1(input: typing.TextIO) -> int:
     return total_sum
 
 
-
-
 if __name__ == "__main__":
     print("Part 1:", Part1(sys.stdin))

@@ -3,6 +3,7 @@ import typing
 from .parse_input import parseInputGen
 from .find_repeated_blocks import find_repeated_blocks
 
+
 def Part2(input: typing.TextIO) -> int:
     total_sum = 0
     for start, end in parseInputGen(input):
@@ -11,6 +12,7 @@ def Part2(input: typing.TextIO) -> int:
         for num in invalids:
             total_sum += num
     return total_sum
+
 
 if __name__ == "__main__":
     print(Part2(sys.stdin))

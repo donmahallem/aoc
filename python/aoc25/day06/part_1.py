@@ -2,30 +2,34 @@ import sys
 import typing
 import re
 
-
-def parseInput(
+def __parseInput(
         input: typing.TextIO) -> tuple[list[tuple[int, int]], list[str]]:
-    numsParser = re.compile(r'[\d]+')
-    operatorParser = re.compile(r'[+*]')
+    pattern = re.compile(
+        r'^(?P<numbers>\s*\d+(?:\s+\d+)+\s*)$'  # lines with numbers
+        r'|^(?P<operators>\s*[+*](?:\s+[+*])*\s*)$',  # lines with +/*
+        re.MULTILINE
+    )
+
     nums = list()
     ops = list()
     for line in input:
         line = line.strip()
         if line == "":
             continue
-        numsLine = numsParser.findall(line)
-        if len(numsLine) == 0:
-            opsLine = operatorParser.findall(line)
-            if len(opsLine) > 0:
+        match = pattern.match(line)
+        if match:
+            if match.group('numbers'):
+                numsLine = match.group('numbers').strip().split()
+                nums.append([int(n) for n in numsLine])
+            elif match.group('operators'):
+                opsLine = match.group('operators').strip().split()
                 ops.extend(opsLine)
                 break
-        else:
-            nums.append([int(n) for n in numsLine])
     return nums, ops
 
 
 def Part1(input: typing.TextIO) -> int:
-    numRows, operators = parseInput(input)
+    numRows, operators = __parseInput(input)
     output = numRows[0]
     for i in range(1, len(numRows)):
         output = [

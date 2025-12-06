@@ -1,48 +1,43 @@
-from functools import reduce
-import operator
 import sys
 import typing
 
 
-def parseInput(
-        input: typing.TextIO) -> tuple[list[tuple[int, int]], list[str]]:
-
-    inputLines = input.readlines()
-    dataLines = inputLines[:-1]
-    operatorLine = inputLines[-1]
-
-    numbers = [0] * len(dataLines[0])
-    for y in range(len(dataLines)):
-        line = dataLines[y]
-        for x in range(len(line)):
-            if line[x].isdigit():
-                numbers[x] = numbers[x] * 10 + int(line[x])
-
-    output = []
-    operators = []
-    currentNumbers = []
-    for x in range(len(numbers)):
-        opLine = x < len(operatorLine) and operatorLine[x] in '+*'
-        if numbers[x] == 0 and not opLine:
-            continue
-        if opLine:
-            operators.append(operatorLine[x])
-            if x > 0:
-                output.append(currentNumbers)
-                currentNumbers = []
-        currentNumbers.append(numbers[x])
-
-    output.append(currentNumbers)
-    operators = [c for c in operatorLine if c in '+*']
-    return output, operators
-
-
 def Part2(input: typing.TextIO) -> int:
-    numbers, operators = parseInput(input)
-    return sum([
-        reduce(operator.add if b == '+' else operator.mul, a)
-        for (a, b) in zip(numbers, operators)
-    ])
+    columns = None
+    ops = []
+    for line in input:
+        line = line.rstrip()
+        if columns is None:
+            columns = [0] * len(line)
+        if len(line) > len(columns):
+            columns.extend([0] * (len(line) - len(columns)))
+        for i, c in enumerate(line):
+            if c >= '0' and c <= '9':
+                columns[i] = columns[i] * 10 + int(c)
+            elif c == '+' or c == '*':
+                ops.append(c)
+        if len(ops) > 0:
+            break
+
+    totalSum = 0
+    currentNumber = 0
+    currentOperator = 0
+    for i in range(len(columns)):
+        if columns[i] > 0:
+            if currentNumber == 0:
+                currentNumber = columns[i]
+            else:
+                match ops[currentOperator]:
+                    case '+':
+                        currentNumber += columns[i]
+                    case '*':
+                        currentNumber *= columns[i]
+        else:
+            totalSum += currentNumber
+            currentNumber = 0
+            currentOperator += 1
+    totalSum += currentNumber
+    return totalSum
 
 
 if __name__ == "__main__":

@@ -3,32 +3,33 @@ import operator
 import sys
 import typing
 
-def parseInput(input: typing.TextIO) -> tuple[list[tuple[int, int]], list[str]]:
-    
+
+def parseInput(
+        input: typing.TextIO) -> tuple[list[tuple[int, int]], list[str]]:
+
     inputLines = input.readlines()
     dataLines = inputLines[:-1]
     operatorLine = inputLines[-1]
 
-
-    numbers = [0]*len(dataLines[0])
+    numbers = [0] * len(dataLines[0])
     for y in range(len(dataLines)):
         line = dataLines[y]
         for x in range(len(line)):
             if line[x].isdigit():
-                numbers[x] = numbers[x]*10 + int(line[x])
+                numbers[x] = numbers[x] * 10 + int(line[x])
 
-    output=[]
-    operators=[]
-    currentNumbers=[]
+    output = []
+    operators = []
+    currentNumbers = []
     for x in range(len(numbers)):
-        opLine = x<len(operatorLine) and operatorLine[x] in '+*'
-        if numbers[x]==0 and not opLine:
+        opLine = x < len(operatorLine) and operatorLine[x] in '+*'
+        if numbers[x] == 0 and not opLine:
             continue
         if opLine:
             operators.append(operatorLine[x])
-            if x>0:
+            if x > 0:
                 output.append(currentNumbers)
-                currentNumbers=[]
+                currentNumbers = []
         currentNumbers.append(numbers[x])
 
     output.append(currentNumbers)
@@ -38,7 +39,10 @@ def parseInput(input: typing.TextIO) -> tuple[list[tuple[int, int]], list[str]]:
 
 def Part2(input: typing.TextIO) -> int:
     numbers, operators = parseInput(input)
-    return sum([reduce(operator.add if b == '+' else operator.mul, a) for (a,b) in zip(numbers, operators)])
+    return sum([
+        reduce(operator.add if b == '+' else operator.mul, a)
+        for (a, b) in zip(numbers, operators)
+    ])
 
 
 if __name__ == "__main__":

@@ -28,10 +28,14 @@ func Part2(in io.Reader) int {
 			cache[pos] = total
 			return total
 		}
-		return dfs(x, y+1)
+		for ; y < height-1; y++ {
+			pos += width // move straight down
+			if _, ok := splitterMap[pos]; ok {
+				return dfs(x, y+1) // recurse at the splitter row
+			}
+		}
+		return 1
 	}
 
-	totalCount := dfs(startX, startY)
-
-	return totalCount
+	return dfs(startX, startY)
 }

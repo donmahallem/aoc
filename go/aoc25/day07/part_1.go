@@ -11,53 +11,59 @@ func Part1(in io.Reader) int {
 	head, tail := 0, 1
 	rays[0] = startY*width + startX
 
-	visited := make(map[int]bool, width*height/2)
+	visited := make(map[int]bool, width*height/4)
 	totalCount := 0
 
 	for head < tail {
-		pos := rays[tail-1]
-		tail--
-
-		if visited[pos] {
-			continue
-		}
-		visited[pos] = true
+		pos := rays[head]
+		head++
 
 		x := pos % width
 		y := pos / width
-		if y == height-1 {
-			continue
-		}
 
-		if _, ok := splitterMap[pos]; !ok {
-			nextPos := pos + width
-			if tail == len(rays) {
-				rays = append(rays, nextPos)
-			} else {
-				rays[tail] = nextPos
+		for {
+			if visited[pos] {
+				break
 			}
-			tail++
-			continue
-		}
+			visited[pos] = true
 
-		totalCount++
-		if x > 0 {
-			nextPos := (y+1)*width + (x - 1)
-			if tail == len(rays) {
-				rays = append(rays, nextPos)
-			} else {
-				rays[tail] = nextPos
+			if y == height-1 {
+				break
 			}
-			tail++
-		}
-		if x < width-1 {
-			nextPos := (y+1)*width + (x + 1)
-			if tail == len(rays) {
-				rays = append(rays, nextPos)
-			} else {
-				rays[tail] = nextPos
+
+			if _, ok := splitterMap[pos]; ok {
+				totalCount++
+				// branch down-left
+				if x > 0 {
+					nextPos := (y+1)*width + (x - 1)
+					if !visited[nextPos] {
+						if tail == len(rays) {
+							rays = append(rays, nextPos)
+						} else {
+							rays[tail] = nextPos
+						}
+						tail++
+					}
+				}
+				// branch down-right
+				if x < width-1 {
+					nextPos := (y+1)*width + (x + 1)
+					if !visited[nextPos] {
+						if tail == len(rays) {
+							rays = append(rays, nextPos)
+						} else {
+							rays[tail] = nextPos
+						}
+						tail++
+					}
+				}
+				break
 			}
-			tail++
+
+			// move straight down
+			pos += width
+			y++
+			// x stays the same
 		}
 	}
 

@@ -1,8 +1,6 @@
-package pow
+package int_util
 
-import "github.com/donmahallem/aoc/go/aoc_utils/math"
-
-func IntPow[T math.IntType](base T, exp T) T {
+func IntPow[T IntType](base T, exp T) T {
 	var result T = 1
 	for exp > 0 {
 		if exp%2 == 1 { // If the exponent is odd

@@ -1,8 +1,8 @@
 package bytes
 
-import "github.com/donmahallem/aoc/go/aoc_utils/math"
+import "github.com/donmahallem/aoc/go/aoc_utils/int_util"
 
-func ParseIntFromByte[A math.IntType](b byte) (A, bool) {
+func ParseIntFromByte[A int_util.IntType](b byte) (A, bool) {
 	if ByteIsNumber(b) {
 		return A(b - '0'), true
 	}

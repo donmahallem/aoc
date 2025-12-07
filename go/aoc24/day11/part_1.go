@@ -40,7 +40,7 @@ func SplitStone(stone uint32, depth uint8, cache map[CacheKey]int) int {
 	var result int
 	if stone == 0 {
 		result = SplitStone(1, depth-1, cache)
-	} else if digits := log.Log10Int(stone); digits%2 == 0 {
+	} else if digits := log.Log10Int(stone) + 1; digits%2 == 0 {
 		split := pow.IntPow(10, digits/2)
 		result = SplitStone(stone/split, depth-1, cache) +
 			SplitStone(stone%split, depth-1, cache)

@@ -7,5 +7,5 @@ import (
 )
 
 func Log10Int[T util_math.IntType](n T) T {
-	return T(math.Log10(float64(n))) + 1
+	return T(math.Log10(float64(n)))
 }

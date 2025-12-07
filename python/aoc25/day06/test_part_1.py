@@ -8,7 +8,7 @@ testData = """123 328  51 64
 *   +   *   +"""
 
 
-class Test2025Day05Part01(unittest.TestCase):
+class Test2025Day06Part01(unittest.TestCase):
 
     def test_result(self):
         with io.StringIO() as f:

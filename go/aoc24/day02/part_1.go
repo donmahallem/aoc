@@ -6,14 +6,14 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/donmahallem/aoc/go/aoc_utils/math/abs"
+	"github.com/donmahallem/aoc/go/aoc_utils/int_util"
 )
 
 func checkLine(l []int) bool {
 	var dir bool = false
 	for i := 1; i < len(l); i++ {
 		var diff int = l[i] - l[i-1]
-		if diff == 0 || abs.AbsInt(diff) > 3 {
+		if diff == 0 || int_util.AbsInt(diff) > 3 {
 			return false
 		}
 		if i > 1 {

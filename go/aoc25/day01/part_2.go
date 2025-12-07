@@ -3,7 +3,7 @@ package day01
 import (
 	"io"
 
-	"github.com/donmahallem/aoc/go/aoc_utils/math/abs"
+	"github.com/donmahallem/aoc/go/aoc_utils/int_util"
 )
 
 func mod100(n int) int {
@@ -26,7 +26,7 @@ func Part2(in io.Reader) int {
 			continue
 		}
 
-		steps := abs.AbsInt(d)
+		steps := int_util.AbsInt(d)
 		left := d < 0
 
 		firstHit := 0

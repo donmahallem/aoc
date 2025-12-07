@@ -1,8 +1,6 @@
 package day21
 
-import (
-	"github.com/donmahallem/aoc/go/aoc_utils/math/abs"
-)
+import "github.com/donmahallem/aoc/go/aoc_utils/int_util"
 
 var (
 	DIRECTIONAL_LEFT  = Point{X: 0, Y: 1}
@@ -23,7 +21,7 @@ func walkXFirstDirectional(dir *Point, currentDepth uint8, maxDepth uint8, cache
 		} else {
 			next = &DIRECTIONAL_RIGHT
 		}
-		for range abs.AbsInt(dir.X) {
+		for range int_util.AbsInt(dir.X) {
 			steps += WalkDirectional(current, next, currentDepth+1, maxDepth, cache)
 			current = next
 		}
@@ -34,7 +32,7 @@ func walkXFirstDirectional(dir *Point, currentDepth uint8, maxDepth uint8, cache
 		} else {
 			next = &DIRECTIONAL_DOWN
 		}
-		for range abs.AbsInt(dir.Y) {
+		for range int_util.AbsInt(dir.Y) {
 			steps += WalkDirectional(current, next, currentDepth+1, maxDepth, cache)
 			current = next
 		}
@@ -52,7 +50,7 @@ func walkYFirstDirectional(dir *Point, currentDepth uint8, maxDepth uint8, cache
 		} else {
 			next = &DIRECTIONAL_DOWN
 		}
-		for range abs.AbsInt(dir.Y) {
+		for range int_util.AbsInt(dir.Y) {
 			steps += WalkDirectional(current, next, currentDepth+1, maxDepth, cache)
 			current = next
 		}
@@ -63,7 +61,7 @@ func walkYFirstDirectional(dir *Point, currentDepth uint8, maxDepth uint8, cache
 		} else {
 			next = &DIRECTIONAL_RIGHT
 		}
-		for range abs.AbsInt(dir.X) {
+		for range int_util.AbsInt(dir.X) {
 			steps += WalkDirectional(current, next, currentDepth+1, maxDepth, cache)
 			current = next
 		}

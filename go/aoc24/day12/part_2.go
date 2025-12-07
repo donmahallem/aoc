@@ -5,7 +5,7 @@ import (
 	"slices"
 
 	"github.com/donmahallem/aoc/go/aoc_utils"
-	"github.com/donmahallem/aoc/go/aoc_utils/math/abs"
+	"github.com/donmahallem/aoc/go/aoc_utils/int_util"
 )
 
 type VisitedMap map[Point]bool
@@ -43,7 +43,7 @@ func CountStraightEdgesHorizontal(coords []Point) int {
 				if hasNeighbour {
 					lines++
 					inline = false
-				} else if abs.AbsInt(lastX-coords[i].X) > 1 || lastY != coords[i].Y {
+				} else if int_util.AbsInt(lastX-coords[i].X) > 1 || lastY != coords[i].Y {
 					lines++
 					lastX = coords[i].X
 					lastY = coords[i].Y
@@ -85,7 +85,7 @@ func CountStraightEdgesVertical(coords []Point) int {
 				if hasNeighbour {
 					lines++
 					inline = false
-				} else if abs.AbsInt(lastY-coords[i].Y) > 1 || lastX != coords[i].X {
+				} else if int_util.AbsInt(lastY-coords[i].Y) > 1 || lastX != coords[i].X {
 					lines++
 					lastX = coords[i].X
 					lastY = coords[i].Y

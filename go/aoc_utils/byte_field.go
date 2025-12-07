@@ -6,10 +6,10 @@ import (
 	"io"
 	"slices"
 
-	"github.com/donmahallem/aoc/go/aoc_utils/math"
+	"github.com/donmahallem/aoc/go/aoc_utils/int_util"
 )
 
-type ByteField[A math.IntType, B math.IntType] struct {
+type ByteField[A int_util.IntType, B int_util.IntType] struct {
 	Width, Height A
 	field         []B
 }
@@ -22,7 +22,7 @@ func (a *ByteField[A, B]) Compare(f *ByteField[A, B]) bool {
 		slices.Equal(a.field, f.field)
 }
 
-func NewField[A math.IntType, B math.IntType](width A, height A, field []B) *ByteField[A, B] {
+func NewField[A int_util.IntType, B int_util.IntType](width A, height A, field []B) *ByteField[A, B] {
 	return &ByteField[A, B]{Width: width, Height: height, field: field}
 }
 
@@ -30,10 +30,10 @@ func (bf *ByteField[A, B]) Get(x A, y A) B {
 	return bf.field[y*bf.Width+x]
 }
 
-func LoadField[A math.IntType, B math.IntType](reader io.Reader) (*ByteField[A, B], error) {
+func LoadField[A int_util.IntType, B int_util.IntType](reader io.Reader) (*ByteField[A, B], error) {
 	return LoadFieldWithOffset[A, B](reader, 0)
 }
-func LoadFieldWithOffset[A math.IntType, B math.IntType](reader io.Reader, offset byte) (*ByteField[A, B], error) {
+func LoadFieldWithOffset[A int_util.IntType, B int_util.IntType](reader io.Reader, offset byte) (*ByteField[A, B], error) {
 	obstacles := make([]B, 0)
 	s := bufio.NewScanner(reader)
 	y := A(0)

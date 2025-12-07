@@ -3,7 +3,7 @@ package day20
 import (
 	"io"
 
-	"github.com/donmahallem/aoc/go/aoc_utils/math/lcm"
+	"github.com/donmahallem/aoc/go/aoc_utils/int_util"
 )
 
 const rxModuleId int = 'r'<<8 + 'x'
@@ -52,7 +52,7 @@ func HandlePart2(in io.Reader, outputId int) int {
 	}
 	var result int = 1
 	for _, period := range periods {
-		result = lcm.LcmInt(result, period)
+		result = int_util.LcmInt(result, period)
 	}
 
 	return result

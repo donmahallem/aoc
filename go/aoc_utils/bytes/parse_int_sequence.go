@@ -1,11 +1,13 @@
 package bytes
 
-import "github.com/donmahallem/aoc/go/aoc_utils/math"
+import "github.com/donmahallem/aoc/go/aoc_utils/int_util"
 
-/* ParseIntSequence splits sequence of ints to slice
+/*
+	ParseIntSequence splits sequence of ints to slice
+
 -- becomes +
 */
-func ParseIntSequence[A math.IntType](data []byte, sep byte, out *[]A) bool {
+func ParseIntSequence[A int_util.IntType](data []byte, sep byte, out *[]A) bool {
 	*out = (*out)[:0]
 	if len(data) == 0 {
 		return true

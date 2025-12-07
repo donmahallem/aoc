@@ -1,7 +1,9 @@
 package math
 
+import "github.com/donmahallem/aoc/go/aoc_utils/int_util"
+
 // Interval represents a closed interval [Min, Max]
-type Interval[A IntType] struct {
+type Interval[A int_util.IntType] struct {
 	Min A
 	Max A
 }

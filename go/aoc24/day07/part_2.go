@@ -5,7 +5,7 @@ import (
 	"io"
 	"math"
 
-	"github.com/donmahallem/aoc/go/aoc_utils/math/pow"
+	"github.com/donmahallem/aoc/go/aoc_utils/int_util"
 )
 
 func NumDigits(val int) int {
@@ -14,7 +14,7 @@ func NumDigits(val int) int {
 
 func OpConcat(a, b int) int {
 	offset := NumDigits(b)
-	return (a * pow.IntPow(10, offset)) + b
+	return (a * int_util.IntPow(10, offset)) + b
 }
 
 func CheckLinePart2(line *ParsedLineData) bool {
@@ -22,7 +22,7 @@ func CheckLinePart2(line *ParsedLineData) bool {
 	if numTerms == 0 {
 		return false
 	}
-	runnerTarget := pow.IntPow(3, numTerms-1)
+	runnerTarget := int_util.IntPow(3, numTerms-1)
 	for i := range runnerTarget {
 		testResult := line.TestValues[0]
 		operationType := i

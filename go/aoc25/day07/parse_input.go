@@ -7,26 +7,49 @@ import (
 
 type splitterPositions map[int]struct{}
 
-func parseInput(in io.Reader) (splitterPositions, int, int, int, int) {
+type node struct {
+	l, r *node
+	x    int
+}
+
+func parseInput(in io.Reader) (*node, int, int, int, int) {
 	s := bufio.NewScanner(in)
-	splitterMap := make(splitterPositions, 256)
+	nodes := make([]node, 0, 1024)
 	var startX, startY, height int
 	width := -1
+	var startNode *node
+
 	for ; s.Scan(); height++ {
 		line := s.Bytes()
 		if width < 0 {
-			width = len(line) // set width before using it
+			width = len(line)
 		}
-		for x := range line {
-			switch line[x] {
-			case 'S':
-				startX = x
-				startY = height
+		for x, c := range line {
+			switch c {
 			case '^':
-				splitterMap[height*width+x] = struct{}{}
+				nodes = append(nodes, node{x: x})
+			case 'S':
+				startX, startY = x, height
 			}
 		}
 	}
 
-	return splitterMap, startX, startY, width, height
+	nodeCache := make([]*node, width)
+
+	for i := len(nodes) - 1; i >= 0; i-- {
+		n := &nodes[i]
+		x := n.x
+		if x == startX {
+			startNode = n
+		}
+		if x > 0 {
+			n.l = nodeCache[x-1]
+		}
+		if x < width-1 {
+			n.r = nodeCache[x+1]
+		}
+		nodeCache[x] = n
+	}
+
+	return startNode, startX, startY, width, height
 }

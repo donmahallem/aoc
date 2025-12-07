@@ -28,8 +28,8 @@ func Test_findCollisions(t *testing.T) {
 		reader := strings.NewReader(full_data)
 		inp := parseInput[float64](reader)
 		collisions := findCollisions(inp, 200000000000000, 400000000000000)
-		if collisions != 2 {
-			t.Errorf("Expected %d to be 2", collisions)
+		if collisions != 20361 {
+			t.Errorf("Expected %d to be 20361", collisions)
 		}
 	})
 

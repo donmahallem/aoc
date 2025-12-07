@@ -1,6 +1,6 @@
 import unittest
 import io
-from aoc25.day06.part_1 import Part1
+from aoc25.day07.part_1 import Part1
 
 testData = """.......S.......
 ...............
@@ -20,7 +20,7 @@ testData = """.......S.......
 ..............."""
 
 
-class Test2025Day05Part01(unittest.TestCase):
+class Test2025Day07Part01(unittest.TestCase):
 
     def test_result(self):
         with io.StringIO() as f:

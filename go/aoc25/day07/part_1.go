@@ -5,67 +5,50 @@ import (
 )
 
 func Part1(in io.Reader) int {
-	splitterMap, startX, startY, width, height := parseInput(in)
+	splitterMap, _, _, width, height := parseInput(in)
 
-	rays := make([]int, 128)
+	rays := make([]*node, 128)
 	head, tail := 0, 1
-	rays[0] = startY*width + startX
+	rays[0] = splitterMap
 
-	visited := make(map[int]bool, width*height/4)
-	totalCount := 0
+	visited := make(map[*node]bool, width*height/4)
 
 	for head < tail {
-		pos := rays[head]
+		node := rays[head]
 		head++
 
-		x := pos % width
-		y := pos / width
-
 		for {
-			if visited[pos] {
+			if visited[node] {
 				break
 			}
-			visited[pos] = true
+			visited[node] = true
 
-			if y == height-1 {
+			if node.l == nil && node.r == nil {
 				break
 			}
 
-			if _, ok := splitterMap[pos]; ok {
-				totalCount++
-				// branch down-left
-				if x > 0 {
-					nextPos := (y+1)*width + (x - 1)
-					if !visited[nextPos] {
-						if tail == len(rays) {
-							rays = append(rays, nextPos)
-						} else {
-							rays[tail] = nextPos
-						}
-						tail++
-					}
+			// branch down-left
+			if node.l != nil {
+				if tail == len(rays) {
+					rays = append(rays, node.l)
+				} else {
+					rays[tail] = node.l
 				}
-				// branch down-right
-				if x < width-1 {
-					nextPos := (y+1)*width + (x + 1)
-					if !visited[nextPos] {
-						if tail == len(rays) {
-							rays = append(rays, nextPos)
-						} else {
-							rays[tail] = nextPos
-						}
-						tail++
-					}
-				}
-				break
+				tail++
 			}
-
-			// move straight down
-			pos += width
-			y++
-			// x stays the same
+			// branch down-right
+			if node.r != nil {
+				if tail == len(rays) {
+					rays = append(rays, node.r)
+				} else {
+					rays[tail] = node.r
+				}
+				tail++
+			}
+			break
 		}
 	}
 
-	return totalCount
+	return len(visited)
+
 }

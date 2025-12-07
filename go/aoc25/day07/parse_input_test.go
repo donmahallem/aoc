@@ -17,8 +17,8 @@ func Test_parseInput(t *testing.T) {
 	if x != 7 || y != 0 {
 		t.Errorf("unexpected start position: got (%d,%d), want (7,0)", x, y)
 	}
-	if len(s) != 22 {
-		t.Errorf("unexpected number of splitters: got %d, want 22", len(s))
+	if s == nil {
+		t.Errorf("unexpected start node: got nil, want non-nil")
 	}
 	if w != 15 {
 		t.Errorf("unexpected width: got %d, want 15", w)

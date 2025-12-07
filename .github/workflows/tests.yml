@@ -20,6 +20,8 @@ jobs:
       - name: Unpack test data
         run: bash ./decrypt_data.sh
         working-directory: .
+        env:
+          DATA_PW: ${{ secrets.DATA_PW }}
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
@@ -60,6 +62,8 @@ jobs:
       - name: Unpack test data
         run: bash ./decrypt_data.sh
         working-directory: .
+        env:
+          DATA_PW: ${{ secrets.DATA_PW }}
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -91,6 +95,8 @@ jobs:
       - name: Unpack test data
         run: bash ./decrypt_data.sh
         working-directory: .
+        env:
+          DATA_PW: ${{ secrets.DATA_PW }}
       - name: Install dependencies
         run: |
           sudo apt-get update

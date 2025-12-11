@@ -13,8 +13,7 @@ def Part2(input: typing.TextIO) -> int:
         pairs[source] = targets
 
     @lru_cache()
-    def dfs(currentNode: str,
-            targetNode: str) -> int:
+    def dfs(currentNode: str, targetNode: str) -> int:
         if currentNode == targetNode:
             return 1
         total = 0
@@ -24,10 +23,8 @@ def Part2(input: typing.TextIO) -> int:
             total += dfs(successor, targetNode)
         return total
 
-    path1 = dfs("svr", "dac") * dfs(
-        "dac", "fft") * dfs("fft", "out")
-    path2 = dfs("svr", "fft") * dfs(
-        "fft", "dac") * dfs("dac", "out")
+    path1 = dfs("svr", "dac") * dfs("dac", "fft") * dfs("fft", "out")
+    path2 = dfs("svr", "fft") * dfs("fft", "dac") * dfs("dac", "out")
 
     return path1 + path2
 

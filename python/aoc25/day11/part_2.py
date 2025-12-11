@@ -14,26 +14,20 @@ def Part2(input: typing.TextIO) -> int:
 
     @lru_cache()
     def dfs(currentNode: str,
-            targetNode: str,
-            exitOnDac: bool = False,
-            exitOnFft: bool = False) -> int:
+            targetNode: str) -> int:
         if currentNode == targetNode:
             return 1
         total = 0
         if currentNode not in pairs:
             return 0
         for successor in pairs[currentNode]:
-            if exitOnDac and successor == "dac":
-                continue
-            if exitOnFft and successor == "fft":
-                continue
-            total += dfs(successor, targetNode, exitOnDac, exitOnFft)
+            total += dfs(successor, targetNode)
         return total
 
-    path1 = dfs("svr", "dac", False, True) * dfs(
-        "dac", "fft", False, False) * dfs("fft", "out", False, False)
-    path2 = dfs("svr", "fft", True, False) * dfs(
-        "fft", "dac", False, False) * dfs("dac", "out", False, False)
+    path1 = dfs("svr", "dac") * dfs(
+        "dac", "fft") * dfs("fft", "out")
+    path2 = dfs("svr", "fft") * dfs(
+        "fft", "dac") * dfs("dac", "out")
 
     return path1 + path2
 

@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: go get .
       - name: Build
-        run: go build -v main.go solver.go -o main
+        run: go build -o main -v main.go solver.go
       - name: Test with the Go CLI
         run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
       - name: Upload coverage to Codecov

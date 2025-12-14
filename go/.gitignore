@@ -1,5 +1,6 @@
 main
 main.exe
+*.wasm
 
 benchmark.json
 benchmark.txt

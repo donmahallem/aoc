@@ -1,71 +1,46 @@
+//go:build !wasip1
+
 package main
 
 import (
 	"fmt"
 	"os"
-	"reflect"
 	"strconv"
-	"time"
-
-	"github.com/donmahallem/aoc/go/aoc23"
-	"github.com/donmahallem/aoc/go/aoc24"
-	"github.com/donmahallem/aoc/go/aoc25"
-	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
 func main() {
 	fmt.Print("AOC Solver\n")
-	var parseError error
-	partSelector := aoc_utils.PartSelector{}
-	partSelector.Year, parseError = strconv.Atoi(os.Args[1])
-	if parseError != nil {
-		fmt.Println(parseError)
+	if len(os.Args) < 4 {
+		fmt.Println("Usage: aoc <year> <day> <part>")
 		return
 	}
-	partSelector.Day, parseError = strconv.Atoi(os.Args[2])
-	if parseError != nil {
-		fmt.Println(parseError)
+
+	year, err := strconv.Atoi(os.Args[1])
+	if err != nil {
+		fmt.Println(err)
 		return
 	}
-	partSelector.Part, parseError = strconv.Atoi(os.Args[3])
-	if parseError != nil {
-		fmt.Println(parseError)
+	day, err := strconv.Atoi(os.Args[2])
+	if err != nil {
+		fmt.Println(err)
 		return
 	}
-	fmt.Printf("Requested parsing %d-%d Part: %d\n", partSelector.Year, partSelector.Day, partSelector.Part)
-	partRegistry := aoc_utils.NewRegistry()
-	aoc23.RegisterParts(&partRegistry)
-	aoc24.RegisterParts(&partRegistry)
-	aoc25.RegisterParts(&partRegistry)
-	takeFun, ok := partRegistry.GetPart(partSelector)
-	if !ok {
-		fmt.Printf("Could not find requested part %v\n", partSelector)
+	part, err := strconv.Atoi(os.Args[3])
+	if err != nil {
+		fmt.Println(err)
 		return
 	}
-	function := reflect.ValueOf(takeFun)
-	var startTime = time.Now()
-	results := function.Call([]reflect.Value{reflect.ValueOf(os.Stdin)})
-	var endTime = time.Now()
-	// Checking the type of the first result for demonstration.
-	res := results[0].Interface()
-	switch v := res.(type) {
-	case int, uint, int32, uint32, uint16, uint8, uint64, int16, int8, int64:
-		fmt.Println("Result is:", v)
-	case string:
-		fmt.Println("Result is:", v)
-	case []int:
-		fmt.Print("Result is: ")
-		for i := range len(v) {
-			if i > 0 {
-				fmt.Print(",")
-			}
-			fmt.Printf("%d", v[i])
-		}
-		fmt.Println()
-	case aoc_utils.Point[int16]:
-		fmt.Printf("Result is: {X:%d,Y:%d}\n", v.X, v.Y)
-	default:
-		fmt.Println("Unknown result type")
+
+	fmt.Printf("Requested parsing %d-%d Part: %d\n", year, day, part)
+
+	solver := NewSolver()
+	res := solver.Solve(year, day, part, os.Stdin)
+
+	if res.Error != nil {
+		fmt.Println(res.Error)
+		return
 	}
-	fmt.Printf("Took: %d\n", endTime.Sub(startTime).Microseconds())
+
+	fmt.Printf("Result is: %s\n", res.Result)
+	fmt.Printf("Took: %d\n", res.Duration.Microseconds())
 }

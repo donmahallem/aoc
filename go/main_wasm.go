@@ -5,6 +5,8 @@ package main
 import (
 	"strings"
 	"unsafe"
+
+	"github.com/donmahallem/aoc/go/solver"
 )
 
 // main is required by the compiler
@@ -26,8 +28,8 @@ func solveAOC(year, day, part uint32, inputPtr unsafe.Pointer, inputLen uint32) 
 	// Reconstruct string from WASM memory
 	inputData := unsafe.String((*byte)(inputPtr), inputLen)
 
-	solver := NewSolver()
-	res := solver.Solve(int(year), int(day), int(part), strings.NewReader(inputData))
+	s := solver.NewSolver()
+	res := s.Solve(int(year), int(day), int(part), strings.NewReader(inputData))
 
 	var output string
 	if res.Error != nil {

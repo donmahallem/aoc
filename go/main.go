@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+
+	"github.com/donmahallem/aoc/go/solver"
 )
 
 func main() {
@@ -33,8 +35,8 @@ func main() {
 
 	fmt.Printf("Requested parsing %d-%d Part: %d\n", year, day, part)
 
-	solver := NewSolver()
-	res := solver.Solve(year, day, part, os.Stdin)
+	s := solver.NewSolver()
+	res := s.Solve(year, day, part, os.Stdin)
 
 	if res.Error != nil {
 		fmt.Println(res.Error)

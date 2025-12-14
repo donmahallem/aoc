@@ -8,6 +8,14 @@ func NewRegistry() Registry {
 	return Registry{data: make(map[PartSelector]interface{})}
 }
 
+func (v *Registry) RegisteredParts() []PartSelector {
+	parts := make([]PartSelector, 0, len(v.data))
+	for k := range v.data {
+		parts = append(parts, k)
+	}
+	return parts
+}
+
 func (v Registry) Register(year int, day int, part int, fn interface{}) {
 	v.data[PartSelector{Year: year, Day: day, Part: part}] = fn
 }

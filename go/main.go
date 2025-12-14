@@ -33,7 +33,8 @@ func main() {
 
 	fmt.Printf("Requested parsing %d-%d Part: %d\n", year, day, part)
 
-	res := RunSolver(year, day, part, os.Stdin)
+	solver := NewSolver()
+	res := solver.Solve(year, day, part, os.Stdin)
 
 	if res.Error != nil {
 		fmt.Println(res.Error)

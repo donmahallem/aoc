@@ -26,7 +26,8 @@ func solveAOC(year, day, part uint32, inputPtr unsafe.Pointer, inputLen uint32) 
 	// Reconstruct string from WASM memory
 	inputData := unsafe.String((*byte)(inputPtr), inputLen)
 
-	res := RunSolver(int(year), int(day), int(part), strings.NewReader(inputData))
+	solver := NewSolver()
+	res := solver.Solve(int(year), int(day), int(part), strings.NewReader(inputData))
 
 	var output string
 	if res.Error != nil {

@@ -18,19 +18,30 @@ type SolveResult struct {
 	Error    error
 }
 
-func RunSolver(year, day, part int, input io.Reader) SolveResult {
+type Solver struct {
+	registry aoc_utils.Registry
+}
+
+func NewSolver() *Solver {
+	partRegistry := aoc_utils.NewRegistry()
+	aoc23.RegisterParts(&partRegistry)
+	aoc24.RegisterParts(&partRegistry)
+	aoc25.RegisterParts(&partRegistry)
+	return &Solver{registry: partRegistry}
+}
+
+func (s *Solver) GetRegistry() *aoc_utils.Registry {
+	return &s.registry
+}
+
+func (s *Solver) Solve(year, day, part int, input io.Reader) SolveResult {
 	partSelector := aoc_utils.PartSelector{
 		Year: year,
 		Day:  day,
 		Part: part,
 	}
 
-	partRegistry := aoc_utils.NewRegistry()
-	aoc23.RegisterParts(&partRegistry)
-	aoc24.RegisterParts(&partRegistry)
-	aoc25.RegisterParts(&partRegistry)
-
-	takeFun, ok := partRegistry.GetPart(partSelector)
+	takeFun, ok := s.registry.GetPart(partSelector)
 	if !ok {
 		return SolveResult{Error: fmt.Errorf("could not find requested part %v", partSelector)}
 	}

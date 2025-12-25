@@ -167,8 +167,8 @@ func countAcceptedRanges(workflows map[string]workflow, current string, rng rati
 	return total
 }
 
-func Part2(in io.Reader) int {
-	data := ParseInput(in)
+func Part2(r io.Reader) (int, error) {
+	data := parseInput(r)
 
 	initial := ratingRange{
 		X: IntInterval{Min: 1, Max: 4000},
@@ -177,5 +177,5 @@ func Part2(in io.Reader) int {
 		S: IntInterval{Min: 1, Max: 4000},
 	}
 
-	return countAcceptedRanges(data.Workflows, "in", initial)
+	return countAcceptedRanges(data.Workflows, "in", initial), nil
 }

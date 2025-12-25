@@ -4,18 +4,21 @@ import (
 	"io"
 )
 
-func Part2(in io.Reader) int {
-	antennas, width, height := readSource(in)
+func Part2(in io.Reader) (int, error) {
+	inputField, err := readSource(in)
+	if err != nil {
+		return 0, err
+	}
 	var antennaListLen int
 	var k int16 = 1
-	var newPoint Point
-	echos := make(map[Point]bool, 100)
-	for antenna := range antennas {
-		antennaList := antennas[antenna]
+	var newPoint point
+	echos := make(map[point]bool, 100)
+	for antenna := range inputField.Antennas {
+		antennaList := inputField.Antennas[antenna]
 		antennaListLen = len(antennaList)
-		for i := range antennaListLen {
+		for i := 0; i < antennaListLen; i++ {
 			echos[antennaList[i]] = true
-			for j := range antennaListLen {
+			for j := 0; j < antennaListLen; j++ {
 				if i == j {
 					continue
 				}
@@ -25,7 +28,7 @@ func Part2(in io.Reader) int {
 				for {
 					newPoint.X = antennaList[i].X + (k * diffX)
 					newPoint.Y = antennaList[i].Y + (k * diffY)
-					if !OutOfBounds(newPoint.X, newPoint.Y, width, height) {
+					if !OutOfBounds(newPoint.X, newPoint.Y, inputField.Width, inputField.Height) {
 						echos[newPoint] = true
 					} else {
 						break
@@ -35,5 +38,5 @@ func Part2(in io.Reader) int {
 			}
 		}
 	}
-	return len(echos)
+	return len(echos), nil
 }

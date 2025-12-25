@@ -10,6 +10,9 @@ import (
 type intInterval = math.Interval[uint64]
 
 func parseInputGen(in io.Reader) func(yield func(intInterval) bool) {
+	// cap parsed values to avoid excessive work from fuzzed inputs; set high
+	// enough to preserve real sample/test values.
+	const maxIntervalValue uint64 = 1_000_000_000_000
 	return func(yield func(intInterval) bool) {
 		s := bufio.NewScanner(in)
 		inp := intInterval{}
@@ -33,7 +36,14 @@ func parseInputGen(in io.Reader) func(yield func(intInterval) bool) {
 
 				default:
 					if c >= '0' && c <= '9' {
-						*currentNum = (*currentNum)*10 + uint64(c-'0')
+						digit := uint64(c - '0')
+						// clamp to avoid huge numeric values that make the solver run
+						// for very long or allocate massive structures.
+						if *currentNum > maxIntervalValue/10 || (*currentNum)*10+digit > maxIntervalValue {
+							*currentNum = maxIntervalValue
+						} else {
+							*currentNum = (*currentNum)*10 + digit
+						}
 					}
 				}
 			}

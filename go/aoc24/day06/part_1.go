@@ -3,6 +3,8 @@ package day06
 import (
 	"bufio"
 	"io"
+
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
 const (
@@ -58,7 +60,7 @@ func ReadSource(reader io.Reader) (Field, Guard, error) {
 		if width == 0 {
 			width = uint16(len(line))
 		} else if width != uint16(len(line)) {
-			panic("Line length is uneven")
+			return Field{}, Guard{}, aoc_utils.NewParseError("line length is uneven", nil)
 		}
 		for idx := uint16(0); idx < width; idx++ {
 			character := line[idx]
@@ -78,7 +80,7 @@ func ReadSource(reader io.Reader) (Field, Guard, error) {
 		y++
 	}
 	if guard == nil {
-		panic("guard not found in input")
+		return Field{}, Guard{}, aoc_utils.NewParseError("guard not found in input", nil)
 	}
 	return NewField(width, y, obstacles), *guard, nil
 }
@@ -178,11 +180,11 @@ func leaveArea(field *Field, guard Guard) PathInfo {
 	}
 }
 
-func Part1(in io.Reader) int {
+func Part1(in io.Reader) (int, error) {
 	field, guard, err := ReadSource(in)
 	if err != nil {
-		panic(err)
+		return 0, err
 	}
 	info := leaveArea(&field, guard)
-	return info.UniqueCount
+	return info.UniqueCount, nil
 }

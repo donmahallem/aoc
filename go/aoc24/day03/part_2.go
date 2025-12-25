@@ -1,7 +1,6 @@
 package day03
 
 import (
-	"bytes"
 	"io"
 	"strconv"
 )
@@ -23,97 +22,107 @@ type DoReader struct {
 	reader io.Reader
 	active bool
 	state  ReaderState
-	cache  bytes.Buffer
 }
 
 func NewDoReader(reader io.Reader) *DoReader {
-	return &DoReader{reader: reader, active: true, state: DO_STATE_NONE, cache: bytes.Buffer{}}
+	return &DoReader{reader: reader, active: true, state: DO_STATE_NONE}
 }
 
 func (a *DoReader) Read(p []byte) (int, error) {
 	n, err := a.reader.Read(p)
-	if err != nil {
-		return n, err
-	}
-	a.cache.Reset()
-	for i := range n {
-		if a.state == DO_STATE_NONE {
-			if p[i] == 'd' {
-				a.state = DO_STATE_D
-			} else if a.active {
-				a.cache.WriteByte(p[i])
+	writeIdx := 0
+	for i := 0; i < n; i++ {
+		char := p[i]
+		for {
+			advanced := false
+			switch a.state {
+			case DO_STATE_NONE:
+				if char == 'd' {
+					a.state = DO_STATE_D
+					advanced = true
+				} else {
+					advanced = true
+				}
+			case DO_STATE_D:
+				if char == 'o' {
+					a.state = DO_STATE_DO
+					advanced = true
+				} else {
+					a.state = DO_STATE_NONE
+				}
+			case DO_STATE_DO:
+				if char == '(' {
+					a.state = DO_STATE_DO_OPEN
+					advanced = true
+				} else if char == 'n' {
+					a.state = DO_STATE_DON
+					advanced = true
+				} else {
+					a.state = DO_STATE_NONE
+				}
+			case DO_STATE_DO_OPEN:
+				if char == ')' {
+					a.state = DO_STATE_NONE
+					a.active = true // Found: do()
+					advanced = true
+				} else {
+					a.state = DO_STATE_NONE
+				}
+			case DO_STATE_DON:
+				if char == '\'' {
+					a.state = DO_STATE_DON_
+					advanced = true
+				} else {
+					a.state = DO_STATE_NONE
+				}
+			case DO_STATE_DON_:
+				if char == 't' {
+					a.state = DO_STATE_DON_T
+					advanced = true
+				} else {
+					a.state = DO_STATE_NONE
+				}
+			case DO_STATE_DON_T:
+				if char == '(' {
+					a.state = DO_STATE_DON_T_OPEN
+					advanced = true
+				} else {
+					a.state = DO_STATE_NONE
+				}
+			case DO_STATE_DON_T_OPEN:
+				if char == ')' {
+					a.state = DO_STATE_NONE
+					a.active = false // Found: don't()
+					advanced = true
+				} else {
+					a.state = DO_STATE_NONE
+				}
+			default:
+				a.state = DO_STATE_NONE
 			}
-		} else if a.state == DO_STATE_D {
-			if p[i] == 'o' {
-				a.state = DO_STATE_DO
-			} else {
-				a.state = DO_STATE_NONE
-				a.cache.WriteString("d")
-				a.cache.WriteByte(p[i])
+
+			if advanced {
+				break
 			}
-		} else if a.state == DO_STATE_DO {
-			if p[i] == '(' {
-				a.state = DO_STATE_DO_OPEN
-			} else if p[i] == 'n' {
-				a.state = DO_STATE_DON
-			} else {
-				a.state = DO_STATE_NONE
-				a.cache.WriteString("do")
-				a.cache.WriteByte(p[i])
-			}
-		} else if a.state == DO_STATE_DO_OPEN {
-			if p[i] == ')' {
-				a.state = DO_STATE_NONE
-				a.active = true
-			} else {
-				a.state = DO_STATE_NONE
-				a.cache.WriteString("do(")
-				a.cache.WriteByte(p[i])
-			}
-		} else if a.state == DO_STATE_DON {
-			if p[i] == '\'' {
-				a.state = DO_STATE_DON_
-				a.active = true
-			} else {
-				a.state = DO_STATE_NONE
-				a.cache.WriteString("don")
-				a.cache.WriteByte(p[i])
-			}
-		} else if a.state == DO_STATE_DON_ {
-			if p[i] == 't' {
-				a.state = DO_STATE_DON_T
-				a.active = true
-			} else {
-				a.state = DO_STATE_NONE
-				a.cache.WriteString("don'")
-				a.cache.WriteByte(p[i])
-			}
-		} else if a.state == DO_STATE_DON_T {
-			if p[i] == '(' {
-				a.state = DO_STATE_DON_T_OPEN
-				a.active = true
-			} else {
-				a.state = DO_STATE_NONE
-				a.cache.WriteString("don't")
-				a.cache.WriteByte(p[i])
-			}
-		} else if a.state == DO_STATE_DON_T_OPEN {
-			if p[i] == ')' {
-				a.state = DO_STATE_NONE
-				a.active = false
-			} else {
-				a.state = DO_STATE_NONE
-				a.cache.WriteByte(p[i])
-			}
+		}
+
+		if a.active {
+			p[writeIdx] = char
+			writeIdx++
 		}
 	}
 
-	copy(p, a.cache.Bytes())
-	return a.cache.Len(), nil
+	return writeIdx, err
 }
 
-func Part2(in io.Reader) int {
-	input_data, _ := io.ReadAll(NewMulReader(NewDoReader(in)))
-	result, _ := strconv.Atoi(string(input_data))
-	return result
+func Part2(in io.Reader) (int, error) {
+	input_data, err := io.ReadAll(NewMulReader(NewDoReader(in)))
+	if err != nil {
+		return 0, err
+	}
+	result, err := strconv.Atoi(string(input_data))
+	if err != nil {
+		return 0, err
+	}
+	return result, nil
 }

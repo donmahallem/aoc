@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"io"
 	"math"
+
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
 type solverMatrix = [6][7]float64
@@ -115,10 +117,13 @@ func buildPairLinearSystem(A *matrixA, b *vectorB, hailStones []floatHail, idxA,
 	fillBlock(3, idxA, idxC)
 }
 
-func Part2(in io.Reader) int64 {
-	inp := parseInput[float64](in)
+func Part2(in io.Reader) (int64, error) {
+	inp, err := parseInput[float64](in)
+	if err != nil {
+		return 0, err
+	}
 	if len(inp) < 3 {
-		return -1
+		return -1, aoc_utils.NewSolverErrorf("Need atleast three hailstones")
 	}
 	A := matrixA{}
 	S := solverMatrix{}
@@ -129,7 +134,6 @@ func Part2(in io.Reader) int64 {
 	b := vectorB{}
 
 	var res *floatHail
-	var err error
 
 	aAddress := &A
 	bAddress := &b
@@ -144,8 +148,7 @@ func Part2(in io.Reader) int64 {
 	}
 
 	if res == nil {
-		fmt.Println("Could not find non-singular set of hailstones")
-		return -1
+		return -1, aoc_utils.NewSolverErrorf("Could not find non-singular set of hailstones")
 	}
 
 	// Round the result to nearest int64
@@ -153,5 +156,5 @@ func Part2(in io.Reader) int64 {
 	ry := int64(math.Round(res.Py))
 	rz := int64(math.Round(res.Pz))
 
-	return rx + ry + rz
+	return rx + ry + rz, nil
 }

@@ -11,7 +11,10 @@ var testData string
 
 func Test_parseInput(t *testing.T) {
 	reader := strings.NewReader(testData)
-	res := parseInput(reader)
+	res, err := parseInput(reader)
+	if err != nil {
+		t.Fatalf("parseInput returned an error: %v", err)
+	}
 
 	if len(res) != 10 {
 		t.Errorf("unexpected number of nodes: got %d, want 10", len(res))

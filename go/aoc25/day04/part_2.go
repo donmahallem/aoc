@@ -32,17 +32,20 @@ func clearNeighborhood(grid field, width, height, x, y int) (removed int) {
 	return removed
 }
 
-func Part2(in io.Reader) int {
-	grid, width, height := parseInput(in)
+func Part2(in io.Reader) (int, error) {
+	data, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
 
 	totalRemoved := 0
-	for pos := range len(grid) {
-		if grid[pos] == 0 {
+	for pos := range data.field {
+		if data.field[pos] == 0 {
 			continue
 		}
-		x := pos % width
-		y := pos / width
-		totalRemoved += clearNeighborhood(grid, width, height, x, y)
+		x := pos % data.width
+		y := pos / data.width
+		totalRemoved += clearNeighborhood(data.field, data.width, data.row, x, y)
 	}
-	return totalRemoved
+	return totalRemoved, nil
 }

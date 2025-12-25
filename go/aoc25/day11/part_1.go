@@ -4,8 +4,11 @@ import (
 	"io"
 )
 
-func Part1(in io.Reader) uint64 {
-	inputMap := parseInput(in)
+func Part1(in io.Reader) (uint64, error) {
+	inputMap, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
 
 	targetKey := uint64('o')<<16 + uint64('u')<<8 + uint64('t')
 	visited := make(map[uint64]uint64, 1024)
@@ -24,5 +27,5 @@ func Part1(in io.Reader) uint64 {
 		visited[node] = currentValue // Store the result in the cache
 		return currentValue
 	}
-	return dfs(uint64('y')<<16 + uint64('o')<<8 + uint64('u'))
+	return dfs(uint64('y')<<16 + uint64('o')<<8 + uint64('u')), nil
 }

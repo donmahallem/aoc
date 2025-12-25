@@ -15,7 +15,10 @@ func Test_createGraph(t *testing.T) {
 	t.Run("respect slope", func(t *testing.T) {
 		t.Run("test sample", func(t *testing.T) {
 			reader := strings.NewReader(testData)
-			result, w, h := parseInput(reader, true)
+			result, w, h, err := parseInput(reader, true)
+			if err != nil {
+				t.Fatalf("Unexpected error: %v", err)
+			}
 			g, startIdx, endIdx := createGraph(result, w, h)
 			if startIdx != 1 {
 				t.Errorf(`Expected startIdx to be 1, got %d`, startIdx)
@@ -32,7 +35,10 @@ func Test_createGraph(t *testing.T) {
 	t.Run("don't respect slope", func(t *testing.T) {
 		t.Run("test sample", func(t *testing.T) {
 			reader := strings.NewReader(testData)
-			result, w, h := parseInput(reader, false)
+			result, w, h, err := parseInput(reader, false)
+			if err != nil {
+				t.Fatalf("Unexpected error: %v", err)
+			}
 			g, startIdx, endIdx := createGraph(result, w, h)
 			if startIdx != 1 {
 				t.Errorf(`Expected startIdx to be 1, got %d`, startIdx)
@@ -74,7 +80,10 @@ func Test_createGraph(t *testing.T) {
 				return
 			}
 			reader := strings.NewReader(sampleData)
-			result, w, h := parseInput(reader, false)
+			result, w, h, err := parseInput(reader, false)
+			if err != nil {
+				t.Fatalf("Unexpected error: %v", err)
+			}
 			g, startIdx, endIdx := createGraph(result, w, h)
 			if startIdx != 1 {
 				t.Errorf(`Expected startIdx to be 1, got %d`, startIdx)

@@ -16,7 +16,10 @@ func TestPart1(t *testing.T) {
 	t.Run("test sample 1", func(t *testing.T) {
 		expected := 94
 		reader := strings.NewReader(testData)
-		result := day23.Part1(reader)
+		result, err := day23.Part1(reader)
+		if err != nil {
+			t.Errorf("Unexpected error: %v", err)
+		}
 		if result != expected {
 			t.Errorf(`Expected number of blocks to be %d, got %d`, expected, result)
 		}
@@ -31,15 +34,15 @@ func TestPart1(t *testing.T) {
 }
 
 func BenchmarkPart1(b *testing.B) {
-	b.Run("benchmark sample 1", func(b *testing.B) {
+	b.Run("benchmark sample data", func(b *testing.B) {
 		reader := strings.NewReader(testData)
 		for b.Loop() {
-			reader.Seek(0, 0)
 			day23.Part1(reader)
+			reader.Seek(0, 0)
 		}
 	})
 
-	b.Run("benchmark real data", func(b *testing.B) {
+	b.Run("benchmark full data", func(b *testing.B) {
 		test_utils.BenchmarkFullDataForDate(b, 23, 23, day23.Part1)
 	})
 }

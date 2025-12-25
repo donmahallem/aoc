@@ -2,7 +2,7 @@ package day02
 
 import "io"
 
-func Part2(in io.Reader) int {
+func Part2(in io.Reader) (int, error) {
 	invalidSum := 0
 
 	for val := range parseInputGen(in) {
@@ -12,5 +12,5 @@ func Part2(in io.Reader) int {
 			invalidSum += int(num)
 		}
 	}
-	return invalidSum
+	return invalidSum, nil
 }

@@ -1,11 +1,11 @@
 package day08_test
 
 import (
-	"io"
 	"strings"
 	"testing"
 
 	"github.com/donmahallem/aoc/go/aoc23/day08"
+	"github.com/donmahallem/aoc/go/test_utils"
 )
 
 var testData3 string = `LR
@@ -23,16 +23,26 @@ func TestPart2(t *testing.T) {
 	t.Run("testData3", func(t *testing.T) {
 		const expected uint = 6
 		reader := strings.NewReader(testData3)
-		if res := day08.Part2(reader); res != expected {
+		res, err := day08.Part2(reader)
+		if err != nil {
+			t.Errorf("Unexpected error: %v", err)
+		}
+		if res != expected {
 			t.Errorf(`Expected %d to be %d`, res, expected)
 		}
 	})
 }
 
 func BenchmarkPart2(b *testing.B) {
-	reader := strings.NewReader(testData)
-	for b.Loop() {
-		reader.Seek(0, io.SeekStart)
-		day08.Part2(reader)
-	}
+	b.Run("benchmark sample data", func(b *testing.B) {
+		reader := strings.NewReader(testData)
+		for b.Loop() {
+			day08.Part2(reader)
+			reader.Seek(0, 0)
+		}
+	})
+
+	b.Run("benchmark full data", func(b *testing.B) {
+		test_utils.BenchmarkFullDataForDate(b, 23, 8, day08.Part2)
+	})
 }

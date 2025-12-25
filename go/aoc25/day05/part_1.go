@@ -21,8 +21,11 @@ func findRange(ranges []validRange, value uint64) bool {
 	return false
 }
 
-func Part1(in io.Reader) int {
-	inp := parseInput(in)
+func Part1(in io.Reader) (int, error) {
+	inp, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
 	compressValidRanges(&inp.validRanges)
 	validIngredientCount := 0
 	for ingredient := range inp.ingredients {
@@ -30,5 +33,5 @@ func Part1(in io.Reader) int {
 			validIngredientCount++
 		}
 	}
-	return validIngredientCount
+	return validIngredientCount, nil
 }

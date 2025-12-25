@@ -4,12 +4,15 @@ import (
 	"io"
 )
 
-func Part2(in io.Reader) int {
-	startNode, _, _, _, _ := parseInput(in)
+func Part2(in io.Reader) (any, error) {
+	inpData, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
 
 	// If no splitter is hit: 1 timeline
-	if startNode == nil {
-		return 1
+	if inpData.startNode == nil {
+		return 1, nil
 	}
 
 	cache := make(map[*node]int, 256)
@@ -37,5 +40,5 @@ func Part2(in io.Reader) int {
 		return total
 	}
 
-	return dfs(startNode)
+	return dfs(inpData.startNode), nil
 }

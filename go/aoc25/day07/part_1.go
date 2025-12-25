@@ -4,44 +4,47 @@ import (
 	"io"
 )
 
-func Part1(in io.Reader) int {
-	splitterMap, _, _, width, height := parseInput(in)
+func Part1(in io.Reader) (any, error) {
+	data, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
 
 	rays := make([]*node, 128)
 	head, tail := 0, 1
-	rays[0] = splitterMap
+	rays[0] = data.startNode
 
-	visited := make(map[*node]bool, width*height/4)
+	visited := make(map[*node]bool, data.width*data.height/4)
 
 	for head < tail {
-		node := rays[head]
+		n := rays[head]
 		head++
 
 		for {
-			if visited[node] {
+			if visited[n] {
 				break
 			}
-			visited[node] = true
+			visited[n] = true
 
-			if node.l == nil && node.r == nil {
+			if n.l == nil && n.r == nil {
 				break
 			}
 
 			// branch down-left
-			if node.l != nil {
+			if n.l != nil {
 				if tail == len(rays) {
-					rays = append(rays, node.l)
+					rays = append(rays, n.l)
 				} else {
-					rays[tail] = node.l
+					rays[tail] = n.l
 				}
 				tail++
 			}
 			// branch down-right
-			if node.r != nil {
+			if n.r != nil {
 				if tail == len(rays) {
-					rays = append(rays, node.r)
+					rays = append(rays, n.r)
 				} else {
-					rays[tail] = node.r
+					rays[tail] = n.r
 				}
 				tail++
 			}
@@ -49,6 +52,6 @@ func Part1(in io.Reader) int {
 		}
 	}
 
-	return len(visited)
+	return len(visited), nil
 
 }

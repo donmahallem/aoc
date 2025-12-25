@@ -3,6 +3,8 @@ package day10
 import (
 	"bufio"
 	"io"
+
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
 type Field struct {
@@ -15,7 +17,7 @@ func NewField(width uint16, height uint16, field []byte, starts []uint16) Field 
 	return Field{width: width, height: height, Field: field, starts: starts}
 }
 
-func loadField(reader io.Reader) Field {
+func loadField(reader io.Reader) (*Field, error) {
 	var obstacles []byte
 	starts := make([]uint16, 0)
 	s := bufio.NewScanner(reader)
@@ -27,11 +29,15 @@ func loadField(reader io.Reader) Field {
 			width = uint16(len(line))
 			obstacles = make([]byte, 0, width*width)
 		} else if width != uint16(len(line)) {
-			panic("Line length is uneven")
+			// malformed input; return empty field rather than panic
+			return nil, aoc_utils.NewParseError("inconsistent line widths in field", nil)
 		}
 		for idx := uint16(0); idx < uint16(len(line)); idx++ {
+			if line[idx] < '0' || line[idx] > '9' {
+				return nil, aoc_utils.NewParseError("invalid character in field", nil)
+			}
 			value := line[idx] - '0'
-			obstacles = append(obstacles, line[idx]-'0')
+			obstacles = append(obstacles, value)
 			if value == 0 {
 				indexPosition := y*width + idx
 				starts = append(starts, indexPosition)
@@ -39,44 +45,65 @@ func loadField(reader io.Reader) Field {
 		}
 		y++
 	}
-	return NewField(width, y, obstacles, starts)
+	return &Field{width: width, height: y, Field: obstacles, starts: starts}, nil
 }
 
 func walkDepth(data Field, posIdx uint16, depth uint8, ends map[uint16]struct{}) int {
 	if depth == 9 {
-		ends[posIdx] = struct{}{}
+		// bounds check
+		if int(posIdx) >= 0 && int(posIdx) < len(data.Field) {
+			ends[posIdx] = struct{}{}
+		}
 		return 1
 	}
 	result := 0
 	nextDepth := depth + 1
 
-	if posIdx%data.width > 0 && data.Field[posIdx-1] == nextDepth {
-		result += walkDepth(data, posIdx-1, nextDepth, ends)
+	// left
+	if posIdx%data.width > 0 {
+		idx := posIdx - 1
+		if int(idx) < len(data.Field) && data.Field[idx] == nextDepth {
+			result += walkDepth(data, idx, nextDepth, ends)
+		}
 	}
-	if posIdx >= data.width && data.Field[posIdx-data.width] == nextDepth {
-		result += walkDepth(data, posIdx-data.height, nextDepth, ends)
+	// up
+	if posIdx >= data.width {
+		idx := posIdx - data.width
+		if int(idx) < len(data.Field) && data.Field[idx] == nextDepth {
+			result += walkDepth(data, idx, nextDepth, ends)
+		}
 	}
-	if (posIdx%data.width) < data.width-1 && data.Field[posIdx+1] == nextDepth {
-		result += walkDepth(data, posIdx+1, nextDepth, ends)
+	// right
+	if (posIdx % data.width) < data.width-1 {
+		idx := posIdx + 1
+		if int(idx) < len(data.Field) && data.Field[idx] == nextDepth {
+			result += walkDepth(data, idx, nextDepth, ends)
+		}
 	}
-	if posIdx < (data.height-1)*data.width && data.Field[posIdx+data.width] == nextDepth {
-		result += walkDepth(data, posIdx+data.width, nextDepth, ends)
+	// down
+	if posIdx < (data.height-1)*data.width {
+		idx := posIdx + data.width
+		if int(idx) < len(data.Field) && data.Field[idx] == nextDepth {
+			result += walkDepth(data, idx, nextDepth, ends)
+		}
 	}
 	return result
 }
 
 func searchAll(field Field) int {
 	result := 0
-	mapper := make(map[uint16]struct{})
-	for i := range len(field.starts) {
+	for i := 0; i < len(field.starts); i++ {
+		mapper := make(map[uint16]struct{})
 		walkDepth(field, field.starts[i], 0, mapper)
 		result += len(mapper)
-		clear(mapper)
 	}
 	return result
 }
 
-func Part1(in io.Reader) int {
-	data := loadField(in)
-	return searchAll(data)
+func Part1(in io.Reader) (int, error) {
+	data, err := loadField(in)
+	if err != nil {
+		return 0, err
+	}
+	return searchAll(*data), nil
 }

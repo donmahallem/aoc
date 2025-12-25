@@ -3,6 +3,8 @@ package day04
 import (
 	"bufio"
 	"io"
+
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
 /*
@@ -40,7 +42,7 @@ func checkMasBlock(block []byte, width, topIdx int) int {
 	return count
 }
 
-func Part2(in io.Reader) int {
+func Part2(in io.Reader) (int, error) {
 	s := bufio.NewScanner(in)
 	const windowHeight = 3
 	var data []byte
@@ -52,12 +54,12 @@ func Part2(in io.Reader) int {
 		if width < 0 {
 			width = len(line)
 			if width < 3 {
-				return 0
+				return 0, nil
 			}
 			data = make([]byte, windowHeight*width)
 		}
 		if len(line) != width {
-			panic("Inconsistent line widths")
+			return 0, aoc_utils.NewParseError("Inconsistent line widths", nil)
 		}
 
 		idx := rowsSeen % windowHeight
@@ -70,5 +72,5 @@ func Part2(in io.Reader) int {
 
 	}
 
-	return total
+	return total, nil
 }

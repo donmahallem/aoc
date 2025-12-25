@@ -49,7 +49,7 @@ func CreatePatterns(seed *uint32, iterations int, cache *CacheMap) {
 	}
 }
 
-func Part2(in io.Reader) uint32 {
+func Part2(in io.Reader) (uint32, error) {
 	items := ParseInput(in)
 	cache := make(CacheMap)
 	for _, item := range *items {
@@ -61,5 +61,5 @@ func Part2(in io.Reader) uint32 {
 			maxVal = cacheValue.Value
 		}
 	}
-	return maxVal
+	return maxVal, nil
 }

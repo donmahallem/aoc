@@ -1,92 +1,77 @@
 package day14
 
 import (
-	"bufio"
 	"hash/fnv"
 	"io"
 )
 
-type Field [][]Cell
-type Direction uint8
-
-const (
-	DirLeft  Direction = 'L'
-	DirRight Direction = 'R'
-	DirDown  Direction = 'D'
-	DirUp    Direction = 'U'
-)
-
-type Cell = byte
-
-const (
-	CellEmpty Cell = '.'
-	CellStone Cell = 'O'
-	CellWall  Cell = '#'
-)
-
-func ApplyGravity(field Field, dir Direction) {
+func applyGravity(f field, dir direction) {
+	// defensive: ignore empty fields
+	if len(f) == 0 || len(f[0]) == 0 {
+		return
+	}
 	switch dir {
-	case DirDown:
-		for colIdx := range field[0] {
-			lastEmptyIdx := len(field) - 1
-			for rowIdx := len(field) - 1; rowIdx >= 0; rowIdx-- {
-				switch field[rowIdx][colIdx] {
-				case CellStone:
+	case dirDown:
+		for colIdx := range f[0] {
+			lastEmptyIdx := len(f) - 1
+			for rowIdx := len(f) - 1; rowIdx >= 0; rowIdx-- {
+				switch f[rowIdx][colIdx] {
+				case cellStone:
 					if lastEmptyIdx != rowIdx {
-						field[lastEmptyIdx][colIdx] = CellStone
-						field[rowIdx][colIdx] = CellEmpty
+						f[lastEmptyIdx][colIdx] = cellStone
+						f[rowIdx][colIdx] = cellEmpty
 					}
 					lastEmptyIdx--
-				case CellWall:
+				case cellWall:
 					lastEmptyIdx = rowIdx - 1
 				}
 			}
 		}
-	case DirUp:
-		for colIdx := range field[0] {
+	case dirUp:
+		for colIdx := range f[0] {
 			lastEmptyIdx := 0
-			for rowIdx := range len(field) {
-				switch field[rowIdx][colIdx] {
-				case CellStone:
+			for rowIdx := range len(f) {
+				switch f[rowIdx][colIdx] {
+				case cellStone:
 					if lastEmptyIdx != rowIdx {
-						field[lastEmptyIdx][colIdx] = CellStone
-						field[rowIdx][colIdx] = CellEmpty
+						f[lastEmptyIdx][colIdx] = cellStone
+						f[rowIdx][colIdx] = cellEmpty
 					}
 					lastEmptyIdx++
-				case CellWall:
+				case cellWall:
 					lastEmptyIdx = rowIdx + 1
 				}
 
 			}
 		}
-	case DirLeft:
-		for rowIdx := range field {
+	case dirLeft:
+		for rowIdx := range f {
 			lastEmptyIdx := 0
-			for colIdx := range len(field[0]) {
-				switch field[rowIdx][colIdx] {
-				case CellStone:
+			for colIdx := range len(f[0]) {
+				switch f[rowIdx][colIdx] {
+				case cellStone:
 					if lastEmptyIdx != colIdx {
-						field[rowIdx][lastEmptyIdx] = CellStone
-						field[rowIdx][colIdx] = CellEmpty
+						f[rowIdx][lastEmptyIdx] = cellStone
+						f[rowIdx][colIdx] = cellEmpty
 					}
 					lastEmptyIdx++
-				case CellWall:
+				case cellWall:
 					lastEmptyIdx = colIdx + 1
 				}
 			}
 		}
-	case DirRight:
-		for rowIdx := range field {
-			lastEmptyIdx := len(field[0]) - 1
-			for colIdx := len(field[0]) - 1; colIdx >= 0; colIdx-- {
-				switch field[rowIdx][colIdx] {
-				case CellStone:
+	case dirRight:
+		for rowIdx := range f {
+			lastEmptyIdx := len(f[0]) - 1
+			for colIdx := len(f[0]) - 1; colIdx >= 0; colIdx-- {
+				switch f[rowIdx][colIdx] {
+				case cellStone:
 					if lastEmptyIdx != colIdx {
-						field[rowIdx][lastEmptyIdx] = CellStone
-						field[rowIdx][colIdx] = CellEmpty
+						f[rowIdx][lastEmptyIdx] = cellStone
+						f[rowIdx][colIdx] = cellEmpty
 					}
 					lastEmptyIdx--
-				case CellWall:
+				case cellWall:
 					lastEmptyIdx = colIdx - 1
 				}
 			}
@@ -94,61 +79,49 @@ func ApplyGravity(field Field, dir Direction) {
 	}
 }
 
-func CycleDirections(field Field) {
-	ApplyGravity(field, DirUp)
-	ApplyGravity(field, DirLeft)
-	ApplyGravity(field, DirDown)
-	ApplyGravity(field, DirRight)
+func cycleDirections(f field) {
+	applyGravity(f, dirUp)
+	applyGravity(f, dirLeft)
+	applyGravity(f, dirDown)
+	applyGravity(f, dirRight)
 }
 
-func ParseInputPart2(r io.Reader) Field {
-	scanner := bufio.NewScanner(r)
-
-	var field Field = make(Field, 0, 16)
-	for scanner.Scan() {
-		/**
-		 * Create a copy of the scanned bytes to avoid modifying the underlying buffer
-		 * on the next scan.
-		 */
-		row := append([]Cell(nil), scanner.Bytes()...)
-		field = append(field, row)
-	}
-	return field
-}
-
-func CalculateBeamLoad(field Field) uint {
+func calculateBeamLoad(f field) uint {
 	var accum uint = 0
-	for rowIdx := range field {
-		for colIdx := range field[rowIdx] {
-			if field[rowIdx][colIdx] == CellStone {
-				accum += uint(len(field) - rowIdx)
+	for rowIdx := range f {
+		for colIdx := range f[rowIdx] {
+			if f[rowIdx][colIdx] == cellStone {
+				accum += uint(len(f) - rowIdx)
 			}
 		}
 	}
 	return accum
 }
 
-func encodeField(field Field) uint64 {
+func encodeField(f field) uint64 {
 	fnvHasher := fnv.New64()
-	for rowIdx := range field {
-		fnvHasher.Write(field[rowIdx])
+	for rowIdx := range f {
+		fnvHasher.Write(f[rowIdx])
 	}
 	return fnvHasher.Sum64()
 }
 
-type CycleMemory = int
+type cycleMemory = int
 
-const totalCycles CycleMemory = 1000000000
+const totalCycles cycleMemory = 1000000000
 
-func Part2(in io.Reader) uint {
-	field := ParseInputPart2(in)
+func Part2(in io.Reader) (uint, error) {
+	f, err := parseInputPart2(in)
+	if err != nil {
+		return 0, err
+	}
 
-	memoryField := make(map[uint64]CycleMemory)
-	memoryScore := make(map[CycleMemory]uint)
+	memoryField := make(map[uint64]cycleMemory)
+	memoryScore := make(map[cycleMemory]uint)
 	/* Simulate subcycles and detect loops to skip ahead*/
-	for cycleIdx := CycleMemory(0); cycleIdx < totalCycles; cycleIdx++ {
-		CycleDirections(field)
-		encoded := encodeField(field)
+	for cycleIdx := cycleMemory(0); cycleIdx < totalCycles; cycleIdx++ {
+		cycleDirections(f)
+		encoded := encodeField(f)
 		if lastCycle, found := memoryField[encoded]; found {
 			skipCycles := totalCycles - cycleIdx - 1
 			cycleLength := cycleIdx - lastCycle
@@ -156,11 +129,11 @@ func Part2(in io.Reader) uint {
 			cycleIdx += skips * cycleLength
 			remainingCycles := (totalCycles - cycleIdx - 1) % cycleLength
 			finalCycle := lastCycle + remainingCycles
-			return memoryScore[finalCycle]
+			return memoryScore[finalCycle], nil
 		} else {
 			memoryField[encoded] = cycleIdx
-			memoryScore[cycleIdx] = CalculateBeamLoad(field)
+			memoryScore[cycleIdx] = calculateBeamLoad(f)
 		}
 	}
-	return 0
+	return 0, nil
 }

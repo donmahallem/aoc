@@ -20,8 +20,8 @@ func checkBlock(block []byte, width int) int {
 	directions := [][2]int{{1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}}
 
 	count := 0
-	for row := range 4 {
-		for col := range width {
+	for row := 0; row < 4; row++ {
+		for col := 0; col < width; col++ {
 			if block[row*width+col] != searchTerm[0] {
 				continue
 			}
@@ -55,13 +55,13 @@ const hashBackward uint32 = 'S'<<24 | 'A'<<16 | 'M'<<8 | 'X'
 
 // CheckLine counts forward and backward horizontal occurrences of the search term.
 func CheckLine(line []byte, width int) int {
-	if width < searchTermLength {
+	if width < searchTermLength || len(line) < width {
 		// nothing to check
 		return 0
 	}
 	count := 0
 	var runningHash uint32
-	for i := range width {
+	for i := 0; i < width && i < len(line); i++ {
 		runningHash = (runningHash << 8) | uint32(line[i])
 		if i+1 >= searchTermLength && (runningHash == hashForward || runningHash == hashBackward) {
 			count++
@@ -70,7 +70,7 @@ func CheckLine(line []byte, width int) int {
 	return count
 }
 
-func Part1(in io.Reader) int {
+func Part1(in io.Reader) (int, error) {
 	s := bufio.NewScanner(in)
 	var data []byte = nil
 	width := -1
@@ -92,5 +92,5 @@ func Part1(in io.Reader) int {
 			count += checkBlock(data, width)
 		}
 	}
-	return count
+	return count, nil
 }

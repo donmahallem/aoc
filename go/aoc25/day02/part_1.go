@@ -4,7 +4,7 @@ import (
 	"io"
 )
 
-func Part1(in io.Reader) int {
+func Part1(in io.Reader) (int, error) {
 	invalidSum := 0
 
 	for val := range parseInputGen(in) {
@@ -16,5 +16,5 @@ func Part1(in io.Reader) int {
 			}
 		}
 	}
-	return invalidSum
+	return invalidSum, nil
 }

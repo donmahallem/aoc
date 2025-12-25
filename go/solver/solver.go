@@ -3,7 +3,6 @@ package solver
 import (
 	"fmt"
 	"io"
-	"reflect"
 	"time"
 
 	"github.com/donmahallem/aoc/go/aoc23"
@@ -43,16 +42,19 @@ func (s *Solver) Solve(year, day, part int, input io.Reader) SolveResult {
 
 	takeFun, ok := s.registry.GetPart(partSelector)
 	if !ok {
-		return SolveResult{Error: fmt.Errorf("could not find requested part %v", partSelector)}
+		return SolveResult{
+			Error: aoc_utils.NewNotImplementedError(fmt.Sprintf("could not find requested part %d in year %d day %d", partSelector.Part, partSelector.Year, partSelector.Day))}
 	}
 
-	function := reflect.ValueOf(takeFun)
 	startTime := time.Now()
-	results := function.Call([]reflect.Value{reflect.ValueOf(input)})
+	resVal, err := takeFun(input)
 	endTime := time.Now()
+	if err != nil {
+		return SolveResult{Error: err}
+	}
 
-	res := results[0].Interface()
 	var resStr string
+	res := resVal
 
 	switch v := res.(type) {
 	case int, uint, int32, uint32, uint16, uint8, uint64, int16, int8, int64:

@@ -29,17 +29,20 @@ func isRemoveable(f field, width, height, x, y int) bool {
 	return count < 4
 }
 
-func Part1(in io.Reader) int {
-	grid, width, height := parseInput(in)
+func Part1(in io.Reader) (int, error) {
+	data, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
 
 	totalCount := 0
 
-	for y := range height {
-		for x := range width {
-			if isRemoveable(grid, width, height, x, y) {
+	for y := range data.row {
+		for x := range data.width {
+			if isRemoveable(data.field, data.width, data.row, x, y) {
 				totalCount++
 			}
 		}
 	}
-	return totalCount
+	return totalCount, nil
 }

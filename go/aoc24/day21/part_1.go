@@ -36,13 +36,13 @@ func ParseIntValue(data *[]byte) uint {
 // depth is inclusive(number of directional pads - 1)
 func CalculateMoves(in io.Reader, depth uint8) uint {
 	var total uint = 0
-	cache := make(Cache)
+	cache := make(cache)
 	for pattern := range IterateInput(in) {
-		total += ParseIntValue(&pattern) * WalkNumericSequence(&pattern, depth, &cache)
+		total += ParseIntValue(&pattern) * walkNumericSequence(&pattern, depth, &cache)
 	}
 	return total
 }
 
-func Part1(in io.Reader) uint {
-	return CalculateMoves(in, 3)
+func Part1(in io.Reader) (uint, error) {
+	return CalculateMoves(in, 3), nil
 }

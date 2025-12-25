@@ -20,7 +20,11 @@ var testData string = `....#.....
 ......#...`
 
 func TestPart2(t *testing.T) {
-	if res := day06.Part2(strings.NewReader(testData)); res != 6 {
+	res, err := day06.Part2(strings.NewReader(testData))
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
+	if res != 6 {
 		t.Errorf(`Expected %d to match %d`, res, 6)
 	}
 }

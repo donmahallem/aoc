@@ -1,57 +1,8 @@
 package day13
 
 import (
-	"bufio"
 	"io"
 )
-
-type Block struct {
-	Rows []int
-	Cols []int
-}
-
-func ParseInput(r io.Reader) []Block {
-	scanner := bufio.NewScanner(r)
-
-	blocks := make([]Block, 0, 4)
-	block := Block{
-		Rows: make([]int, 0, 16),
-		Cols: nil,
-	}
-
-	currentHeight := 0
-	for scanner.Scan() {
-		line := scanner.Bytes()
-		if len(line) == 0 {
-			currentHeight = 0
-			if len(block.Rows) > 0 {
-				blocks = append(blocks, block)
-			}
-			block = Block{
-				Rows: make([]int, 0, 16),
-				Cols: nil,
-			}
-			continue
-		}
-		if block.Cols == nil {
-			block.Cols = make([]int, len(line))
-		}
-		currentLine := 0
-		for idx, c := range line {
-
-			if c == '#' {
-				currentLine |= 1 << idx
-				block.Cols[idx] |= 1 << currentHeight
-			}
-		}
-		block.Rows = append(block.Rows, currentLine)
-		currentHeight++
-	}
-	if currentHeight > 0 {
-		blocks = append(blocks, block)
-	}
-	return blocks
-}
 
 func validateAxis(items []int, center int) bool {
 	for lower, upper := center-1, center; lower >= 0 && upper < len(items); lower, upper = lower-1, upper+1 {
@@ -73,8 +24,11 @@ func findAxis(axisData []int) (int, bool) {
 	return -1, false
 }
 
-func Part1(in io.Reader) int {
-	start := ParseInput(in)
+func Part1(in io.Reader) (int, error) {
+	start, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
 	accum := 0
 	for _, block := range start {
 		if rowAxis, ok := findAxis(block.Rows); ok {
@@ -86,5 +40,5 @@ func Part1(in io.Reader) int {
 			continue
 		}
 	}
-	return accum
+	return accum, nil
 }

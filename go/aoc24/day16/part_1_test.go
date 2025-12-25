@@ -1,62 +1,37 @@
-package day16_test
+package day16
 
 import (
+	_ "embed"
 	"fmt"
 	"io"
 	"strings"
 	"testing"
-
-	"github.com/donmahallem/aoc/go/aoc24/day16"
 )
 
-const testData1 string = `###############
-#.......#....E#
-#.#.###.#.###.#
-#.....#.#...#.#
-#.###.#####.#.#
-#.#.#.......#.#
-#.#.#####.###.#
-#...........#.#
-###.#.#####.#.#
-#...#.....#.#.#
-#.#.#.###.#.#.#
-#.....#...#.#.#
-#.###.#.#.#.#.#
-#S..#.....#...#
-###############`
-const testData2 string = `#################
-#...#...#...#..E#
-#.#.#.#.#.#.#.#.#
-#.#.#.#...#...#.#
-#.#.#.#.###.#.#.#
-#...#.#.#.....#.#
-#.#.#.#.#.#####.#
-#.#...#.#.#.....#
-#.#.#####.#.###.#
-#.#.#.......#...#
-#.#.###.#####.###
-#.#.#...#.....#.#
-#.#.#.#####.###.#
-#.#.#.........#.#
-#.#.#.#########.#
-#S#.............#
-#################`
+//go:embed sample1.txt
+var testData1 string
+
+//go:embed sample2.txt
+var testData2 string
 
 func TestParseInput(t *testing.T) {
-	field, start, end := day16.ParseInput(strings.NewReader(testData1))
-	if len(field) != 15 {
-		t.Errorf(`Expected %d to match %d`, len(field), 15)
+	inputData, err := parseInput(strings.NewReader(testData1))
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
 	}
-	if start.Y != 13 || start.X != 1 {
-		t.Errorf(`Expected %v to match [4,4]`, start)
+	if len(inputData.Field) != 15 {
+		t.Errorf(`Expected %d to match %d`, len(inputData.Field), 15)
 	}
-	if end.Y != 1 || end.X != 13 {
-		t.Errorf(`Expected %v to match [4,4]`, end)
+	if inputData.Start.Y != 13 || inputData.Start.X != 1 {
+		t.Errorf(`Expected %v to match [4,4]`, inputData.Start)
+	}
+	if inputData.End.Y != 1 || inputData.End.X != 13 {
+		t.Errorf(`Expected %v to match [4,4]`, inputData.End)
 	}
 }
 
-func fieldToCsv(f *day16.Field) {
-	p := day16.Point{}
+func fieldToCsv(f *field) {
+	p := point{}
 	for y := range len(*f) {
 		p.Y = int16(y)
 		for x := range len((*f)[y]) {
@@ -71,22 +46,43 @@ func fieldToCsv(f *day16.Field) {
 }
 
 func TestFindShortestPath(t *testing.T) {
-	field, start, end := day16.ParseInput(strings.NewReader(testData1))
-	day16.CalculatePathValues(&field, &start)
-	if field[end.Y][end.X] != 7036 {
-		t.Errorf(`Expected %d to match 7036`, field[end.Y][end.X])
+	inputData, err := parseInput(strings.NewReader(testData1))
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
 	}
+	calculatePathValues(&inputData.Field, &inputData.Start)
+	if inputData.Field[inputData.End.Y][inputData.End.X] != 7036 {
+		t.Errorf(`Expected %d to match 7036`, inputData.Field[inputData.End.Y][inputData.End.X])
+	}
+}
+
+func TestCalculatePathValues_Invalid(t *testing.T) {
+	// empty field should not panic
+	f := field{}
+	p := point{X: 0, Y: 0}
+	calculatePathValues(&f, &p)
+	// start outside of field should not panic
+	f2 := make(field, 1)
+	f2[0] = make([]int, 1)
+	p2 := point{X: 10, Y: 10}
+	calculatePathValues(&f2, &p2)
 }
 
 func TestPart1(t *testing.T) {
 	t.Run("with testData1", func(t *testing.T) {
-		result := day16.Part1(strings.NewReader(testData1))
+		result, err := Part1(strings.NewReader(testData1))
+		if err != nil {
+			t.Errorf("Unexpected error: %v", err)
+		}
 		if result != 7036 {
 			t.Errorf(`Expected %d to match 7036`, result)
 		}
 	})
 	t.Run("with testData2", func(t *testing.T) {
-		result := day16.Part1(strings.NewReader(testData2))
+		result, err := Part1(strings.NewReader(testData2))
+		if err != nil {
+			t.Errorf("Unexpected error: %v", err)
+		}
 		if result != 11048 {
 			t.Errorf(`Expected %d to match 11048`, result)
 		}
@@ -97,6 +93,6 @@ func BenchmarkPart1(b *testing.B) {
 	data := strings.NewReader(testData2)
 	for b.Loop() {
 		data.Seek(0, io.SeekStart)
-		day16.Part1(data)
+		Part1(data)
 	}
 }

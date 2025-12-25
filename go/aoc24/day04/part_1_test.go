@@ -32,7 +32,11 @@ var testDataString = [][]byte{[]byte("MMMSXXMASM"),
 
 func Test24Day04Part1(t *testing.T) {
 
-	if result := day04.Part1(strings.NewReader(testData)); result != 18 {
+	result, err := day04.Part1(strings.NewReader(testData))
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
+	if result != 18 {
 		t.Errorf(`Expected %d to match %d`, result, 18)
 	}
 }

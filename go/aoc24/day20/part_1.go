@@ -7,33 +7,50 @@ import (
 	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
-type Point = aoc_utils.Point[int]
-type PointList = []Point
+type point = aoc_utils.Point[int]
+type pointList = []point
 
-var DIR_UP Point = Point{X: 0, Y: -1}
-var DIR_LEFT Point = Point{X: -1, Y: 0}
-var DIR_RIGHT Point = Point{X: 1, Y: 0}
-var DIR_DOWN Point = Point{X: 0, Y: 1}
-var DIRS_ALL []*Point = []*Point{&DIR_DOWN, &DIR_UP, &DIR_LEFT, &DIR_RIGHT}
+var dirUp point = point{X: 0, Y: -1}
+var dirLeft point = point{X: -1, Y: 0}
+var dirRight point = point{X: 1, Y: 0}
+var dirDown point = point{X: 0, Y: 1}
+var DIRS_ALL []*point = []*point{&dirDown, &dirUp, &dirLeft, &dirRight}
 
-func ParseInput(in io.Reader) *PointList {
-	var startPoint, endPoint Point
-	pList := make([]Point, 0)
+func parseInput(in io.Reader) (pointList, error) {
+	var startPoint, endPoint point
+	pList := make([]point, 0)
 	s := bufio.NewScanner(in)
 	y := 0
+	blockWidth := -1
 	for s.Scan() {
 		line := s.Bytes()
+		if blockWidth <= 0 {
+			blockWidth = len(line)
+		} else if len(line) != blockWidth {
+			return nil, aoc_utils.NewParseError("Inconsistent line sizes", nil)
+		}
 		for x := range len(line) {
 			switch line[x] {
 			case '.':
-				pList = append(pList, Point{X: x, Y: y})
+				pList = append(pList, point{X: x, Y: y})
 			case 'S':
-				startPoint = Point{X: x, Y: y}
+				startPoint = point{X: x, Y: y}
 			case 'E':
-				endPoint = Point{X: x, Y: y}
+				endPoint = point{X: x, Y: y}
+			case '#':
+				//call
+				continue
+			default:
+				return nil, aoc_utils.NewParseError("Invalid character in input", nil)
 			}
 		}
 		y++
+	}
+	if scanner := s.Err(); scanner != nil {
+		return nil, scanner
+	}
+	if y <= 3 || blockWidth <= 3 {
+		return nil, aoc_utils.NewParseError("Input too small", nil)
 	}
 	// Append endPoint twice
 	// Prepend start to list without array duplications
@@ -49,14 +66,14 @@ func ParseInput(in io.Reader) *PointList {
 			}
 		}
 	}
-	return &pList
+	return pList, nil
 }
 
-func CountCheats(racewayPoints *[]Point, minSavings int) int {
+func countCheats(racewayPoints []point, minSavings int) int {
 	cheatCount := 0
-	for leftIdx := range len(*racewayPoints) - minSavings {
-		for rightIdx := len(*racewayPoints) - 1; leftIdx+minSavings < rightIdx; rightIdx-- {
-			if (*racewayPoints)[leftIdx].DistanceManhatten((*racewayPoints)[rightIdx]) == 2 {
+	for leftIdx := range len(racewayPoints) - minSavings {
+		for rightIdx := len(racewayPoints) - 1; leftIdx+minSavings < rightIdx; rightIdx-- {
+			if racewayPoints[leftIdx].DistanceManhatten(racewayPoints[rightIdx]) == 2 {
 				cheatCount++
 			}
 		}
@@ -64,7 +81,10 @@ func CountCheats(racewayPoints *[]Point, minSavings int) int {
 	return cheatCount
 }
 
-func Part1(in io.Reader) int {
-	patterns := ParseInput(in)
-	return CountCheats(patterns, 100)
+func Part1(in io.Reader) (int, error) {
+	patterns, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
+	return countCheats(patterns, 100), nil
 }

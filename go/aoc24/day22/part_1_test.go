@@ -38,8 +38,10 @@ func TestStep(t *testing.T) {
 }
 
 func TestPart1(t *testing.T) {
-	points := day22.Part1(strings.NewReader(testData))
-
+	points, err := day22.Part1(strings.NewReader(testData))
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
 	if points != 37327623 {
 		t.Errorf(`Expected %d to match 37327623`, points)
 	}

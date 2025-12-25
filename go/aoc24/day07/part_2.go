@@ -8,16 +8,16 @@ import (
 	"github.com/donmahallem/aoc/go/aoc_utils/int_util"
 )
 
-func NumDigits(val int) int {
+func numDigits(val int) int {
 	return int(math.Log10(float64(val))) + 1
 }
 
-func OpConcat(a, b int) int {
-	offset := NumDigits(b)
+func opConcat(a, b int) int {
+	offset := numDigits(b)
 	return (a * int_util.IntPow(10, offset)) + b
 }
 
-func CheckLinePart2(line *ParsedLineData) bool {
+func checkLinePart2(line *parsedLineData) bool {
 	numTerms := len(line.TestValues)
 	if numTerms == 0 {
 		return false
@@ -35,7 +35,7 @@ func CheckLinePart2(line *ParsedLineData) bool {
 			case 1:
 				testResult *= line.TestValues[pos]
 			case 2:
-				testResult = OpConcat(testResult, line.TestValues[pos])
+				testResult = opConcat(testResult, line.TestValues[pos])
 			}
 			if testResult > line.Result {
 				break
@@ -48,16 +48,16 @@ func CheckLinePart2(line *ParsedLineData) bool {
 	return false
 }
 
-func Part2(in io.Reader) int {
+func Part2(in io.Reader) (int, error) {
 	s := bufio.NewScanner(in)
 	validSum := 0
-	parsedLine := ParsedLineData{}
+	parsedLine := parsedLineData{}
 	for s.Scan() {
 		line := s.Bytes()
-		ParseLine(line, &parsedLine)
-		if CheckLinePart2(&parsedLine) {
+		parseLine(line, &parsedLine)
+		if checkLinePart2(&parsedLine) {
 			validSum += parsedLine.Result
 		}
 	}
-	return validSum
+	return validSum, nil
 }

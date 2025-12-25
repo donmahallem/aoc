@@ -3,9 +3,11 @@ package day11
 import (
 	"bufio"
 	"io"
+
+	aoc_utils "github.com/donmahallem/aoc/go/aoc_utils"
 )
 
-func parseInput(in io.Reader) map[uint64][]uint64 {
+func parseInput(in io.Reader) (map[uint64][]uint64, error) {
 	s := bufio.NewScanner(in)
 
 	nodeMap := make(map[uint64][]uint64)
@@ -28,6 +30,8 @@ func parseInput(in io.Reader) map[uint64][]uint64 {
 					targets = append(targets, currentKey)
 					currentKey = 0
 				}
+			} else {
+				return nil, aoc_utils.NewUnexpectedInputError(c)
 			}
 			// Any other character (like \r) is simply ignored, preventing key corruption
 		}
@@ -36,5 +40,5 @@ func parseInput(in io.Reader) map[uint64][]uint64 {
 		}
 		nodeMap[sourceKey] = targets
 	}
-	return nodeMap
+	return nodeMap, nil
 }

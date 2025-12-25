@@ -23,7 +23,10 @@ const testPatterns string = "r, wr, b, g, bwu, rb, gb, br"
 
 func TestParseFirstLine(t *testing.T) {
 	testInput := testPatterns
-	points, keyLen := day19.ParseFirstLine(testInput)
+	points, keyLen, err := day19.ParseFirstLine(testInput)
+	if err != nil {
+		t.Fatalf("Unexpected error: %v", err)
+	}
 	if len(points) != 8 {
 		t.Errorf(`Expected %d to match 8`, len(points))
 	}
@@ -32,7 +35,10 @@ func TestParseFirstLine(t *testing.T) {
 	}
 }
 func TestParseInput(t *testing.T) {
-	patterns, towls, keyLen := day19.ParseInput(strings.NewReader(testData))
+	patterns, towls, keyLen, err := day19.ParseInput(strings.NewReader(testData))
+	if err != nil {
+		t.Fatalf("Unexpected error: %v", err)
+	}
 	if len(patterns) != 8 {
 		t.Errorf(`Expected %d to match 8`, len(patterns))
 	}
@@ -44,7 +50,10 @@ func TestParseInput(t *testing.T) {
 	}
 }
 func TestPart1(t *testing.T) {
-	test := day19.Part1(strings.NewReader(testData))
+	test, err := day19.Part1(strings.NewReader(testData))
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
 	if test != 6 {
 		t.Errorf(`Expected %d to match 6`, test)
 	}
@@ -53,13 +62,13 @@ func TestPart1(t *testing.T) {
 func BenchmarkParseFirstLine(b *testing.B) {
 	testInput := testPatterns
 	for b.Loop() {
-		day19.ParseFirstLine(testInput)
+		_, _, _ = day19.ParseFirstLine(testInput)
 	}
 }
 
 func BenchmarkParseInput(b *testing.B) {
 	for b.Loop() {
-		day19.ParseInput(strings.NewReader(testData))
+		_, _, _, _ = day19.ParseInput(strings.NewReader(testData))
 	}
 }
 
@@ -67,6 +76,6 @@ func BenchmarkPart1(b *testing.B) {
 	data := strings.NewReader(testData)
 	for b.Loop() {
 		data.Seek(0, io.SeekStart)
-		day19.Part1(data)
+		_, _ = day19.Part1(data)
 	}
 }

@@ -44,7 +44,7 @@ func AddUpSecrets(secrets *[]uint32) uint {
 	return sum
 }
 
-func Part1(in io.Reader) uint {
+func Part1(in io.Reader) (uint, error) {
 	items := ParseInput(in)
-	return AddUpSecrets(items)
+	return AddUpSecrets(items), nil
 }

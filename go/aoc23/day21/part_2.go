@@ -2,6 +2,8 @@ package day21
 
 import (
 	"io"
+
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
 // Extrapolates the number of visited cells for large number of steps
@@ -31,7 +33,13 @@ func SolveInfinite(inp *parsedInput, totalSteps int) int {
 	return a*n*n + b*n + c
 }
 
-func Part2(in io.Reader) int {
-	parsed := ParseInput(in)
-	return SolveInfinite(&parsed, 26501365)
+func Part2(in io.Reader) (int, error) {
+	parsed, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
+	if parsed.Width == 0 || parsed.Height == 0 {
+		return 0, aoc_utils.NewParseError("Empty input", nil)
+	}
+	return SolveInfinite(parsed, 26501365), nil
 }

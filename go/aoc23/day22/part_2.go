@@ -5,7 +5,7 @@ import (
 )
 
 // counts bricks that are only supported by the given brick idx
-func countSupportedBricks(bricks []Brick, supports, supportedBy supportMap) int {
+func countSupportedBricks(bricks []brick, supports, supportedBy supportMap) int {
 	fallen := make([]bool, len(supports))
 	queue := make([]int, 0, len(supports))
 
@@ -42,10 +42,13 @@ func countSupportedBricks(bricks []Brick, supports, supportedBy supportMap) int 
 	}
 	return total
 }
-func Part2(in io.Reader) int {
-	bricks := ParseInput(in)
+func Part2(in io.Reader) (int, error) {
+	bricks, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
 	settleBricks(bricks)
 	supportedBy, supports := buildSupportGraphMap(bricks)
 
-	return countSupportedBricks(bricks, supports, supportedBy)
+	return countSupportedBricks(bricks, supports, supportedBy), nil
 }

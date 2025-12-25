@@ -33,7 +33,7 @@ func checkLine(l []int) bool {
 	return true
 }
 
-func Part1(in io.Reader) int {
+func Part1(in io.Reader) (any, error) {
 	s := bufio.NewScanner(in)
 	var goodLines = 0
 	for s.Scan() {
@@ -47,5 +47,5 @@ func Part1(in io.Reader) int {
 			goodLines++
 		}
 	}
-	return goodLines
+	return goodLines, nil
 }

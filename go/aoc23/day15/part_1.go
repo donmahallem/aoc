@@ -5,7 +5,7 @@ import (
 	"io"
 )
 
-func Part1(in io.Reader) uint {
+func Part1(in io.Reader) (uint, error) {
 	scanner := bufio.NewScanner(in)
 	runningTotal := uint(0)
 	currentTotal := uint(0)
@@ -25,5 +25,5 @@ func Part1(in io.Reader) uint {
 
 		runningTotal += currentTotal
 	}
-	return runningTotal
+	return runningTotal, nil
 }

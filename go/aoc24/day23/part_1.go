@@ -31,7 +31,10 @@ func FindTriplets(data CombinationMap) uint16 {
 	return results
 }
 
-func Part1(in io.Reader) uint16 {
-	items := parseInput(in)
-	return FindTriplets(items)
+func Part1(in io.Reader) (uint16, error) {
+	items, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
+	return FindTriplets(items), nil
 }

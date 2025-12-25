@@ -1,8 +1,13 @@
 package day17
 
-import "io"
+import (
+	"io"
+)
 
-func Part2(in io.Reader) uint32 {
-	start := ParseInput(in)
-	return findShortestPath(start, 4, 10)
+func Part2(r io.Reader) (uint32, error) {
+	f, err := parseInput(r)
+	if err != nil {
+		return 0, err
+	}
+	return findShortestPath(f, 4, 10), nil
 }

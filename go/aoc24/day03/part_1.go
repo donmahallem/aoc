@@ -3,6 +3,7 @@ package day03
 import (
 	"io"
 	"strconv"
+	"strings"
 
 	"github.com/donmahallem/aoc/go/aoc_utils/bytes"
 )
@@ -21,11 +22,12 @@ const (
 )
 
 type MulReader struct {
-	reader     io.Reader
-	state      MulReaderState
-	num1cache  int
-	num2cache  int
-	currentSum int
+	reader       io.Reader
+	state        MulReaderState
+	num1cache    int
+	num2cache    int
+	currentSum   int
+	resultReader io.Reader
 }
 
 func NewMulReader(reader io.Reader) *MulReader {
@@ -33,73 +35,110 @@ func NewMulReader(reader io.Reader) *MulReader {
 }
 
 func (a *MulReader) Read(p []byte) (int, error) {
+	if a.resultReader != nil {
+		return a.resultReader.Read(p)
+	}
+
 	n, err := a.reader.Read(p)
-	if err != nil {
-		if err == io.EOF {
-			sumBuffer := []byte(strconv.Itoa(a.currentSum))
-			copy(p, sumBuffer)
-			return len(sumBuffer), err
-		}
-		return n, err
-	}
 	for i := 0; i < n; i++ {
-		if a.state == MUL_STATE_NONE && p[i] == 'm' {
-			a.state = MUL_STATE_M
-		} else if a.state == MUL_STATE_M {
-			if p[i] == 'u' {
-				a.state = MUL_STATE_MU
-			} else {
+		char := p[i]
+		for {
+			advanced := false
+			switch a.state {
+			case MUL_STATE_NONE:
+				if char == 'm' {
+					a.state = MUL_STATE_M
+					advanced = true
+				} else {
+					advanced = true
+				}
+			case MUL_STATE_M:
+				if char == 'u' {
+					a.state = MUL_STATE_MU
+					advanced = true
+				} else {
+					a.state = MUL_STATE_NONE
+				}
+			case MUL_STATE_MU:
+				if char == 'l' {
+					a.state = MUL_STATE_MUL
+					advanced = true
+				} else {
+					a.state = MUL_STATE_NONE
+				}
+			case MUL_STATE_MUL:
+				if char == '(' {
+					a.state = MUL_STATE_MUL_OPEN
+					advanced = true
+				} else {
+					a.state = MUL_STATE_NONE
+				}
+			case MUL_STATE_MUL_OPEN:
+				if val, ok := bytes.ParseIntFromByte[int](char); ok {
+					a.state = MUL_STATE_MUL_OPEN_NUM1
+					a.num1cache = val
+					advanced = true
+				} else {
+					a.state = MUL_STATE_NONE
+				}
+			case MUL_STATE_MUL_OPEN_NUM1:
+				if val, ok := bytes.ParseIntFromByte[int](char); ok {
+					// defensive: prevent int overflow if needed, though inputs are typically small
+					a.num1cache = a.num1cache*10 + val
+					advanced = true
+				} else if char == ',' {
+					a.state = MUL_STATE_MUL_OPEN_COMMA
+					advanced = true
+				} else {
+					a.state = MUL_STATE_NONE
+				}
+			case MUL_STATE_MUL_OPEN_COMMA:
+				if val, ok := bytes.ParseIntFromByte[int](char); ok {
+					a.state = MUL_STATE_MUL_OPEN_NUM2
+					a.num2cache = val
+					advanced = true
+				} else {
+					a.state = MUL_STATE_NONE
+				}
+			case MUL_STATE_MUL_OPEN_NUM2:
+				if val, ok := bytes.ParseIntFromByte[int](char); ok {
+					a.num2cache = a.num2cache*10 + val
+					advanced = true
+				} else if char == ')' {
+					a.currentSum += a.num1cache * a.num2cache
+					a.state = MUL_STATE_NONE
+					advanced = true
+				} else {
+					a.state = MUL_STATE_NONE
+				}
+			default:
 				a.state = MUL_STATE_NONE
 			}
-		} else if a.state == MUL_STATE_MU {
-			if p[i] == 'l' {
-				a.state = MUL_STATE_MUL
-			} else {
-				a.state = MUL_STATE_NONE
-			}
-		} else if a.state == MUL_STATE_MUL {
-			if p[i] == '(' {
-				a.state = MUL_STATE_MUL_OPEN
-			} else {
-				a.state = MUL_STATE_NONE
-			}
-		} else if a.state == MUL_STATE_MUL_OPEN {
-			if val, ok := bytes.ParseIntFromByte[int](p[i]); ok {
-				a.state = MUL_STATE_MUL_OPEN_NUM1
-				a.num1cache = val
-			} else {
-				a.state = MUL_STATE_NONE
-			}
-		} else if a.state == MUL_STATE_MUL_OPEN_NUM1 {
-			if val, ok := bytes.ParseIntFromByte[int](p[i]); ok {
-				a.num1cache = a.num1cache*10 + val
-			} else if p[i] == ',' {
-				a.state = MUL_STATE_MUL_OPEN_COMMA
-			} else {
-				a.state = MUL_STATE_NONE
-			}
-		} else if a.state == MUL_STATE_MUL_OPEN_COMMA {
-			if val, ok := bytes.ParseIntFromByte[int](p[i]); ok {
-				a.state = MUL_STATE_MUL_OPEN_NUM2
-				a.num2cache = val
-			} else {
-				a.state = MUL_STATE_NONE
-			}
-		} else if a.state == MUL_STATE_MUL_OPEN_NUM2 {
-			if val, ok := bytes.ParseIntFromByte[int](p[i]); ok {
-				a.num2cache = a.num2cache*10 + val
-			} else if p[i] == ')' {
-				a.currentSum += a.num1cache * a.num2cache
-				a.state = MUL_STATE_NONE
-			} else {
-				a.state = MUL_STATE_NONE
+
+			if advanced {
+				break
 			}
 		}
 	}
+
+	if err == io.EOF {
+		// When input ends, switch to serving the result.
+		a.resultReader = strings.NewReader(strconv.Itoa(a.currentSum))
+		return a.resultReader.Read(p)
+	}
+
+	// We return 0, nil because we consumed the input but produced no output yet.
+	// This is acceptable here as we are treating the Reader as a sink until EOF.
 	return 0, nil
 }
-func Part1(in io.Reader) int {
-	input_data, _ := io.ReadAll(NewMulReader(in))
-	result, _ := strconv.Atoi(string(input_data))
-	return result
+func Part1(in io.Reader) (int, error) {
+	input_data, err := io.ReadAll(NewMulReader(in))
+	if err != nil {
+		return 0, err
+	}
+	result, err := strconv.Atoi(string(input_data))
+	if err != nil {
+		return 0, err
+	}
+	return result, nil
 }

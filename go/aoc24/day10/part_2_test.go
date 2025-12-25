@@ -12,7 +12,11 @@ import (
 func TestPart2(t *testing.T) {
 	t.Run("test sample data", func(t *testing.T) {
 
-		if result := day10.Part2(strings.NewReader(testData)); result != 81 {
+		result, err := day10.Part2(strings.NewReader(testData))
+		if err != nil {
+			t.Errorf("Unexpected error: %v", err)
+		}
+		if result != 81 {
 			t.Errorf(`Expected %d to be %d`, result, 81)
 		}
 	})
@@ -27,9 +31,15 @@ func TestPart2(t *testing.T) {
 }
 
 func BenchmarkPart2(b *testing.B) {
-	data := strings.NewReader(testData)
-	for b.Loop() {
-		data.Seek(0, io.SeekStart)
-		day10.Part2(data)
-	}
+	b.Run("benchmark sample data", func(b *testing.B) {
+		data := strings.NewReader(testData)
+		for b.Loop() {
+			data.Seek(0, io.SeekStart)
+			day10.Part2(data)
+		}
+	})
+
+	b.Run("benchmark full data", func(b *testing.B) {
+		test_utils.BenchmarkFullDataForDate(b, 24, 10, day10.Part2)
+	})
 }

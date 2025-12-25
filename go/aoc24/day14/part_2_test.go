@@ -19,7 +19,11 @@ func TestStep(t *testing.T) {
 }
 
 func TestPart2(t *testing.T) {
-	if result := day14.Part2(strings.NewReader(testData)); result != 1 {
+	result, err := day14.Part2(strings.NewReader(testData))
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
+	if result != 1 {
 		t.Errorf(`Expected %d to contain %d`, result, 1)
 	}
 }

@@ -3,50 +3,9 @@ package day02
 import (
 	"bufio"
 	"io"
-
-	"github.com/donmahallem/aoc/go/aoc_utils/bytes"
 )
 
-type Block struct {
-	Red, Green, Blue int
-}
-
-func ParseLine(line []byte) (int, []Block) {
-	game := 0
-	curBlock := Block{}
-	blocks := make([]Block, 0)
-	curVal := 0
-	for idx := 0; idx < len(line); idx++ {
-		chr := line[idx]
-		if val, ok := bytes.ParseIntFromByte[int](chr); ok {
-			curVal = (curVal * 10) + val
-		} else if chr == ':' {
-			game = curVal
-			curVal = 0
-		} else if chr == 'g' {
-			curBlock.Green += curVal
-			idx += 4
-			curVal = 0
-		} else if chr == 'b' {
-			curBlock.Blue += curVal
-			idx += 3
-			curVal = 0
-		} else if chr == 'r' {
-			curBlock.Red += curVal
-			idx += 2
-			curVal = 0
-		} else if chr == ';' {
-			blocks = append(blocks, curBlock)
-			curBlock = Block{}
-		}
-	}
-	if curBlock.Blue+curBlock.Green+curBlock.Red > 0 {
-		blocks = append(blocks, curBlock)
-	}
-	return game, blocks
-}
-
-func ValidateBlocks(blocks []Block) bool {
+func validateBlocks(blocks []block) bool {
 	for _, block := range blocks {
 		if block.Red > 12 || block.Green > 13 || block.Blue > 14 {
 			return false
@@ -55,15 +14,15 @@ func ValidateBlocks(blocks []Block) bool {
 	return true
 }
 
-func Part1(in io.Reader) int {
+func Part1(in io.Reader) (int, error) {
 	s := bufio.NewScanner(in)
 	summe := 0
 	for s.Scan() {
 		d := s.Bytes()
-		gameId, blocks := ParseLine(d)
-		if ValidateBlocks(blocks) {
+		gameId, blocks := parseLine(d)
+		if validateBlocks(blocks) {
 			summe += gameId
 		}
 	}
-	return summe
+	return summe, nil
 }

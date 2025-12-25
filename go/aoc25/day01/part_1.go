@@ -4,7 +4,7 @@ import (
 	"io"
 )
 
-func Part1(in io.Reader) int {
+func Part1(in io.Reader) (any, error) {
 	currentPosition := 50
 	zeros := 0
 	for d := range parseInputGen(in) {
@@ -13,5 +13,5 @@ func Part1(in io.Reader) int {
 			zeros++
 		}
 	}
-	return zeros
+	return zeros, nil
 }

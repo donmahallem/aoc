@@ -12,14 +12,17 @@ var testData = `@.@
 
 func Test_parseInput(t *testing.T) {
 	reader := strings.NewReader(testData)
-	got, width, height := parseInput(reader)
-
-	if len(got) != 9 {
-		t.Errorf("Expected len of %d, got %d", 9, len(got))
+	data, err := parseInput(reader)
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
 	}
 
-	if width != 3 || height != 3 {
-		t.Errorf("Expected width and height to be 10,10 got %d,%d", width, height)
+	if len(data.field) != 9 {
+		t.Errorf("Expected len of %d, got %d", 9, len(data.field))
+	}
+
+	if data.width != 3 || data.row != 3 {
+		t.Errorf("Expected width and height to be 3,3 got %d,%d", data.width, data.row)
 	}
 
 }

@@ -13,7 +13,10 @@ func Test_parseInput3(t *testing.T) {
 	t.Run("respect slope", func(t *testing.T) {
 		t.Run("test sample", func(t *testing.T) {
 			reader := strings.NewReader(testData)
-			result, w, h := parseInput(reader, true)
+			result, w, h, err := parseInput(reader, true)
+			if err != nil {
+				t.Fatalf("Unexpected error: %v", err)
+			}
 			if w != 23 || h != 23 {
 				t.Errorf(`Expected width and height to be 23, got %d and %d`, w, h)
 			}
@@ -43,7 +46,10 @@ func Test_parseInput3(t *testing.T) {
 
 		t.Run("test sample", func(t *testing.T) {
 			reader := strings.NewReader(testData)
-			result, w, h := parseInput(reader, false)
+			result, w, h, err := parseInput(reader, false)
+			if err != nil {
+				t.Fatalf("Unexpected error: %v", err)
+			}
 			if w != 23 || h != 23 {
 				t.Errorf(`Expected width and height to be 23, got %d and %d`, w, h)
 			}
@@ -74,7 +80,10 @@ func Test_parseInput3(t *testing.T) {
 				0, dirExitTop | dirEntryTop, 0,
 			}
 			reader := strings.NewReader(testData)
-			result, w, h := parseInput(reader, false)
+			result, w, h, err := parseInput(reader, false)
+			if err != nil {
+				t.Fatalf("Unexpected error: %v", err)
+			}
 			if w != 3 || h != 3 {
 				t.Errorf(`Expected width and height to be 3, got %d and %d`, w, h)
 			}
@@ -86,7 +95,10 @@ func Test_parseInput3(t *testing.T) {
 		})
 		t.Run("test sample 2", func(t *testing.T) {
 			reader := strings.NewReader(testData)
-			result, w, h := parseInput(reader, false)
+			result, w, h, err := parseInput(reader, false)
+			if err != nil {
+				t.Fatalf("Unexpected error: %v", err)
+			}
 			if w != 23 || h != 23 {
 				t.Errorf(`Expected width and height to be 23, got %d and %d`, w, h)
 			}

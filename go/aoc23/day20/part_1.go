@@ -153,7 +153,7 @@ func simulatePress(inp *parsedInput, observer func(pulse)) (int, int) {
 	return lowCount, highCount
 }
 
-func Part1(in io.Reader) int {
+func Part1(in io.Reader) (int, error) {
 	inp := ParseInput(in)
 
 	totalLow, totalHigh := 0, 0
@@ -163,5 +163,5 @@ func Part1(in io.Reader) int {
 		totalHigh += high
 	}
 
-	return totalLow * totalHigh
+	return totalLow * totalHigh, nil
 }

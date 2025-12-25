@@ -1,50 +1,35 @@
 package day17
 
 import (
-	"bufio"
 	"io"
-	"strconv"
-	"strings"
 
+	"github.com/donmahallem/aoc/go/aoc_utils"
 	"github.com/donmahallem/aoc/go/aoc_utils/int_util"
 )
 
-type Register = [3]int
-type Program = []int
-
-func ParseInput(in io.Reader) (Register, Program) {
-	reg := Register{}
-	var prog Program
-	s := bufio.NewScanner(in)
-	splitLine := make([]string, 0)
-	for s.Scan() {
-		line := s.Text()
-		splitLine = append(splitLine[:0], strings.Split(line, " ")...)
-		if splitLine[0] == "Register" {
-			reg[byte(splitLine[1][0])-'A'], _ = strconv.Atoi(splitLine[2])
-		} else if strings.HasPrefix(splitLine[0], "Program:") {
-			splitOperands := strings.Split(splitLine[1], ",")
-			prog = make(Program, len(splitOperands))
-			for idx := range len(splitOperands) {
-				prog[idx], _ = strconv.Atoi(splitOperands[idx])
-			}
-		}
-
-	}
-	return reg, prog
-}
-
-func CalculateOutput(reg *Register, program *Program) *Program {
+func CalculateOutput(reg *Register, program *Program) (*Program, error) {
 	output := make(Program, 0)
 	pointer := 0
 	var opcode, operand, operand_value int
+	if len(*program)%2 != 0 {
+		return nil, aoc_utils.NewParseError("malformed program: odd length", nil)
+	}
 	for pointer < len(*program) {
+		if pointer+1 >= len(*program) {
+			return nil, aoc_utils.NewParseError("malformed program: missing operand", nil)
+		}
 		opcode = (*program)[pointer]
 		operand = (*program)[pointer+1]
+		// validate operand
+		if operand < 0 {
+			return nil, aoc_utils.NewParseError("invalid operand", nil)
+		}
 		if operand < 4 {
 			operand_value = operand
 		} else if operand >= 4 && operand < 7 {
 			operand_value = (*reg)[operand-4]
+		} else {
+			return nil, aoc_utils.NewParseError("invalid operand", nil)
 		}
 		switch opcode {
 		case 0:
@@ -55,6 +40,9 @@ func CalculateOutput(reg *Register, program *Program) *Program {
 			(*reg)[1] = operand_value % 8
 		case 3:
 			if (*reg)[0] != 0 {
+				if operand_value < 0 || operand_value >= len(*program) {
+					return nil, aoc_utils.NewParseError("invalid jump target", nil)
+				}
 				pointer = operand_value
 				continue
 			}
@@ -66,13 +54,22 @@ func CalculateOutput(reg *Register, program *Program) *Program {
 			(*reg)[1] = (*reg)[0] / (int_util.IntPow(2, operand_value))
 		case 7:
 			(*reg)[2] = (*reg)[0] / (int_util.IntPow(2, operand_value))
+		default:
+			return nil, aoc_utils.NewParseError("invalid opcode", nil)
 		}
 		pointer += 2
 	}
-	return &output
+	return &output, nil
 }
 
-func Part1(in io.Reader) []int {
-	registers, program := ParseInput(in)
-	return *CalculateOutput(&registers, &program)
+func Part1(in io.Reader) ([]int, error) {
+	data, err := parseInput(in)
+	if err != nil {
+		return nil, err
+	}
+	out, err := CalculateOutput(&data.Register, &data.Program)
+	if err != nil {
+		return nil, err
+	}
+	return *out, nil
 }

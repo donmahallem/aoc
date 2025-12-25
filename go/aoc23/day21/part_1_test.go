@@ -1,56 +1,50 @@
 package day21_test
 
 import (
+	_ "embed"
 	"strings"
 	"testing"
 
 	"github.com/donmahallem/aoc/go/aoc23/day21"
+	"github.com/donmahallem/aoc/go/test_utils"
 )
 
-var testDataSample1 string = `...........
-.....###.#.
-.###.##..#.
-..#.#...#..
-....#.#....
-.##..S####.
-.##..#...#.
-.......##..
-.##.#.####.
-.##..##.##.
-...........`
-
-func TestParseInput(t *testing.T) {
-	t.Run("testData1", func(t *testing.T) {
-		reader := strings.NewReader(testDataSample1)
-		res := day21.ParseInput(reader)
-		if res.Width != 11 || res.Height != 11 {
-			t.Errorf(`Expected width and height to be 11, got %d and %d`, res.Width, res.Height)
-		}
-		if res.StartX != 5 || res.StartY != 5 {
-			t.Errorf(`Expected start position to be (5,5), got (%d,%d)`, res.StartX, res.StartY)
-		}
-
-	})
-
-}
+//go:embed sample_1.txt
+var testDataSample1 string
 
 func TestPart1(t *testing.T) {
-	t.Run("test sample 1", func(t *testing.T) {
-		expected := 16
+
+	t.Run("test sample data", func(t *testing.T) {
 		reader := strings.NewReader(testDataSample1)
-		res := day21.ParseInput(reader)
-		visitedCount := day21.CountVisited(&res, 6, true)
-		if visitedCount != expected {
-			t.Errorf(`Expected number of blocks to be %d, got %d`, expected, visitedCount)
+		res, err := day21.Part1(reader)
+		if err != nil {
+			t.Errorf("Unexpected error: %v", err)
+		}
+		expected := 42
+		if res != expected {
+			t.Errorf(`Expected number of blocks to be %d, got %d`, expected, res)
+		}
+	})
+
+	t.Run("test real data", func(t *testing.T) {
+		expected := 3697
+		result, ok := test_utils.TestFullDataForDate(t, 23, 21, day21.Part1)
+		if !ok || result != expected {
+			t.Errorf(`Expected %d to be %d`, result, expected)
 		}
 	})
 }
 
 func BenchmarkPart1(b *testing.B) {
+	b.Run("benchmark sample data", func(b *testing.B) {
+		reader := strings.NewReader(testDataSample1)
+		for b.Loop() {
+			day21.Part1(reader)
+			reader.Seek(0, 0)
+		}
+	})
 
-	reader := strings.NewReader(testDataSample1)
-	for b.Loop() {
-		day21.Part1(reader)
-		reader.Seek(0, 0)
-	}
+	b.Run("benchmark full data", func(b *testing.B) {
+		test_utils.BenchmarkFullDataForDate(b, 23, 21, day21.Part1)
+	})
 }

@@ -4,11 +4,18 @@ import (
 	"io"
 )
 
-func Part2(in io.Reader) int {
-	lines := ParseInput(in, 5)
+func Part2(in io.Reader) (int, error) {
+	lines, err := parseInput(in, 5)
+	if err != nil {
+		return 0, err
+	}
 	var total int = 0
 	for _, line := range lines {
-		total += SolveLine(line)
+		stepCount, err := solveLine(*line)
+		if err != nil {
+			return 0, err
+		}
+		total += stepCount
 	}
-	return total
+	return total, nil
 }

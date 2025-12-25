@@ -2,16 +2,20 @@ package day19
 
 import (
 	"bufio"
+	_ "embed"
 	"io"
 	"strconv"
 	"strings"
 )
 
+//go:embed sample.txt
+var sample string
+
 const actionReject = "R"
 const actionAccept = "A"
 
 type workflowRule interface {
-	Evaluate(r Rating) (string, bool)
+	Evaluate(r rating) (string, bool)
 }
 
 type workflowRuleGreater struct {
@@ -20,7 +24,7 @@ type workflowRuleGreater struct {
 	target string
 }
 
-func (wr *workflowRuleGreater) Evaluate(r Rating) (string, bool) {
+func (wr *workflowRuleGreater) Evaluate(r rating) (string, bool) {
 	value, ok := r.valueFor(wr.letter)
 	if !ok {
 		return "", false
@@ -37,7 +41,7 @@ type workflowRuleLess struct {
 	target string
 }
 
-func (wr *workflowRuleLess) Evaluate(r Rating) (string, bool) {
+func (wr *workflowRuleLess) Evaluate(r rating) (string, bool) {
 	value, ok := r.valueFor(wr.letter)
 	if !ok {
 		return "", false
@@ -52,7 +56,7 @@ type workflowRuleDirect struct {
 	target string
 }
 
-func (wr *workflowRuleDirect) Evaluate(r Rating) (string, bool) {
+func (wr *workflowRuleDirect) Evaluate(r rating) (string, bool) {
 	return wr.target, true
 }
 
@@ -61,7 +65,7 @@ type workflow struct {
 	rules []workflowRule
 }
 
-func (wf workflow) Next(r Rating) (string, bool) {
+func (wf workflow) Next(r rating) (string, bool) {
 	for _, rule := range wf.rules {
 		if target, ok := rule.Evaluate(r); ok {
 			return target, true
@@ -70,14 +74,14 @@ func (wf workflow) Next(r Rating) (string, bool) {
 	return "", false
 }
 
-type Rating struct {
+type rating struct {
 	X int
 	M int
 	A int
 	S int
 }
 
-func (r Rating) valueFor(letter byte) (int, bool) {
+func (r rating) valueFor(letter byte) (int, bool) {
 	switch letter {
 	case 'x':
 		return r.X, true
@@ -94,10 +98,10 @@ func (r Rating) valueFor(letter byte) (int, bool) {
 
 type parsedData struct {
 	Workflows map[string]workflow
-	Ratings   []Rating
+	Ratings   []rating
 }
 
-func ParseInput(r io.Reader) parsedData {
+func parseInput(r io.Reader) parsedData {
 	scanner := bufio.NewScanner(r)
 	data := parsedData{
 		Workflows: make(map[string]workflow),
@@ -178,12 +182,12 @@ func ParseInput(r io.Reader) parsedData {
 	return data
 }
 
-func parseRating(line string) (*Rating, bool) {
+func parseRating(line string) (*rating, bool) {
 	if len(line) < 2 || line[0] != '{' || line[len(line)-1] != '}' {
 		return nil, false
 	}
 
-	rating := Rating{}
+	r := rating{}
 	inner := line[1 : len(line)-1]
 	parts := strings.Split(inner, ",")
 	if len(parts) != 4 {
@@ -204,17 +208,17 @@ func parseRating(line string) (*Rating, bool) {
 
 		switch key {
 		case "x":
-			rating.X = value
+			r.X = value
 		case "m":
-			rating.M = value
+			r.M = value
 		case "a":
-			rating.A = value
+			r.A = value
 		case "s":
-			rating.S = value
+			r.S = value
 		default:
 			return nil, false
 		}
 	}
 
-	return &rating, true
+	return &r, true
 }

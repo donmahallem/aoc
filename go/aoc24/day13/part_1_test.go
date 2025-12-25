@@ -33,14 +33,20 @@ func TestOutOfBoundsShouldBeInside(t *testing.T) {
 }
 
 func TestFindNeighbours(t *testing.T) {
-	test := day13.LoadFile(strings.NewReader(testData))
+	test, err := day13.LoadFile(strings.NewReader(testData))
+	if err != nil {
+		t.Fatalf("Unexpected error: %v", err)
+	}
 	if len(test) != 4 {
 		t.Errorf(`Expected %d to match %d`, len(test), 4)
 	}
 }
 
 func TestPart1(t *testing.T) {
-	test := day13.Part1(strings.NewReader(testData))
+	test, err := day13.Part1(strings.NewReader(testData))
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
 	if test != 480 {
 		t.Errorf(`Expected %d to match 480`, test)
 	}

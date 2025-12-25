@@ -13,7 +13,10 @@ func TestPart2(t *testing.T) {
 	t.Run("test sample 1", func(t *testing.T) {
 		expected := int64(47)
 		reader := strings.NewReader(testData)
-		result := day24.Part2(reader)
+		result, err := day24.Part2(reader)
+		if err != nil {
+			t.Errorf("Unexpected error: %v", err)
+		}
 		if result != expected {
 			t.Errorf(`Expected number of blocks to be %d, got %d`, expected, result)
 		}
@@ -30,7 +33,6 @@ func TestPart2(t *testing.T) {
 
 func BenchmarkPart2(b *testing.B) {
 	b.Run("benchmark sample data", func(b *testing.B) {
-
 		reader := strings.NewReader(testData)
 		for b.Loop() {
 			day24.Part2(reader)

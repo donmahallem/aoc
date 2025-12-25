@@ -24,7 +24,10 @@ func Test_parseInput(t *testing.T) {
 	}
 	t.Run("test parseInput", func(t *testing.T) {
 		reader := strings.NewReader(testData)
-		parsedData := parseInput(reader)
+		parsedData, err := parseInput(reader)
+		if err != nil {
+			t.Errorf("Unexpected error: %v", err)
+		}
 		if !reflect.DeepEqual(parsedData.validRanges, tests.validRanges) {
 			t.Errorf("Expected validRanges to be %+v, got %+v", tests.validRanges, parsedData.validRanges)
 		}
@@ -34,7 +37,7 @@ func Test_parseInput(t *testing.T) {
 	})
 }
 
-func BenchmarkXxx(b *testing.B) {
+func BenchmarkParseInput(b *testing.B) {
 
 	b.Run("benchmark sample data", func(b *testing.B) {
 

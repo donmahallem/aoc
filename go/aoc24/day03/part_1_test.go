@@ -20,7 +20,10 @@ func TestNewMulReader(t *testing.T) {
 }
 
 func TestPart1(t *testing.T) {
-	var data = day03.Part1(strings.NewReader(testData))
+	data, err := day03.Part1(strings.NewReader(testData))
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
 	expected := 161
 	if data != expected {
 		t.Errorf(`Expected %d to match %d`, data, expected)

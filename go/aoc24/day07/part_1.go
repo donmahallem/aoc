@@ -5,15 +5,17 @@ import (
 	"io"
 )
 
-type ParsedLineData struct {
-	Result     int
-	TestValues []int
-}
-
-func CheckLinePart1(parsed *ParsedLineData) bool {
+func checkLinePart1(parsed *parsedLineData) bool {
 	numTerms := len(parsed.TestValues)
-	runnerTarget := (1 << (numTerms - 1))
-	for i := range runnerTarget {
+	if numTerms == 0 {
+		return false
+	}
+	// limit large inputs from fuzzing to avoid combinatorial blowup
+	if numTerms > 20 {
+		return false
+	}
+	runnerTarget := 1 << (numTerms - 1)
+	for i := 0; i < runnerTarget; i++ {
 		testResult := parsed.TestValues[0]
 		for pos := 1; pos < numTerms; pos++ {
 			if (1<<(pos-1))&i > 0 {
@@ -32,47 +34,16 @@ func CheckLinePart1(parsed *ParsedLineData) bool {
 	return false
 }
 
-func ParseLine(raw []byte, parsed *ParsedLineData) {
-	parsed.Result = 0
-	parsed.TestValues = parsed.TestValues[:0]
-	initialBlock := byte(0)
-	currentTestValue := 0
-	valueFound := false
-	for _, c := range raw {
-		if c >= '0' && c <= '9' {
-			if initialBlock == 0 {
-				parsed.Result = parsed.Result*10 + int(c-'0')
-			} else {
-				currentTestValue = currentTestValue*10 + int(c-'0')
-			}
-			valueFound = true
-		} else if c == ':' {
-			initialBlock = 1
-		} else if c == ' ' {
-			if initialBlock == 3 {
-				parsed.TestValues = append(parsed.TestValues, currentTestValue)
-				currentTestValue = 0
-				valueFound = false
-			} else {
-				initialBlock = (initialBlock + 1) | 1
-			}
-		}
-	}
-	if valueFound {
-		parsed.TestValues = append(parsed.TestValues, currentTestValue)
-	}
-}
-
-func Part1(in io.Reader) int {
+func Part1(in io.Reader) (int, error) {
 	s := bufio.NewScanner(in)
 	validSum := 0
-	parsedLine := ParsedLineData{}
+	parsedLine := parsedLineData{}
 	for s.Scan() {
 		line := s.Bytes()
-		ParseLine(line, &parsedLine)
-		if CheckLinePart1(&parsedLine) {
+		parseLine(line, &parsedLine)
+		if checkLinePart1(&parsedLine) {
 			validSum += parsedLine.Result
 		}
 	}
-	return validSum
+	return validSum, nil
 }

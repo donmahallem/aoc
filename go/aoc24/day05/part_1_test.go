@@ -38,7 +38,10 @@ const testData string = `47|53
 97,13,75,29,47`
 
 func TestPart1(t *testing.T) {
-	result := day05.Part1(strings.NewReader(testData))
+	result, err := day05.Part1(strings.NewReader(testData))
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
 	if result != 143 {
 		t.Errorf(`Expected %d to be %d`, result, 143)
 	}

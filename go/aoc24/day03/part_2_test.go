@@ -31,7 +31,10 @@ func TestDoReader(t *testing.T) {
 	})
 }
 func TestPart2(t *testing.T) {
-	var data = day03.Part2(strings.NewReader(testDataPart2))
+	data, err := day03.Part2(strings.NewReader(testDataPart2))
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
 	expected := 48
 	if data != expected {
 		t.Errorf(`Expected %d to match %d`, data, expected)

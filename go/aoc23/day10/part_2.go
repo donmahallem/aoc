@@ -5,15 +5,15 @@ import (
 )
 
 // collect the loop tiles and a lookup for nodes by position
-func findLoop(start *Node) (map[point]bool, map[point]*Node) {
+func findLoop(start *node) (map[point]bool, map[point]*node) {
 	loopSet := make(map[point]bool)
-	loopNodes := make(map[point]*Node)
+	loopNodes := make(map[point]*node)
 	if start == nil {
 		return loopSet, loopNodes
 	}
 	// pick one neighbor to start walking the loop
-	var cur *Node
-	for _, nb := range []*Node{start.Up, start.Right, start.Down, start.Left} {
+	var cur *node
+	for _, nb := range []*node{start.Up, start.Right, start.Down, start.Left} {
 		if nb != nil {
 			cur = nb
 			break
@@ -29,8 +29,8 @@ func findLoop(start *Node) (map[point]bool, map[point]*Node) {
 	for cur != start {
 		loopSet[cur.Position] = true
 		loopNodes[cur.Position] = cur
-		var next *Node
-		for _, nb := range []*Node{cur.Up, cur.Right, cur.Down, cur.Left} {
+		var next *node
+		for _, nb := range []*node{cur.Up, cur.Right, cur.Down, cur.Left} {
 			if nb != nil && nb != prev {
 				next = nb
 				break
@@ -46,7 +46,7 @@ func findLoop(start *Node) (map[point]bool, map[point]*Node) {
 }
 
 // find number of enclosed cells in the loop using flood fill
-func numberOfEnclosedCells(start *Node) int {
+func numberOfEnclosedCells(start *node) int {
 	loopSet, loopNodes := findLoop(start)
 	if len(loopSet) == 0 {
 		return 0
@@ -87,7 +87,7 @@ func numberOfEnclosedCells(start *Node) int {
 		cx := (p.X-minX)*2 + 1
 		cy := (p.Y-minY)*2 + 1
 		wall[cy][cx] = true
-		for _, nb := range []*Node{n.Up, n.Right, n.Down, n.Left} {
+		for _, nb := range []*node{n.Up, n.Right, n.Down, n.Left} {
 			if nb == nil {
 				continue
 			}
@@ -136,7 +136,10 @@ func numberOfEnclosedCells(start *Node) int {
 	return enclosed
 }
 
-func Part2(in io.Reader) int {
-	start := ParseInput(in)
-	return numberOfEnclosedCells(start)
+func Part2(in io.Reader) (int, error) {
+	start, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
+	return numberOfEnclosedCells(start), nil
 }

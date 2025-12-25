@@ -1,56 +1,49 @@
 package day11_test
 
 import (
-	"io"
+	_ "embed"
 	"strings"
 	"testing"
 
 	"github.com/donmahallem/aoc/go/aoc23/day11"
+	"github.com/donmahallem/aoc/go/test_utils"
 )
 
-var testData string = `...#......
-.......#..
-#.........
-..........
-......#...
-.#........
-.........#
-..........
-.......#..
-#...#.....`
+//go:embed sample.txt
+var testData string
 
 func TestPart1(t *testing.T) {
-	t.Run("parseInput", func(t *testing.T) {
-		t.Run("offset 1", func(t *testing.T) {
-			reader := strings.NewReader(testData)
-			galaxies := day11.ParseInput(reader, 1)
-			const expectedLen int = 9
-			if len(galaxies) != expectedLen {
-				t.Errorf(`Expected %d galaxies to be parsed, got %d`, expectedLen, len(galaxies))
-			}
-		})
-		t.Run("offset 100", func(t *testing.T) {
-			reader := strings.NewReader(testData)
-			galaxies := day11.ParseInput(reader, 100)
-			const expectedLen int = 9
-			if len(galaxies) != expectedLen {
-				t.Errorf(`Expected %d galaxies to be parsed, got %d`, expectedLen, len(galaxies))
-			}
-		})
-	})
-	t.Run("testData1", func(t *testing.T) {
+	t.Run("test sample data", func(t *testing.T) {
 		const expected int = 374
 		reader := strings.NewReader(testData)
-		if res := day11.Part1(reader); res != expected {
+		res, err := day11.Part1(reader)
+		if err != nil {
+			t.Errorf("Unexpected error: %v", err)
+		}
+		if res != expected {
 			t.Errorf(`Expected %d to be %d`, res, expected)
+		}
+	})
+
+	t.Run("test real data", func(t *testing.T) {
+		expected := 9686930
+		result, ok := test_utils.TestFullDataForDate(t, 23, 11, day11.Part1)
+		if !ok || result != expected {
+			t.Errorf(`Expected %d to be %d`, result, expected)
 		}
 	})
 }
 
 func BenchmarkPart1(b *testing.B) {
-	reader := strings.NewReader(testData)
-	for b.Loop() {
-		reader.Seek(0, io.SeekStart)
-		day11.Part1(reader)
-	}
+	b.Run("benchmark sample data", func(b *testing.B) {
+		reader := strings.NewReader(testData)
+		for b.Loop() {
+			day11.Part1(reader)
+			reader.Seek(0, 0)
+		}
+	})
+
+	b.Run("benchmark full data", func(b *testing.B) {
+		test_utils.BenchmarkFullDataForDate(b, 23, 11, day11.Part1)
+	})
 }

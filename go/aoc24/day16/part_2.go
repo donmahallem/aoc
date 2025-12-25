@@ -4,20 +4,20 @@ import (
 	"io"
 )
 
-type VisitedMap = map[Point]bool
-type TraceBackState struct {
+type visitedMap = map[point]bool
+type traceBackState struct {
 	// Position in the grid where you are
-	pos Point
+	pos point
 	// Value of cell where you are
 	value int
 	// Value of cell you are coming from
 	previousValue int
 	// Direction you walked from the last cell
-	dir *Direction
+	dir *direction
 }
 
 // Takes a state and checks neighbours for cells that could have been walked form start to finish
-func walkBackPathValues(field *Field, traceState *TraceBackState, visited *VisitedMap) bool {
+func walkBackPathValues(field *field, traceState *traceBackState, visited *visitedMap) bool {
 	if traceState.value == 0 {
 		// Endpoint reached
 		(*visited)[traceState.pos] = true
@@ -25,18 +25,27 @@ func walkBackPathValues(field *Field, traceState *TraceBackState, visited *Visit
 	}
 	var diff, nextValue int
 	status := false
-	var testCoord Point = Point{}
-	testDirs := [3]*Direction{traceState.dir, translateLeft(traceState.dir), translateRight(traceState.dir)}
+	var testCoord point = point{}
+	testDirs := [3]*direction{traceState.dir, translateLeft(traceState.dir), translateRight(traceState.dir)}
 	for testDirIdx, testDir := range testDirs {
+		if testDir == nil {
+			continue
+		}
 		testCoord.X = traceState.pos.X + testDir.X
 		testCoord.Y = traceState.pos.Y + testDir.Y
-		nextValue = (*field)[testCoord.Y][testCoord.X]
+		// bounds check
+		tx := int(testCoord.X)
+		ty := int(testCoord.Y)
+		if ty < 0 || ty >= len(*field) || tx < 0 || tx >= len((*field)[ty]) {
+			continue
+		}
+		nextValue = (*field)[ty][tx]
 		if nextValue == CELL_WALL {
 			continue
 		}
 		diff = traceState.value - nextValue
 		if diff == 1 || diff == 1001 {
-			state := TraceBackState{pos: testCoord,
+			state := traceBackState{pos: testCoord,
 				value:         nextValue,
 				dir:           testDir,
 				previousValue: traceState.value}
@@ -45,7 +54,7 @@ func walkBackPathValues(field *Field, traceState *TraceBackState, visited *Visit
 			// Check overlapping routes
 			diff = traceState.previousValue - nextValue
 			if diff == 2 {
-				state := TraceBackState{pos: testCoord,
+				state := traceBackState{pos: testCoord,
 					value:         nextValue,
 					dir:           testDir,
 					previousValue: traceState.previousValue - 1}
@@ -53,9 +62,14 @@ func walkBackPathValues(field *Field, traceState *TraceBackState, visited *Visit
 				continue
 			}
 			// Check interleaving routes
-			nextValue = (*field)[testCoord.Y+testDir.Y][testCoord.X+testDir.X]
+			ntx := tx + int(testDir.X)
+			nty := ty + int(testDir.Y)
+			if nty < 0 || nty >= len(*field) || ntx < 0 || ntx >= len((*field)[nty]) {
+				continue
+			}
+			nextValue = (*field)[nty][ntx]
 			if nextValue != CELL_WALL && traceState.value-nextValue == 2 {
-				state := TraceBackState{pos: testCoord,
+				state := traceBackState{pos: testCoord,
 					value:         traceState.value - 1,
 					dir:           testDir,
 					previousValue: traceState.value}
@@ -69,22 +83,34 @@ func walkBackPathValues(field *Field, traceState *TraceBackState, visited *Visit
 	return status
 }
 
-func FindVisitedCells(field *Field, start *Point, end *Point) int {
-	visited := make(VisitedMap)
-	var testCoord Point = Point{}
+func findVisitedCells(field *field, start *point, end *point) int {
+	visited := make(visitedMap)
+	var testCoord point = point{}
 	var currentCellValue, nextCellValue, diff int
+	// bounds check
+	if field == nil || len(*field) == 0 {
+		return 0
+	}
+	if int(end.Y) < 0 || int(end.Y) >= len(*field) || int(end.X) < 0 || int(end.X) >= len((*field)[end.Y]) {
+		return 0
+	}
 	currentCellValue = (*field)[end.Y][end.X]
 	status := false
-	for _, dir := range DIRS_ALL {
+	for _, dir := range dirsALL {
 		testCoord.X = end.X + dir.X
 		testCoord.Y = end.Y + dir.Y
-		nextCellValue = (*field)[testCoord.Y][testCoord.X]
+		tx := int(testCoord.X)
+		ty := int(testCoord.Y)
+		if ty < 0 || ty >= len(*field) || tx < 0 || tx >= len((*field)[ty]) {
+			continue
+		}
+		nextCellValue = (*field)[ty][tx]
 		if nextCellValue == CELL_WALL {
 			continue
 		}
 		diff = currentCellValue - nextCellValue
 		if diff == 1001 || diff == 1 {
-			tr := TraceBackState{value: nextCellValue, previousValue: currentCellValue, pos: testCoord, dir: &dir}
+			tr := traceBackState{value: nextCellValue, previousValue: currentCellValue, pos: testCoord, dir: &dir}
 			status = walkBackPathValues(field, &tr, &visited) || status
 		}
 	}
@@ -94,8 +120,11 @@ func FindVisitedCells(field *Field, start *Point, end *Point) int {
 	return len(visited)
 }
 
-func Part2(in io.Reader) int {
-	field, start, end := ParseInput(in)
-	CalculatePathValues(&field, &start)
-	return FindVisitedCells(&field, &start, &end)
+func Part2(in io.Reader) (int, error) {
+	data, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
+	calculatePathValues(&data.Field, &data.Start)
+	return findVisitedCells(&data.Field, &data.Start, &data.End), nil
 }

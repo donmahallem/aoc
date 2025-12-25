@@ -1,29 +1,22 @@
-package day08_test
+package day08
 
 import (
+	_ "embed"
 	"io"
 	"strings"
 	"testing"
-
-	"github.com/donmahallem/aoc/go/aoc24/day08"
 )
 
-const testData string = `............
-........0...
-.....0......
-.......0....
-....0.......
-......A.....
-............
-............
-........A...
-.........A..
-............
-............`
+//go:embed sample.txt
+var testData string
 
 func Test24Day08Part1(t *testing.T) {
 
-	if result := day08.Part1(strings.NewReader(testData)); result != 14 {
+	result, err := Part1(strings.NewReader(testData))
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
+	if result != 14 {
 		t.Errorf(`Expected %d to match %d`, result, 14)
 	}
 }
@@ -32,6 +25,6 @@ func BenchmarkPart1(b *testing.B) {
 	data := strings.NewReader(testData)
 	for b.Loop() {
 		data.Seek(0, io.SeekStart)
-		day08.Part1(data)
+		Part1(data)
 	}
 }

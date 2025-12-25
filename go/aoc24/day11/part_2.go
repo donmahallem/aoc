@@ -4,8 +4,10 @@ import (
 	"io"
 )
 
-func Part2(in io.Reader) int {
-	data, _ := ParseLine(in)
-
-	return SplitStones(data, 75)
+func Part2(in io.Reader) (int, error) {
+	data, err := parseLine(in)
+	if err != nil {
+		return 0, err
+	}
+	return splitStones(data, 75), nil
 }

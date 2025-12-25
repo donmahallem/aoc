@@ -15,25 +15,25 @@ var numericLookup map[byte]Point = map[byte]Point{
 }
 
 var (
-	NUMERIC_0 = Point{X: 1, Y: 3}
-	NUMERIC_1 = Point{X: 0, Y: 2}
-	NUMERIC_2 = Point{X: 1, Y: 2}
-	NUMERIC_3 = Point{X: 2, Y: 2}
-	NUMERIC_4 = Point{X: 0, Y: 1}
-	NUMERIC_5 = Point{X: 1, Y: 1}
-	NUMERIC_6 = Point{X: 2, Y: 1}
-	NUMERIC_7 = Point{X: 0, Y: 0}
-	NUMERIC_8 = Point{X: 1, Y: 0}
-	NUMERIC_9 = Point{X: 2, Y: 0}
-	NUMERIC_A = Point{X: 2, Y: 3}
+	numericPosition_0 = Point{X: 1, Y: 3}
+	numericPosition_1 = Point{X: 0, Y: 2}
+	numericPosition_2 = Point{X: 1, Y: 2}
+	numericPosition_3 = Point{X: 2, Y: 2}
+	numericPosition_4 = Point{X: 0, Y: 1}
+	numericPosition_5 = Point{X: 1, Y: 1}
+	numericPosition_6 = Point{X: 2, Y: 1}
+	numericPosition_7 = Point{X: 0, Y: 0}
+	numericPosition_8 = Point{X: 1, Y: 0}
+	numericPosition_9 = Point{X: 2, Y: 0}
+	numericPosition_A = Point{X: 2, Y: 3}
 )
 
 // Helper function for WalkNumericSequence
-func walkNumericSequenceSub(start *Point, end *Point, currentDepth uint8, maxDepth uint8, cache *Cache) uint {
+func walkNumericSequenceSub(start *Point, end *Point, currentDepth uint8, maxDepth uint8, cache *cache) uint {
 	dir := start.Diff(*end)
 	if dir.X == 0 && dir.Y == 0 {
 		// No walking necessary
-		return WalkDirectional(&DIRECTIONAL_A, &DIRECTIONAL_A, currentDepth+1, maxDepth, cache)
+		return WalkDirectional(&directionalPosition_A, &directionalPosition_A, currentDepth+1, maxDepth, cache)
 	}
 	if start.X == 0 && end.Y == 3 {
 		// First walk X than Y
@@ -53,7 +53,7 @@ func walkNumericSequenceSub(start *Point, end *Point, currentDepth uint8, maxDep
 }
 
 // Iterates over the given Byte-Sequence from the Numeric pad to a depth of maxDepth (inclusive)
-func WalkNumericSequence(sequence *[]byte, maxDepth uint8, cache *Cache) uint {
+func walkNumericSequence(sequence *[]byte, maxDepth uint8, cache *cache) uint {
 	var pathCost uint = 0
 	var previousLetter byte = 'A'
 	for _, currentLetter := range *sequence {

@@ -1,51 +1,49 @@
 package day16_test
 
 import (
+	_ "embed"
 	"strings"
 	"testing"
 
 	"github.com/donmahallem/aoc/go/aoc23/day16"
+	"github.com/donmahallem/aoc/go/test_utils"
 )
 
-var testData string = `.|...\....
-|.-.\.....
-.....|-...
-........|.
-..........
-.........\
-..../.\\..
-.-.-/..|..
-.|....-|.\
-..//.|....`
-
-func TestParseInput(t *testing.T) {
-	t.Run("testData1", func(t *testing.T) {
-		const expected int = 100
-		reader := strings.NewReader(testData)
-		if res := day16.ParseInputPart1(reader); len(res.Cells) != expected {
-			t.Errorf(`Expected %d to be %d`, len(res.Cells), expected)
-		}
-
-	})
-
-}
+//go:embed sample.txt
+var testData string
 
 func TestPart1(t *testing.T) {
-	t.Run("test block 2", func(t *testing.T) {
+	t.Run("test sample data", func(t *testing.T) {
 
 		reader := strings.NewReader(testData)
-		res := day16.Part1(reader)
+		res, err := day16.Part1(reader)
+		if err != nil {
+			t.Errorf("Unexpected error: %v", err)
+		}
 		if res != 46 {
 			t.Errorf(`Expected number of blocks to be 46, got %d`, res)
+		}
+	})
+
+	t.Run("test real data", func(t *testing.T) {
+		expected := 6906
+		result, ok := test_utils.TestFullDataForDate(t, 23, 16, day16.Part1)
+		if !ok || result != expected {
+			t.Errorf(`Expected %d to be %d`, result, expected)
 		}
 	})
 }
 
 func BenchmarkPart1(b *testing.B) {
+	b.Run("benchmark sample data", func(b *testing.B) {
+		reader := strings.NewReader(testData)
+		for b.Loop() {
+			day16.Part1(reader)
+			reader.Seek(0, 0)
+		}
+	})
 
-	reader := strings.NewReader(testData)
-	for b.Loop() {
-		day16.Part1(reader)
-		reader.Seek(0, 0)
-	}
+	b.Run("benchmark full data", func(b *testing.B) {
+		test_utils.BenchmarkFullDataForDate(b, 23, 16, day16.Part1)
+	})
 }

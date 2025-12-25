@@ -1,7 +1,6 @@
 package day21
 
 import (
-	"bufio"
 	"io"
 )
 
@@ -19,35 +18,6 @@ type parsedInput struct {
 	StartY int
 }
 
-func ParseInput(r io.Reader) parsedInput {
-
-	scanner := bufio.NewScanner(r)
-
-	ret := parsedInput{
-		data:   nil,
-		Height: 0,
-	}
-	for scanner.Scan() {
-		line := scanner.Bytes()
-		if ret.data == nil {
-			ret.data = make([]byte, 0, len(line)*len(line))
-			ret.Width = len(line)
-		}
-		for idx, c := range line {
-			switch c {
-			case cellEmpty, cellStone:
-				ret.data = append(ret.data, c)
-			case cellStart:
-				ret.data = append(ret.data, cellEmpty)
-				ret.StartX = idx
-				ret.StartY = ret.Height
-			}
-		}
-		ret.Height++
-	}
-	return ret
-}
-
 var directions = [][2]int{
 	{0, -1}, // up
 	{1, 0},  // right
@@ -62,6 +32,10 @@ type queueItem struct {
 }
 
 func CountVisited(inp *parsedInput, maxDepth int, finite bool) int {
+	// Defensive: empty or malformed parsed input should not panic here.
+	if inp == nil || inp.Width == 0 || inp.Height == 0 {
+		return 0
+	}
 	queue := []queueItem{{x: inp.StartX, y: inp.StartY, depth: 0}}
 	visited := make(map[[2]int]byte, len(inp.data))
 	startKey := [2]int{inp.StartX, inp.StartY}
@@ -142,7 +116,10 @@ func CountVisitedInfinite(inp *parsedInput, maxDepth int) int {
 	return CountVisited(inp, maxDepth, false)
 }
 
-func Part1(in io.Reader) int {
-	inp := ParseInput(in)
-	return CountVisited(&inp, 64, true)
+func Part1(in io.Reader) (int, error) {
+	inp, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
+	return CountVisited(inp, 64, true), nil
 }

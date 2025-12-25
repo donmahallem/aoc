@@ -7,14 +7,14 @@ import (
 	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
-type Point = aoc_utils.Point[int16]
-type Field = aoc_utils.ByteField[int16, byte]
+type point = aoc_utils.Point[int16]
+type field = aoc_utils.ByteField[int16, byte]
 
-var dirs [4]Point = [4]Point{{Y: 0, X: 1}, {Y: 0, X: -1}, {Y: 1, X: 0}, {Y: -1, X: 0}}
+var dirs [4]point = [4]point{{Y: 0, X: 1}, {Y: 0, X: -1}, {Y: 1, X: 0}, {Y: -1, X: 0}}
 
-func CountEdges(cells []Point) int {
+func countEdges(cells []point) int {
 	edgeCount := 0
-	var searchIdx Point = Point{}
+	var searchIdx point = point{}
 	for _, coord := range cells {
 		for _, dir := range dirs {
 			searchIdx.Y = coord.Y + dir.Y
@@ -29,8 +29,8 @@ func CountEdges(cells []Point) int {
 	return edgeCount
 }
 
-func findNeighboursInt(field Field, x int16, y int16, t byte, found *map[Point]bool) {
-	var currentCoord Point = Point{}
+func findNeighboursInt(field field, x int16, y int16, t byte, found *map[point]bool) {
+	var currentCoord point = point{}
 	for _, dir := range dirs {
 		currentCoord.Y = dir.Y + y
 		currentCoord.X = dir.X + x
@@ -50,21 +50,21 @@ func findNeighboursInt(field Field, x int16, y int16, t byte, found *map[Point]b
 	}
 }
 
-func FindNeighbours(field Field, y int16, x int16) []Point {
-	group := make(map[Point]bool, 8)
-	group[Point{Y: y, X: x}] = true
+func findNeighbours(field field, y int16, x int16) []point {
+	group := make(map[point]bool, 8)
+	group[point{Y: y, X: x}] = true
 	findNeighboursInt(field, x, y, field.Get(x, y), &group)
-	keys := make([]Point, 0, len(group))
+	keys := make([]point, 0, len(group))
 	for idx := range group {
 		keys = append(keys, idx)
 	}
 	return keys
 }
 
-func FindGroups(field Field) [][]Point {
-	taken := make(map[Point]bool, 32)
-	var coord Point
-	groups := make([][]Point, 0, 16)
+func findGroups(field field) [][]point {
+	taken := make(map[point]bool, 32)
+	var coord point
+	groups := make([][]point, 0, 16)
 	for x := range field.Width {
 		for y := range field.Height {
 			coord.Y = y
@@ -72,7 +72,7 @@ func FindGroups(field Field) [][]Point {
 			if taken[coord] {
 				continue
 			}
-			neighbours := FindNeighbours(field, y, x)
+			neighbours := findNeighbours(field, y, x)
 			for _, neighbour := range neighbours {
 				taken[neighbour] = true
 			}
@@ -82,12 +82,15 @@ func FindGroups(field Field) [][]Point {
 	return groups
 }
 
-func Part1(in io.Reader) int {
-	data, _ := aoc_utils.LoadField[int16, byte](in)
-	groups := FindGroups(*data)
+func Part1(in io.Reader) (int, error) {
+	data, err := aoc_utils.LoadField[int16, byte](in)
+	if err != nil {
+		return 0, err
+	}
+	groups := findGroups(*data)
 	count := 0
 	for _, group := range groups {
-		count += len(group) * CountEdges(group)
+		count += len(group) * countEdges(group)
 	}
-	return count
+	return count, nil
 }

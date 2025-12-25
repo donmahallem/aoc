@@ -14,7 +14,7 @@ type taskData struct {
 	ingredients []uint64
 }
 
-func parseInput(in io.Reader) taskData {
+func parseInput(in io.Reader) (taskData, error) {
 	scanner := bufio.NewScanner(in)
 	var data taskData
 	inRangesBlock := true
@@ -47,5 +47,5 @@ func parseInput(in io.Reader) taskData {
 			data.ingredients = append(data.ingredients, currentNumber)
 		}
 	}
-	return data
+	return data, nil
 }

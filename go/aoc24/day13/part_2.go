@@ -4,8 +4,11 @@ import (
 	"io"
 )
 
-func Part2(in io.Reader) int {
-	data := LoadFile(in)
+func Part2(in io.Reader) (int, error) {
+	data, err := LoadFile(in)
+	if err != nil {
+		return 0, err
+	}
 	totalSum := 0
 	for _, inp := range data {
 		inp.target.Y += 10000000000000
@@ -16,5 +19,5 @@ func Part2(in io.Reader) int {
 		}
 		totalSum += a*3 + b
 	}
-	return totalSum
+	return totalSum, nil
 }

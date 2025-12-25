@@ -21,10 +21,9 @@ func checkVariations(l []int) bool {
 	return false
 }
 
-func Part2(in io.Reader) int {
+func Part2(in io.Reader) (any, error) {
 	s := bufio.NewScanner(in)
 	var goodLines = 0
-	var totalLines = 0
 	for s.Scan() {
 		var line = strings.Split(s.Text(), " ")
 		var parsedLine = make([]int, len(line))
@@ -35,7 +34,6 @@ func Part2(in io.Reader) int {
 		if checkVariations((parsedLine)) {
 			goodLines++
 		}
-		totalLines++
 	}
-	return goodLines
+	return goodLines, nil
 }

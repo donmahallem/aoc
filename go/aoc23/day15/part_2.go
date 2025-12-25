@@ -1,138 +1,122 @@
 package day15
 
 import (
+	"bufio"
 	"io"
+
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
-type Lens struct {
-	Id          uint64
-	FocalLength uint64
-}
+func Part2(in io.Reader) (uint64, error) {
+	// Stream-parse input to avoid one large allocation — but pre-allocate small per-bucket capacity to reduce realloc churn.
+	scanner := bufio.NewScanner(in)
+	key := make([]byte, 0, 16)
+	readingValue := false
+	valueRead := false
+	valAcc := byte(0)
+	removal := false
 
-func ParseInput(in io.Reader) [][]byte {
-	raw, err := io.ReadAll(in)
-	if err != nil {
-		return nil
-	}
-	raw = trimTrailingNewlines(raw)
-	if len(raw) == 0 {
-		return nil
-	}
+	memory := make([][]lens, 256)
 
-	tokens := make([][]byte, 0, 64)
-	start := 0
-	for i := 0; i <= len(raw); i++ {
-		if i < len(raw) && raw[i] != ',' {
-			continue
+	var handleToken = func() error {
+		if len(key) == 0 {
+			return aoc_utils.NewParseError("empty key", nil)
 		}
-		if start < i {
-			token := make([]byte, i-start)
-			copy(token, raw[start:i])
-			tokens = append(tokens, token)
-		}
-		start = i + 1
-	}
-	return tokens
-}
-
-// trimTrailingNewlines strips trailing CR/LF to simplify parsing.
-func trimTrailingNewlines(raw []byte) []byte {
-	for len(raw) > 0 {
-		last := raw[len(raw)-1]
-		if last != '\n' && last != '\r' {
-			break
-		}
-		raw = raw[:len(raw)-1]
-	}
-	return raw
-}
-
-// hashId performs the AoC hash and builds a compact lens key in one pass.
-func hashId(id []byte) (uint32, uint64) {
-	var hash uint32 = 0
-	var key uint64 = 0
-	for _, b := range id {
-		hash = (hash + uint32(b)) * 17 % 256
-		key = (key << 8) | uint64(b)
-	}
-	return hash, key
-}
-
-func Part2(in io.Reader) uint64 {
-	raw, err := io.ReadAll(in)
-	if err != nil {
-		return 0
-	}
-	raw = trimTrailingNewlines(raw)
-	if len(raw) == 0 {
-		return 0
-	}
-
-	memory := make([][]Lens, 256)
-
-	start := 0
-	for i := 0; i <= len(raw); i++ {
-		if i < len(raw) && raw[i] != ',' {
-			continue
-		}
-		if start < i {
-			token := raw[start:i]
-			if token[len(token)-1] == '-' {
-				// Removal path: locate the lens and splice it out of the box.
-				hashedId, key := hashId(token[:len(token)-1])
-				box := memory[hashedId]
-				for idx, lense := range box {
-					if lense.Id == key {
-						memory[hashedId] = append(box[:idx], box[idx+1:]...)
-						break
+		idHash, id := hashId(key)
+		if removal {
+			box := memory[idHash]
+			for idx, l := range box {
+				if l.Id == id {
+					n := len(box)
+					if idx < n-1 {
+						copy(box[idx:], box[idx+1:])
 					}
-				}
-			} else {
-				// Insertion/update path: parse focal length and update the box in place.
-				eqIdx := -1
-				for j := len(token) - 1; j >= 0; j-- {
-					if token[j] == '=' {
-						eqIdx = j
-						break
-					}
-				}
-				if eqIdx == -1 {
-					start = i + 1
-					continue
-				}
-
-				hashedId, key := hashId(token[:eqIdx])
-
-				var focal uint64
-				for j := eqIdx + 1; j < len(token); j++ {
-					focal = focal*10 + uint64(token[j]-'0')
-				}
-
-				box := memory[hashedId]
-				updated := false
-				for idx := range box {
-					if box[idx].Id == key {
-						box[idx].FocalLength = focal
-						updated = true
-						break
-					}
-				}
-				if !updated {
-					memory[hashedId] = append(box, Lens{Id: key, FocalLength: focal})
+					box[n-1] = lens{}
+					memory[idHash] = box[:n-1]
+					return nil
 				}
 			}
+			return nil
 		}
-		start = i + 1
+		if !valueRead {
+			return aoc_utils.NewParseError("missing value", nil)
+		}
+		// update or append; pre-allocate small capacity on first use to avoid repeated reallocs
+		if memory[idHash] == nil {
+			memory[idHash] = make([]lens, 0, 8)
+		}
+		box := memory[idHash]
+		for idx, l := range box {
+			if l.Id == id {
+				memory[idHash][idx].FocalLength = uint64(valAcc)
+				return nil
+			}
+		}
+		memory[idHash] = append(memory[idHash], lens{Id: id, FocalLength: uint64(valAcc)})
+		return nil
 	}
 
-	var accum uint64
-	for idx, box := range memory {
-		// Accumulate focusing power in box order.
-		slot := uint64(1)
-		for _, lense := range box {
-			accum += uint64(idx+1) * slot * lense.FocalLength
-			slot++
+	for scanner.Scan() {
+		line := scanner.Bytes()
+		if len(line) == 0 {
+			continue
+		}
+		readingValue = false
+		valueRead = false
+		valAcc = 0
+		removal = false
+		key = key[:0]
+
+		for _, ch := range line {
+			switch ch {
+			case ',':
+				if err := handleToken(); err != nil {
+					return 0, err
+				}
+				readingValue = false
+				valueRead = false
+				valAcc = 0
+				removal = false
+				key = key[:0]
+			case '=':
+				readingValue = true
+			case '-':
+				if readingValue {
+					return 0, aoc_utils.NewParseError("unexpected '-' in value", nil)
+				}
+				removal = true
+			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
+				if !readingValue {
+					return 0, aoc_utils.NewParseError("digit in key", nil)
+				}
+				if !valueRead {
+					valueRead = true
+					valAcc = ch - '0'
+				} else {
+					return 0, aoc_utils.NewParseError("value too long", nil)
+				}
+			default:
+				if readingValue {
+					return 0, aoc_utils.NewParseError("invalid character in value", nil)
+				}
+				key = append(key, ch)
+			}
+		}
+		if len(key) > 0 || valueRead || removal {
+			if err := handleToken(); err != nil {
+				return 0, err
+			}
 		}
 	}
-	return accum
+	if scanner.Err() != nil {
+		return 0, scanner.Err()
+	}
+
+	var totalFocusingPower uint64 = 0
+	for boxIdx, box := range memory {
+		for lensIdx, lense := range box {
+			totalFocusingPower += (uint64(boxIdx) + 1) * (uint64(lensIdx) + 1) * lense.FocalLength
+		}
+	}
+	return totalFocusingPower, nil
 }

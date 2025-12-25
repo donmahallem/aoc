@@ -9,7 +9,11 @@ import (
 )
 
 func TestPart2(t *testing.T) {
-	if result := day13.Part2(strings.NewReader(testData)); result != 875318608908 {
+	result, err := day13.Part2(strings.NewReader(testData))
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
+	if result != 875318608908 {
 		t.Errorf(`Expected %d to contain %d`, result, 875318608908)
 	}
 }

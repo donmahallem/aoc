@@ -1,6 +1,6 @@
 {
-  "seperate-pull-requests": true,
-  "group-pull-request-title-pattern": "chore: release ${component}",
+  "separate-pull-requests": true,
+  "group-pull-request-title-pattern": "chore: release ${branch}",
   "packages": {
     "go": {
       "release-type": "go",

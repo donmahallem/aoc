@@ -5,118 +5,128 @@ import (
 	"strconv"
 )
 
-type ReaderState int
-
-const (
-	DO_STATE_D          ReaderState = 0
-	DO_STATE_DO         ReaderState = 1
-	DO_STATE_DON                    = 2
-	DO_STATE_DON_                   = 3
-	DO_STATE_DON_T                  = 4
-	DO_STATE_DON_T_OPEN             = 5
-	DO_STATE_DO_OPEN                = 6
-	DO_STATE_NONE                   = 7
-)
-
 type DoReader struct {
-	reader io.Reader
-	active bool
-	state  ReaderState
+	reader   io.Reader
+	active   bool
+	matchBuf []byte
+	overflow []byte
 }
 
 func NewDoReader(reader io.Reader) *DoReader {
-	return &DoReader{reader: reader, active: true, state: DO_STATE_NONE}
+	return &DoReader{reader: reader, active: true}
+}
+
+func (a *DoReader) checkMatch(b byte) (bool, bool) {
+	n := len(a.matchBuf)
+	// do() : d o ( )
+	// don't() : d o n ' t ( )
+
+	switch n {
+	case 0:
+		if b == 'd' {
+			return true, false
+		}
+	case 1:
+		if b == 'o' {
+			return true, false
+		}
+	case 2:
+		if b == '(' || b == 'n' {
+			return true, false
+		}
+	case 3:
+		if a.matchBuf[2] == '(' {
+			// do(
+			if b == ')' {
+				return true, true
+			}
+		} else { // 'n'
+			// don
+			if b == '\'' {
+				return true, false
+			}
+		}
+	case 4:
+		// don'
+		if b == 't' {
+			return true, false
+		}
+	case 5:
+		// don't
+		if b == '(' {
+			return true, false
+		}
+	case 6:
+		// don't(
+		if b == ')' {
+			return true, true
+		}
+	}
+	return false, false
 }
 
 func (a *DoReader) Read(p []byte) (int, error) {
-	n, err := a.reader.Read(p)
-	writeIdx := 0
-	for i := 0; i < n; i++ {
-		char := p[i]
-		for {
-			advanced := false
-			switch a.state {
-			case DO_STATE_NONE:
-				if char == 'd' {
-					a.state = DO_STATE_D
-					advanced = true
-				} else {
-					advanced = true
-				}
-			case DO_STATE_D:
-				if char == 'o' {
-					a.state = DO_STATE_DO
-					advanced = true
-				} else {
-					a.state = DO_STATE_NONE
-				}
-			case DO_STATE_DO:
-				if char == '(' {
-					a.state = DO_STATE_DO_OPEN
-					advanced = true
-				} else if char == 'n' {
-					a.state = DO_STATE_DON
-					advanced = true
-				} else {
-					a.state = DO_STATE_NONE
-				}
-			case DO_STATE_DO_OPEN:
-				if char == ')' {
-					a.state = DO_STATE_NONE
-					a.active = true // Found: do()
-					advanced = true
-				} else {
-					a.state = DO_STATE_NONE
-				}
-			case DO_STATE_DON:
-				if char == '\'' {
-					a.state = DO_STATE_DON_
-					advanced = true
-				} else {
-					a.state = DO_STATE_NONE
-				}
-			case DO_STATE_DON_:
-				if char == 't' {
-					a.state = DO_STATE_DON_T
-					advanced = true
-				} else {
-					a.state = DO_STATE_NONE
-				}
-			case DO_STATE_DON_T:
-				if char == '(' {
-					a.state = DO_STATE_DON_T_OPEN
-					advanced = true
-				} else {
-					a.state = DO_STATE_NONE
-				}
-			case DO_STATE_DON_T_OPEN:
-				if char == ')' {
-					a.state = DO_STATE_NONE
-					a.active = false // Found: don't()
-					advanced = true
-				} else {
-					a.state = DO_STATE_NONE
-				}
-			default:
-				a.state = DO_STATE_NONE
-			}
+	if len(a.overflow) > 0 {
+		n := copy(p, a.overflow)
+		a.overflow = a.overflow[n:]
+		return n, nil
+	}
 
-			if advanced {
-				break
+	n, err := a.reader.Read(p)
+	if n == 0 {
+		if len(a.matchBuf) > 0 {
+			if a.active {
+				a.overflow = append(a.overflow, a.matchBuf...)
+			}
+			a.matchBuf = nil
+			if len(a.overflow) > 0 {
+				return a.Read(p)
 			}
 		}
+		return 0, err
+	}
 
-		if a.active {
-			p[writeIdx] = char
-			writeIdx++
+	var output []byte
+	// If p is large, maybe preallocate. But p might be reused.
+	// We'll trust append to be reasonable or use a static buffer if performance needed.
+
+	for _, b := range p[:n] {
+		match, complete := a.checkMatch(b)
+		if match {
+			a.matchBuf = append(a.matchBuf, b)
+			if complete {
+				if len(a.matchBuf) == 4 { // do()
+					a.active = true
+				} else { // don't()
+					a.active = false
+				}
+				a.matchBuf = a.matchBuf[:0]
+			}
+		} else {
+			// Mismatch
+			if a.active {
+				output = append(output, a.matchBuf...)
+			}
+			a.matchBuf = a.matchBuf[:0]
+
+			// Re-check current byte as start of new sequence
+			match, _ := a.checkMatch(b)
+			if match {
+				a.matchBuf = append(a.matchBuf, b)
+			} else if a.active {
+				output = append(output, b)
+			}
 		}
 	}
 
-	return writeIdx, err
+	a.overflow = append(a.overflow, output...)
+	copied := copy(p, a.overflow)
+	a.overflow = a.overflow[copied:]
+	return copied, err
 }
 
 func Part2(in io.Reader) (int, error) {
-	input_data, err := io.ReadAll(NewMulReader(NewDoReader(in)))
+	input_data, err := io.ReadAll(newMulReader(NewDoReader(in)))
 	if err != nil {
 		return 0, err
 	}

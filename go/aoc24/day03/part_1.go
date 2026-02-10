@@ -8,33 +8,33 @@ import (
 	"github.com/donmahallem/aoc/go/aoc_utils/bytes"
 )
 
-type MulReaderState int
+type mulReaderState int
 
 const (
-	MUL_STATE_M              MulReaderState = 0
-	MUL_STATE_MU             MulReaderState = 1
-	MUL_STATE_MUL                           = 2
-	MUL_STATE_MUL_OPEN                      = 3
-	MUL_STATE_MUL_OPEN_NUM1                 = 4
-	MUL_STATE_MUL_OPEN_COMMA                = 5
-	MUL_STATE_MUL_OPEN_NUM2                 = 6
-	MUL_STATE_NONE                          = 7
+	mul_STATE_M              mulReaderState = 0
+	mul_STATE_MU             mulReaderState = 1
+	mul_STATE_MUL                           = 2
+	mul_STATE_MUL_OPEN                      = 3
+	mul_STATE_MUL_OPEN_NUM1                 = 4
+	mul_STATE_MUL_OPEN_COMMA                = 5
+	mul_STATE_MUL_OPEN_NUM2                 = 6
+	mul_STATE_NONE                          = 7
 )
 
-type MulReader struct {
+type mulReader struct {
 	reader       io.Reader
-	state        MulReaderState
+	state        mulReaderState
 	num1cache    int
 	num2cache    int
 	currentSum   int
 	resultReader io.Reader
 }
 
-func NewMulReader(reader io.Reader) *MulReader {
-	return &MulReader{reader: reader, state: MUL_STATE_NONE, num1cache: 0, num2cache: 0, currentSum: 0}
+func newMulReader(reader io.Reader) *mulReader {
+	return &mulReader{reader: reader, state: mul_STATE_NONE, num1cache: 0, num2cache: 0, currentSum: 0}
 }
 
-func (a *MulReader) Read(p []byte) (int, error) {
+func (a *mulReader) Read(p []byte) (int, error) {
 	if a.resultReader != nil {
 		return a.resultReader.Read(p)
 	}
@@ -45,74 +45,74 @@ func (a *MulReader) Read(p []byte) (int, error) {
 		for {
 			advanced := false
 			switch a.state {
-			case MUL_STATE_NONE:
+			case mul_STATE_NONE:
 				if char == 'm' {
-					a.state = MUL_STATE_M
+					a.state = mul_STATE_M
 					advanced = true
 				} else {
 					advanced = true
 				}
-			case MUL_STATE_M:
+			case mul_STATE_M:
 				if char == 'u' {
-					a.state = MUL_STATE_MU
+					a.state = mul_STATE_MU
 					advanced = true
 				} else {
-					a.state = MUL_STATE_NONE
+					a.state = mul_STATE_NONE
 				}
-			case MUL_STATE_MU:
+			case mul_STATE_MU:
 				if char == 'l' {
-					a.state = MUL_STATE_MUL
+					a.state = mul_STATE_MUL
 					advanced = true
 				} else {
-					a.state = MUL_STATE_NONE
+					a.state = mul_STATE_NONE
 				}
-			case MUL_STATE_MUL:
+			case mul_STATE_MUL:
 				if char == '(' {
-					a.state = MUL_STATE_MUL_OPEN
+					a.state = mul_STATE_MUL_OPEN
 					advanced = true
 				} else {
-					a.state = MUL_STATE_NONE
+					a.state = mul_STATE_NONE
 				}
-			case MUL_STATE_MUL_OPEN:
+			case mul_STATE_MUL_OPEN:
 				if val, ok := bytes.ParseIntFromByte[int](char); ok {
-					a.state = MUL_STATE_MUL_OPEN_NUM1
+					a.state = mul_STATE_MUL_OPEN_NUM1
 					a.num1cache = val
 					advanced = true
 				} else {
-					a.state = MUL_STATE_NONE
+					a.state = mul_STATE_NONE
 				}
-			case MUL_STATE_MUL_OPEN_NUM1:
+			case mul_STATE_MUL_OPEN_NUM1:
 				if val, ok := bytes.ParseIntFromByte[int](char); ok {
 					// defensive: prevent int overflow if needed, though inputs are typically small
 					a.num1cache = a.num1cache*10 + val
 					advanced = true
 				} else if char == ',' {
-					a.state = MUL_STATE_MUL_OPEN_COMMA
+					a.state = mul_STATE_MUL_OPEN_COMMA
 					advanced = true
 				} else {
-					a.state = MUL_STATE_NONE
+					a.state = mul_STATE_NONE
 				}
-			case MUL_STATE_MUL_OPEN_COMMA:
+			case mul_STATE_MUL_OPEN_COMMA:
 				if val, ok := bytes.ParseIntFromByte[int](char); ok {
-					a.state = MUL_STATE_MUL_OPEN_NUM2
+					a.state = mul_STATE_MUL_OPEN_NUM2
 					a.num2cache = val
 					advanced = true
 				} else {
-					a.state = MUL_STATE_NONE
+					a.state = mul_STATE_NONE
 				}
-			case MUL_STATE_MUL_OPEN_NUM2:
+			case mul_STATE_MUL_OPEN_NUM2:
 				if val, ok := bytes.ParseIntFromByte[int](char); ok {
 					a.num2cache = a.num2cache*10 + val
 					advanced = true
 				} else if char == ')' {
 					a.currentSum += a.num1cache * a.num2cache
-					a.state = MUL_STATE_NONE
+					a.state = mul_STATE_NONE
 					advanced = true
 				} else {
-					a.state = MUL_STATE_NONE
+					a.state = mul_STATE_NONE
 				}
 			default:
-				a.state = MUL_STATE_NONE
+				a.state = mul_STATE_NONE
 			}
 
 			if advanced {
@@ -132,7 +132,7 @@ func (a *MulReader) Read(p []byte) (int, error) {
 	return 0, nil
 }
 func Part1(in io.Reader) (int, error) {
-	input_data, err := io.ReadAll(NewMulReader(in))
+	input_data, err := io.ReadAll(newMulReader(in))
 	if err != nil {
 		return 0, err
 	}

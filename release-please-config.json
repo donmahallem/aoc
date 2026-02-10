@@ -1,5 +1,6 @@
 {
-  "seperate-pull-requests": true,
+
+  "separate-pull-requests": true,
   "group-pull-request-title-pattern": "chore: release ${component}",
   "packages": {
     "go": {

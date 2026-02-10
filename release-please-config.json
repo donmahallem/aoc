@@ -1,14 +1,18 @@
 {
-  "separate-pull-requests": true,
+  "seperate-pull-requests": true,
+  "group-pull-request-title-pattern": "chore: release ${component}",
   "packages": {
     "go": {
-      "release-type": "go"
+      "release-type": "go",
+      "component": "aoc-go"
     },
     "python": {
-      "release-type": "simple"
+      "release-type": "simple",
+      "component": "aoc-python"
     },
     "cpp": {
-      "release-type": "simple"
+      "release-type": "simple",
+      "component": "aoc-cpp"
     }
   }
 }

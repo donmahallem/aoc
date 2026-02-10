@@ -1,0 +1,13 @@
+{
+  "packages": {
+    "go": {
+      "release-type": "go"
+    },
+    "python": {
+      "release-type": "simple"
+    },
+    "cpp": {
+      "release-type": "simple"
+    }
+  }
+}

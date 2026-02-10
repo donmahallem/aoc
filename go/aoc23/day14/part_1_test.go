@@ -1,64 +1,49 @@
 package day14_test
 
 import (
+	_ "embed"
 	"strings"
 	"testing"
 
 	"github.com/donmahallem/aoc/go/aoc23/day14"
+	"github.com/donmahallem/aoc/go/test_utils"
 )
 
-var testData string = `O....#....
-O.OO#....#
-.....##...
-OO.#O....O
-.O.....O#.
-O.#..O.#.#
-..O..#O..O
-.......O..
-#....###..
-#OO..#....`
-
-func TestParseInput(t *testing.T) {
-	t.Run("testData1", func(t *testing.T) {
-		const expected int = 10
-		reader := strings.NewReader(testData)
-		if res := day14.ParseInputPart1(reader); len(res) != expected {
-			t.Errorf(`Expected %d to be %d`, len(res), expected)
-		}
-
-	})
-	t.Run("test block 1", func(t *testing.T) {
-
-		reader := strings.NewReader(testData)
-		res := day14.ParseInputPart1(reader)
-		expectedRows := []uint{
-			5,
-			2,
-			4,
-			3,
-			0,
-			0,
-			3,
-			1,
-			0,
-			0,
-		}
-		for rowIdx := range expectedRows {
-			if res[rowIdx] != expectedRows[rowIdx] {
-				t.Errorf(`Expected row %d to be %d, got %d`, rowIdx, expectedRows[rowIdx], res[rowIdx])
-			}
-		}
-	})
-
-}
+//go:embed sample.txt
+var testData string
 
 func TestPart1(t *testing.T) {
-	t.Run("test block 2", func(t *testing.T) {
+	t.Run("test sample data", func(t *testing.T) {
 
 		reader := strings.NewReader(testData)
-		res := day14.Part1(reader)
+		res, err := day14.Part1(reader)
+		if err != nil {
+			t.Errorf("Unexpected error: %v", err)
+		}
 		if res != 136 {
 			t.Errorf(`Expected number of blocks to be 136, got %d`, res)
 		}
+	})
+
+	t.Run("test real data", func(t *testing.T) {
+		expected := uint(106517)
+		result, ok := test_utils.TestFullDataForDate(t, 23, 14, day14.Part1)
+		if !ok || result != expected {
+			t.Errorf(`Expected %d to be %d`, result, expected)
+		}
+	})
+}
+
+func BenchmarkPart1(b *testing.B) {
+	b.Run("benchmark sample data", func(b *testing.B) {
+		reader := strings.NewReader(testData)
+		for b.Loop() {
+			day14.Part1(reader)
+			reader.Seek(0, 0)
+		}
+	})
+
+	b.Run("benchmark full data", func(b *testing.B) {
+		test_utils.BenchmarkFullDataForDate(b, 23, 14, day14.Part1)
 	})
 }

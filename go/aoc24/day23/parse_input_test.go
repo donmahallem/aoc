@@ -16,7 +16,7 @@ func Benchmark_parseInput(b *testing.B) {
 
 		reader := strings.NewReader(testData)
 		for b.Loop() {
-			parseInput(reader)
+			_, _ = parseInput(reader)
 			reader.Seek(0, 0)
 		}
 	})
@@ -28,7 +28,7 @@ func Benchmark_parseInput(b *testing.B) {
 
 			reader := strings.NewReader(full_data)
 			for b.Loop() {
-				parseInput(reader)
+				_, _ = parseInput(reader)
 				reader.Seek(0, 0)
 			}
 		} else {
@@ -39,7 +39,10 @@ func Benchmark_parseInput(b *testing.B) {
 }
 
 func Test_parseInput(t *testing.T) {
-	points := parseInput(strings.NewReader(testData))
+	points, err := parseInput(strings.NewReader(testData))
+	if err != nil {
+		t.Fatalf("Unexpected error: %v", err)
+	}
 	var keyTa []byte = []byte{'t', 'a'}
 	var hashTa NodeHash = HashId(keyTa)
 	if res := len(points[hashTa]); res != 0 {

@@ -4,8 +4,8 @@ import (
 	"io"
 )
 
-func Part1(in io.Reader) int {
-	data := ParseInput(in)
+func Part1(r io.Reader) (int, error) {
+	data := parseInput(r)
 
 	var sum int
 	for _, rating := range data.Ratings {
@@ -29,5 +29,5 @@ func Part1(in io.Reader) int {
 		}
 	}
 
-	return sum
+	return sum, nil
 }

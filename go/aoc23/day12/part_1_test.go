@@ -1,46 +1,49 @@
 package day12_test
 
 import (
-	"io"
+	_ "embed"
 	"strings"
 	"testing"
 
 	"github.com/donmahallem/aoc/go/aoc23/day12"
+	"github.com/donmahallem/aoc/go/test_utils"
 )
 
-var testData string = `???.### 1,1,3
-.??..??...?##. 1,1,3
-?#?#?#?#?#?#?#? 1,3,1,6
-????.#...#... 4,1,1
-????.######..#####. 1,6,5
-?###???????? 3,2,1`
-
-func TestParseInput(t *testing.T) {
-	t.Run("testData", func(t *testing.T) {
-		reader := strings.NewReader(testData)
-		lines := day12.ParseInput(reader, 1)
-		const expectedLen int = 6
-		if len(lines) != expectedLen {
-			t.Errorf(`Expected %d lines to be parsed, got %d`, expectedLen, len(lines))
-		}
-	})
-}
+//go:embed sample.txt
+var testData string
 
 func TestPart1(t *testing.T) {
-	t.Run("testData", func(t *testing.T) {
+	t.Run("test sample data", func(t *testing.T) {
 		reader := strings.NewReader(testData)
-		result := day12.Part1(reader)
+		result, err := day12.Part1(reader)
+		if err != nil {
+			t.Errorf("Unexpected error: %v", err)
+		}
 		const expectedLen int = 21
 		if result != expectedLen {
 			t.Errorf(`Expected %d galaxies to be parsed, got %d`, expectedLen, result)
 		}
 	})
+
+	t.Run("test real data", func(t *testing.T) {
+		expected := 7622
+		result, ok := test_utils.TestFullDataForDate(t, 23, 12, day12.Part1)
+		if !ok || result != expected {
+			t.Errorf(`Expected %d to be %d`, result, expected)
+		}
+	})
 }
 
 func BenchmarkPart1(b *testing.B) {
-	reader := strings.NewReader(testData)
-	for b.Loop() {
-		reader.Seek(0, io.SeekStart)
-		day12.Part1(reader)
-	}
+	b.Run("benchmark sample data", func(b *testing.B) {
+		reader := strings.NewReader(testData)
+		for b.Loop() {
+			day12.Part1(reader)
+			reader.Seek(0, 0)
+		}
+	})
+
+	b.Run("benchmark full data", func(b *testing.B) {
+		test_utils.BenchmarkFullDataForDate(b, 23, 12, day12.Part1)
+	})
 }

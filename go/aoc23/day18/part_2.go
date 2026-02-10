@@ -4,7 +4,10 @@ import (
 	"io"
 )
 
-func Part2(in io.Reader) int64 {
-	start := ParseInput(in, false)
-	return circumcise(start)
+func Part2(r io.Reader) (int64, error) {
+	ins, err := parseInput(r, false)
+	if err != nil {
+		return 0, err
+	}
+	return calculateArea(ins), nil
 }

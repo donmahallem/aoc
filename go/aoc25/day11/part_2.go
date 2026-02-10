@@ -30,8 +30,11 @@ func dfs(start uint64, target uint64, inputMap map[uint64][]uint64, cache map[ui
 	cache[start] = currentValue // Store the result in the cache
 	return currentValue
 }
-func Part2(in io.Reader) uint64 {
-	inputMap := parseInput(in)
+func Part2(in io.Reader) (uint64, error) {
+	inputMap, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
 
 	svrKey := uint64('s')<<16 + uint64('v')<<8 + uint64('r')
 	fftKey := uint64('f')<<16 + uint64('f')<<8 + uint64('t')
@@ -55,5 +58,5 @@ func Part2(in io.Reader) uint64 {
 	connectionsFftToOut := dfs(fftKey, outKey, inputMap, cache, dacKey, 0)
 
 	return connectionsSvrToDac*connectionsDacToFft*connectionsFftToOut +
-		connectionsSvrToFft*connectionsFftToDac*connectionsDacToOut
+		connectionsSvrToFft*connectionsFftToDac*connectionsDacToOut, nil
 }

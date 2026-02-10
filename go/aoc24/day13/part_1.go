@@ -17,23 +17,23 @@ type Input struct {
 func ParseButton(data []byte) VecFloat64 {
 	var ret VecFloat64
 	first := true
-	var val uint8
-	for i := range len(data) {
-		val = data[i] - '0'
-		if val <= 9 {
+	for i := 0; i < len(data); i++ {
+		ch := data[i]
+		if ch >= '0' && ch <= '9' {
+			val := float64(ch - '0')
 			if first {
-				ret.Y = (ret.Y * 10) + float64(val)
+				ret.Y = (ret.Y * 10) + val
 			} else {
-				ret.X = (ret.X * 10) + float64(val)
+				ret.X = (ret.X * 10) + val
 			}
-		} else if data[i] == 'Y' {
+		} else if ch == 'Y' {
 			first = false
 		}
 	}
 	return ret
 }
 
-func LoadFile(reader io.Reader) []Input {
+func LoadFile(reader io.Reader) ([]Input, error) {
 	obstacles := make([]Input, 0, 100)
 	s := bufio.NewScanner(reader)
 	var currentInput Input = Input{}
@@ -43,6 +43,9 @@ func LoadFile(reader io.Reader) []Input {
 			obstacles = append(obstacles, currentInput)
 			currentInput = Input{}
 			continue
+		}
+		if len(line) <= 7 {
+			return nil, aoc_utils.NewParseError("malformed line", nil)
 		}
 		switch line[7] {
 		case 'A':
@@ -54,7 +57,7 @@ func LoadFile(reader io.Reader) []Input {
 		}
 	}
 	obstacles = append(obstacles, currentInput)
-	return obstacles
+	return obstacles, nil
 }
 
 func Calculate(inp *Input) (int, int, bool) {
@@ -66,8 +69,11 @@ func Calculate(inp *Input) (int, int, bool) {
 	return 0, 0, false
 }
 
-func Part1(in io.Reader) int {
-	data := LoadFile(in)
+func Part1(in io.Reader) (int, error) {
+	data, err := LoadFile(in)
+	if err != nil {
+		return 0, err
+	}
 	totalSum := 0
 	for _, inp := range data {
 		a, b, ok := Calculate(&inp)
@@ -76,5 +82,5 @@ func Part1(in io.Reader) int {
 		}
 		totalSum += a*3 + b
 	}
-	return totalSum
+	return totalSum, nil
 }

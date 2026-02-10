@@ -5,7 +5,7 @@ import (
 	"io"
 )
 
-func CountTickets(valid []int, idx int) int {
+func countTickets(valid []int, idx int) int {
 	counter := make(map[int]int)
 	add := func(idx, count int) {
 		if val, ok := counter[idx]; ok {
@@ -26,12 +26,12 @@ func CountTickets(valid []int, idx int) int {
 	}
 	return score
 }
-func Part2(in io.Reader) int {
+func Part2(in io.Reader) (int, error) {
 	s := bufio.NewScanner(in)
 	valid := make([]int, 0, 32)
 	for s.Scan() {
-		_, a, b := ParseLine(s.Bytes())
-		valid = append(valid, CountWinnings(a, b))
+		_, a, b := parseLine(s.Bytes())
+		valid = append(valid, countWinnings(a, b))
 	}
-	return CountTickets(valid, 0)
+	return countTickets(valid, 0), nil
 }

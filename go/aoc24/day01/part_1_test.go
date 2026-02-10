@@ -17,7 +17,11 @@ const testData string = `3   4
 
 func Test24Day01Part1(t *testing.T) {
 
-	if result := day01.Part1(strings.NewReader(testData)); result != 11 {
+	result, err := day01.Part1(strings.NewReader(testData))
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
+	if result != 11 {
 		t.Errorf(`Expected %d to match %d`, result, 11)
 	}
 }

@@ -3,9 +3,11 @@ package day24
 import (
 	"bufio"
 	"io"
+
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
-func parseInput[A int64 | float64](r io.Reader) []hail[A] {
+func parseInput[A int64 | float64](r io.Reader) ([]hail[A], error) {
 	hailData := make([]hail[A], 0, 300)
 
 	scanner := bufio.NewScanner(r)
@@ -44,6 +46,8 @@ func parseInput[A int64 | float64](r io.Reader) []hail[A] {
 					numNegative = false
 					numStarted = false
 				}
+			default:
+				return nil, aoc_utils.NewUnexpectedInputError(b)
 			}
 		}
 		if numNegative {
@@ -51,5 +55,5 @@ func parseInput[A int64 | float64](r io.Reader) []hail[A] {
 		}
 		hailData = append(hailData, h)
 	}
-	return hailData
+	return hailData, nil
 }

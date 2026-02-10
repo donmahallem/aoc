@@ -13,34 +13,33 @@ const (
 	CELL_WALL  int = -17
 )
 
-type Direction = aoc_utils.Point[int16]
-type Field = [][]int
-type Point = aoc_utils.Point[int16]
-type PathValueMap = map[Point]int
+type direction = aoc_utils.Point[int16]
+type field = [][]int
+type point = aoc_utils.Point[int16]
 type Check struct {
-	point Point
-	dir   Direction
+	point point
+	dir   direction
 	score int
 }
 
-var DIR_UP Direction = Direction{X: 0, Y: -1}
-var DIR_DOWN Direction = Direction{X: 0, Y: 1}
-var DIR_LEFT Direction = Direction{X: -1, Y: 0}
-var DIR_RIGHT Direction = Direction{X: 1, Y: 0}
-var DIRS_ALL []Direction = []Direction{DIR_DOWN, DIR_LEFT, DIR_RIGHT, DIR_UP}
+var dirUP direction = direction{X: 0, Y: -1}
+var dirDOWN direction = direction{X: 0, Y: 1}
+var dirLEFT direction = direction{X: -1, Y: 0}
+var dirRIGHT direction = direction{X: 1, Y: 0}
+var dirsALL []direction = []direction{dirDOWN, dirLEFT, dirRIGHT, dirUP}
 
-func printField(field *Field, current *Point, dir *Direction) {
+func printField(field *field, current *point, dir *direction) {
 	for y := range int16(len(*field)) {
 		for x := range int16(len((*field)[y])) {
 			if current.X == x && current.Y == y {
 				switch *dir {
-				case DIR_DOWN:
+				case dirDOWN:
 					fmt.Print("v")
-				case DIR_UP:
+				case dirUP:
 					fmt.Print("^")
-				case DIR_RIGHT:
+				case dirRIGHT:
 					fmt.Print(">")
-				case DIR_LEFT:
+				case dirLEFT:
 					fmt.Print("<")
 				}
 				continue
@@ -55,11 +54,17 @@ func printField(field *Field, current *Point, dir *Direction) {
 		fmt.Println()
 	}
 }
-func ParseInput(in io.Reader) (Field, Point, Point) {
-	field := make(Field, 0)
+
+type inputData struct {
+	Field      field
+	Start, End point
+}
+
+func parseInput(in io.Reader) (*inputData, error) {
+	field := make(field, 0)
 	s := bufio.NewScanner(in)
-	start := Point{}
-	end := Point{}
+	start := point{}
+	end := point{}
 	for s.Scan() {
 		line := s.Bytes()
 		row := make([]int, len(line))
@@ -75,40 +80,42 @@ func ParseInput(in io.Reader) (Field, Point, Point) {
 				end.X = int16(x)
 				end.Y = int16(len(field))
 				row[x] = CELL_EMPTY
-			default:
+			case '.':
 				row[x] = CELL_EMPTY
+			default:
+				return nil, aoc_utils.NewUnexpectedInputError(line[x])
 			}
 		}
 		field = append(field, row)
 
 	}
-	return field, start, end
+	return &inputData{Field: field, Start: start, End: end}, nil
 }
 
-func translateLeft(dir *Direction) *Direction {
+func translateLeft(dir *direction) *direction {
 	switch *dir {
-	case DIR_UP:
-		return &DIR_LEFT
-	case DIR_RIGHT:
-		return &DIR_UP
-	case DIR_DOWN:
-		return &DIR_RIGHT
-	case DIR_LEFT:
-		return &DIR_DOWN
+	case dirUP:
+		return &dirLEFT
+	case dirRIGHT:
+		return &dirUP
+	case dirDOWN:
+		return &dirRIGHT
+	case dirLEFT:
+		return &dirDOWN
 	default:
 		panic("Unknown Direction")
 	}
 }
-func translateRight(dir *Direction) *Direction {
+func translateRight(dir *direction) *direction {
 	switch *dir {
-	case DIR_DOWN:
-		return &DIR_LEFT
-	case DIR_LEFT:
-		return &DIR_UP
-	case DIR_RIGHT:
-		return &DIR_DOWN
-	case DIR_UP:
-		return &DIR_RIGHT
+	case dirDOWN:
+		return &dirLEFT
+	case dirLEFT:
+		return &dirUP
+	case dirRIGHT:
+		return &dirDOWN
+	case dirUP:
+		return &dirRIGHT
 	default:
 		panic("Unknown Direction")
 	}
@@ -116,12 +123,19 @@ func translateRight(dir *Direction) *Direction {
 
 // Takes the 2D field and sets the path cost values on empty cells, that are
 // reachable from the start
-func CalculatePathValues(field *Field, start *Point) {
+func calculatePathValues(field *field, start *point) {
+	// Defensive checks to avoid panics on fuzzed inputs.
+	if field == nil || len(*field) == 0 {
+		return
+	}
+	if int(start.Y) < 0 || int(start.Y) >= len(*field) || int(start.X) < 0 || int(start.X) >= len((*field)[start.Y]) {
+		return
+	}
 	toCheck := make([]Check, 0)
 	(*field)[start.Y][start.X] = 0
-	toCheck = append(toCheck, Check{point: *start, dir: DIR_RIGHT, score: 0})
-	nextCoord := Point{}
-	checkDirs := make([]*Direction, 0, 3)
+	toCheck = append(toCheck, Check{point: *start, dir: dirRIGHT, score: 0})
+	nextCoord := point{}
+	checkDirs := make([]*direction, 0, 3)
 	var currentFieldVal int
 	// Walks iterativly breath first... was MUCH faster than depth first
 	for len(toCheck) > 0 {
@@ -135,6 +149,10 @@ func CalculatePathValues(field *Field, start *Point) {
 		for checkDirIdx, checkDir := range checkDirs {
 			nextCoord.X = check.point.X + checkDir.X
 			nextCoord.Y = check.point.Y + checkDir.Y
+			// bounds check
+			if int(nextCoord.Y) < 0 || int(nextCoord.Y) >= len(*field) || int(nextCoord.X) < 0 || int(nextCoord.X) >= len((*field)[nextCoord.Y]) {
+				continue
+			}
 			currentFieldVal = (*field)[nextCoord.Y][nextCoord.X]
 			if currentFieldVal == CELL_WALL {
 				continue
@@ -152,8 +170,15 @@ func CalculatePathValues(field *Field, start *Point) {
 	}
 }
 
-func Part1(in io.Reader) int {
-	field, start, end := ParseInput(in)
-	CalculatePathValues(&field, &start)
-	return field[end.Y][end.X]
+func Part1(in io.Reader) (int, error) {
+	input, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
+	calculatePathValues(&input.Field, &input.Start)
+	// bounds check before returning
+	if int(input.End.Y) < 0 || int(input.End.Y) >= len(input.Field) || int(input.End.X) < 0 || int(input.End.X) >= len(input.Field[input.End.Y]) {
+		return 0, aoc_utils.NewParseError("end coordinate out of bounds", nil)
+	}
+	return input.Field[input.End.Y][input.End.X], nil
 }

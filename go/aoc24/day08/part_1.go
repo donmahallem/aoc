@@ -7,10 +7,15 @@ import (
 	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
-type Point aoc_utils.Point[int16]
+type point aoc_utils.Point[int16]
+type inputData struct {
+	Antennas map[byte][]point
+	Width    int16
+	Height   int16
+}
 
-func readSource(reader io.Reader) (map[byte][]Point, int16, int16) {
-	data := make(map[byte][]Point, 8)
+func readSource(reader io.Reader) (*inputData, error) {
+	data := make(map[byte][]point, 8)
 	s := bufio.NewScanner(reader)
 	y := int16(0)
 	width := int16(0)
@@ -19,47 +24,57 @@ func readSource(reader io.Reader) (map[byte][]Point, int16, int16) {
 		if width == 0 {
 			width = int16(len(line))
 		} else if width != int16(len(line)) {
-			panic("Line length is uneven")
+			return nil, aoc_utils.NewParseError("line length is uneven", nil)
 		}
 		for idx, character := range line {
 			if character == '.' {
 				continue
 			}
+			if character != 'A' && character != '0' {
+				return nil, aoc_utils.NewUnexpectedInputError(character)
+			}
 			if charData, ok := data[character]; ok {
-				data[character] = append(charData, Point{Y: y, X: int16(idx)})
+				data[character] = append(charData, point{Y: y, X: int16(idx)})
 			} else {
-				data[character] = []Point{{Y: y, X: int16(idx)}}
+				data[character] = []point{{Y: y, X: int16(idx)}}
 			}
 		}
 		y++
 	}
-	return data, width, y
+	return &inputData{
+		Antennas: data,
+		Width:    width,
+		Height:   y,
+	}, nil
 }
 
 func OutOfBounds(x int16, y int16, width int16, height int16) bool {
 	return x < 0 || y < 0 || x >= width || y >= height
 }
 
-func Part1(in io.Reader) int {
-	antennas, width, height := readSource(in)
+func Part1(in io.Reader) (int, error) {
+	input, err := readSource(in)
+	if err != nil {
+		return 0, err
+	}
 	var antennaListLen int
-	var newPoint Point
-	echos := make(map[Point]bool, 0)
-	for antenna := range antennas {
-		antennaList := antennas[antenna]
+	var newPoint point
+	echos := make(map[point]bool, 0)
+	for antenna := range input.Antennas {
+		antennaList := input.Antennas[antenna]
 		antennaListLen = len(antennaList)
-		for i := range antennaListLen {
-			for j := range antennaListLen {
+		for i := 0; i < antennaListLen; i++ {
+			for j := 0; j < antennaListLen; j++ {
 				if i == j {
 					continue
 				}
 				newPoint.X = 2*antennaList[i].X - antennaList[j].X
 				newPoint.Y = 2*antennaList[i].Y - antennaList[j].Y
-				if !OutOfBounds(newPoint.X, newPoint.Y, width, height) {
+				if !OutOfBounds(newPoint.X, newPoint.Y, input.Width, input.Height) {
 					echos[newPoint] = true
 				}
 			}
 		}
 	}
-	return len(echos)
+	return len(echos), nil
 }

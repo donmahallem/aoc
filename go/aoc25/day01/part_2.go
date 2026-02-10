@@ -14,7 +14,7 @@ func mod100(n int) int {
 	return n
 }
 
-func Part2(in io.Reader) int {
+func Part2(in io.Reader) (int, error) {
 	currentPosition := 50
 	zeros := 0
 	for d := range parseInputGen(in) {
@@ -49,5 +49,5 @@ func Part2(in io.Reader) int {
 			currentPosition = mod100(start + steps)
 		}
 	}
-	return zeros
+	return zeros, nil
 }

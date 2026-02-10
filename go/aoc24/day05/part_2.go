@@ -2,10 +2,10 @@ package day05
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"sort"
 
+	"github.com/donmahallem/aoc/go/aoc_utils"
 	"github.com/donmahallem/aoc/go/aoc_utils/bytes"
 )
 
@@ -29,7 +29,7 @@ func tryFixLine(f facts, line []int64) (int64, bool) {
 	return validateLine(f, line)
 }
 
-func Part2(in io.Reader) int64 {
+func Part2(in io.Reader) (int64, error) {
 	s := bufio.NewScanner(in)
 	baseData := true
 	rules := make(facts)
@@ -52,7 +52,7 @@ func Part2(in io.Reader) int64 {
 				} else if c == '|' {
 					currentNumber = &numberB
 				} else {
-					panic(fmt.Sprintf("Unexpected character %c in base data", c))
+					return 0, aoc_utils.NewUnexpectedInputError(c)
 				}
 			}
 			rules[encodePair(numberA, numberB)] = struct{}{}
@@ -70,5 +70,5 @@ func Part2(in io.Reader) int64 {
 			total += mid
 		}
 	}
-	return total
+	return total, nil
 }

@@ -10,7 +10,7 @@ import (
 
 func TestIsPathAvailable(t *testing.T) {
 	reader := strings.NewReader(testData)
-	parsedData := day18.ParseInput(reader, 7, 7)
+	parsedData, _ := day18.ParseInput(reader, 7, 7)
 	t.Run("test for 12 steps", func(t *testing.T) {
 		ok := day18.IsPathAvailable(parsedData.Field, 5, 7, 7)
 		if !ok {
@@ -34,7 +34,7 @@ func BenchmarkIsPathAvailable(b *testing.B) {
 }
 func BenchmarkFindFirstNonSolvable(b *testing.B) {
 	b.Run("sample dataset", func(b *testing.B) {
-		parsedData := day18.ParseInput(strings.NewReader(testData), 7, 7)
+		parsedData, _ := day18.ParseInput(strings.NewReader(testData), 7, 7)
 		for b.Loop() {
 			day18.FindFirstNonSolvable(parsedData.Field, int16(len(parsedData.CorruptionOrder)), 7, 7)
 		}
@@ -44,7 +44,7 @@ func BenchmarkFindFirstNonSolvable(b *testing.B) {
 			b.Skip("Couldn't retrieve test file data")
 		}
 		sourceData, _ := test_utils.GetTestData(24, 18)
-		parsedData := day18.ParseInput(strings.NewReader(sourceData), 71, 71)
+		parsedData, _ := day18.ParseInput(strings.NewReader(sourceData), 71, 71)
 		for b.Loop() {
 			day18.FindFirstNonSolvable(parsedData.Field, int16(len(parsedData.CorruptionOrder)), 71, 71)
 		}
@@ -52,7 +52,7 @@ func BenchmarkFindFirstNonSolvable(b *testing.B) {
 }
 
 func TestPart2(t *testing.T) {
-	if result := day18.Part2Base(strings.NewReader(testData), 7, 7); result != (day18.Point{X: 6, Y: 1}) {
+	if result, _ := day18.Part2Base(strings.NewReader(testData), 7, 7); result != (day18.Point{X: 6, Y: 1}) {
 		t.Errorf(`Expected %v to contain %v`, result, day18.Point{X: 6, Y: 1})
 	}
 }

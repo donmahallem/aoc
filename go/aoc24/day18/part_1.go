@@ -21,7 +21,7 @@ type ParseResult struct {
 	CorruptionOrder []int16
 }
 
-func ParseInput(in io.Reader, width, height int16) ParseResult {
+func ParseInput(in io.Reader, width, height int16) (*ParseResult, error) {
 	s := bufio.NewScanner(in)
 	totalCells := width * height
 	field := make(Field, totalCells)
@@ -38,13 +38,15 @@ func ParseInput(in io.Reader, width, height int16) ParseResult {
 				target = &currentY
 			} else if c >= '0' && c <= '9' {
 				*target = (*target * 10) + int16(c-'0')
+			} else {
+				return nil, aoc_utils.NewUnexpectedInputError(c)
 			}
 		}
 		idx := int16(currentY*width + currentX)
 		field[idx] = pointIdx
 		order = append(order, idx)
 	}
-	return ParseResult{Field: field, CorruptionOrder: order}
+	return &ParseResult{Field: field, CorruptionOrder: order}, nil
 }
 
 // Revert: Hold pointers again to avoid value boxing/copying in the interface
@@ -179,7 +181,13 @@ func FindShortestPath(field Field, stepsTaken, fieldWidth, fieldHeight int16) in
 	return math.MaxInt16
 }
 
-func Part1Base(in io.Reader, maxSteps, width, height int16) int16 {
-	parsedInput := ParseInput(in, width, height)
-	return FindShortestPath(parsedInput.Field, maxSteps, width, height)
+func Part1Base(in io.Reader, maxSteps, width, height int16) (int16, error) {
+	parsedInput, err := ParseInput(in, width, height)
+	if err != nil {
+		return 0, err
+	}
+	if len(parsedInput.CorruptionOrder) == 0 {
+		return 0, aoc_utils.NewParseError("Expected input to be atleast one", nil)
+	}
+	return FindShortestPath(parsedInput.Field, maxSteps, width, height), nil
 }

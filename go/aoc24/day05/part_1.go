@@ -2,9 +2,9 @@ package day05
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 
+	"github.com/donmahallem/aoc/go/aoc_utils"
 	"github.com/donmahallem/aoc/go/aoc_utils/bytes"
 )
 
@@ -30,7 +30,7 @@ func validateLine(f facts, line []int64) (int64, bool) {
 	return line[n/2], true
 }
 
-func Part1(in io.Reader) int64 {
+func Part1(in io.Reader) (int64, error) {
 	s := bufio.NewScanner(in)
 	baseData := true
 	counter := int64(0)
@@ -53,7 +53,7 @@ func Part1(in io.Reader) int64 {
 				} else if c == '|' {
 					currentNumber = &numberB
 				} else {
-					panic(fmt.Sprintf("Unexpected character %c in base data", c))
+					return 0, aoc_utils.NewUnexpectedInputError(c)
 				}
 			}
 			encodedRules[encodePair(numberA, numberB)] = struct{}{}
@@ -68,5 +68,5 @@ func Part1(in io.Reader) int64 {
 			counter += midValue
 		}
 	}
-	return counter
+	return counter, nil
 }

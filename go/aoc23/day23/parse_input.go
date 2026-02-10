@@ -3,6 +3,8 @@ package day23
 import (
 	"bufio"
 	"io"
+
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
 const (
@@ -48,7 +50,7 @@ const (
 
 // parses the input and encodes exit nodes directly into the byte slice
 // respectSlop indicates whether slope directions should be respected
-func parseInput(in io.Reader, respectSlop bool) ([]cell, int, int) {
+func parseInput(in io.Reader, respectSlop bool) ([]cell, int, int, error) {
 	scanner := bufio.NewScanner(in)
 
 	width := 0
@@ -58,13 +60,25 @@ func parseInput(in io.Reader, respectSlop bool) ([]cell, int, int) {
 	height := 0
 	for ; scanner.Scan(); height++ {
 		raw := scanner.Bytes()
+		// ensure consistent width
 		if height == 0 {
 			width = len(raw)
 			parsedData = make([]cell, 0, width*width)
 			previousLine = make([]byte, width)
+		} else {
+			if len(raw) != width {
+				if len(raw) == 0 {
+					return nil, 0, 0, aoc_utils.NewUnexpectedInputError(0)
+				}
+				return nil, 0, 0, aoc_utils.NewUnexpectedInputError(raw[0])
+			}
 		}
 		for c := 0; c < width; c++ {
 			tile := raw[c]
+			if tile != TILE_EMPTY && tile != TILE_FOREST && tile != TILE_SLOPE_RIGHT && tile != TILE_SLOPE_LEFT &&
+				tile != TILE_SLOPE_UP && tile != TILE_SLOPE_DOWN {
+				return nil, 0, 0, aoc_utils.NewUnexpectedInputError(tile)
+			}
 			var currentMask cell = 0
 			currentIndex := height*width + c
 			previousIndex := currentIndex - 1
@@ -142,9 +156,14 @@ func parseInput(in io.Reader, respectSlop bool) ([]cell, int, int) {
 		copy(previousLine, raw)
 	}
 	// fix last row
-	for c := 0; c < width; c++ {
-		parsedData[(height-1)*width+c] &^= dirExitBottom
-		parsedData[(height-1)*width+c] &^= dirEntryBottom
+	if height > 0 {
+		for c := 0; c < width; c++ {
+			parsedData[(height-1)*width+c] &^= dirExitBottom
+			parsedData[(height-1)*width+c] &^= dirEntryBottom
+		}
 	}
-	return parsedData, width, height
+	if err := scanner.Err(); err != nil {
+		return nil, 0, 0, err
+	}
+	return parsedData, width, height, nil
 }

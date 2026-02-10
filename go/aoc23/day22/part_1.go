@@ -1,54 +1,14 @@
 package day22
 
 import (
-	"bufio"
 	"io"
 	"slices"
 )
 
 type supportMap = [][]int
 
-type Brick struct {
-	X1, Y1, Z1, X2, Y2, Z2 int
-}
-
-func (b Brick) IntersectXY(other *Brick) bool {
-	return !(b.X2 < other.X1 || b.X1 > other.X2 || b.Y2 < other.Y1 || b.Y1 > other.Y2)
-}
-
-func ParseInput(r io.Reader) (bricks []Brick) {
-
-	scanner := bufio.NewScanner(r)
-
-	parseBrick := func(line []byte) Brick {
-		var b Brick
-		parseOrder := [6]*int{&b.X1, &b.Y1, &b.Z1, &b.X2, &b.Y2, &b.Z2}
-		currentOrderIndex := 0
-		currentValue := 0
-		for i, c := range line {
-			if c >= '0' && c <= '9' {
-				currentValue = currentValue*10 + int(c-'0')
-			} else if c == ',' || c == '~' || i == len(line)-1 {
-				*parseOrder[currentOrderIndex] = currentValue
-				currentOrderIndex++
-				currentValue = 0
-			}
-		}
-		if currentValue > 0 && currentOrderIndex < len(parseOrder) {
-			*parseOrder[currentOrderIndex] = currentValue
-		}
-		return b
-	}
-
-	for scanner.Scan() {
-		line := scanner.Bytes()
-		bricks = append(bricks, parseBrick(line))
-	}
-	return
-}
-
-func settleBricks(bricks []Brick) {
-	slices.SortFunc(bricks, func(a, b Brick) int {
+func settleBricks(bricks []brick) {
+	slices.SortFunc(bricks, func(a, b brick) int {
 		if a.Z1 != b.Z1 {
 			return a.Z1 - b.Z1
 		} else if a.X1 != b.X1 {
@@ -82,7 +42,7 @@ func settleBricks(bricks []Brick) {
 
 }
 
-func buildSupportGraphMap(bricks []Brick) (supportMap, supportMap) {
+func buildSupportGraphMap(bricks []brick) (supportMap, supportMap) {
 	n := len(bricks)
 	supportedBy := make(supportMap, n) // supporters of each brick
 	supports := make(supportMap, n)    // bricks each brick supports
@@ -101,7 +61,7 @@ func buildSupportGraphMap(bricks []Brick) (supportMap, supportMap) {
 	return supportedBy, supports
 }
 
-func countRedundantBricks(bricks []Brick) (total int) {
+func countRedundantBricks(bricks []brick) (total int) {
 	supportedBy, supports := buildSupportGraphMap(bricks)
 
 	for i := range bricks {
@@ -119,8 +79,11 @@ func countRedundantBricks(bricks []Brick) (total int) {
 	return
 }
 
-func Part1(in io.Reader) int {
-	inp := ParseInput(in)
+func Part1(in io.Reader) (int, error) {
+	inp, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
 	settleBricks(inp)
-	return countRedundantBricks(inp)
+	return countRedundantBricks(inp), nil
 }

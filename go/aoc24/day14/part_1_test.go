@@ -1,6 +1,7 @@
 package day14_test
 
 import (
+	_ "embed"
 	"io"
 	"slices"
 	"strings"
@@ -9,22 +10,16 @@ import (
 	"github.com/donmahallem/aoc/go/aoc24/day14"
 )
 
-const testData string = `p=0,4 v=3,-3
-p=6,3 v=-1,-3
-p=10,3 v=-1,2
-p=2,0 v=2,-1
-p=0,0 v=1,3
-p=3,0 v=-2,-2
-p=7,6 v=-1,-3
-p=3,0 v=-1,-2
-p=9,3 v=2,3
-p=7,3 v=-1,2
-p=2,4 v=2,-3
-p=9,5 v=-3,-3`
+//go:embed sample.txt
+var testData string
 
 func TestParseLine(t *testing.T) {
 	testString := []byte("p=0,4 v=3,-3")
-	test := day14.ParseLine(testString)
+	r, err := day14.ParseLine(testString)
+	if err != nil {
+		t.Fatalf("Unexpected error: %v", err)
+	}
+	test := *r
 	expected := *day14.NewRobot(0, 4, 3, -3)
 	if expected != test {
 		t.Errorf(`Expected %v to match %v`, test, expected)
@@ -33,14 +28,21 @@ func TestParseLine(t *testing.T) {
 
 func TestParseLineLongValue(t *testing.T) {
 	testString := []byte("p=-20,145 v=3,-253")
-	test := day14.ParseLine(testString)
+	r, err := day14.ParseLine(testString)
+	if err != nil {
+		t.Fatalf("Unexpected error: %v", err)
+	}
+	test := *r
 	expected := *day14.NewRobot(-20, 145, 3, -253)
 	if expected != test {
 		t.Errorf(`Expected %v to match %v`, test, expected)
 	}
 }
 func TestLoadFile(t *testing.T) {
-	test := day14.LoadFile(strings.NewReader(testData))
+	test, err := day14.LoadFile(strings.NewReader(testData))
+	if err != nil {
+		t.Fatalf("Unexpected error: %v", err)
+	}
 	expected := []*day14.Robot{day14.NewRobot(0, 4, 3, -3),
 		day14.NewRobot(6, 3, -1, -3),
 		day14.NewRobot(10, 3, -1, 2),
@@ -61,7 +63,10 @@ func TestLoadFile(t *testing.T) {
 }
 
 func TestCountQuadrant(t *testing.T) {
-	test := day14.LoadFile(strings.NewReader(testData))
+	test, err := day14.LoadFile(strings.NewReader(testData))
+	if err != nil {
+		t.Fatalf("Unexpected error: %v", err)
+	}
 	testSum := day14.CountQuadrant(test, 100, 11, 7)
 	if testSum != 12 {
 		t.Errorf(`Expected %v to match %v`, testSum, 12)

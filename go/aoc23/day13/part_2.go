@@ -4,7 +4,7 @@ import (
 	"io"
 )
 
-func OneBitApart(a, b int) bool {
+func oneBitApart(a, b int) bool {
 	diff := a ^ b
 	return (diff != 0 && (diff&(diff-1)) == 0)
 }
@@ -15,7 +15,7 @@ func validateAxis2(axisData []int, center int) bool {
 	for lower, upper := center-1, center; lower >= 0 && upper < len(axisData); lower, upper = lower-1, upper+1 {
 		if axisData[lower] != axisData[upper] {
 			if corrected == 0 {
-				if OneBitApart(axisData[lower], axisData[upper]) {
+				if oneBitApart(axisData[lower], axisData[upper]) {
 					corrected++
 					continue
 				}
@@ -34,8 +34,11 @@ func findAxis2(axisData []int) (int, bool) {
 	return -1, false
 }
 
-func Part2(in io.Reader) int {
-	start := ParseInput(in)
+func Part2(in io.Reader) (int, error) {
+	start, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
 	accum := 0
 	for _, block := range start {
 		if rowAxis, ok := findAxis2(block.Rows); ok {
@@ -47,5 +50,5 @@ func Part2(in io.Reader) int {
 			continue
 		}
 	}
-	return accum
+	return accum, nil
 }

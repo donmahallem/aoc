@@ -14,7 +14,10 @@ var testData string
 func Test_parseInput(t *testing.T) {
 	t.Run("testData", func(t *testing.T) {
 		reader := strings.NewReader(testData)
-		res := parseInput[float64](reader)
+		res, err := parseInput[float64](reader)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
 
 		expectedBricks := []hail[float64]{
 			{19, 13, 30, -2, 1, -2},

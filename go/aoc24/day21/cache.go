@@ -1,8 +1,8 @@
 package day21
 
-type Cache = map[uint16]uint
+type cache = map[uint16]uint
 
-func HashId2(start *Point, end *Point, depth uint8) uint16 {
+func hashId2(start *Point, end *Point, depth uint8) uint16 {
 	var value uint16 = uint16(depth)
 	value = (value * 4) + uint16(start.X)
 	value = (value * 4) + uint16(start.Y)
@@ -11,9 +11,7 @@ func HashId2(start *Point, end *Point, depth uint8) uint16 {
 	return value
 }
 
-// takes current start and end points and the remaining depth
-// and creates a hashKey
-func HashId(start *Point, end *Point, remainingDepth uint8) uint16 {
+func hashId(start *Point, end *Point, remainingDepth uint8) uint16 {
 	tmpValue := (start.X * 4) + start.Y
 	tmpValue = (tmpValue * 4) + end.X
 	tmpValue = (tmpValue * 4) + end.Y

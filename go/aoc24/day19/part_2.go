@@ -41,13 +41,16 @@ func BisectSearchPatterns(patterns TowelPatterns, scoreCache *ScoreCache, subPat
 	(*scoreCache)[subPattern] = total
 	return total
 }
-func Part2(in io.Reader) uint {
-	patterns, towls, _ := ParseInput(in)
+func Part2(in io.Reader) (uint, error) {
+	patterns, towls, _, err := ParseInput(in)
+	if err != nil {
+		return 0, err
+	}
 	var count uint = 0
 	cache := make(ScoreCache)
 	for _, towl := range towls {
 		count += BisectSearchPatterns(patterns, &cache, towl)
 
 	}
-	return count
+	return count, nil
 }

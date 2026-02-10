@@ -11,7 +11,10 @@ import (
 func Test_findCollisions(t *testing.T) {
 	t.Run("testData", func(t *testing.T) {
 		reader := strings.NewReader(testData)
-		inp := parseInput[float64](reader)
+		inp, err := parseInput[float64](reader)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
 		collisions := findCollisions(inp, 7, 27)
 		if collisions != 2 {
 			t.Errorf("Expected %d to be 2", collisions)
@@ -26,7 +29,10 @@ func Test_findCollisions(t *testing.T) {
 			return
 		}
 		reader := strings.NewReader(full_data)
-		inp := parseInput[float64](reader)
+		inp, err := parseInput[float64](reader)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
 		collisions := findCollisions(inp, 200000000000000, 400000000000000)
 		if collisions != 20361 {
 			t.Errorf("Expected %d to be 20361", collisions)
@@ -39,7 +45,10 @@ func Benchmark_findCollisions(b *testing.B) {
 	b.Run("benchmark sample data", func(b *testing.B) {
 
 		reader := strings.NewReader(testData)
-		inp := parseInput[float64](reader)
+		inp, err := parseInput[float64](reader)
+		if err != nil {
+			b.Fatalf("unexpected error: %v", err)
+		}
 		for b.Loop() {
 			findCollisions(inp, 7, 27)
 		}
@@ -50,7 +59,10 @@ func Benchmark_findCollisions(b *testing.B) {
 		full_data, ok := test_utils.GetTestData(23, 24)
 		if ok {
 			reader := strings.NewReader(full_data)
-			inp := parseInput[float64](reader)
+			inp, err := parseInput[float64](reader)
+			if err != nil {
+				b.Fatalf("unexpected error: %v", err)
+			}
 
 			for b.Loop() {
 				findCollisions(inp, 200000000000000, 400000000000000)

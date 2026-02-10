@@ -22,11 +22,21 @@ func StringifySequence(a []NodeHash) string {
 func findLongest(data CombinationMap) []NodeHash {
 	var longest []NodeHash
 	n := len(data)
+	if n < 2 {
+		return nil
+	}
 	path := make([]NodeHash, n)
 	used := make(map[NodeHash]struct{}, n)
 
 	var dfs func(depth int)
 	dfs = func(depth int) {
+		// prevent exceeding path capacity
+		if depth >= n {
+			if depth > len(longest) {
+				longest = append([]NodeHash(nil), path[:depth]...)
+			}
+			return
+		}
 		last := path[depth-1]
 		extended := false
 		for next := range data[last] {
@@ -69,7 +79,10 @@ func findLongest(data CombinationMap) []NodeHash {
 	return longest
 }
 
-func Part2(in io.Reader) string {
-	items := parseInput(in)
-	return StringifySequence(findLongest(items))
+func Part2(in io.Reader) (string, error) {
+	items, err := parseInput(in)
+	if err != nil {
+		return "", err
+	}
+	return StringifySequence(findLongest(items)), nil
 }

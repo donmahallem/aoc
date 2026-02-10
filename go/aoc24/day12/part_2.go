@@ -8,16 +8,16 @@ import (
 	"github.com/donmahallem/aoc/go/aoc_utils/int_util"
 )
 
-type VisitedMap map[Point]bool
+type visitedMap map[point]bool
 
-func SortHorizontal(a Point, b Point) int {
+func sortHorizontal(a point, b point) int {
 	if tmp := int(a.Y - b.Y); tmp != 0 {
 		return int(tmp)
 	}
 	return int(a.X - b.X)
 }
 
-func SortVertical(a Point, b Point) int {
+func sortVertical(a point, b point) int {
 	if tmp := int(a.X - b.X); tmp != 0 {
 		return tmp
 	}
@@ -25,15 +25,15 @@ func SortVertical(a Point, b Point) int {
 
 }
 
-func CountStraightEdgesHorizontal(coords []Point) int {
-	slices.SortFunc(coords, SortHorizontal)
+func countStraightEdgesHorizontal(coords []point) int {
+	slices.SortFunc(coords, sortHorizontal)
 	lines := 0
 	checkDirs := [2]int16{-1, 1}
 	var inline bool = false
 	for _, checkDir := range checkDirs {
 		lastX := coords[0].X
 		lastY := coords[0].Y
-		var neighbour Point = Point{Y: coords[0].Y + checkDir, X: coords[0].X}
+		var neighbour point = point{Y: coords[0].Y + checkDir, X: coords[0].X}
 		inline = !slices.Contains(coords, neighbour)
 		for i := 1; i < len(coords); i++ {
 			neighbour.Y = coords[i].Y + checkDir
@@ -64,13 +64,13 @@ func CountStraightEdgesHorizontal(coords []Point) int {
 	}
 	return lines
 }
-func CountStraightEdgesVertical(coords []Point) int {
-	slices.SortFunc(coords, SortVertical)
+func countStraightEdgesVertical(coords []point) int {
+	slices.SortFunc(coords, sortVertical)
 	//fmt.Printf("Block %v\n", coords)
 	lines := 0
 	checkDirs := [2]int16{-1, 1}
 	var inline bool = false
-	var neighbour Point
+	var neighbour point
 	for _, checkDir := range checkDirs {
 		lastX := coords[0].X
 		lastY := coords[0].Y
@@ -107,19 +107,22 @@ func CountStraightEdgesVertical(coords []Point) int {
 	return lines
 }
 
-func CountStraightEdges(coords []Point) int {
+func countStraightEdges(coords []point) int {
 	edges := 0
-	edges += CountStraightEdgesHorizontal(coords)
-	edges += CountStraightEdgesVertical(coords)
+	edges += countStraightEdgesHorizontal(coords)
+	edges += countStraightEdgesVertical(coords)
 	return edges
 }
 
-func Part2(in io.Reader) int {
-	data, _ := aoc_utils.LoadField[int16, byte](in)
-	groups := FindGroups(*data)
+func Part2(in io.Reader) (int, error) {
+	data, err := aoc_utils.LoadField[int16, byte](in)
+	if err != nil {
+		return 0, err
+	}
+	groups := findGroups(*data)
 	count := 0
 	for _, group := range groups {
-		count += len(group) * CountStraightEdges(group)
+		count += len(group) * countStraightEdges(group)
 	}
-	return count
+	return count, nil
 }

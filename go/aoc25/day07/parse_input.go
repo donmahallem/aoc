@@ -3,19 +3,27 @@ package day07
 import (
 	"bufio"
 	"io"
-)
 
-type splitterPositions map[int]struct{}
+	"github.com/donmahallem/aoc/go/aoc_utils"
+)
 
 type node struct {
 	l, r *node
 	x    int
 }
 
-func parseInput(in io.Reader) (*node, int, int, int, int) {
+type inputData struct {
+	startNode *node
+	startX    int
+	startY    int
+	width     int
+	height    int
+}
+
+func parseInput(in io.Reader) (*inputData, error) {
 	s := bufio.NewScanner(in)
 	nodes := make([]node, 0, 1024)
-	var startX, startY, height int
+	var startX, startY, height int = -1, -1, 0
 	width := -1
 	var startNode *node
 
@@ -23,6 +31,8 @@ func parseInput(in io.Reader) (*node, int, int, int, int) {
 		line := s.Bytes()
 		if width < 0 {
 			width = len(line)
+		} else if width != len(line) {
+			return nil, aoc_utils.NewParseError("inconsistent line widths", nil)
 		}
 		for x, c := range line {
 			switch c {
@@ -34,8 +44,19 @@ func parseInput(in io.Reader) (*node, int, int, int, int) {
 		}
 	}
 
+	if startX < 0 {
+		return nil, aoc_utils.NewParseError("missing start node", nil)
+	}
+	if width <= 0 || height <= 0 {
+		return nil, aoc_utils.NewParseError("invalid dimensions", nil)
+	}
+
 	nodeCache := make([]*node, width)
 
+	if len(nodes) == 0 {
+		return nil, aoc_utils.NewParseError("no nodes found", nil)
+	}
+	// iterate backwards to link nodes
 	for i := len(nodes) - 1; i >= 0; i-- {
 		n := &nodes[i]
 		x := n.x
@@ -51,5 +72,14 @@ func parseInput(in io.Reader) (*node, int, int, int, int) {
 		nodeCache[x] = n
 	}
 
-	return startNode, startX, startY, width, height
+	if startNode == nil {
+		return nil, aoc_utils.NewParseError("start node not found or reached", nil)
+	}
+	return &inputData{
+		startNode: startNode,
+		startX:    startX,
+		startY:    startY,
+		width:     width,
+		height:    height,
+	}, nil
 }

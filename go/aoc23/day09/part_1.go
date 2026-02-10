@@ -1,30 +1,10 @@
 package day09
 
 import (
-	"bufio"
 	"io"
-	"strconv"
-	"strings"
 )
 
-type InputRow []int
-type Input []InputRow
-
-func ParseInput(in io.Reader) Input {
-	s := bufio.NewScanner(in)
-	result := make(Input, 0)
-	for s.Scan() {
-		parts := strings.Fields(s.Text())
-		nums := make([]int, len(parts))
-		for idx, item := range parts {
-			nums[idx], _ = strconv.Atoi(item)
-		}
-		result = append(result, nums)
-	}
-	return result
-}
-
-func PredictRight(row InputRow) int {
+func predictRight(row inputRow) int {
 	for endIdx := len(row); endIdx > 0; endIdx-- {
 		allZero := true
 		for idx := range endIdx - 1 {
@@ -44,11 +24,14 @@ func PredictRight(row InputRow) int {
 	return 0
 }
 
-func Part1(in io.Reader) int {
-	rows := ParseInput(in)
+func Part1(in io.Reader) (int, error) {
+	rows, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
 	cumSum := 0
 	for _, row := range rows {
-		cumSum += PredictRight(row)
+		cumSum += predictRight(row)
 	}
-	return cumSum
+	return cumSum, nil
 }

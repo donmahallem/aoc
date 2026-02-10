@@ -4,7 +4,7 @@ import (
 	"io"
 )
 
-func PredictLeft(row InputRow) int {
+func predictLeft(row inputRow) int {
 	for startIdx := range len(row) - 1 {
 		allZero := true
 		for idx := len(row) - 1; idx > startIdx; idx-- {
@@ -24,11 +24,14 @@ func PredictLeft(row InputRow) int {
 	return 0
 }
 
-func Part2(in io.Reader) int {
-	rows := ParseInput(in)
+func Part2(in io.Reader) (int, error) {
+	rows, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
 	cumSum := 0
 	for _, row := range rows {
-		cumSum += PredictLeft(row)
+		cumSum += predictLeft(row)
 	}
-	return cumSum
+	return cumSum, nil
 }

@@ -5,7 +5,6 @@ import (
 	"io"
 
 	"github.com/donmahallem/aoc/go/aoc_utils"
-	"github.com/donmahallem/aoc/go/aoc_utils/bytes"
 )
 
 type Robot struct {
@@ -16,61 +15,95 @@ func NewRobot(posX, posY, vecX, vecY int) *Robot {
 	return &Robot{*aoc_utils.NewPoint(posX, posY), *aoc_utils.NewPoint(vecX, vecY)}
 }
 
-type ParsePosition uint8
+type parsePosition uint8
 
 const (
-	ParsePosition_X1 ParsePosition = iota
-	ParsePosition_X2
-	ParsePosition_Y1
-	ParsePosition_Y2
+	parsePositionInitial parsePosition = iota
+	parsePositionP1
+	parsePositionP2
+	parsePositionV1
+	parsePositionV2
+	parsePositionEq1
+	parsePositionEq2
+	parsePositionV
 )
 
-func ParseLine(line []byte) Robot {
+func ParseLine(line []byte) (*Robot, error) {
+	// expected format: p=9,3 v=2,3
 	robot := Robot{}
-	var shiftVal int
-	// Pointer to the current selected output field in robot
-	currentPointer := &robot.pos.X
-	isNegative := false
-	for _, c := range line {
-		if parsedInt, ok := bytes.ParseIntFromByte[int](c); ok {
-			shiftVal = parsedInt
-			if *currentPointer == 0 {
-				*currentPointer = shiftVal
+
+	readInt := func(startidx int) (val int, nextIdx int) {
+		isNegative := false
+		val = 0
+		for i := startidx; i < len(line); i++ {
+			c := line[i]
+			if c >= '0' && c <= '9' {
+				val = (val * 10) + int(c-'0')
+			} else if c == '-' {
+				isNegative = true
 			} else {
-				*currentPointer = (*currentPointer * 10) + shiftVal
+				if isNegative {
+					val *= -1
+				}
+				return val, i
 			}
-		} else if c == '-' {
-			isNegative = true
-		} else if c == 'v' || c == ',' {
-			if isNegative {
-				*currentPointer *= -1
-			}
-			switch currentPointer {
-			case &robot.pos.X:
-				currentPointer = &robot.pos.Y
-			case &robot.pos.Y:
-				currentPointer = &robot.vec.X
-			case &robot.vec.X:
-				currentPointer = &robot.vec.Y
-			}
-			isNegative = false
 		}
+		if isNegative {
+			val *= -1
+		}
+		return val, len(line)
 	}
-	if isNegative {
-		*currentPointer *= -1
+	if len(line) < 7 {
+		return nil, aoc_utils.NewParseError("The input must be atleast 7 characters long", nil)
 	}
-	//p=9,3 v=2,3
-	return robot
+
+	if line[0] != 'p' {
+		return nil, aoc_utils.NewUnexpectedInputError(line[0])
+	} else if line[1] != '=' {
+		return nil, aoc_utils.NewUnexpectedInputError(line[1])
+	}
+
+	startIdx := 2
+	robot.pos.X, startIdx = readInt(startIdx)
+	if startIdx >= len(line) || line[startIdx] != ',' {
+		return nil, aoc_utils.NewParseError("expected ',' after pos.X", nil)
+	}
+	startIdx++
+	robot.pos.Y, startIdx = readInt(startIdx)
+	if startIdx >= len(line) || line[startIdx] != ' ' {
+		return nil, aoc_utils.NewParseError("expected ' ' after pos.Y", nil)
+	}
+	startIdx++
+	if startIdx >= len(line) || line[startIdx] != 'v' {
+		return nil, aoc_utils.NewParseError("expected 'v' after position", nil)
+	}
+	startIdx++
+	if startIdx >= len(line) || line[startIdx] != '=' {
+		return nil, aoc_utils.NewParseError("expected '=' after 'v'", nil)
+	}
+	startIdx++
+	robot.vec.X, startIdx = readInt(startIdx)
+	if startIdx >= len(line) || line[startIdx] != ',' {
+		return nil, aoc_utils.NewParseError("expected ',' after vec.X", nil)
+	}
+	startIdx++
+	robot.vec.Y, startIdx = readInt(startIdx)
+
+	return &robot, nil
 }
 
-func LoadFile(reader io.Reader) []Robot {
+func LoadFile(reader io.Reader) ([]Robot, error) {
 	obstacles := make([]Robot, 0, 100)
 	s := bufio.NewScanner(reader)
 	for s.Scan() {
 		line := s.Bytes()
-		obstacles = append(obstacles, ParseLine(line))
+		robot, err := ParseLine(line)
+		if err != nil {
+			return nil, err
+		}
+		obstacles = append(obstacles, *robot)
 	}
-	return obstacles
+	return obstacles, nil
 }
 
 func CalculateQuadrant(robot *Robot, steps int, width int, height int) int8 {
@@ -115,8 +148,11 @@ func CountQuadrant(robots []Robot, steps int, width int, height int) int {
 	return countSum
 }
 
-func Part1(in io.Reader) int {
-	robots := LoadFile(in)
+func Part1(in io.Reader) (int, error) {
+	robots, err := LoadFile(in)
+	if err != nil {
+		return 0, err
+	}
 	totalSum := CountQuadrant(robots, 100, 101, 103)
-	return totalSum
+	return totalSum, nil
 }

@@ -30,12 +30,14 @@ func HandlePart2(in io.Reader, outputId int) int {
 	rxSources := findModulesTargetingRx(&inp, outputId)
 
 	if len(rxSources) == 0 {
-		panic("no modules target rx")
+		// malformed or incomplete circuit: treat as non-fatal and return 0
+		return 0
 	}
 	targetID := rxSources[0]
 	conj, ok := inp.Modules[targetID].(*conjunctionModule)
 	if !ok || len(conj.inputs) == 0 {
-		panic("rx source is not a conjunction module or has no inputs")
+		// similarly, return 0 for incomplete/invalid configurations
+		return 0
 	}
 	periods := make(map[int]int, len(conj.inputs))
 	needed := len(conj.inputs)
@@ -58,6 +60,6 @@ func HandlePart2(in io.Reader, outputId int) int {
 	return result
 }
 
-func Part2(in io.Reader) int {
-	return HandlePart2(in, rxModuleId)
+func Part2(in io.Reader) (int, error) {
+	return HandlePart2(in, rxModuleId), nil
 }

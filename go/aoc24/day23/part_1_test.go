@@ -16,7 +16,10 @@ func TestPart1(t *testing.T) {
 	t.Run("test sample 1", func(t *testing.T) {
 		expected := uint16(7)
 		reader := strings.NewReader(testData)
-		result := day23.Part1(reader)
+		result, err := day23.Part1(reader)
+		if err != nil {
+			t.Errorf("Unexpected error: %v", err)
+		}
 		if result != expected {
 			t.Errorf(`Expected number of blocks to be %d, got %d`, expected, result)
 		}

@@ -2,12 +2,17 @@ package day09
 
 import (
 	"io"
+
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
-func ConvertInput(inp *[]byte) []int16 {
+func convertInput(inp []byte) ([]int16, error) {
 	baseData := make([]int16, 0)
-	for i := range len(*inp) {
-		spec := (*inp)[i] - '0'
+	for i := range inp {
+		if inp[i] < '0' || inp[i] > '9' {
+			return nil, aoc_utils.NewUnexpectedInputError(inp[i])
+		}
+		spec := inp[i] - '0'
 		for range spec {
 			if i%2 == 0 {
 				baseData = append(baseData, int16((i / 2)))
@@ -16,9 +21,9 @@ func ConvertInput(inp *[]byte) []int16 {
 			}
 		}
 	}
-	return baseData
+	return baseData, nil
 }
-func CheckSum(data *[]int16) int {
+func checkSum(data *[]int16) int {
 	checkSum := 0
 	for i := range len(*data) {
 		if (*data)[i] >= 0 {
@@ -27,7 +32,7 @@ func CheckSum(data *[]int16) int {
 	}
 	return checkSum
 }
-func CompactData(data *[]int16) {
+func compactData(data *[]int16) {
 	j := len(*data) - 1
 	for i := range len(*data) {
 		if (*data)[i] >= 0 {
@@ -45,9 +50,12 @@ func CompactData(data *[]int16) {
 	}
 }
 
-func Part1(in io.Reader) int {
+func Part1(in io.Reader) (int, error) {
 	data, _ := io.ReadAll(in)
-	expandedData := ConvertInput(&data)
-	CompactData(&expandedData)
-	return CheckSum(&expandedData)
+	expandedData, err := convertInput(data)
+	if err != nil {
+		return 0, err
+	}
+	compactData(&expandedData)
+	return checkSum(&expandedData), nil
 }

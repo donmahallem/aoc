@@ -13,7 +13,13 @@ var testData string
 
 func Test_parseInput(t *testing.T) {
 	reader := strings.NewReader(testData)
-	s, x, y, w, h := parseInput(reader)
+	inp, err := parseInput(reader)
+	if err != nil {
+		t.Fatalf("Unexpected error: %v", err)
+	}
+	x, y := inp.startX, inp.startY
+	s := inp.startNode
+	w, h := inp.width, inp.height
 	if x != 7 || y != 0 {
 		t.Errorf("unexpected start position: got (%d,%d), want (7,0)", x, y)
 	}

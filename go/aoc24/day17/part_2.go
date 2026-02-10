@@ -4,25 +4,37 @@ import (
 	"io"
 	"slices"
 
+	"github.com/donmahallem/aoc/go/aoc_utils"
 	"github.com/donmahallem/aoc/go/aoc_utils/int_util"
 )
 
-func SearchForNeutralElement(reg *Register, program *Program, targetProgram *Program) bool {
+func SearchForNeutralElement(reg *Register, program *Program, targetProgram *Program) (bool, error) {
 	output := make([]int, 0)
 	pointer := 0
 	targetProgramLength := len(*targetProgram)
 	var opcode, operand, operand_value, programLength int
+	if len(*program)%2 != 0 {
+		return false, aoc_utils.NewParseError("malformed program: odd length", nil)
+	}
 	for pointer < len(*program) {
+		if pointer+1 >= len(*program) {
+			return false, aoc_utils.NewParseError("malformed program: missing operand", nil)
+		}
 		programLength = len(output)
 		if programLength > 0 && !slices.Equal(output, (*targetProgram)[0:min(programLength, targetProgramLength)]) {
-			return false
+			return false, nil
 		}
 		opcode = (*program)[pointer]
 		operand = (*program)[pointer+1]
+		if operand < 0 {
+			return false, aoc_utils.NewParseError("invalid operand", nil)
+		}
 		if operand < 4 {
 			operand_value = operand
 		} else if operand >= 4 && operand < 7 {
 			operand_value = (*reg)[operand-4]
+		} else {
+			return false, aoc_utils.NewParseError("invalid operand", nil)
 		}
 		switch opcode {
 		case 0:
@@ -33,6 +45,9 @@ func SearchForNeutralElement(reg *Register, program *Program, targetProgram *Pro
 			(*reg)[1] = operand_value % 8
 		case 3:
 			if (*reg)[0] != 0 {
+				if operand_value < 0 || operand_value >= len(*program) {
+					return false, aoc_utils.NewParseError("invalid jump target", nil)
+				}
 				pointer = operand_value
 				continue
 			}
@@ -44,13 +59,15 @@ func SearchForNeutralElement(reg *Register, program *Program, targetProgram *Pro
 			(*reg)[1] = (*reg)[0] / (int_util.IntPow(2, operand_value))
 		case 7:
 			(*reg)[2] = (*reg)[0] / (int_util.IntPow(2, operand_value))
+		default:
+			return false, aoc_utils.NewParseError("invalid opcode", nil)
 		}
 		pointer += 2
 	}
-	return slices.Equal(*targetProgram, output)
+	return slices.Equal(*targetProgram, output), nil
 }
 
-func A(program *Program) int {
+func A(program *Program) (int, error) {
 	var testRegisters Register = Register{}
 	registerValue := 0
 	var tempTargetProgram Program
@@ -60,9 +77,13 @@ func A(program *Program) int {
 			testRegisters[0] = registerValue
 			testRegisters[1] = 0
 			testRegisters[2] = 0
-			if SearchForNeutralElement(&testRegisters, program, &tempTargetProgram) {
+			found, err := SearchForNeutralElement(&testRegisters, program, &tempTargetProgram)
+			if err != nil {
+				return 0, err
+			}
+			if found {
 				if i == 0 {
-					return registerValue
+					return registerValue, nil
 				}
 				registerValue *= 8
 				break
@@ -70,10 +91,17 @@ func A(program *Program) int {
 			registerValue++
 		}
 	}
-	return 0
+	return 0, nil
 }
 
-func Part2(in io.Reader) int {
-	_, program := ParseInput(in)
-	return A(&program)
+func Part2(in io.Reader) (int, error) {
+	data, err := parseInput(in)
+	if err != nil {
+		return 0, err
+	}
+	res, err := A(&data.Program)
+	if err != nil {
+		return 0, err
+	}
+	return res, nil
 }

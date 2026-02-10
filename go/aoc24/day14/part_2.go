@@ -55,9 +55,12 @@ func FindNonDouble(robots []Robot, maxDepth int, width int, height int) int {
 	return -1
 }
 
-func Part2(in io.Reader) int {
-	data := LoadFile(in)
+func Part2(in io.Reader) (int, error) {
+	data, err := LoadFile(in)
+	if err != nil {
+		return 0, err
+	}
 	width, height, maxDepth := 101, 103, 10000000
 	totalSum := FindNonDouble(data, maxDepth, width, height)
-	return maxDepth - totalSum
+	return maxDepth - totalSum, nil
 }

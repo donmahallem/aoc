@@ -9,7 +9,10 @@ import (
 )
 
 func TestPart2(t *testing.T) {
-	result := day02.Part2(strings.NewReader(testData))
+	result, err := day02.Part2(strings.NewReader(testData))
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
 	if result != 4 {
 		t.Errorf(`Expected %d to be %d`, result, 4)
 	}

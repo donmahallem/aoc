@@ -62,10 +62,10 @@ func translateFromIndex(idx, width uint16) (uint16, uint16) {
 	return idx % width, idx / width
 }
 
-func Part2(in io.Reader) int {
+func Part2(in io.Reader) (int, error) {
 	field, guard, err := ReadSource(in)
 	if err != nil {
-		panic(err)
+		return 0, err
 	}
 	pathInfo := leaveArea(&field, guard)
 	startIdx := translateToIndex(guard.x, guard.y, field.width)
@@ -94,5 +94,5 @@ func Part2(in io.Reader) int {
 		token++
 	}
 
-	return blockages
+	return blockages, nil
 }

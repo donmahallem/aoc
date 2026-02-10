@@ -43,3 +43,14 @@ func (iv *Interval[A]) Fix() {
 		iv.Min, iv.Max = iv.Max, iv.Min
 	}
 }
+
+// shift the interval
+func (a *Interval[A]) Shift(offset A) Interval[A] {
+	return Interval[A]{Min: a.Min + offset, Max: a.Max + offset}
+}
+
+// shift in place
+func (a *Interval[A]) ShiftI(offset A) {
+	a.Min += offset
+	a.Max += offset
+}

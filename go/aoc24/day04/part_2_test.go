@@ -10,7 +10,11 @@ import (
 
 func Test24Day04Part2(t *testing.T) {
 
-	if result := day04.Part2(strings.NewReader(testData)); result != 9 {
+	result, err := day04.Part2(strings.NewReader(testData))
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
+	if result != 9 {
 		t.Errorf(`Expected %d to match %d`, result, 9)
 	}
 }

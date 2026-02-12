@@ -17,7 +17,8 @@ class Test2024Day03Part01(unittest.TestCase):
             result = Part1(f)
             self.assertEqual(result, 161)
 
-    @unittest.skipUnless(os.path.exists("data/full/24/03.txt"), "Test data file not found")
+    @unittest.skipUnless(os.path.exists("data/full/24/03.txt"),
+                         "Test data file not found")
     def test_full_data(self):
         with open("data/full/24/03.txt") as f:
             result = Part1(f)
@@ -33,7 +34,8 @@ class Test2024Day03Part02(unittest.TestCase):
             result = Part2(f)
             self.assertEqual(result, 48)
 
-    @unittest.skipUnless(os.path.exists("data/full/24/03.txt"), "Test data file not found")
+    @unittest.skipUnless(os.path.exists("data/full/24/03.txt"),
+                         "Test data file not found")
     def test_full_data(self):
         with open("data/full/24/03.txt") as f:
             result = Part2(f)

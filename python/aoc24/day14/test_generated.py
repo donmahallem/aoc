@@ -6,10 +6,10 @@ from aoc24.day14.part_1 import Part1
 from aoc24.day14.part_2 import Part2
 
 
-
 class Test2024Day14Part01(unittest.TestCase):
 
-    @unittest.skipUnless(os.path.exists("data/full/24/14.txt"), "Test data file not found")
+    @unittest.skipUnless(os.path.exists("data/full/24/14.txt"),
+                         "Test data file not found")
     def test_full_data(self):
         with open("data/full/24/14.txt") as f:
             result = Part1(f)
@@ -18,7 +18,8 @@ class Test2024Day14Part01(unittest.TestCase):
 
 class Test2024Day14Part02(unittest.TestCase):
 
-    @unittest.skipUnless(os.path.exists("data/full/24/14.txt"), "Test data file not found")
+    @unittest.skipUnless(os.path.exists("data/full/24/14.txt"),
+                         "Test data file not found")
     def test_full_data(self):
         with open("data/full/24/14.txt") as f:
             result = Part2(f)

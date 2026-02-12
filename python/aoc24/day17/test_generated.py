@@ -6,16 +6,17 @@ from aoc24.day17.part_1 import Part1
 from aoc24.day17.part_2 import Part2
 
 
-
 class Test2024Day17Part01(unittest.TestCase):
 
-    @unittest.skipUnless(os.path.exists("data/samples/24/17_sample_1.txt"), "Test data file not found")
+    @unittest.skipUnless(os.path.exists("data/samples/24/17_sample_1.txt"),
+                         "Test data file not found")
     def test_sample_1(self):
         with open("data/samples/24/17_sample_1.txt") as f:
             result = Part1(f)
             self.assertEqual(result, [4, 6, 3, 5, 6, 3, 5, 2, 1, 0])
 
-    @unittest.skipUnless(os.path.exists("data/full/24/17.txt"), "Test data file not found")
+    @unittest.skipUnless(os.path.exists("data/full/24/17.txt"),
+                         "Test data file not found")
     def test_full_data(self):
         with open("data/full/24/17.txt") as f:
             result = Part1(f)
@@ -24,13 +25,15 @@ class Test2024Day17Part01(unittest.TestCase):
 
 class Test2024Day17Part02(unittest.TestCase):
 
-    @unittest.skipUnless(os.path.exists("data/samples/24/17_sample_2.txt"), "Test data file not found")
+    @unittest.skipUnless(os.path.exists("data/samples/24/17_sample_2.txt"),
+                         "Test data file not found")
     def test_sample_2(self):
         with open("data/samples/24/17_sample_2.txt") as f:
             result = Part2(f)
             self.assertEqual(result, 117440)
 
-    @unittest.skipUnless(os.path.exists("data/full/24/17.txt"), "Test data file not found")
+    @unittest.skipUnless(os.path.exists("data/full/24/17.txt"),
+                         "Test data file not found")
     def test_full_data(self):
         with open("data/full/24/17.txt") as f:
             result = Part2(f)

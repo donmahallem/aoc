@@ -88,4 +88,3 @@ func BenchmarkPart2(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/full/24/01.txt", day01.Part2)
 	})
 }
-

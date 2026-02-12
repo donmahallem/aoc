@@ -13,7 +13,8 @@ def moveNext(field, player_position, obstacle: tuple[int, int] | None):
             return False
         if field[next_p_y, next_p_x] == 1:
             test_dir_y, test_dir_x = turnRight(test_dir_y, test_dir_x)
-        elif obstacle is not None and next_p_y == obstacle[0] and next_p_x == obstacle[1]:
+        elif obstacle is not None and next_p_y == obstacle[
+                0] and next_p_x == obstacle[1]:
             test_dir_y, test_dir_x = turnRight(test_dir_y, test_dir_x)
         else:
             break
@@ -21,7 +22,8 @@ def moveNext(field, player_position, obstacle: tuple[int, int] | None):
     return player_position
 
 
-def simulate_with_obstacle(field, start_pos, obstacle: tuple[int, int]) -> bool:
+def simulate_with_obstacle(field, start_pos, obstacle: tuple[int,
+                                                             int]) -> bool:
     seen = set()
     pos = start_pos
     while True:
@@ -51,11 +53,13 @@ def Part2(input: typing.TextIO) -> int:
 
     candidates = set(base_positions)
     # Do not place an obstacle on the starting cell.
-    candidates.discard((initial_player_position[0], initial_player_position[1]))
+    candidates.discard(
+        (initial_player_position[0], initial_player_position[1]))
 
     circular_maps_num = 0
     for obstacle in candidates:
-        if simulate_with_obstacle(player_map, initial_player_position, obstacle):
+        if simulate_with_obstacle(player_map, initial_player_position,
+                                  obstacle):
             circular_maps_num += 1
 
     return circular_maps_num

@@ -3,7 +3,9 @@ import re
 import numpy as np
 
 
-def parseInput(input: typing.TextIO | list[str], *, lines: list[str] | None = None):
+def parseInput(input: typing.TextIO | list[str],
+               *,
+               lines: list[str] | None = None):
     if lines is None:
         data = [line.strip() for line in input.readlines()]
     else:
@@ -22,16 +24,16 @@ def parseInput(input: typing.TextIO | list[str], *, lines: list[str] | None = No
 
 
 def Part1(input: typing.TextIO,
-        width: int = 101,
-        height: int = 103,
-        steps: int = 100) -> int:
+          width: int = 101,
+          height: int = 103,
+          steps: int = 100) -> int:
     lines = [line.strip() for line in input.readlines()]
     robots = parseInput(input, lines=lines)
 
     # Heuristic: small samples use 11x7 grid (per AoC example).
     if len(lines) <= 20:
-      width = 11
-      height = 7
+        width = 11
+        height = 7
     step = robots[:, 0:2] + robots[:, 2:4] * steps
     step[:, 0] = step[:, 0] % width
     step[:, 1] = step[:, 1] % height

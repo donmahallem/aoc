@@ -3,8 +3,10 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"io"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/donmahallem/aoc/go/solver"
 )
@@ -78,4 +80,45 @@ func TestRunSolveCmd(t *testing.T) {
 			t.Errorf("JSON Result = %s, want 11", jo.Result)
 		}
 	})
+}
+
+func TestRunSolveCmd_Timeout(t *testing.T) {
+	s := solver.NewSolver()
+
+	// Register a slow function
+	s.GetRegistry().Register(99, 1, 1, func(in io.Reader) (any, error) {
+		time.Sleep(2 * time.Second)
+		return "finished", nil
+	})
+
+	stdout := &bytes.Buffer{}
+	stderr := &bytes.Buffer{}
+	ctx := &ExecutionContext{
+		Stdout: stdout,
+		Stderr: stderr,
+		Stdin:  strings.NewReader(""),
+		// Set a short timeout of 100ms
+		Args:   []string{"-t", "100ms", "99", "1", "1"},
+		Solver: s,
+	}
+
+	start := time.Now()
+	exitCode := runSolveCmd(ctx)
+	duration := time.Since(start)
+
+	// Verify duration was roughly the timeout (not 2 seconds)
+	if duration > 1500*time.Millisecond {
+		t.Errorf("Test took too long (%v), timeout didn't work", duration)
+	}
+
+	// Verify exit code
+	if exitCode != 1 {
+		t.Errorf("Exit code = %v, want 1", exitCode)
+	}
+
+	// Verify error message
+	expectedError := "solution timed out after 100ms"
+	if !strings.Contains(stderr.String(), expectedError) {
+		t.Errorf("Stderr expected to contain '%s', got: %s", expectedError, stderr.String())
+	}
 }

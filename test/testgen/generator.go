@@ -25,6 +25,7 @@ type Generator interface {
 	GetTemplateData(dd DayTestData, yearPkg string) interface{}
 	GetOutputPath(outDir, yearPkg string, dd DayTestData) string
 	PrepareOutput(outPath string, dd DayTestData, opts GenerationOptions) error
+	FormatContent(content, targetPath string) (string, error)
 }
 
 // BaseGenerator provides default no-op implementations for optional pieces.
@@ -32,6 +33,7 @@ type BaseGenerator struct{}
 
 func (BaseGenerator) FuncMap() template.FuncMap                                  { return nil }
 func (BaseGenerator) PrepareOutput(string, DayTestData, GenerationOptions) error { return nil }
+func (BaseGenerator) FormatContent(content, _ string) (string, error)            { return content, nil }
 
 // Generators registry
 var generators = make(map[string]Generator)
@@ -68,6 +70,10 @@ func GenerateGeneric(gen Generator, data TestData, tmplDir, outDir string, opts 
 
 			td := gen.GetTemplateData(dd, yearPkg)
 			content, err := renderTemplate(tmpl, td, filepath.Join(outPath, gen.OutputFilename()))
+			if err != nil {
+				return err
+			}
+			content, err = gen.FormatContent(content, filepath.Join(outPath, gen.OutputFilename()))
 			if err != nil {
 				return err
 			}

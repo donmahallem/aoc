@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"go/format"
 	"path/filepath"
 	"text/template"
 )
@@ -53,3 +54,15 @@ func (g GoGenerator) GetOutputPath(baseDir, yearPkg string, dd DayTestData) stri
 func (g GoGenerator) PrepareOutput(outPath string, dd DayTestData, opts GenerationOptions) error {
 	return nil
 }
+
+// FormatContent formats generated Go source using go/format for consistent style.
+func (g GoGenerator) FormatContent(content, targetPath string) (string, error) {
+	formatted, err := format.Source([]byte(content))
+	if err != nil {
+		return "", fmt.Errorf("gofmt failed for %s: %w", targetPath, err)
+	}
+	return string(formatted), nil
+}
+
+// Compile-time check
+var _ Generator = (*GoGenerator)(nil)

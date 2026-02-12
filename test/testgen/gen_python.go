@@ -1,8 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"os/exec"
 	"path/filepath"
+	"strings"
 	"text/template"
 )
 
@@ -51,3 +54,19 @@ func (g PythonGenerator) GetOutputPath(baseDir, yearPkg string, dd DayTestData) 
 func (g PythonGenerator) PrepareOutput(outPath string, dd DayTestData, opts GenerationOptions) error {
 	return nil
 }
+
+// FormatContent runs yapf on the generated Python content to match repo formatting.
+func (g PythonGenerator) FormatContent(content, targetPath string) (string, error) {
+	cmd := exec.Command("python", "-m", "yapf")
+	cmd.Stdin = strings.NewReader(content)
+	var stdout, stderr bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+	if err := cmd.Run(); err != nil {
+		return "", fmt.Errorf("yapf failed for %s: %v: %s", targetPath, err, stderr.String())
+	}
+	return stdout.String(), nil
+}
+
+// Compile-time check
+var _ Generator = (*PythonGenerator)(nil)

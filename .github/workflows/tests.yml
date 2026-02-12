@@ -29,7 +29,8 @@ jobs:
           file: 'test/data.json'
           schema: 'test/test_schema.json'
       - name: Check generated tests are up to date
-        run: go run ./test/testgen --config test/testgen/config.json --check
+        working-directory: ./test/testgen
+        run: go run ./ --config ./config.json --check
 
   test_go:
     name: Run and Test GO

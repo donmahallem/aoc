@@ -45,28 +45,10 @@ func TestSplitStones(t *testing.T) {
 	}
 }
 
-func TestPart1(t *testing.T) {
-	test, err := Part1(strings.NewReader(testData))
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-	}
-	if test != 55312 {
-		t.Errorf(`Expected %d to match 55312`, test)
-	}
-}
-
 func BenchmarkParseLine(b *testing.B) {
 	data := strings.NewReader(testData)
 	for b.Loop() {
 		data.Seek(0, io.SeekStart)
 		parseLine(data)
-	}
-}
-
-func BenchmarkPart1(b *testing.B) {
-	data := strings.NewReader(testData)
-	for b.Loop() {
-		data.Seek(0, io.SeekStart)
-		Part1(data)
 	}
 }

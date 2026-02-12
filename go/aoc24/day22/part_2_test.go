@@ -1,27 +1,11 @@
 package day22_test
 
 import (
-	"fmt"
-	"strings"
 	"testing"
 
 	"github.com/donmahallem/aoc/go/aoc24/day22"
 )
 
-const testData2 string = `1
-2
-3
-2024`
-
-func TestPart2(t *testing.T) {
-	result, err := day22.Part2(strings.NewReader(testData2))
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-	}
-	if result != 23 {
-		t.Errorf(`Expected %d to be 23`, result)
-	}
-}
 func TestEncodeSequence(t *testing.T) {
 	testData := []uint32{1, 2, 3, 4}
 	result := day22.EncodeSequence(&testData)
@@ -109,23 +93,4 @@ func TestCreatePatterns(t *testing.T) {
 			t.Errorf(`Expected %d to be 23 at %d`, result, lookup)
 		}
 	})
-}
-func BenchmarkPart2(b *testing.B) {
-	for b.Loop() {
-		day22.Part2(strings.NewReader(testData2))
-	}
-}
-
-var testDepths []int = []int{10, 100, 1000, 10000}
-
-func BenchmarkCreatePatterns(b *testing.B) {
-	cache := make(day22.CacheMap)
-	seed := uint32(123)
-	for _, testDepth := range testDepths {
-		b.Run(fmt.Sprintf("test depth %d", testDepth), func(b *testing.B) {
-			for b.Loop() {
-				day22.CreatePatterns(&seed, testDepth, &cache)
-			}
-		})
-	}
 }

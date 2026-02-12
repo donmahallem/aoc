@@ -2,16 +2,10 @@ package day14_test
 
 import (
 	_ "embed"
-	"io"
-	"slices"
-	"strings"
 	"testing"
 
 	"github.com/donmahallem/aoc/go/aoc24/day14"
 )
-
-//go:embed sample.txt
-var testData string
 
 func TestParseLine(t *testing.T) {
 	testString := []byte("p=0,4 v=3,-3")
@@ -38,41 +32,6 @@ func TestParseLineLongValue(t *testing.T) {
 		t.Errorf(`Expected %v to match %v`, test, expected)
 	}
 }
-func TestLoadFile(t *testing.T) {
-	test, err := day14.LoadFile(strings.NewReader(testData))
-	if err != nil {
-		t.Fatalf("Unexpected error: %v", err)
-	}
-	expected := []*day14.Robot{day14.NewRobot(0, 4, 3, -3),
-		day14.NewRobot(6, 3, -1, -3),
-		day14.NewRobot(10, 3, -1, 2),
-		day14.NewRobot(2, 0, 2, -1),
-		day14.NewRobot(0, 0, 1, 3),
-		day14.NewRobot(3, 0, -2, -2),
-		day14.NewRobot(7, 6, -1, -3),
-		day14.NewRobot(3, 0, -1, -2),
-		day14.NewRobot(9, 3, 2, 3),
-		day14.NewRobot(7, 3, -1, 2),
-		day14.NewRobot(2, 4, 2, -3),
-		day14.NewRobot(9, 5, -3, -3)}
-	for _, exp := range expected {
-		if !slices.Contains(test, *exp) {
-			t.Errorf(`Expected %v to match %d`, *exp, 12)
-		}
-	}
-}
-
-func TestCountQuadrant(t *testing.T) {
-	test, err := day14.LoadFile(strings.NewReader(testData))
-	if err != nil {
-		t.Fatalf("Unexpected error: %v", err)
-	}
-	testSum := day14.CountQuadrant(test, 100, 11, 7)
-	if testSum != 12 {
-		t.Errorf(`Expected %v to match %v`, testSum, 12)
-	}
-}
-
 func TestCalculateQuadrant(t *testing.T) {
 	test := *day14.NewRobot(0, 1, 3, -3)
 	testSum := day14.CalculateQuadrant(&test, 0, 5, 5)
@@ -93,13 +52,5 @@ func TestCalculateQuadrant(t *testing.T) {
 	testSum = day14.CalculateQuadrant(&test, 5, 11, 7)
 	if testSum != -1 {
 		t.Errorf(`Expected %v to match %v`, testSum, -1)
-	}
-}
-
-func BenchmarkPart1(b *testing.B) {
-	data := strings.NewReader(testData)
-	for b.Loop() {
-		data.Seek(0, io.SeekStart)
-		day14.Part1(data)
 	}
 }

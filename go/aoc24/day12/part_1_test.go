@@ -1,7 +1,6 @@
 package day12
 
 import (
-	"io"
 	"slices"
 	"strings"
 	"testing"
@@ -34,23 +33,5 @@ func TestFindNeighbours(t *testing.T) {
 		if !slices.Contains(result, obj) {
 			t.Errorf(`Expected %v to contain %v`, result, obj)
 		}
-	}
-}
-
-func TestPart1(t *testing.T) {
-	result, err := Part1(strings.NewReader(testData))
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-	}
-	if result != 1930 {
-		t.Errorf(`Expected %d to contain %d`, result, 1930)
-	}
-}
-
-func BenchmarkPart1(b *testing.B) {
-	data := strings.NewReader(testData)
-	for b.Loop() {
-		data.Seek(0, io.SeekStart)
-		Part1(data)
 	}
 }

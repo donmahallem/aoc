@@ -1,18 +1,11 @@
 package day21_test
 
 import (
-	"io"
 	"strings"
 	"testing"
 
 	"github.com/donmahallem/aoc/go/aoc24/day21"
 )
-
-const testData string = `029A
-980A
-179A
-456A
-379A`
 
 func TestIterateInput(t *testing.T) {
 	test := day21.IterateInput(strings.NewReader(testData))
@@ -69,22 +62,4 @@ func TestCalculateMoves(t *testing.T) {
 			t.Errorf(`Expected %d to match 757754`, test)
 		}
 	})
-}
-
-func TestPart1(t *testing.T) {
-	test, err := day21.Part1(strings.NewReader(testData))
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-	}
-	if test != 126384 {
-		t.Errorf(`Expected %d to match 126384`, test)
-	}
-}
-
-func BenchmarkPart1(b *testing.B) {
-	data := strings.NewReader(testData)
-	for b.Loop() {
-		data.Seek(0, io.SeekStart)
-		day21.Part1(data)
-	}
 }

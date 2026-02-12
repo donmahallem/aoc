@@ -1,9 +1,7 @@
 package day09
 
 import (
-	"io"
 	"slices"
-	"strings"
 	"testing"
 )
 
@@ -55,23 +53,5 @@ func TestCompactLess(t *testing.T) {
 	}
 	if checkSum := checkSum(&expandedData); checkSum != 2858 {
 		t.Errorf(`Expected checksum %d to be %d`, checkSum, 2858)
-	}
-}
-
-func TestPart2(t *testing.T) {
-	data := strings.NewReader(testData)
-	result, err := Part2(data)
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-	}
-	if result != 2858 {
-		t.Errorf("Expected result to be 2858. Got %d", result)
-	}
-}
-func BenchmarkPart2(b *testing.B) {
-	data := strings.NewReader(testData)
-	for b.Loop() {
-		data.Seek(0, io.SeekStart)
-		Part2(data)
 	}
 }

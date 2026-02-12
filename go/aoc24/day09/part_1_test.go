@@ -1,9 +1,7 @@
 package day09
 
 import (
-	"io"
 	"slices"
-	"strings"
 	"testing"
 )
 
@@ -22,24 +20,5 @@ func TestOutOfBoundsShouldBeInside2(t *testing.T) {
 	compactData(&test)
 	if !slices.Equal(test, expected) {
 		t.Errorf(`Expected %v to match %v`, test, expected)
-	}
-}
-
-func TestPart1(t *testing.T) {
-	data := strings.NewReader(testData)
-	result, err := Part1(data)
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-	}
-	if result != 1928 {
-		t.Errorf("Expected result to be 1928. Got %d", result)
-	}
-}
-
-func BenchmarkPart1(b *testing.B) {
-	data := strings.NewReader(testData)
-	for b.Loop() {
-		data.Seek(0, io.SeekStart)
-		Part1(data)
 	}
 }

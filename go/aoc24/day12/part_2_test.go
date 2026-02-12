@@ -1,7 +1,6 @@
 package day12
 
 import (
-	"io"
 	"slices"
 	"strings"
 	"testing"
@@ -115,23 +114,5 @@ func TestCountStraightEdgesVertical_ReverseCBuckle(t *testing.T) {
 	result := countStraightEdgesVertical(test)
 	if result != 6 {
 		t.Errorf(`Expected %d to match %d`, result, 6)
-	}
-}
-
-func TestPart2(t *testing.T) {
-	result, err := Part2(strings.NewReader(testData))
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-	}
-	if result != 1206 {
-		t.Errorf(`Expected %d to contain %d`, result, 1206)
-	}
-}
-
-func BenchmarkPart2(b *testing.B) {
-	data := strings.NewReader(testData)
-	for b.Loop() {
-		data.Seek(0, io.SeekStart)
-		Part2(data)
 	}
 }

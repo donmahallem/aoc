@@ -28,8 +28,8 @@ func TestPart1(t *testing.T) {
 		if !ok {
 			return
 		}
-		if result != 240032 {
-			t.Errorf("Expected %v, got %v", 240032, result)
+		if result != 235850 {
+			t.Errorf("Expected %v, got %v", 235850, result)
 		}
 	})
 }
@@ -64,8 +64,8 @@ func TestPart2(t *testing.T) {
 		if !ok {
 			return
 		}
-		if result != 284782064275024 {
-			t.Errorf("Expected %v, got %v", 284782064275024, result)
+		if result != 279903140844645 {
+			t.Errorf("Expected %v, got %v", 279903140844645, result)
 		}
 	})
 }

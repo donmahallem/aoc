@@ -9,6 +9,16 @@ import (
 )
 
 func TestPart1(t *testing.T) {
+	t.Run("sample", func(t *testing.T) {
+		result, ok := test_utils.TestPartFromPath(t, "data/samples/24/14_sample.txt", day14.Part1)
+		if !ok {
+			return
+		}
+		if result != 12 {
+			t.Errorf("Expected %v, got %v", 12, result)
+		}
+	})
+
 	t.Run("full_data", func(t *testing.T) {
 		result, ok := test_utils.TestPartFromPath(t, "data/full/24/14.txt", day14.Part1)
 		if !ok {
@@ -21,6 +31,10 @@ func TestPart1(t *testing.T) {
 }
 
 func BenchmarkPart1(b *testing.B) {
+	b.Run("sample", func(b *testing.B) {
+		test_utils.BenchmarkPartFromPath(b, "data/samples/24/14_sample.txt", day14.Part1)
+	})
+
 	b.Run("full_data", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/full/24/14.txt", day14.Part1)
 	})

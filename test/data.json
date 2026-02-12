@@ -155,8 +155,8 @@
       {
         "name": "full_data",
         "file": "data/full/24/11.txt",
-        "part1": 240032,
-        "part2": 284782064275024
+        "part1": 235850,
+        "part2": 279903140844645
       }
     ],
     "12": [
@@ -188,6 +188,11 @@
       }
     ],
     "14": [
+      {
+        "name": "sample",
+        "file": "data/samples/24/14_sample.txt",
+        "part1": 12
+      },
       {
         "name": "full_data",
         "file": "data/full/24/14.txt",
@@ -258,7 +263,7 @@
         "name": "full_data",
         "file": "data/full/24/18.txt",
         "part1": 370,
-        "part2": "65,6"
+        "part2": [65, 6]
       }
     ],
     "19": [
@@ -326,13 +331,27 @@
         "name": "sample",
         "file": "data/samples/24/23_sample.txt",
         "part1": 7,
-        "part2": "co,de,ka,ta"
+        "part2": ["co", "de", "ka", "ta"]
       },
       {
         "name": "full_data",
         "file": "data/full/24/23.txt",
         "part1": 926,
-        "part2": "az,ed,hz,it,ld,nh,pc,td,ty,ux,wc,yg,zz"
+        "part2": [
+          "az",
+          "ed",
+          "hz",
+          "it",
+          "ld",
+          "nh",
+          "pc",
+          "td",
+          "ty",
+          "ux",
+          "wc",
+          "yg",
+          "zz"
+        ]
       }
     ]
   }

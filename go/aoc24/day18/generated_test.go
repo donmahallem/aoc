@@ -2,6 +2,7 @@
 package day18_test
 
 import (
+	"slices"
 	"testing"
 
 	"github.com/donmahallem/aoc/go/aoc24/day18"
@@ -32,8 +33,9 @@ func TestPart2(t *testing.T) {
 		if !ok {
 			return
 		}
-		if result != "65,6" {
-			t.Errorf("Expected %v, got %v", "65,6", result)
+		expected := []int{65, 6}
+		if !slices.Equal(result, expected) {
+			t.Errorf("Expected %v, got %v", expected, result)
 		}
 	})
 }

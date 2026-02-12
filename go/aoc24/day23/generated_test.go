@@ -46,8 +46,8 @@ func TestPart2(t *testing.T) {
 		if !ok {
 			return
 		}
-		if result != "co,de,ka,ta" {
-			t.Errorf("Expected %v, got %v", "co,de,ka,ta", result)
+		if result != []int{"co", "de", "ka", "ta"} {
+			t.Errorf("Expected %v, got %v", []int{"co", "de", "ka", "ta"}, result)
 		}
 	})
 
@@ -56,8 +56,8 @@ func TestPart2(t *testing.T) {
 		if !ok {
 			return
 		}
-		if result != "az,ed,hz,it,ld,nh,pc,td,ty,ux,wc,yg,zz" {
-			t.Errorf("Expected %v, got %v", "az,ed,hz,it,ld,nh,pc,td,ty,ux,wc,yg,zz", result)
+		if result != []int{"az", "ed", "hz", "it", "ld", "nh", "pc", "td", "ty", "ux", "wc", "yg", "zz"} {
+			t.Errorf("Expected %v, got %v", []int{"az", "ed", "hz", "it", "ld", "nh", "pc", "td", "ty", "ux", "wc", "yg", "zz"}, result)
 		}
 	})
 }

@@ -9,9 +9,32 @@ permissions:
   contents: write
   deployments: write
 jobs:
+  validate_tests:
+    name: Validate test data and generators
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unpack test data
+        run: bash ./decrypt_data.sh
+        working-directory: .
+        env:
+          DATA_PW: ${{ secrets.DATA_PW }}
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.25"
+      - name: Validate package.json against a local schema
+        uses: cardinalby/schema-validator-action@v3
+        with:
+          file: 'test/data.json'
+          schema: 'test/test_schema.json'
+      - name: Check generated tests are up to date
+        run: go run ./test/testgen --config test/testgen/config.json --check
+
   test_go:
     name: Run and Test GO
     runs-on: ubuntu-latest
+    needs: [validate_tests]
     defaults:
       run:
         working-directory: ./go
@@ -53,6 +76,7 @@ jobs:
   test_python:
     name: Run and Test Python
     runs-on: ubuntu-latest
+    needs: [validate_tests]
     defaults:
       run:
         working-directory: ./python
@@ -86,6 +110,7 @@ jobs:
   test_cpp:
     name: Run and Test CPP
     runs-on: ubuntu-latest
+    needs: [validate_tests]
     defaults:
       run:
         working-directory: ./cpp

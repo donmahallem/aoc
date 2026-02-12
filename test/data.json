@@ -227,6 +227,12 @@
         "file": "data/samples/24/16_sample_2.txt",
         "part1": 11048,
         "part2": 64
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/16.txt",
+        "part1": 105508,
+        "part2": 548
       }
     ],
     "17": [

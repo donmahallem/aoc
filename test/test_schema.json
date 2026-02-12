@@ -12,7 +12,7 @@
         {
           "type": "array",
           "items": {
-            "type": "integer"
+            "oneOf": [{ "type": "integer" }, { "type": "string" }]
           }
         }
       ]
@@ -30,6 +30,7 @@
         },
         "name": {
           "type": "string",
+          "pattern": "^[a-z0-9_]+$",
           "description": "Unique test name used in generated test function/subtest names"
         },
         "part1": {

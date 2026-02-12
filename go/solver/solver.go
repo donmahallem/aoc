@@ -33,6 +33,11 @@ func (s *Solver) GetRegistry() *aoc_utils.Registry {
 	return &s.registry
 }
 
+func (s *Solver) HasSolution(year, day, part int) bool {
+	_, ok := s.registry.GetPart(aoc_utils.PartSelector{Year: year, Day: day, Part: part})
+	return ok
+}
+
 func (s *Solver) Solve(year, day, part int, input io.Reader) SolveResult {
 	partSelector := aoc_utils.PartSelector{
 		Year: year,
@@ -43,7 +48,11 @@ func (s *Solver) Solve(year, day, part int, input io.Reader) SolveResult {
 	takeFun, ok := s.registry.GetPart(partSelector)
 	if !ok {
 		return SolveResult{
-			Error: aoc_utils.NewNotImplementedError(fmt.Sprintf("could not find requested part %d in year %d day %d", partSelector.Part, partSelector.Year, partSelector.Day))}
+			Error: aoc_utils.
+				NewNotImplementedError(fmt.Sprintf("could not find requested part %d in year %d day %d",
+					partSelector.Part,
+					partSelector.Year,
+					partSelector.Day))}
 	}
 
 	startTime := time.Now()

@@ -52,7 +52,7 @@ def parseField(input: typing.TextIO) -> tuple[InputField, Guard | None]:
             elif data[y][x] == ">":
                 initial_player_position = (y, x, (0, 1))
             elif data[y][x] == "v":
-                initial_player_position = (y, x, (-1, 0))
+                initial_player_position = (y, x, (1, 0))
             elif data[y][x] == "<":
                 initial_player_position = (y, x, (0, -1))
     return player_map, initial_player_position

@@ -2,54 +2,71 @@
 import unittest
 import io
 import os
+from test_utils import resolve_data_path
 from aoc24.day15.part_1 import Part1
 from aoc24.day15.part_2 import Part2
 
 
 class Test2024Day15Part01(unittest.TestCase):
 
-    @unittest.skipUnless(os.path.exists("data/samples/24/15_sample_large.txt"),
-                         "Test data file not found")
+    @unittest.skipUnless(
+        os.path.exists(
+            resolve_data_path("data/samples/24/15_sample_large.txt")),
+        "Test data file not found")
     def test_sample_large(self):
-        with open("data/samples/24/15_sample_large.txt") as f:
+        path = resolve_data_path("data/samples/24/15_sample_large.txt")
+        with open(path) as f:
             result = Part1(f)
             self.assertEqual(result, 10092)
 
-    @unittest.skipUnless(os.path.exists("data/samples/24/15_sample_small.txt"),
-                         "Test data file not found")
+    @unittest.skipUnless(
+        os.path.exists(
+            resolve_data_path("data/samples/24/15_sample_small.txt")),
+        "Test data file not found")
     def test_sample_small(self):
-        with open("data/samples/24/15_sample_small.txt") as f:
+        path = resolve_data_path("data/samples/24/15_sample_small.txt")
+        with open(path) as f:
             result = Part1(f)
             self.assertEqual(result, 2028)
 
-    @unittest.skipUnless(os.path.exists("data/full/24/15.txt"),
-                         "Test data file not found")
+    @unittest.skipUnless(
+        os.path.exists(resolve_data_path("data/full/24/15.txt")),
+        "Test data file not found")
     def test_full_data(self):
-        with open("data/full/24/15.txt") as f:
+        path = resolve_data_path("data/full/24/15.txt")
+        with open(path) as f:
             result = Part1(f)
             self.assertEqual(result, 1430536)
 
 
 class Test2024Day15Part02(unittest.TestCase):
 
-    @unittest.skipUnless(os.path.exists("data/samples/24/15_sample_large.txt"),
-                         "Test data file not found")
+    @unittest.skipUnless(
+        os.path.exists(
+            resolve_data_path("data/samples/24/15_sample_large.txt")),
+        "Test data file not found")
     def test_sample_large(self):
-        with open("data/samples/24/15_sample_large.txt") as f:
+        path = resolve_data_path("data/samples/24/15_sample_large.txt")
+        with open(path) as f:
             result = Part2(f)
             self.assertEqual(result, 9021)
 
-    @unittest.skipUnless(os.path.exists("data/samples/24/15_sample_small.txt"),
-                         "Test data file not found")
+    @unittest.skipUnless(
+        os.path.exists(
+            resolve_data_path("data/samples/24/15_sample_small.txt")),
+        "Test data file not found")
     def test_sample_small(self):
-        with open("data/samples/24/15_sample_small.txt") as f:
+        path = resolve_data_path("data/samples/24/15_sample_small.txt")
+        with open(path) as f:
             result = Part2(f)
             self.assertEqual(result, 1751)
 
-    @unittest.skipUnless(os.path.exists("data/full/24/15.txt"),
-                         "Test data file not found")
+    @unittest.skipUnless(
+        os.path.exists(resolve_data_path("data/full/24/15.txt")),
+        "Test data file not found")
     def test_full_data(self):
-        with open("data/full/24/15.txt") as f:
+        path = resolve_data_path("data/full/24/15.txt")
+        with open(path) as f:
             result = Part2(f)
             self.assertEqual(result, 1452348)
 

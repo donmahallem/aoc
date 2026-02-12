@@ -2,6 +2,7 @@
 import unittest
 import io
 import os
+from test_utils import resolve_data_path
 from aoc24.day19.part_1 import Part1
 from aoc24.day19.part_2 import Part2
 
@@ -26,10 +27,12 @@ class Test2024Day19Part01(unittest.TestCase):
             result = Part1(f)
             self.assertEqual(result, 6)
 
-    @unittest.skipUnless(os.path.exists("data/full/24/19.txt"),
-                         "Test data file not found")
+    @unittest.skipUnless(
+        os.path.exists(resolve_data_path("data/full/24/19.txt")),
+        "Test data file not found")
     def test_full_data(self):
-        with open("data/full/24/19.txt") as f:
+        path = resolve_data_path("data/full/24/19.txt")
+        with open(path) as f:
             result = Part1(f)
             self.assertEqual(result, 333)
 
@@ -43,10 +46,12 @@ class Test2024Day19Part02(unittest.TestCase):
             result = Part2(f)
             self.assertEqual(result, 16)
 
-    @unittest.skipUnless(os.path.exists("data/full/24/19.txt"),
-                         "Test data file not found")
+    @unittest.skipUnless(
+        os.path.exists(resolve_data_path("data/full/24/19.txt")),
+        "Test data file not found")
     def test_full_data(self):
-        with open("data/full/24/19.txt") as f:
+        path = resolve_data_path("data/full/24/19.txt")
+        with open(path) as f:
             result = Part2(f)
             self.assertEqual(result, 678536865274732)
 

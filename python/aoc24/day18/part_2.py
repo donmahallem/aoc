@@ -48,7 +48,7 @@ def shortestPath(gameMap: np.typing.NDArray):
 
 def Part2(input: typing.TextIO,
           size: int = 71,
-          steps: int = 1024) -> tuple[int, ...]:
+          steps: int = 1024) -> list[int]:
     gameMap, data = loadField(input, size, steps)
     last_path = shortestPath(gameMap)
 
@@ -62,4 +62,4 @@ def Part2(input: typing.TextIO,
             break
         last_path = path_cost
 
-    return data[i][::-1]
+    return list(data[i][::-1])

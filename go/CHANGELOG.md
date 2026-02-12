@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/donmahallem/aoc/compare/aoc-go-v0.2.0...aoc-go-v0.3.0) (2026-02-12)
+
+
+### Features
+
+* **go:** add extended cli ([#231](https://github.com/donmahallem/aoc/issues/231)) ([03e5af7](https://github.com/donmahallem/aoc/commit/03e5af716c2a86b45b0ce3958d3d7b849ff7b201))
+* **go:** add timeout to solve command ([#233](https://github.com/donmahallem/aoc/issues/233)) ([b9deb64](https://github.com/donmahallem/aoc/commit/b9deb642a592ee9b62cf15b7ba7d4c381e969923))
+
 ## [0.2.0](https://github.com/donmahallem/aoc/compare/aoc-go-v0.1.0...aoc-go-v0.2.0) (2026-02-10)
 
 

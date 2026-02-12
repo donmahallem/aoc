@@ -6,6 +6,9 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"time"
+
+	"github.com/donmahallem/aoc/go/solver"
 )
 
 func runSolveCmd(ctx *ExecutionContext) int {
@@ -13,10 +16,13 @@ func runSolveCmd(ctx *ExecutionContext) int {
 	fs.SetOutput(ctx.Stderr)
 	var inputPath string
 	var jsonF bool
+	var timeout time.Duration
 	fs.StringVar(&inputPath, "input", "", "Path to input file")
 	fs.StringVar(&inputPath, "i", "", "Path to input file (short)")
 	fs.BoolVar(&jsonF, "json", false, "Output in JSON format")
 	fs.BoolVar(&jsonF, "j", false, "Output in JSON format (short)")
+	fs.DurationVar(&timeout, "timeout", 10*time.Second, "Timeout for the solution")
+	fs.DurationVar(&timeout, "t", 10*time.Second, "Timeout for the solution (short)")
 
 	fs.Usage = func() {
 		fmt.Fprintf(fs.Output(), "Usage: %s solve [flags] <year> <day> <part>\n", os.Args[0])
@@ -59,7 +65,19 @@ func runSolveCmd(ctx *ExecutionContext) int {
 		input = f
 	}
 
-	res := ctx.Solver.Solve(y, d, p, input)
+	resultChan := make(chan solver.SolveResult, 1)
+	go func() {
+		resultChan <- ctx.Solver.Solve(y, d, p, input)
+	}()
+
+	var res solver.SolveResult
+	select {
+	case res = <-resultChan:
+	case <-time.After(timeout):
+		res = solver.SolveResult{
+			Error: fmt.Errorf("solution timed out after %v - likely not solvable or inefficient", timeout),
+		}
+	}
 
 	if jsonF {
 		outObj := JsonOutput{

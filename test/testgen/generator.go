@@ -72,6 +72,19 @@ func GenerateGeneric(gen Generator, lang string, data TestData, tmplDir, outDir,
 			}
 
 			outPath := gen.GetOutputPath(outDir, yearPkg, dd)
+			// Skip generation/check when the destination directory does not yet exist
+			if info, err := os.Stat(outPath); err != nil {
+				if os.IsNotExist(err) {
+					if opts.CheckOnly || !opts.CreateMissingDirs {
+						fmt.Printf("  skipping %s/%s (%s missing)\n", yearStr, dayStr, outPath)
+						continue
+					}
+				} else {
+					return fmt.Errorf("failed to stat %s: %w", outPath, err)
+				}
+			} else if !info.IsDir() {
+				return fmt.Errorf("output path %s exists and is not a directory", outPath)
+			}
 			if opts.DryRun {
 				fmt.Printf("[dry-run] would generate %s/%s -> %s\n", yearStr, dayStr, filepath.Join(outPath, gen.OutputFilename()))
 				continue

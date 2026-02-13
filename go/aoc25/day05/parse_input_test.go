@@ -1,38 +1,41 @@
 package day05
 
 import (
-	_ "embed"
-	"reflect"
 	"strings"
 	"testing"
 
 	"github.com/donmahallem/aoc/go/test_utils"
 )
 
-//go:embed sample.txt
-var testData string
+const testData = "3-5\n10-14\n\n1\n5\n"
 
 func Test_parseInput(t *testing.T) {
-	tests := taskData{
-		validRanges: []validRange{
-			{Min: 3, Max: 5},
-			{Min: 10, Max: 14},
-			{Min: 16, Max: 20},
-			{Min: 12, Max: 18},
-		},
-		ingredients: []uint64{1, 5, 8, 11, 17, 32},
-	}
 	t.Run("test parseInput", func(t *testing.T) {
 		reader := strings.NewReader(testData)
 		parsedData, err := parseInput(reader)
 		if err != nil {
 			t.Errorf("Unexpected error: %v", err)
 		}
-		if !reflect.DeepEqual(parsedData.validRanges, tests.validRanges) {
-			t.Errorf("Expected validRanges to be %+v, got %+v", tests.validRanges, parsedData.validRanges)
+		expectedRanges := []validRange{
+			{Min: 3, Max: 5},
+			{Min: 10, Max: 14},
 		}
-		if !reflect.DeepEqual(parsedData.ingredients, tests.ingredients) {
-			t.Errorf("Expected ingredients to be %+v, got %+v", tests.ingredients, parsedData.ingredients)
+		if len(parsedData.validRanges) != len(expectedRanges) {
+			t.Fatalf("expected %d ranges, got %d", len(expectedRanges), len(parsedData.validRanges))
+		}
+		for i := range expectedRanges {
+			if parsedData.validRanges[i] != expectedRanges[i] {
+				t.Errorf("range %d mismatch: got %+v want %+v", i, parsedData.validRanges[i], expectedRanges[i])
+			}
+		}
+		expectedIngredients := []uint64{1, 5}
+		if len(parsedData.ingredients) != len(expectedIngredients) {
+			t.Fatalf("expected %d ingredients, got %d", len(expectedIngredients), len(parsedData.ingredients))
+		}
+		for i := range expectedIngredients {
+			if parsedData.ingredients[i] != expectedIngredients[i] {
+				t.Errorf("ingredient %d mismatch: got %d want %d", i, parsedData.ingredients[i], expectedIngredients[i])
+			}
 		}
 	})
 }

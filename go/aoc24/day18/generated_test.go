@@ -33,7 +33,7 @@ func TestPart2(t *testing.T) {
 		if !ok {
 			return
 		}
-		expected := []int{65, 6}
+		expected := []int16{int16(65), int16(6)}
 		if !slices.Equal(result, expected) {
 			t.Errorf("Expected %v, got %v", expected, result)
 		}

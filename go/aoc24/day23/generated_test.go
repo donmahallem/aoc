@@ -2,6 +2,7 @@
 package day23_test
 
 import (
+	"slices"
 	"testing"
 
 	"github.com/donmahallem/aoc/go/aoc24/day23"
@@ -46,8 +47,9 @@ func TestPart2(t *testing.T) {
 		if !ok {
 			return
 		}
-		if result != []int{"co", "de", "ka", "ta"} {
-			t.Errorf("Expected %v, got %v", []int{"co", "de", "ka", "ta"}, result)
+		expected := []string{"co", "de", "ka", "ta"}
+		if !slices.Equal(result, expected) {
+			t.Errorf("Expected %v, got %v", expected, result)
 		}
 	})
 
@@ -56,8 +58,9 @@ func TestPart2(t *testing.T) {
 		if !ok {
 			return
 		}
-		if result != []int{"az", "ed", "hz", "it", "ld", "nh", "pc", "td", "ty", "ux", "wc", "yg", "zz"} {
-			t.Errorf("Expected %v, got %v", []int{"az", "ed", "hz", "it", "ld", "nh", "pc", "td", "ty", "ux", "wc", "yg", "zz"}, result)
+		expected := []string{"az", "ed", "hz", "it", "ld", "nh", "pc", "td", "ty", "ux", "wc", "yg", "zz"}
+		if !slices.Equal(result, expected) {
+			t.Errorf("Expected %v, got %v", expected, result)
 		}
 	})
 }

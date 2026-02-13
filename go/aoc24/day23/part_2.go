@@ -79,10 +79,16 @@ func findLongest(data CombinationMap) []NodeHash {
 	return longest
 }
 
-func Part2(in io.Reader) (string, error) {
+func Part2(in io.Reader) ([]string, error) {
 	items, err := parseInput(in)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return StringifySequence(findLongest(items)), nil
+	longestSequence := findLongest(items)
+	outputData := make([]string, len(longestSequence))
+	for i, item := range longestSequence {
+		unhashed := UnhashId(item)
+		outputData[i] = fmt.Sprintf("%c%c", unhashed[0], unhashed[1])
+	}
+	return outputData, nil
 }

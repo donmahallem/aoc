@@ -1,6 +1,7 @@
 package day18_test
 
 import (
+	"slices"
 	"strings"
 	"testing"
 
@@ -51,8 +52,9 @@ func TestPart2_Sample(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Unexpected error: %v", err)
 		}
-		if result != "6,1" {
-			t.Errorf("Expected %v, got %v", "6,1", result)
+		expected := []int16{6, 1}
+		if !slices.Equal(result, expected) {
+			t.Errorf("Expected %v, got %v", expected, result)
 		}
 	})
 }

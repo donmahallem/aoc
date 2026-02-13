@@ -8,31 +8,31 @@ import (
 	"github.com/donmahallem/aoc/go/aoc_utils/int_util"
 )
 
-func parseLine(in io.Reader) ([]uint32, error) {
+func parseLine(in io.Reader) ([]int, error) {
 	data, err := io.ReadAll(in)
 	if err != nil {
 		return nil, err
 	}
 	splitData := bytes.Split(data, []byte(` `))
-	retData := make([]uint32, len(splitData))
+	retData := make([]int, len(splitData))
 	for idx, val := range splitData {
 		retData[idx] = 0
 		for i := range len(val) {
 			if val[i] < '0' || val[i] > '9' {
 				return nil, aoc_utils.NewUnexpectedInputError(val[i])
 			}
-			retData[idx] = (10 * retData[idx]) + uint32(val[i]-'0')
+			retData[idx] = (10 * retData[idx]) + int(val[i]-'0')
 		}
 	}
 	return retData, nil
 }
 
 type cacheKey struct {
-	Stone uint32
+	Stone int
 	Depth uint8
 }
 
-func splitStone(stone uint32, depth uint8, cache map[cacheKey]int) int {
+func splitStone(stone int, depth uint8, cache map[cacheKey]int) int {
 	if depth == 0 {
 		return 1
 	}
@@ -43,7 +43,7 @@ func splitStone(stone uint32, depth uint8, cache map[cacheKey]int) int {
 	var result int
 	if stone == 0 {
 		result = splitStone(1, depth-1, cache)
-	} else if digits := int_util.Log10Int(stone) + 1; digits%2 == 0 {
+	} else if digits := int_util.CountDigits[int, int](stone); digits%2 == 0 {
 		split := int_util.IntPow(10, digits/2)
 		result = splitStone(stone/split, depth-1, cache) +
 			splitStone(stone%split, depth-1, cache)
@@ -54,7 +54,7 @@ func splitStone(stone uint32, depth uint8, cache map[cacheKey]int) int {
 	return result
 }
 
-func splitStones(stones []uint32, depth uint8) int {
+func splitStones(stones []int, depth uint8) int {
 	cache := make(map[cacheKey]int, 512)
 	result := 0
 	for _, i := range stones {

@@ -1,7 +1,6 @@
 package day18
 
 import (
-	"fmt"
 	"io"
 
 	"github.com/donmahallem/aoc/go/aoc_utils"
@@ -74,20 +73,20 @@ func FindFirstNonSolvable(field Field, maxStep, fieldWidth, fieldHeight int16) i
 	return left
 }
 
-func Part2Base(in io.Reader, width, height int16) (string, error) {
+func Part2Base(in io.Reader, width, height int16) ([]int16, error) {
 	parsedData, err := ParseInput(in, width, height)
 	if err != nil {
-		return "", err
+		return []int16{}, err
 	}
 	if len(parsedData.CorruptionOrder) == 0 {
-		return "", aoc_utils.NewParseError("Expected input to be atleast one", nil)
+		return []int16{}, aoc_utils.NewParseError("Expected input to be atleast one", nil)
 	}
 	result := FindFirstNonSolvable(parsedData.Field, int16(len(parsedData.CorruptionOrder)), width, height)
 	sourcePoint := parsedData.CorruptionOrder[result]
-	return fmt.Sprintf("%d,%d", sourcePoint%width, sourcePoint/width), nil
+	return []int16{sourcePoint % width, sourcePoint / width}, nil
 }
 
-var Part2 func(in io.Reader) (string, error)
+var Part2 func(in io.Reader) ([]int16, error)
 
 var Part1 func(in io.Reader) (int16, error)
 
@@ -97,7 +96,7 @@ func init() {
 	Part1 = func(in io.Reader) (int16, error) {
 		return Part1Base(in, 1024, fieldDim, fieldDim)
 	}
-	Part2 = func(in io.Reader) (string, error) {
+	Part2 = func(in io.Reader) ([]int16, error) {
 		return Part2Base(in, fieldDim, fieldDim)
 	}
 }

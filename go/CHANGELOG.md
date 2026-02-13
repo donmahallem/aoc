@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/donmahallem/aoc/compare/aoc-go-v0.3.0...aoc-go-v0.4.0) (2026-02-13)
+
+
+### Features
+
+* **test:** add automatic test generator for go and python ([#234](https://github.com/donmahallem/aoc/issues/234)) ([334b63f](https://github.com/donmahallem/aoc/commit/334b63f0e49025a7e7c90e52fedd27371df30e9c))
+
 ## [0.3.0](https://github.com/donmahallem/aoc/compare/aoc-go-v0.2.0...aoc-go-v0.3.0) (2026-02-12)
 
 

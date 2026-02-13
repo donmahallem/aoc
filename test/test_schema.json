@@ -45,6 +45,7 @@
       "properties": {
         "input": {
           "type": "string",
+          "maxLength": 128,
           "description": "Direct string input for the test case"
         },
         "file": {

@@ -236,6 +236,46 @@ func FormatExpectedGo(v any, typeHint *string) string {
 	}
 }
 
+// FormatExpectedCpp returns a C++-literal representation.
+// typeHint allows choosing between int and int16_t array element types.
+func FormatExpectedCpp(v any, typeHint *string) string {
+	switch val := v.(type) {
+	case float64:
+		if val == float64(int64(val)) {
+			iv := int64(val)
+			if typeHint != nil && *typeHint == "int16" {
+				return fmt.Sprintf("static_cast<int16_t>(%d)", iv)
+			}
+			// Use LL suffix for values that don't fit in 32-bit int
+			if iv > 2147483647 || iv < -2147483648 {
+				return fmt.Sprintf("%dLL", iv)
+			}
+			return strconv.FormatInt(iv, 10)
+		}
+		return strconv.FormatFloat(val, 'f', -1, 64)
+	case string:
+		return fmt.Sprintf("std::string(%q)", val)
+	case []any:
+		kind := resolveArrayKind(val, typeHint)
+		parts := make([]string, len(val))
+		for i, elem := range val {
+			parts[i] = FormatExpectedCpp(elem, typeHint)
+		}
+		switch kind {
+		case arrayKindInt:
+			return "std::vector<int>{" + strings.Join(parts, ", ") + "}"
+		case arrayKindInt16:
+			return "std::vector<int16_t>{" + strings.Join(parts, ", ") + "}"
+		case arrayKindString:
+			return "std::vector<std::string>{" + strings.Join(parts, ", ") + "}"
+		default:
+			panic(fmt.Sprintf("unsupported array contents: %#v", val))
+		}
+	default:
+		return fmt.Sprintf("%v", val)
+	}
+}
+
 // FormatExpectedPython returns a Python-literal representation.
 func FormatExpectedPython(v any) string {
 	switch val := v.(type) {
@@ -440,9 +480,9 @@ func validateLangList(list []string, field, year, day string, idx int, name stri
 			return fmt.Errorf("%s/%s test[%d] '%s': %s entries must be non-empty", year, day, idx, name, field)
 		}
 		switch lang {
-		case "go", "python":
+		case "go", "python", "cpp":
 		default:
-			return fmt.Errorf("%s/%s test[%d] '%s': %s entries must be one of go, python", year, day, idx, name, field)
+			return fmt.Errorf("%s/%s test[%d] '%s': %s entries must be one of go, python, cpp", year, day, idx, name, field)
 		}
 	}
 	return nil

@@ -57,6 +57,11 @@ func (g PythonGenerator) PrepareOutput(outPath string, dd DayTestData, opts Gene
 	return nil
 }
 
+// ShouldGenerate always returns true for Python (all days have implementations).
+func (g PythonGenerator) ShouldGenerate(dd DayTestData, yearPkg, sourceDir string) bool {
+	return true
+}
+
 // FormatContent runs yapf on the generated Python content to match repo formatting.
 func (g PythonGenerator) FormatContent(content, targetPath string) (string, error) {
 	cmd := exec.Command("python", "-m", "yapf")

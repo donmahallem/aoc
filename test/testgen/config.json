@@ -8,6 +8,12 @@
     "python": {
       "output_dir": "../../python",
       "template_dir": "../python"
+    },
+    "cpp": {
+      "output_dir": "../../cpp/test",
+      "template_dir": "../cpp",
+      "source_dir": "../../cpp/src",
+      "create_missing_dirs": true
     }
   }
 }

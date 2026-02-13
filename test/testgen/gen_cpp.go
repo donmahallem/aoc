@@ -1,10 +1,8 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"text/template"
 )
@@ -86,19 +84,9 @@ func (g CppGenerator) ShouldGenerate(dd DayTestData, yearPkg, sourceDir string) 
 	return err == nil
 }
 
-// FormatContent runs clang-format on the generated C++ content for consistent style.
-// Falls back to unformatted content if clang-format is not available.
+// FormatContent returns the content as-is; the template already produces consistent output.
 func (g CppGenerator) FormatContent(content, targetPath string) (string, error) {
-	cmd := exec.Command("clang-format", "--assume-filename="+targetPath)
-	cmd.Stdin = bytes.NewReader([]byte(content))
-	var stdout, stderr bytes.Buffer
-	cmd.Stdout = &stdout
-	cmd.Stderr = &stderr
-	if err := cmd.Run(); err != nil {
-		// clang-format not available; return unformatted content
-		return content, nil
-	}
-	return stdout.String(), nil
+	return content, nil
 }
 
 // cppEscapeString escapes a string for use as a C++ raw string literal content.

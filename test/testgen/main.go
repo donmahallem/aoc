@@ -12,6 +12,7 @@ import (
 type LanguageConfig struct {
 	OutputDir         string `json:"output_dir"`
 	TemplateDir       string `json:"template_dir"`
+	SourceDir         string `json:"source_dir,omitempty"`
 	CreateMissingDirs bool   `json:"create_missing_dirs"`
 }
 
@@ -54,6 +55,7 @@ func loadConfig(path string) (*Config, error) {
 	for lang, langCfg := range cfg.Languages {
 		langCfg.OutputDir = resolve(langCfg.OutputDir)
 		langCfg.TemplateDir = resolve(langCfg.TemplateDir)
+		langCfg.SourceDir = resolve(langCfg.SourceDir)
 		cfg.Languages[lang] = langCfg
 	}
 
@@ -105,7 +107,7 @@ func main() {
 		fmt.Printf("=== Generating %s tests ===\n", strings.Title(langName))
 		opts := baseOpts
 		opts.CreateMissingDirs = langCfg.CreateMissingDirs
-		if err := GenerateGeneric(generator, langName, *data, langCfg.TemplateDir, langCfg.OutputDir, opts); err != nil {
+		if err := GenerateGeneric(generator, langName, *data, langCfg.TemplateDir, langCfg.OutputDir, langCfg.SourceDir, opts); err != nil {
 			fmt.Fprintf(os.Stderr, "Error generating %s tests: %v\n", langName, err)
 			os.Exit(1)
 		}

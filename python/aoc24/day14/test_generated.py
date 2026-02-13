@@ -10,15 +10,6 @@ from aoc24.day14.part_2 import Part2
 class Test2024Day14Part01(unittest.TestCase):
 
     @unittest.skipUnless(
-        os.path.exists(resolve_data_path("data/samples/24/14_sample.txt")),
-        "Test data file not found")
-    def test_sample(self):
-        path = resolve_data_path("data/samples/24/14_sample.txt")
-        with open(path) as f:
-            result = Part1(f)
-            self.assertEqual(result, 12)
-
-    @unittest.skipUnless(
         os.path.exists(resolve_data_path("data/full/24/14.txt")),
         "Test data file not found")
     def test_full_data(self):

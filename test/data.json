@@ -1,0 +1,569 @@
+{
+  "24": {
+    "01": [
+      {
+        "name": "sample",
+        "input": "3   4\n4   3\n2   5\n1   3\n3   9\n3   3",
+        "part1": {
+          "result": 11
+        },
+        "part2": {
+          "result": 31
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/01.txt",
+        "part1": {
+          "result": 2057374
+        },
+        "part2": {
+          "result": 23177084
+        }
+      }
+    ],
+    "02": [
+      {
+        "name": "sample",
+        "input": "7 6 4 2 1\n1 2 7 8 9\n9 7 6 2 1\n1 3 2 4 5\n8 6 4 4 1\n1 3 6 7 9",
+        "part1": {
+          "result": 2
+        },
+        "part2": {
+          "result": 4
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/02.txt",
+        "part1": {
+          "result": 390
+        },
+        "part2": {
+          "result": 439
+        }
+      }
+    ],
+    "03": [
+      {
+        "name": "sample",
+        "input": "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))",
+        "part1": {
+          "result": 161
+        },
+        "part2": {
+          "result": 48
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/03.txt",
+        "part1": {
+          "result": 179571322
+        },
+        "part2": {
+          "result": 103811193
+        }
+      }
+    ],
+    "04": [
+      {
+        "name": "sample",
+        "file": "data/samples/24/04_sample.txt",
+        "part1": {
+          "result": 18
+        },
+        "part2": {
+          "result": 9
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/04.txt",
+        "part1": {
+          "result": 2618
+        },
+        "part2": {
+          "result": 2011
+        }
+      }
+    ],
+    "05": [
+      {
+        "name": "sample",
+        "file": "data/samples/24/05_sample.txt",
+        "part1": {
+          "result": 143
+        },
+        "part2": {
+          "result": 123
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/05.txt",
+        "part1": {
+          "result": 5268
+        },
+        "part2": {
+          "result": 5799
+        }
+      }
+    ],
+    "06": [
+      {
+        "name": "sample",
+        "file": "data/samples/24/06_sample.txt",
+        "part1": {
+          "result": 41
+        },
+        "part2": {
+          "result": 6
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/06.txt",
+        "part1": {
+          "result": 5305
+        },
+        "part2": {
+          "result": 2143
+        }
+      }
+    ],
+    "07": [
+      {
+        "name": "sample",
+        "file": "data/samples/24/07_sample.txt",
+        "part1": {
+          "result": 3749
+        },
+        "part2": {
+          "result": 11387
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/07.txt",
+        "part1": {
+          "result": 3598800864292
+        },
+        "part2": {
+          "result": 340362529351427
+        }
+      }
+    ],
+    "08": [
+      {
+        "name": "sample_1",
+        "file": "data/samples/24/08_sample_1.txt",
+        "part1": {
+          "result": 14
+        },
+        "part2": {
+          "result": 34
+        }
+      },
+      {
+        "name": "sample_2",
+        "file": "data/samples/24/08_sample_2.txt",
+        "part2": {
+          "result": 12
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/08.txt",
+        "part1": {
+          "result": 351
+        },
+        "part2": {
+          "result": 1259
+        }
+      }
+    ],
+    "09": [
+      {
+        "name": "sample",
+        "input": "2333133121414131402",
+        "part1": {
+          "result": 1928
+        },
+        "part2": {
+          "result": 2858
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/09.txt",
+        "part1": {
+          "result": 6435922584968
+        },
+        "part2": {
+          "result": 6469636832766
+        }
+      }
+    ],
+    "10": [
+      {
+        "name": "sample",
+        "input": "89010123\n78121874\n87430965\n96549874\n45678903\n32019012\n01329801\n10456732",
+        "part1": {
+          "result": 36
+        },
+        "part2": {
+          "result": 81
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/10.txt",
+        "part1": {
+          "result": 796
+        },
+        "part2": {
+          "result": 1942
+        }
+      }
+    ],
+    "11": [
+      {
+        "name": "sample",
+        "input": "125 17",
+        "part1": {
+          "result": 55312
+        },
+        "part2": {
+          "result": 65601038650482
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/11.txt",
+        "part1": {
+          "result": 235850
+        },
+        "part2": {
+          "result": 279903140844645
+        }
+      }
+    ],
+    "12": [
+      {
+        "name": "sample",
+        "file": "data/samples/24/12_sample.txt",
+        "part1": {
+          "result": 1930
+        },
+        "part2": {
+          "result": 1206
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/12.txt",
+        "part1": {
+          "result": 1522850
+        },
+        "part2": {
+          "result": 953738
+        }
+      }
+    ],
+    "13": [
+      {
+        "name": "sample",
+        "file": "data/samples/24/13_sample.txt",
+        "part1": {
+          "result": 480
+        },
+        "part2": {
+          "result": 875318608908
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/13.txt",
+        "part1": {
+          "result": 28753
+        },
+        "part2": {
+          "result": 102718967795500
+        }
+      }
+    ],
+    "14": [
+      {
+        "name": "full_data",
+        "file": "data/full/24/14.txt",
+        "part1": {
+          "result": 224554908
+        },
+        "part2": {
+          "result": 6644
+        }
+      }
+    ],
+    "15": [
+      {
+        "name": "sample_large",
+        "file": "data/samples/24/15_sample_large.txt",
+        "part1": {
+          "result": 10092
+        },
+        "part2": {
+          "result": 9021
+        }
+      },
+      {
+        "name": "sample_small",
+        "file": "data/samples/24/15_sample_small.txt",
+        "part1": {
+          "result": 2028
+        },
+        "part2": {
+          "result": 1751
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/15.txt",
+        "part1": {
+          "result": 1430536
+        },
+        "part2": {
+          "result": 1452348
+        }
+      }
+    ],
+    "16": [
+      {
+        "name": "sample_1",
+        "file": "data/samples/24/16_sample_1.txt",
+        "part1": {
+          "result": 7036
+        },
+        "part2": {
+          "result": 45
+        }
+      },
+      {
+        "name": "sample_2",
+        "file": "data/samples/24/16_sample_2.txt",
+        "part1": {
+          "result": 11048
+        },
+        "part2": {
+          "result": 64
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/16.txt",
+        "part1": {
+          "result": 105508
+        },
+        "part2": {
+          "result": 548
+        }
+      }
+    ],
+    "17": [
+      {
+        "name": "sample_1",
+        "file": "data/samples/24/17_sample_1.txt",
+        "part1": {
+          "result": [
+            4,
+            6,
+            3,
+            5,
+            6,
+            3,
+            5,
+            2,
+            1,
+            0
+          ]
+        }
+      },
+      {
+        "name": "sample_2",
+        "file": "data/samples/24/17_sample_2.txt",
+        "part2": {
+          "result": 117440
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/17.txt",
+        "part1": {
+          "result": [
+            6,
+            7,
+            5,
+            2,
+            1,
+            3,
+            5,
+            1,
+            7
+          ]
+        },
+        "part2": {
+          "result": 216549846240877
+        }
+      }
+    ],
+    "18": [
+      {
+        "name": "full_data",
+        "file": "data/full/24/18.txt",
+        "part1": {
+          "result": 370
+        },
+        "part2": {
+          "result": [
+            65,
+            6
+          ],
+          "type": "int16"
+        }
+      }
+    ],
+    "19": [
+      {
+        "name": "sample",
+        "input": "r, wr, b, g, bwu, rb, gb, br\n\nbrwrr\nbggr\ngbbr\nrrbgbr\nubwu\nbwurrg\nbrgr\nbbrgwb",
+        "part1": {
+          "result": 6
+        },
+        "part2": {
+          "result": 16
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/19.txt",
+        "part1": {
+          "result": 333
+        },
+        "part2": {
+          "result": 678536865274732
+        }
+      }
+    ],
+    "20": [
+      {
+        "name": "sample",
+        "file": "data/samples/24/20_sample.txt",
+        "part1": {
+          "result": 0
+        },
+        "part2": {
+          "result": 0
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/20.txt",
+        "part1": {
+          "result": 1417
+        },
+        "part2": {
+          "result": 1014683
+        }
+      }
+    ],
+    "21": [
+      {
+        "name": "sample",
+        "input": "029A\n980A\n179A\n456A\n379A",
+        "part1": {
+          "result": 126384
+        },
+        "part2": {
+          "result": 154115708116294
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/21.txt",
+        "part1": {
+          "result": 246990
+        },
+        "part2": {
+          "result": 306335137543664
+        }
+      }
+    ],
+    "22": [
+      {
+        "name": "sample_part1",
+        "input": "1\n10\n100\n2024",
+        "part1": {
+          "result": 37327623
+        }
+      },
+      {
+        "name": "sample_part2",
+        "input": "1\n2\n3\n2024",
+        "part2": {
+          "result": 23
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/22.txt",
+        "part1": {
+          "result": 14622549304
+        },
+        "part2": {
+          "result": 1735
+        }
+      }
+    ],
+    "23": [
+      {
+        "name": "sample",
+        "file": "data/samples/24/23_sample.txt",
+        "part1": {
+          "result": 7
+        },
+        "part2": {
+          "result": [
+            "co",
+            "de",
+            "ka",
+            "ta"
+          ]
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/24/23.txt",
+        "part1": {
+          "result": 926
+        },
+        "part2": {
+          "result": [
+            "az",
+            "ed",
+            "hz",
+            "it",
+            "ld",
+            "nh",
+            "pc",
+            "td",
+            "ty",
+            "ux",
+            "wc",
+            "yg",
+            "zz"
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -19,6 +19,6 @@ def Part2(input: typing.TextIO,
         robots[:, 0] = robots[:, 0] % width
         robots[:, 1] = robots[:, 1] % height
         if isTree(robots):
-            return i
+            return i + 1  # steps are 1-based: we've just applied step i+1
         i += 1
     return -1

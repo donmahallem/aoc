@@ -73,20 +73,20 @@ func FindFirstNonSolvable(field Field, maxStep, fieldWidth, fieldHeight int16) i
 	return left
 }
 
-func Part2Base(in io.Reader, width, height int16) (Point, error) {
+func Part2Base(in io.Reader, width, height int16) ([]int16, error) {
 	parsedData, err := ParseInput(in, width, height)
 	if err != nil {
-		return Point{}, err
+		return []int16{}, err
 	}
 	if len(parsedData.CorruptionOrder) == 0 {
-		return Point{}, aoc_utils.NewParseError("Expected input to be atleast one", nil)
+		return []int16{}, aoc_utils.NewParseError("Expected input to be atleast one", nil)
 	}
 	result := FindFirstNonSolvable(parsedData.Field, int16(len(parsedData.CorruptionOrder)), width, height)
 	sourcePoint := parsedData.CorruptionOrder[result]
-	return Point{X: sourcePoint % width, Y: sourcePoint / width}, nil
+	return []int16{sourcePoint % width, sourcePoint / width}, nil
 }
 
-var Part2 func(in io.Reader) (Point, error)
+var Part2 func(in io.Reader) ([]int16, error)
 
 var Part1 func(in io.Reader) (int16, error)
 
@@ -96,7 +96,7 @@ func init() {
 	Part1 = func(in io.Reader) (int16, error) {
 		return Part1Base(in, 1024, fieldDim, fieldDim)
 	}
-	Part2 = func(in io.Reader) (Point, error) {
+	Part2 = func(in io.Reader) ([]int16, error) {
 		return Part2Base(in, fieldDim, fieldDim)
 	}
 }

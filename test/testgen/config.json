@@ -1,0 +1,13 @@
+{
+  "data_path": "../data.json",
+  "languages": {
+    "go": {
+      "output_dir": "../../go",
+      "template_dir": "../go"
+    },
+    "python": {
+      "output_dir": "../../python",
+      "template_dir": "../python"
+    }
+  }
+}

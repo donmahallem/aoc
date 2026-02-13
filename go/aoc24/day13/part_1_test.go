@@ -1,7 +1,6 @@
 package day13_test
 
 import (
-	"io"
 	"strings"
 	"testing"
 
@@ -39,23 +38,5 @@ func TestFindNeighbours(t *testing.T) {
 	}
 	if len(test) != 4 {
 		t.Errorf(`Expected %d to match %d`, len(test), 4)
-	}
-}
-
-func TestPart1(t *testing.T) {
-	test, err := day13.Part1(strings.NewReader(testData))
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-	}
-	if test != 480 {
-		t.Errorf(`Expected %d to match 480`, test)
-	}
-}
-
-func BenchmarkPart1(b *testing.B) {
-	data := strings.NewReader(testData)
-	for b.Loop() {
-		data.Seek(0, io.SeekStart)
-		day13.Part1(data)
 	}
 }

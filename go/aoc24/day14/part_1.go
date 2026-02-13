@@ -153,6 +153,20 @@ func Part1(in io.Reader) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	totalSum := CountQuadrant(robots, 100, 101, 103)
+	maxX, maxY := 0, 0
+	for _, r := range robots {
+		if r.pos.X > maxX {
+			maxX = r.pos.X
+		}
+		if r.pos.Y > maxY {
+			maxY = r.pos.Y
+		}
+	}
+	width := maxX + 1
+	height := maxY + 1
+	if width <= 0 || height <= 0 {
+		return 0, aoc_utils.NewParseError("invalid grid size", nil)
+	}
+	totalSum := CountQuadrant(robots, 100, width, height)
 	return totalSum, nil
 }

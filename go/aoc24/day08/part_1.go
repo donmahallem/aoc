@@ -30,9 +30,6 @@ func readSource(reader io.Reader) (*inputData, error) {
 			if character == '.' {
 				continue
 			}
-			if character != 'A' && character != '0' {
-				return nil, aoc_utils.NewUnexpectedInputError(character)
-			}
 			if charData, ok := data[character]; ok {
 				data[character] = append(charData, point{Y: y, X: int16(idx)})
 			} else {

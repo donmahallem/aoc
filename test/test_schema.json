@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "TestResult": {
+      "oneOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [{ "type": "integer" }, { "type": "string" }]
+          }
+        }
+      ]
+    },
+    "PartExpectation": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/TestResult"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["int", "int16", "string"],
+          "description": "Optional type hint for arrays; defaults to int for numeric arrays"
+        },
+        "skip_languages": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["go", "python"]
+          },
+          "description": "Optional list of languages to skip for this part"
+        }
+      },
+      "required": ["result"],
+      "additionalProperties": false
+    },
+    "TestCase": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "description": "Direct string input for the test case"
+        },
+        "file": {
+          "type": "string",
+          "description": "Path to a file containing inputs"
+        },
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$",
+          "description": "Unique test name used in generated test function/subtest names"
+        },
+        "skip_languages": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["go", "python"]
+          },
+          "description": "Optional list of languages for which this entire test case should be skipped"
+        },
+        "part1": {
+          "$ref": "#/definitions/PartExpectation",
+          "description": "Expected result (and metadata) for Part 1"
+        },
+        "part2": {
+          "$ref": "#/definitions/PartExpectation",
+          "description": "Expected result (and metadata) for Part 2"
+        }
+      },
+      "required": ["name"],
+      "oneOf": [
+        {
+          "required": ["input"]
+        },
+        {
+          "required": ["file"]
+        }
+      ],
+      "anyOf": [
+        {
+          "required": ["part1"]
+        },
+        {
+          "required": ["part2"]
+        }
+      ],
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "patternProperties": {
+    "^[0-9]{2}$": {
+      "type": "object",
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TestCase"
+          },
+          "description": "List of test cases for this day"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

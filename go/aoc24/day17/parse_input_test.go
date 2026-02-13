@@ -4,12 +4,13 @@ import (
 	"slices"
 	"strings"
 	"testing"
-
-	_ "embed"
 )
 
-//go:embed sample1.txt
-var testData1 string
+const testData1 string = `Register A: 729
+Register B: 0
+Register C: 0
+
+Program: 0,1,5,4,3,0`
 
 func TestParseInput(t *testing.T) {
 	data, err := parseInput(strings.NewReader(testData1))

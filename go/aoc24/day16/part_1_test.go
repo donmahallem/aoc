@@ -3,7 +3,6 @@ package day16
 import (
 	_ "embed"
 	"fmt"
-	"io"
 	"strings"
 	"testing"
 )
@@ -66,33 +65,4 @@ func TestCalculatePathValues_Invalid(t *testing.T) {
 	f2[0] = make([]int, 1)
 	p2 := point{X: 10, Y: 10}
 	calculatePathValues(&f2, &p2)
-}
-
-func TestPart1(t *testing.T) {
-	t.Run("with testData1", func(t *testing.T) {
-		result, err := Part1(strings.NewReader(testData1))
-		if err != nil {
-			t.Errorf("Unexpected error: %v", err)
-		}
-		if result != 7036 {
-			t.Errorf(`Expected %d to match 7036`, result)
-		}
-	})
-	t.Run("with testData2", func(t *testing.T) {
-		result, err := Part1(strings.NewReader(testData2))
-		if err != nil {
-			t.Errorf("Unexpected error: %v", err)
-		}
-		if result != 11048 {
-			t.Errorf(`Expected %d to match 11048`, result)
-		}
-	})
-}
-
-func BenchmarkPart1(b *testing.B) {
-	data := strings.NewReader(testData2)
-	for b.Loop() {
-		data.Seek(0, io.SeekStart)
-		Part1(data)
-	}
 }

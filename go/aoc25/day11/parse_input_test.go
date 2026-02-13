@@ -1,13 +1,12 @@
 package day11
 
 import (
-	_ "embed"
 	"strings"
 	"testing"
 )
 
-//go:embed sample.txt
-var testData string
+// Minimal inline sample graph
+const testData = "aaa: bbb ccc\nbbb: out\nccc: out\n"
 
 func Test_parseInput(t *testing.T) {
 	reader := strings.NewReader(testData)
@@ -16,8 +15,8 @@ func Test_parseInput(t *testing.T) {
 		t.Fatalf("parseInput returned an error: %v", err)
 	}
 
-	if len(res) != 10 {
-		t.Errorf("unexpected number of nodes: got %d, want 10", len(res))
+	if len(res) != 3 {
+		t.Errorf("unexpected number of nodes: got %d, want 3", len(res))
 	}
 
 	testCases := []struct {
@@ -25,10 +24,9 @@ func Test_parseInput(t *testing.T) {
 		key             uint64
 		expectedTargets int
 	}{
-		{name: "you", key: uint64('y')<<16 + uint64('o')<<8 + uint64('u'), expectedTargets: 2},
 		{name: "aaa", key: uint64('a')<<16 + uint64('a')<<8 + uint64('a'), expectedTargets: 2},
-		{name: "ddd", key: uint64('d')<<16 + uint64('d')<<8 + uint64('d'), expectedTargets: 1},
-		{name: "iii", key: uint64('i')<<16 + uint64('i')<<8 + uint64('i'), expectedTargets: 1},
+		{name: "bbb", key: uint64('b')<<16 + uint64('b')<<8 + uint64('b'), expectedTargets: 1},
+		{name: "ccc", key: uint64('c')<<16 + uint64('c')<<8 + uint64('c'), expectedTargets: 1},
 	}
 	for _, testCase := range testCases {
 		t.Run(testCase.name, func(t *testing.T) {

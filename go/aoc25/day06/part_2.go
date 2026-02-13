@@ -17,7 +17,7 @@ func mul(a, b uint64) uint64 {
 
 type operator func(a, b uint64) uint64
 
-func Part2(in io.Reader) (any, error) {
+func Part2(in io.Reader) (uint64, error) {
 	var columns []uint64 = nil
 	scanner := bufio.NewScanner(in)
 	totalNumber := uint64(0)

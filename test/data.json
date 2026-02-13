@@ -582,6 +582,28 @@
         }
       }
     ],
+    "03": [
+      {
+        "name": "sample",
+        "file": "data/samples/25/03_sample.txt",
+        "part1": {
+          "result": 357
+        },
+        "part2": {
+          "result": 17452
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/25/02.txt",
+        "part1": {
+          "result": 3121910778619
+        },
+        "part2": {
+          "result": 173300819005913
+        }
+      }
+    ],
     "04": [
       {
         "name": "sample",

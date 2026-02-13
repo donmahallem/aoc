@@ -1,8 +1,8 @@
 #include "day01.h"
 
-namespace Aoc24Day01
+namespace aoc24::day01
 {
-    int Part1(std::istream &in)
+    int Part1(std::istream& in)
     {
         std::vector<int> left;
         std::vector<int> right;
@@ -19,4 +19,4 @@ namespace Aoc24Day01
 
         return sum;
     }
-}
+}  // namespace aoc24::day01

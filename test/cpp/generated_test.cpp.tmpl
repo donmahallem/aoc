@@ -22,14 +22,14 @@ static const std::string {{.VarName}} = R"testgen({{.Input}})testgen";
 {{- if .Part1}}
 {{- range .Part1.Samples}}
 
-TEST({{$.Namespace}}Part1, {{.Name}}) {
+TEST({{$.TestSuite}}Part1, {{.Name}}) {
     std::istringstream stream({{.VarName}});
     EXPECT_EQ({{$.Namespace}}::Part1(stream), {{.Expected}});
 }
 {{- end}}
 {{- range .Part1.Files}}
 
-TEST({{$.Namespace}}Part1, {{.Name}}) {
+TEST({{$.TestSuite}}Part1, {{.Name}}) {
     const std::string path = std::string(TEST_DATA_DIR) + "/{{.FilePath}}";
     if (!std::filesystem::exists(path)) { GTEST_SKIP() << "missing " << path; }
     std::ifstream stream(path);
@@ -40,14 +40,14 @@ TEST({{$.Namespace}}Part1, {{.Name}}) {
 {{- if .Part2}}
 {{- range .Part2.Samples}}
 
-TEST({{$.Namespace}}Part2, {{.Name}}) {
+TEST({{$.TestSuite}}Part2, {{.Name}}) {
     std::istringstream stream({{.VarName}});
     EXPECT_EQ({{$.Namespace}}::Part2(stream), {{.Expected}});
 }
 {{- end}}
 {{- range .Part2.Files}}
 
-TEST({{$.Namespace}}Part2, {{.Name}}) {
+TEST({{$.TestSuite}}Part2, {{.Name}}) {
     const std::string path = std::string(TEST_DATA_DIR) + "/{{.FilePath}}";
     if (!std::filesystem::exists(path)) { GTEST_SKIP() << "missing " << path; }
     std::ifstream stream(path);

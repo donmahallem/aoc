@@ -1,8 +1,9 @@
 #include <map>
+
 #include "day01.h"
-namespace Aoc24Day01
+namespace aoc24::day01
 {
-    int Part2(std::istream &in)
+    int Part2(std::istream& in)
     {
         std::vector<int> left;
         std::vector<int> right;
@@ -11,7 +12,7 @@ namespace Aoc24Day01
 
         std::map<int, int> rightListMap;
 
-        for (auto &element : right)
+        for (auto& element : right)
         {
             std::map<int, int>::iterator iter = rightListMap.find(element);
             if (iter != rightListMap.end())
@@ -25,7 +26,7 @@ namespace Aoc24Day01
         }
         int sum = 0;
 
-        for (auto &element : left)
+        for (auto& element : left)
         {
             std::map<int, int>::iterator iter = rightListMap.find(element);
             if (iter != rightListMap.end())
@@ -36,4 +37,4 @@ namespace Aoc24Day01
 
         return sum;
     }
-}
+}  // namespace aoc24::day01

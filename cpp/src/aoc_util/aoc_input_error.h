@@ -4,25 +4,25 @@
 #include <exception>
 #include <string>
 
-namespace AocUtil
+namespace aoc_util
 {
 
     class AocInputError : public std::exception
     {
-    public:
-        explicit AocInputError(const std::string &message);
+       public:
+        explicit AocInputError(const std::string& message);
 
-        virtual const char *what() const noexcept override;
+        virtual const char* what() const noexcept override;
 
         static AocInputError YearDay(int year, int day);
         static AocInputError Year(int year);
         static AocInputError Day(int day);
         static AocInputError Part(int part);
 
-    private:
+       private:
         std::string m_message;
     };
 
-}
+}  // namespace aoc_util
 
-#endif // AOC_INPUT_ERROR_H
+#endif  // AOC_INPUT_ERROR_H

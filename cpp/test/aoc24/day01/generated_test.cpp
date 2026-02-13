@@ -10,7 +10,7 @@
 #include <fstream>
 #include <filesystem>
 
-#include "../../../src/aoc24/day01/day01.h"
+#include "aoc24/day01/day01.h"
 
 static const std::string testData = R"testgen(3   4
 4   3
@@ -21,24 +21,24 @@ static const std::string testData = R"testgen(3   4
 
 TEST(Aoc24Day01Part1, sample) {
     std::istringstream stream(testData);
-    EXPECT_EQ(Aoc24Day01::Part1(stream), 11);
+    EXPECT_EQ(aoc24::day01::Part1(stream), 11);
 }
 
 TEST(Aoc24Day01Part1, full_data) {
     const std::string path = std::string(TEST_DATA_DIR) + "/data/full/24/01.txt";
     if (!std::filesystem::exists(path)) { GTEST_SKIP() << "missing " << path; }
     std::ifstream stream(path);
-    EXPECT_EQ(Aoc24Day01::Part1(stream), 2057374);
+    EXPECT_EQ(aoc24::day01::Part1(stream), 2057374);
 }
 
 TEST(Aoc24Day01Part2, sample) {
     std::istringstream stream(testData);
-    EXPECT_EQ(Aoc24Day01::Part2(stream), 31);
+    EXPECT_EQ(aoc24::day01::Part2(stream), 31);
 }
 
 TEST(Aoc24Day01Part2, full_data) {
     const std::string path = std::string(TEST_DATA_DIR) + "/data/full/24/01.txt";
     if (!std::filesystem::exists(path)) { GTEST_SKIP() << "missing " << path; }
     std::ifstream stream(path);
-    EXPECT_EQ(Aoc24Day01::Part2(stream), 23177084);
+    EXPECT_EQ(aoc24::day01::Part2(stream), 23177084);
 }

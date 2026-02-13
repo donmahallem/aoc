@@ -236,8 +236,10 @@ func FormatExpectedGo(v any, typeHint *string) string {
 	}
 }
 
-// FormatExpectedCpp returns a C++-literal representation.
-// typeHint allows choosing between int and int16_t array element types.
+// FormatExpectedCpp returns a C++ literal representation.
+// Tests call Part functions directly (not through the registry), so expected
+// values use the function's native return type. The type is inferred from the
+// JSON value: integers become int/long long literals, strings become std::string.
 func FormatExpectedCpp(v any, typeHint *string) string {
 	switch val := v.(type) {
 	case float64:

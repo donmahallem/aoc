@@ -1,13 +1,14 @@
-*
+build/
+bin/
+
+# Track source and config files
 !/src
 !/src/**
 !/test
 !/test/**
-!src/*.cpp
-!src/*.h
-!**/**/*.cpp
-!README.md
-!.gitignore
-!Makefile
 !CMakeLists.txt
-!src/**/CMakeLists.txt
+!README.md
+!CHANGELOG.md
+!.gitignore
+!.clang-format
+!.clang-tidy

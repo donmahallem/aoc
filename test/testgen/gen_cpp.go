@@ -16,8 +16,9 @@ type CppGenerator struct{}
 // CppTestFileData is the template context for C++ test file generation.
 type CppTestFileData struct {
 	BaseTemplateData
-	Namespace  string // "Aoc24Day01"
-	HeaderPath string // "../../../src/aoc24/day01/day01.h"
+	Namespace  string // "aoc24::day01" – used in code (function calls)
+	TestSuite  string // "Aoc24Day01" – used in TEST() macro (no :: allowed)
+	HeaderPath string // "aoc24/day01/day01.h"
 	HasFiles   bool   // whether any file-based test cases exist
 }
 
@@ -42,8 +43,9 @@ func (g CppGenerator) FormatExpected(v interface{}, typeHint *string) string {
 // GetTemplateData returns the C++ template data.
 func (g CppGenerator) GetTemplateData(dd DayTestData, yearPkg string) interface{} {
 	dayPkg := fmt.Sprintf("day%s", dd.PaddedDay)
-	namespace := fmt.Sprintf("Aoc%02dDay%s", 2000+dd.YearInt-2000, dd.PaddedDay)
-	headerPath := fmt.Sprintf("../../../src/%s/%s/%s.h", yearPkg, dayPkg, dayPkg)
+	namespace := fmt.Sprintf("%s::%s", yearPkg, dayPkg)
+	testSuite := fmt.Sprintf("Aoc%02dDay%s", 2000+dd.YearInt-2000, dd.PaddedDay)
+	headerPath := fmt.Sprintf("%s/%s/%s.h", yearPkg, dayPkg, dayPkg)
 
 	hasFiles := false
 	if dd.Part1 != nil && len(dd.Part1.Files) > 0 {
@@ -56,6 +58,7 @@ func (g CppGenerator) GetTemplateData(dd DayTestData, yearPkg string) interface{
 	return CppTestFileData{
 		BaseTemplateData: BuildBaseTemplateData(dd, yearPkg),
 		Namespace:        namespace,
+		TestSuite:        testSuite,
 		HeaderPath:       headerPath,
 		HasFiles:         hasFiles,
 	}

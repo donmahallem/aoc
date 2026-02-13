@@ -24,7 +24,7 @@ jobs:
           pip install -r requirements.txt
           pip install -r requirements_test.txt
       - name: Unpack test data
-        run: bash ./decrypt_data.sh
+        run: bash ./test/decrypt_data.sh
         working-directory: .
         env:
           DATA_PW: ${{ secrets.DATA_PW }}
@@ -52,7 +52,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Unpack test data
-        run: bash ./decrypt_data.sh
+        run: bash ./test/decrypt_data.sh
         working-directory: .
         env:
           DATA_PW: ${{ secrets.DATA_PW }}
@@ -95,7 +95,7 @@ jobs:
         with:
           fetch-depth: 2
       - name: Unpack test data
-        run: bash ./decrypt_data.sh
+        run: bash ./test/decrypt_data.sh
         working-directory: .
         env:
           DATA_PW: ${{ secrets.DATA_PW }}

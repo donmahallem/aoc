@@ -1,7 +1,7 @@
 #include "day02.h"
-namespace Aoc24Day02
+namespace aoc24::day02
 {
-    void parseInput(std::istream &in, lineCallback callback)
+    void parseInput(std::istream& in, lineCallback callback)
     {
         std::string line;
         std::size_t lastPos, pos;
@@ -25,4 +25,4 @@ namespace Aoc24Day02
             callback(numbers);
         }
     }
-}
+}  // namespace aoc24::day02

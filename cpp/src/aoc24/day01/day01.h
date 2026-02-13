@@ -1,16 +1,16 @@
 #ifndef AOC24_DAY01_H
 #define AOC24_DAY01_H
 
-#include <string>
-#include <istream>
-#include <vector>
 #include <algorithm>
+#include <istream>
+#include <string>
+#include <vector>
 
-namespace Aoc24Day01
+namespace aoc24::day01
 {
-    void parseInput(std::istream &in, std::vector<int> &left, std::vector<int> &right);
-    int Part1(std::istream &in);
-    int Part2(std::istream &in);
-}
+    void parseInput(std::istream& in, std::vector<int>& left, std::vector<int>& right);
+    int Part1(std::istream& in);
+    int Part2(std::istream& in);
+}  // namespace aoc24::day01
 
-#endif // AOC24_DAY01_H
+#endif  // AOC24_DAY01_H

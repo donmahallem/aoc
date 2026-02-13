@@ -1,9 +1,9 @@
 #include "day02.h"
 
-namespace Aoc24Day02
+namespace aoc24::day02
 {
 
-    bool checkLine(const std::vector<int> &line)
+    bool checkLine(const std::vector<int>& line)
     {
         int diff;
         bool upwardDir = line[0] < line[1];
@@ -21,16 +21,19 @@ namespace Aoc24Day02
         }
         return true;
     }
-    int Part1(std::istream &in)
+    int Part1(std::istream& in)
     {
         std::string line;
         int sum = 0;
-        parseInput(in, [&sum](const std::vector<int> &numbers)
+        parseInput(in,
+                   [&sum](const std::vector<int>& numbers)
                    {
-                    if (checkLine(numbers)){
-                        sum+=1;
-                    } });
+                       if (checkLine(numbers))
+                       {
+                           sum += 1;
+                       }
+                   });
 
         return sum;
     }
-}
+}  // namespace aoc24::day02

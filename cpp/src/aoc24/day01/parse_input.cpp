@@ -1,8 +1,8 @@
 #include "day01.h"
 
-namespace Aoc24Day01
+namespace aoc24::day01
 {
-    void parseInput(std::istream &in, std::vector<int> &left, std::vector<int> &right)
+    void parseInput(std::istream& in, std::vector<int>& left, std::vector<int>& right)
     {
         std::string line;
 
@@ -23,4 +23,4 @@ namespace Aoc24Day01
             right.push_back(numRight);
         }
     }
-}
+}  // namespace aoc24::day01

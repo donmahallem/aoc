@@ -1,14 +1,15 @@
-#include "day03.h"
-
 #include <cctype>
 #include <sstream>
 #include <string>
 
-namespace Aoc24Day03
+#include "day03.h"
+
+namespace aoc24::day03
 {
     namespace
     {
-        inline bool ParseMul(const std::string &s, std::size_t pos, long long &product, std::size_t &consumed)
+        inline bool ParseMul(const std::string& s, std::size_t pos, long long& product,
+                             std::size_t& consumed)
         {
             const std::string prefix = "mul(";
             if (s.compare(pos, prefix.size(), prefix) != 0)
@@ -28,7 +29,7 @@ namespace Aoc24Day03
             {
                 return false;
             }
-            ++i; // skip comma
+            ++i;  // skip comma
             long long num2 = 0;
             bool hasNum2 = false;
             while (i < s.size() && std::isdigit(static_cast<unsigned char>(s[i])))
@@ -41,13 +42,14 @@ namespace Aoc24Day03
             {
                 return false;
             }
-            ++i; // include ')'
+            ++i;  // include ')'
             product = num1 * num2;
             consumed = i - pos;
             return true;
         }
 
-        inline bool ParseToggle(const std::string &s, std::size_t pos, bool &activate, bool &deactivate, std::size_t &consumed)
+        inline bool ParseToggle(const std::string& s, std::size_t pos, bool& activate,
+                                bool& deactivate, std::size_t& consumed)
         {
             if (s.compare(pos, 4, "do()") == 0)
             {
@@ -65,9 +67,9 @@ namespace Aoc24Day03
             }
             return false;
         }
-    }
+    }  // namespace
 
-    long long Part2(std::istream &in)
+    long long Part2(std::istream& in)
     {
         std::ostringstream oss;
         oss << in.rdbuf();
@@ -95,4 +97,4 @@ namespace Aoc24Day03
         }
         return sum;
     }
-}
+}  // namespace aoc24::day03

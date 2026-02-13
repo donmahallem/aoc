@@ -1,9 +1,9 @@
 #include "day02.h"
 
-namespace Aoc24Day02
+namespace aoc24::day02
 {
 
-    bool isLineFixable(const std::vector<int> &line)
+    bool isLineFixable(const std::vector<int>& line)
     {
         bool upwardDir = line[0] < line[1];
         int lIndex = 0;
@@ -51,11 +51,11 @@ namespace Aoc24Day02
         }
         return false;
     }
-    int Part2(std::istream &in)
+    int Part2(std::istream& in)
     {
         std::string line;
         int sum = 0;
-        std::function<void(const std::vector<int> &)> cb = [&sum](const std::vector<int> &numbers)
+        std::function<void(const std::vector<int>&)> cb = [&sum](const std::vector<int>& numbers)
         {
             if (isLineFixable(numbers))
             {
@@ -66,4 +66,4 @@ namespace Aoc24Day02
 
         return sum;
     }
-}
+}  // namespace aoc24::day02

@@ -6,7 +6,6 @@ def Part2(input: typing.TextIO) -> int:
     machines = parseInput(input)
     summe = 0
     for i, machine in enumerate(machines):
-        print(i, "/", len(machines))
         target_x, target_y = machine["price"]
         _, btn_a_x, btn_a_y = machine["buttons"][0]
         _, btn_b_x, btn_b_y = machine["buttons"][1]

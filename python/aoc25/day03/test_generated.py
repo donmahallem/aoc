@@ -19,13 +19,13 @@ class Test2025Day03Part01(unittest.TestCase):
             self.assertEqual(result, 357)
 
     @unittest.skipUnless(
-        os.path.exists(resolve_data_path("data/full/25/02.txt")),
+        os.path.exists(resolve_data_path("data/full/25/03.txt")),
         "Test data file not found")
     def test_full_data(self):
-        path = resolve_data_path("data/full/25/02.txt")
+        path = resolve_data_path("data/full/25/03.txt")
         with open(path) as f:
             result = Part1(f)
-            self.assertEqual(result, 3121910778619)
+            self.assertEqual(result, 17452)
 
 
 class Test2025Day03Part02(unittest.TestCase):
@@ -37,13 +37,13 @@ class Test2025Day03Part02(unittest.TestCase):
         path = resolve_data_path("data/samples/25/03_sample.txt")
         with open(path) as f:
             result = Part2(f)
-            self.assertEqual(result, 17452)
+            self.assertEqual(result, 3121910778619)
 
     @unittest.skipUnless(
-        os.path.exists(resolve_data_path("data/full/25/02.txt")),
+        os.path.exists(resolve_data_path("data/full/25/03.txt")),
         "Test data file not found")
     def test_full_data(self):
-        path = resolve_data_path("data/full/25/02.txt")
+        path = resolve_data_path("data/full/25/03.txt")
         with open(path) as f:
             result = Part2(f)
             self.assertEqual(result, 173300819005913)

@@ -590,14 +590,14 @@
           "result": 357
         },
         "part2": {
-          "result": 17452
+          "result": 3121910778619
         }
       },
       {
         "name": "full_data",
-        "file": "data/full/25/02.txt",
+        "file": "data/full/25/03.txt",
         "part1": {
-          "result": 3121910778619
+          "result": 17452
         },
         "part2": {
           "result": 173300819005913

@@ -26,6 +26,10 @@ type Generator interface {
 	GetOutputPath(outDir, yearPkg string, dd DayTestData) string
 	PrepareOutput(outPath string, dd DayTestData, opts GenerationOptions) error
 	FormatContent(content, targetPath string) (string, error)
+	// ShouldGenerate returns whether a test file should be generated for the given day.
+	// Generators can use this to skip days with no source implementation.
+	// sourceDir is the resolved source_dir from config (empty if not set).
+	ShouldGenerate(dd DayTestData, yearPkg, sourceDir string) bool
 }
 
 // BaseGenerator provides default no-op implementations for optional pieces.
@@ -34,6 +38,7 @@ type BaseGenerator struct{}
 func (BaseGenerator) FuncMap() template.FuncMap                                  { return nil }
 func (BaseGenerator) PrepareOutput(string, DayTestData, GenerationOptions) error { return nil }
 func (BaseGenerator) FormatContent(content, _ string) (string, error)            { return content, nil }
+func (BaseGenerator) ShouldGenerate(DayTestData, string, string) bool            { return true }
 
 // Generators registry
 var generators = make(map[string]Generator)
@@ -43,7 +48,7 @@ func RegisterGenerator(name string, g Generator) {
 }
 
 // GenerateGeneric implements the common logic for generating tests using a Generator.
-func GenerateGeneric(gen Generator, lang string, data TestData, tmplDir, outDir string, opts GenerationOptions) error {
+func GenerateGeneric(gen Generator, lang string, data TestData, tmplDir, outDir, sourceDir string, opts GenerationOptions) error {
 	tmpl := template.New(gen.TemplateName())
 	if fm := gen.FuncMap(); fm != nil {
 		tmpl = tmpl.Funcs(fm)
@@ -61,6 +66,10 @@ func GenerateGeneric(gen Generator, lang string, data TestData, tmplDir, outDir 
 		for _, dayStr := range SortedKeys(days) {
 			cases := days[dayStr]
 			dd := ParseDayData(yearStr, dayStr, lang, cases, gen.FormatExpected)
+
+			if !gen.ShouldGenerate(dd, yearPkg, sourceDir) {
+				continue
+			}
 
 			outPath := gen.GetOutputPath(outDir, yearPkg, dd)
 			if opts.DryRun {

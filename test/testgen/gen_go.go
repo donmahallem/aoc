@@ -57,6 +57,9 @@ func (g GoGenerator) PrepareOutput(outPath string, dd DayTestData, opts Generati
 	return nil
 }
 
+// ShouldGenerate always returns true for Go (all days have implementations).
+func (g GoGenerator) ShouldGenerate(dd DayTestData, yearPkg, sourceDir string) bool { return true }
+
 // FormatContent formats generated Go source using go/format for consistent style.
 func (g GoGenerator) FormatContent(content, targetPath string) (string, error) {
 	formatted, err := format.Source([]byte(content))

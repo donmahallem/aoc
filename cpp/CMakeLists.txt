@@ -12,10 +12,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 option(BUILD_TESTS "Build tests" ON)
 
-add_subdirectory(./src)
-#target_link_libraries(aoc_solver PUBLIC libaoc_util)
-
 # Configure coverage flags if build type is Coverage.
+# Must be set before add_subdirectory so all targets are instrumented.
 if(CMAKE_BUILD_TYPE STREQUAL "Coverage")
     message(STATUS "Building in coverage mode")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -fprofile-arcs -ftest-coverage -fno-inline")
@@ -23,11 +21,13 @@ if(CMAKE_BUILD_TYPE STREQUAL "Coverage")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -g -fprofile-arcs -ftest-coverage")
 endif()
 
+add_subdirectory(./src)
+#target_link_libraries(aoc_solver PUBLIC libaoc_util)
+
 add_custom_target(coverage
-    COMMAND lcov --capture --ignore-errors mismatch --directory . --output-file coverage.info
-    COMMAND lcov --remove coverage.info '/usr/*' --output-file coverage.info 
-    COMMAND lcov --remove coverage.info '_deps/*' --output-file coverage.info 
-    COMMAND genhtml coverage.info --output-directory coverage_html 
+    COMMAND lcov --capture --ignore-errors mismatch --directory . --output-file coverage_raw.info
+    COMMAND lcov --extract coverage_raw.info '${CMAKE_SOURCE_DIR}/src/*' --output-file coverage.info
+    COMMAND genhtml coverage.info --output-directory coverage_html
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Generating HTML coverage report"
 )

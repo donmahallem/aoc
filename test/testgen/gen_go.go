@@ -34,7 +34,9 @@ func (g GoGenerator) FuncMap() template.FuncMap {
 }
 
 // FormatExpected formats expected values for Go literals.
-func (g GoGenerator) FormatExpected(v interface{}) string { return FormatExpectedGo(v) }
+func (g GoGenerator) FormatExpected(v interface{}, typeHint *string) string {
+	return FormatExpectedGo(v, typeHint)
+}
 
 // GetTemplateData returns the Go template data.
 func (g GoGenerator) GetTemplateData(dd DayTestData, yearPkg string) interface{} {

@@ -105,7 +105,7 @@ func main() {
 		fmt.Printf("=== Generating %s tests ===\n", strings.Title(langName))
 		opts := baseOpts
 		opts.CreateMissingDirs = langCfg.CreateMissingDirs
-		if err := GenerateGeneric(generator, *data, langCfg.TemplateDir, langCfg.OutputDir, opts); err != nil {
+		if err := GenerateGeneric(generator, langName, *data, langCfg.TemplateDir, langCfg.OutputDir, opts); err != nil {
 			fmt.Fprintf(os.Stderr, "Error generating %s tests: %v\n", langName, err)
 			os.Exit(1)
 		}

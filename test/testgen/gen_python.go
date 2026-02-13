@@ -30,7 +30,9 @@ func (g PythonGenerator) TemplateName() string { return "test_generated.py.tmpl"
 func (g PythonGenerator) OutputFilename() string { return "test_generated.py" }
 
 // FormatExpected formats expected values for Python literals.
-func (g PythonGenerator) FormatExpected(v interface{}) string { return FormatExpectedPython(v) }
+func (g PythonGenerator) FormatExpected(v interface{}, _ *string) string {
+	return FormatExpectedPython(v)
+}
 
 // FuncMap returns nil (no custom functions) for Python templates.
 func (g PythonGenerator) FuncMap() template.FuncMap { return nil }

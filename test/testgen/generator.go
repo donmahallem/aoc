@@ -21,7 +21,7 @@ type Generator interface {
 	TemplateName() string
 	OutputFilename() string
 	FuncMap() template.FuncMap
-	FormatExpected(v interface{}) string
+	FormatExpected(v interface{}, typeHint *string) string
 	GetTemplateData(dd DayTestData, yearPkg string) interface{}
 	GetOutputPath(outDir, yearPkg string, dd DayTestData) string
 	PrepareOutput(outPath string, dd DayTestData, opts GenerationOptions) error
@@ -43,7 +43,7 @@ func RegisterGenerator(name string, g Generator) {
 }
 
 // GenerateGeneric implements the common logic for generating tests using a Generator.
-func GenerateGeneric(gen Generator, data TestData, tmplDir, outDir string, opts GenerationOptions) error {
+func GenerateGeneric(gen Generator, lang string, data TestData, tmplDir, outDir string, opts GenerationOptions) error {
 	tmpl := template.New(gen.TemplateName())
 	if fm := gen.FuncMap(); fm != nil {
 		tmpl = tmpl.Funcs(fm)
@@ -60,7 +60,7 @@ func GenerateGeneric(gen Generator, data TestData, tmplDir, outDir string, opts 
 
 		for _, dayStr := range SortedKeys(days) {
 			cases := days[dayStr]
-			dd := ParseDayData(yearStr, dayStr, cases, gen.FormatExpected)
+			dd := ParseDayData(yearStr, dayStr, lang, cases, gen.FormatExpected)
 
 			outPath := gen.GetOutputPath(outDir, yearPkg, dd)
 			if opts.DryRun {

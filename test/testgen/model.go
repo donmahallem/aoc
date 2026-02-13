@@ -9,13 +9,23 @@ import (
 	"strings"
 )
 
+// PartSpec groups result, type hint, and per-language skips for a part.
+type PartSpec struct {
+	Result any      `json:"result"`
+	Type   *string  `json:"type,omitempty"`
+	Skip   []string `json:"skip_languages,omitempty"`
+}
+
 // TestCase matches the JSON schema: each entry has input OR file, and part1 and/or part2.
 type TestCase struct {
 	Input *string `json:"input,omitempty"`
 	File  *string `json:"file,omitempty"`
 	Name  string  `json:"name"`
-	Part1 any     `json:"part1,omitempty"`
-	Part2 any     `json:"part2,omitempty"`
+
+	Part1 *PartSpec `json:"part1,omitempty"`
+	Part2 *PartSpec `json:"part2,omitempty"`
+
+	SkipLangs []string `json:"skip_languages,omitempty"`
 }
 
 func (tc TestCase) IsInline() bool {
@@ -80,8 +90,6 @@ type DayTestData struct {
 	HasArrayResult bool // Whether any expected value is an array
 }
 
-// BaseTemplateData is the shared portion of template context across languages.
-// Language-specific generators can embed this and add their own fields.
 type BaseTemplateData struct {
 	Year           int
 	Day            int
@@ -96,18 +104,79 @@ type BaseTemplateData struct {
 
 type TestData map[string]map[string][]TestCase
 
-// isIntArray checks if an any value is a JSON array of numbers.
-func isIntArray(v any) bool {
+type arrayKind int
+
+const (
+	arrayKindNone arrayKind = iota
+	arrayKindInt
+	arrayKindInt16
+	arrayKindString
+	arrayKindInvalid
+)
+
+func classifyArray(v any) arrayKind {
 	arr, ok := v.([]any)
-	if !ok || len(arr) == 0 {
-		return false
+	if !ok {
+		return arrayKindNone
 	}
+	if len(arr) == 0 {
+		return arrayKindInvalid
+	}
+	kind := arrayKindNone
 	for _, elem := range arr {
-		if _, ok := elem.(float64); !ok {
-			return false
+		switch elem.(type) {
+		case float64:
+			if kind == arrayKindString {
+				return arrayKindInvalid
+			}
+			kind = arrayKindInt
+		case string:
+			if kind == arrayKindInt {
+				return arrayKindInvalid
+			}
+			kind = arrayKindString
+		default:
+			return arrayKindInvalid
 		}
 	}
-	return true
+	return kind
+}
+
+// resolveArrayKind returns the array kind, applying an optional type hint.
+// Hints may widen numeric arrays to int16 or enforce string arrays; mismatches are invalid.
+func resolveArrayKind(v any, typeHint *string) arrayKind {
+	base := classifyArray(v)
+	if typeHint == nil {
+		return base
+	}
+	switch *typeHint {
+	case "int":
+		if base == arrayKindNone {
+			return arrayKindInvalid
+		}
+		if base == arrayKindString {
+			return arrayKindInvalid
+		}
+		return arrayKindInt
+	case "int16":
+		if base == arrayKindNone {
+			return arrayKindInvalid
+		}
+		if base == arrayKindString {
+			return arrayKindInvalid
+		}
+		return arrayKindInt16
+	case "string":
+		if base == arrayKindNone {
+			return arrayKindInvalid
+		}
+		if base != arrayKindString {
+			return arrayKindInvalid
+		}
+		return arrayKindString
+	default:
+		return arrayKindInvalid
+	}
 }
 
 // FormatExpected returns a language-agnostic string representation of an expected value.
@@ -133,21 +202,35 @@ func FormatExpected(v any) string {
 }
 
 // FormatExpectedGo returns a Go-literal representation (strings are quoted).
-func FormatExpectedGo(v any) string {
+// typeHint allows choosing between int and int16 array element types (and scalar casts).
+func FormatExpectedGo(v any, typeHint *string) string {
 	switch val := v.(type) {
 	case float64:
 		if val == float64(int64(val)) {
+			if typeHint != nil && *typeHint == "int16" {
+				return fmt.Sprintf("int16(%d)", int64(val))
+			}
 			return strconv.FormatInt(int64(val), 10)
 		}
 		return strconv.FormatFloat(val, 'f', -1, 64)
 	case string:
 		return fmt.Sprintf("%q", val)
 	case []any:
+		kind := resolveArrayKind(val, typeHint)
 		parts := make([]string, len(val))
 		for i, elem := range val {
-			parts[i] = FormatExpectedGo(elem)
+			parts[i] = FormatExpectedGo(elem, typeHint)
 		}
-		return "[]int{" + strings.Join(parts, ", ") + "}"
+		switch kind {
+		case arrayKindInt:
+			return "[]int{" + strings.Join(parts, ", ") + "}"
+		case arrayKindInt16:
+			return "[]int16{" + strings.Join(parts, ", ") + "}"
+		case arrayKindString:
+			return "[]string{" + strings.Join(parts, ", ") + "}"
+		default:
+			panic(fmt.Sprintf("unsupported array contents: %#v", val))
+		}
 	default:
 		return fmt.Sprintf("%v", val)
 	}
@@ -203,6 +286,32 @@ func ValidateData(data TestData) error {
 				if !hasResult {
 					return fmt.Errorf("%s/%s test[%d] '%s': requires part1 and/or part2 expected values", year, day, i, tc.Name)
 				}
+
+				for partName, part := range map[string]*PartSpec{"part1": tc.Part1, "part2": tc.Part2} {
+					if part == nil {
+						continue
+					}
+					if part.Result == nil {
+						return fmt.Errorf("%s/%s test[%d] '%s': %s.result is required", year, day, i, tc.Name, partName)
+					}
+					if part.Type != nil {
+						switch *part.Type {
+						case "int", "int16", "string":
+						default:
+							return fmt.Errorf("%s/%s test[%d] '%s': %s.type must be one of int, int16, string", year, day, i, tc.Name, partName)
+						}
+					}
+					if kind := resolveArrayKind(part.Result, part.Type); kind == arrayKindInvalid {
+						return fmt.Errorf("%s/%s test[%d] '%s': %s arrays must be non-empty and contain only integers or only strings; optional type hint may be int, int16, or string", year, day, i, tc.Name, partName)
+					}
+					if err := validateLangList(part.Skip, partName+".skip_languages", year, day, i, tc.Name); err != nil {
+						return err
+					}
+				}
+
+				if err := validateLangList(tc.SkipLangs, "skip_languages", year, day, i, tc.Name); err != nil {
+					return err
+				}
 			}
 		}
 	}
@@ -210,7 +319,7 @@ func ValidateData(data TestData) error {
 }
 
 // ParseDayData converts raw test cases into a structured DayTestData.
-func ParseDayData(yearStr, dayStr string, testCases []TestCase, fmtExpected func(any) string) DayTestData {
+func ParseDayData(yearStr, dayStr string, lang string, testCases []TestCase, fmtExpected func(any, *string) string) DayTestData {
 	yearInt, _ := strconv.Atoi(yearStr)
 	dayInt, _ := strconv.Atoi(dayStr)
 	paddedDay := fmt.Sprintf("%02d", dayInt)
@@ -222,6 +331,12 @@ func ParseDayData(yearStr, dayStr string, testCases []TestCase, fmtExpected func
 	var inlineSamples []InlineSample
 
 	for _, testCase := range testCases {
+		overallSkip := shouldSkip(testCase.SkipLangs, lang)
+		p1Allowed := testCase.Part1 != nil && !overallSkip && !shouldSkip(testCase.Part1.Skip, lang)
+		p2Allowed := testCase.Part2 != nil && !overallSkip && !shouldSkip(testCase.Part2.Skip, lang)
+		if !p1Allowed && !p2Allowed {
+			continue
+		}
 		varName := ""
 		if testCase.IsInline() {
 			varName = SampleVarName(sampleIdx)
@@ -230,9 +345,10 @@ func ParseDayData(yearStr, dayStr string, testCases []TestCase, fmtExpected func
 				Input:   *testCase.Input,
 			})
 		}
-		if testCase.Part1 != nil {
+		if p1Allowed {
 			hasPart1 = true
-			p1IsArray := isIntArray(testCase.Part1)
+			p1Kind := resolveArrayKind(testCase.Part1.Result, testCase.Part1.Type)
+			p1IsArray := p1Kind == arrayKindInt || p1Kind == arrayKindInt16 || p1Kind == arrayKindString
 			if p1IsArray {
 				hasArrayResult = true
 			}
@@ -241,7 +357,7 @@ func ParseDayData(yearStr, dayStr string, testCases []TestCase, fmtExpected func
 					Index:    sampleIdx,
 					Name:     testCase.Name,
 					Input:    *testCase.Input,
-					Expected: fmtExpected(testCase.Part1),
+					Expected: fmtExpected(testCase.Part1.Result, testCase.Part1.Type),
 					Part:     1,
 					VarName:  varName,
 					IsArray:  p1IsArray,
@@ -250,15 +366,16 @@ func ParseDayData(yearStr, dayStr string, testCases []TestCase, fmtExpected func
 				p1.Files = append(p1.Files, FileTestEntry{
 					Name:     testCase.Name,
 					FilePath: *testCase.File,
-					Expected: fmtExpected(testCase.Part1),
+					Expected: fmtExpected(testCase.Part1.Result, testCase.Part1.Type),
 					Part:     1,
 					IsArray:  p1IsArray,
 				})
 			}
 		}
-		if testCase.Part2 != nil {
+		if p2Allowed {
 			hasPart2 = true
-			p2IsArray := isIntArray(testCase.Part2)
+			p2Kind := resolveArrayKind(testCase.Part2.Result, testCase.Part2.Type)
+			p2IsArray := p2Kind == arrayKindInt || p2Kind == arrayKindInt16 || p2Kind == arrayKindString
 			if p2IsArray {
 				hasArrayResult = true
 			}
@@ -267,7 +384,7 @@ func ParseDayData(yearStr, dayStr string, testCases []TestCase, fmtExpected func
 					Index:    sampleIdx,
 					Name:     testCase.Name,
 					Input:    *testCase.Input,
-					Expected: fmtExpected(testCase.Part2),
+					Expected: fmtExpected(testCase.Part2.Result, testCase.Part2.Type),
 					Part:     2,
 					VarName:  varName,
 					IsArray:  p2IsArray,
@@ -276,7 +393,7 @@ func ParseDayData(yearStr, dayStr string, testCases []TestCase, fmtExpected func
 				p2.Files = append(p2.Files, FileTestEntry{
 					Name:     testCase.Name,
 					FilePath: *testCase.File,
-					Expected: fmtExpected(testCase.Part2),
+					Expected: fmtExpected(testCase.Part2.Result, testCase.Part2.Type),
 					Part:     2,
 					IsArray:  p2IsArray,
 				})
@@ -306,6 +423,29 @@ func ParseDayData(yearStr, dayStr string, testCases []TestCase, fmtExpected func
 		dd.Part2 = &p2
 	}
 	return dd
+}
+
+func shouldSkip(skipList []string, lang string) bool {
+	for _, s := range skipList {
+		if s == lang {
+			return true
+		}
+	}
+	return false
+}
+
+func validateLangList(list []string, field, year, day string, idx int, name string) error {
+	for _, lang := range list {
+		if lang == "" {
+			return fmt.Errorf("%s/%s test[%d] '%s': %s entries must be non-empty", year, day, idx, name, field)
+		}
+		switch lang {
+		case "go", "python":
+		default:
+			return fmt.Errorf("%s/%s test[%d] '%s': %s entries must be one of go, python", year, day, idx, name, field)
+		}
+	}
+	return nil
 }
 
 // BuildBaseTemplateData constructs the reusable template context portion.

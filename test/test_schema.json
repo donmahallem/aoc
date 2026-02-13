@@ -17,6 +17,29 @@
         }
       ]
     },
+    "PartExpectation": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/TestResult"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["int", "int16", "string"],
+          "description": "Optional type hint for arrays; defaults to int for numeric arrays"
+        },
+        "skip_languages": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["go", "python"]
+          },
+          "description": "Optional list of languages to skip for this part"
+        }
+      },
+      "required": ["result"],
+      "additionalProperties": false
+    },
     "TestCase": {
       "type": "object",
       "properties": {
@@ -33,13 +56,21 @@
           "pattern": "^[a-z0-9_]+$",
           "description": "Unique test name used in generated test function/subtest names"
         },
+        "skip_languages": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["go", "python"]
+          },
+          "description": "Optional list of languages for which this entire test case should be skipped"
+        },
         "part1": {
-          "$ref": "#/definitions/TestResult",
-          "description": "Expected result for Part 1"
+          "$ref": "#/definitions/PartExpectation",
+          "description": "Expected result (and metadata) for Part 1"
         },
         "part2": {
-          "$ref": "#/definitions/TestResult",
-          "description": "Expected result for Part 2"
+          "$ref": "#/definitions/PartExpectation",
+          "description": "Expected result (and metadata) for Part 2"
         }
       },
       "required": ["name"],

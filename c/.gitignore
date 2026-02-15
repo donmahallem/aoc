@@ -1,0 +1,10 @@
+*
+!.gitignore
+!README.md
+!CMakeLists.txt
+!src/**/*.c
+!src/**/*.h
+!test/**/*.c
+!test/**/*.h
+!src/**/CMakeLists.txt
+!test/**/CMakeLists.txt

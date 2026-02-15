@@ -17,6 +17,10 @@ component_management:
       name: CPP
       paths:
         - cpp/**
+    - component_id: module_c
+      name: C
+      paths:
+        - c/**
 comment: # this is a top-level key
   layout: " diff, flags, files"
   behavior: default

@@ -14,6 +14,12 @@
       "template_dir": "../cpp",
       "source_dir": "../../cpp/src",
       "create_missing_dirs": true
+    },
+    "c": {
+      "output_dir": "../../c/test",
+      "template_dir": "../c",
+      "source_dir": "../../c/src",
+      "create_missing_dirs": true
     }
   }
 }

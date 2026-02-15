@@ -45,12 +45,9 @@ type SampleEntry struct {
 	Part     int
 	VarName  string // Variable name to reference in generated code (e.g. testData, testData2)
 	IsArray  bool   // Whether the expected value is an array (e.g. []int)
-}
-
-// InlineSample represents a unique inline sample input with its variable name.
-type InlineSample struct {
-	VarName string
-	Input   string
+	// ValueKind describes the concrete kind used by language generators for checking:
+	// one of: "i64", "u64", "cstr", "i64_array", "i16_array", "cstr_array".
+	ValueKind string
 }
 
 // SampleVarName returns the variable name for an inline sample at the given index.
@@ -61,13 +58,20 @@ func SampleVarName(index int) string {
 	return fmt.Sprintf("testData%d", index+1)
 }
 
+// InlineSample represents a unique inline sample input with its variable name.
+type InlineSample struct {
+	VarName string
+	Input   string
+}
+
 // FileTestEntry represents a file-based test case for a specific part.
 type FileTestEntry struct {
-	Name     string
-	FilePath string
-	Expected string
-	Part     int
-	IsArray  bool // Whether the expected value is an array (e.g. []int)
+	Name      string
+	FilePath  string
+	Expected  string
+	Part      int
+	IsArray   bool // Whether the expected value is an array (e.g. []int)
+	ValueKind string
 }
 
 // PartData holds the parsed test data for a single part of a day.
@@ -299,6 +303,40 @@ func FormatExpectedPython(v any) string {
 	}
 }
 
+// FormatExpectedC returns a C-literal representation suitable for inclusion
+// in generated C test files. Arrays are returned as brace-initializers such as
+// "{1, 2}" or {"a", "b"} (strings are quoted).
+func FormatExpectedC(v any, typeHint *string) string {
+	switch val := v.(type) {
+	case float64:
+		if val == float64(int64(val)) {
+			if typeHint != nil && *typeHint == "int16" {
+				return fmt.Sprintf("(int16_t)%d", int64(val))
+			}
+			return strconv.FormatInt(int64(val), 10)
+		}
+		return strconv.FormatFloat(val, 'f', -1, 64)
+	case string:
+		return fmt.Sprintf("%q", val)
+	case []any:
+		kind := resolveArrayKind(val, typeHint)
+		parts := make([]string, len(val))
+		for i, elem := range val {
+			parts[i] = FormatExpectedC(elem, typeHint)
+		}
+		switch kind {
+		case arrayKindInt, arrayKindInt16:
+			return "{" + strings.Join(parts, ", ") + "}"
+		case arrayKindString:
+			return "{" + strings.Join(parts, ", ") + "}"
+		default:
+			panic(fmt.Sprintf("unsupported array contents: %#v", val))
+		}
+	default:
+		return fmt.Sprintf("%v", val)
+	}
+}
+
 // LoadData reads and parses the data.json file.
 func LoadData(path string) (*TestData, error) {
 	raw, err := os.ReadFile(path)
@@ -394,23 +432,47 @@ func ParseDayData(yearStr, dayStr string, lang string, testCases []TestCase, fmt
 			if p1IsArray {
 				hasArrayResult = true
 			}
+
+			// Determine a language-agnostic ValueKind to help generators (C needs this).
+			var valueKind string
+			if p1IsArray {
+				switch p1Kind {
+				case arrayKindInt:
+					valueKind = "i64_array"
+				case arrayKindInt16:
+					valueKind = "i16_array"
+				case arrayKindString:
+					valueKind = "cstr_array"
+				}
+			} else {
+				// decide between string vs numeric
+				switch testCase.Part1.Result.(type) {
+				case string:
+					valueKind = "cstr"
+				default:
+					valueKind = "i64"
+				}
+			}
+
 			if testCase.IsInline() {
 				p1.Samples = append(p1.Samples, SampleEntry{
-					Index:    sampleIdx,
-					Name:     testCase.Name,
-					Input:    *testCase.Input,
-					Expected: fmtExpected(testCase.Part1.Result, testCase.Part1.Type),
-					Part:     1,
-					VarName:  varName,
-					IsArray:  p1IsArray,
+					Index:     sampleIdx,
+					Name:      testCase.Name,
+					Input:     *testCase.Input,
+					Expected:  fmtExpected(testCase.Part1.Result, testCase.Part1.Type),
+					Part:      1,
+					VarName:   varName,
+					IsArray:   p1IsArray,
+					ValueKind: valueKind,
 				})
 			} else if testCase.IsFile() {
 				p1.Files = append(p1.Files, FileTestEntry{
-					Name:     testCase.Name,
-					FilePath: *testCase.File,
-					Expected: fmtExpected(testCase.Part1.Result, testCase.Part1.Type),
-					Part:     1,
-					IsArray:  p1IsArray,
+					Name:      testCase.Name,
+					FilePath:  *testCase.File,
+					Expected:  fmtExpected(testCase.Part1.Result, testCase.Part1.Type),
+					Part:      1,
+					IsArray:   p1IsArray,
+					ValueKind: valueKind,
 				})
 			}
 		}
@@ -421,23 +483,47 @@ func ParseDayData(yearStr, dayStr string, lang string, testCases []TestCase, fmt
 			if p2IsArray {
 				hasArrayResult = true
 			}
+
+			// Determine a language-agnostic ValueKind to help generators (C needs this).
+			var valueKind string
+			if p2IsArray {
+				switch p2Kind {
+				case arrayKindInt:
+					valueKind = "i64_array"
+				case arrayKindInt16:
+					valueKind = "i16_array"
+				case arrayKindString:
+					valueKind = "cstr_array"
+				}
+			} else {
+				// scalar: decide between string vs numeric
+				switch testCase.Part2.Result.(type) {
+				case string:
+					valueKind = "cstr"
+				default:
+					valueKind = "i64"
+				}
+			}
+
 			if testCase.IsInline() {
 				p2.Samples = append(p2.Samples, SampleEntry{
-					Index:    sampleIdx,
-					Name:     testCase.Name,
-					Input:    *testCase.Input,
-					Expected: fmtExpected(testCase.Part2.Result, testCase.Part2.Type),
-					Part:     2,
-					VarName:  varName,
-					IsArray:  p2IsArray,
+					Index:     sampleIdx,
+					Name:      testCase.Name,
+					Input:     *testCase.Input,
+					Expected:  fmtExpected(testCase.Part2.Result, testCase.Part2.Type),
+					Part:      2,
+					VarName:   varName,
+					IsArray:   p2IsArray,
+					ValueKind: valueKind,
 				})
 			} else if testCase.IsFile() {
 				p2.Files = append(p2.Files, FileTestEntry{
-					Name:     testCase.Name,
-					FilePath: *testCase.File,
-					Expected: fmtExpected(testCase.Part2.Result, testCase.Part2.Type),
-					Part:     2,
-					IsArray:  p2IsArray,
+					Name:      testCase.Name,
+					FilePath:  *testCase.File,
+					Expected:  fmtExpected(testCase.Part2.Result, testCase.Part2.Type),
+					Part:      2,
+					IsArray:   p2IsArray,
+					ValueKind: valueKind,
 				})
 			}
 		}

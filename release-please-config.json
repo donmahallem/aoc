@@ -1,5 +1,4 @@
 {
-
   "separate-pull-requests": true,
   "group-pull-request-title-pattern": "chore: release ${component}",
   "packages": {
@@ -14,6 +13,10 @@
     "cpp": {
       "release-type": "simple",
       "component": "aoc-cpp"
+    },
+    "c": {
+      "release-type": "simple",
+      "component": "aoc-c"
     }
   }
 }

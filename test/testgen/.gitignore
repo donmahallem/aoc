@@ -1,0 +1,6 @@
+*
+!config.json
+!*.go
+!go.mod
+!go.sum
+!.gitignore

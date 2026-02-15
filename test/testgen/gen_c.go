@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"text/template"
 )
@@ -62,7 +63,34 @@ func (g *CGenerator) FuncMap() template.FuncMap {
 }
 
 func (g *CGenerator) FormatExpected(v interface{}, typeHint *string) string {
-	return FormatExpectedC(v, typeHint)
+	switch val := v.(type) {
+	case float64:
+		if val == float64(int64(val)) {
+			if typeHint != nil && *typeHint == "int16" {
+				return fmt.Sprintf("(int16_t)%d", int64(val))
+			}
+			return strconv.FormatInt(int64(val), 10)
+		}
+		return strconv.FormatFloat(val, 'f', -1, 64)
+	case string:
+		return fmt.Sprintf("%q", val)
+	case []any:
+		kind := resolveArrayKind(val, typeHint)
+		parts := make([]string, len(val))
+		for i, elem := range val {
+			parts[i] = g.FormatExpected(elem, typeHint)
+		}
+		switch kind {
+		case arrayKindInt, arrayKindInt16:
+			return "{" + strings.Join(parts, ", ") + "}"
+		case arrayKindString:
+			return "{" + strings.Join(parts, ", ") + "}"
+		default:
+			panic(fmt.Sprintf("unsupported array contents: %#v", val))
+		}
+	default:
+		return fmt.Sprintf("%v", val)
+	}
 }
 
 func (g *CGenerator) GetTemplateData(dd DayTestData, yearPkg string) interface{} {

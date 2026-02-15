@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
+	"strings"
 	"text/template"
 )
 
@@ -37,7 +39,41 @@ func (g CppGenerator) FuncMap() template.FuncMap {
 
 // FormatExpected formats expected values for C++ literals.
 func (g CppGenerator) FormatExpected(v interface{}, typeHint *string) string {
-	return FormatExpectedCpp(v, typeHint)
+	switch val := v.(type) {
+	case float64:
+		if val == float64(int64(val)) {
+			iv := int64(val)
+			if typeHint != nil && *typeHint == "int16" {
+				return fmt.Sprintf("static_cast<int16_t>(%d)", iv)
+			}
+			// Use LL suffix for values that don't fit in 32-bit int
+			if iv > 2147483647 || iv < -2147483648 {
+				return fmt.Sprintf("%dLL", iv)
+			}
+			return strconv.FormatInt(iv, 10)
+		}
+		return strconv.FormatFloat(val, 'f', -1, 64)
+	case string:
+		return fmt.Sprintf("std::string(%q)", val)
+	case []any:
+		kind := resolveArrayKind(val, typeHint)
+		parts := make([]string, len(val))
+		for i, elem := range val {
+			parts[i] = g.FormatExpected(elem, typeHint)
+		}
+		switch kind {
+		case arrayKindInt:
+			return "std::vector<int>{" + strings.Join(parts, ", ") + "}"
+		case arrayKindInt16:
+			return "std::vector<int16_t>{" + strings.Join(parts, ", ") + "}"
+		case arrayKindString:
+			return "std::vector<std::string>{" + strings.Join(parts, ", ") + "}"
+		default:
+			panic(fmt.Sprintf("unsupported array contents: %#v", val))
+		}
+	default:
+		return fmt.Sprintf("%v", val)
+	}
 }
 
 // GetTemplateData returns the C++ template data.

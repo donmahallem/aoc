@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os/exec"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"text/template"
 )
@@ -30,8 +31,24 @@ func (g PythonGenerator) TemplateName() string { return "test_generated.py.tmpl"
 func (g PythonGenerator) OutputFilename() string { return "test_generated.py" }
 
 // FormatExpected formats expected values for Python literals.
-func (g PythonGenerator) FormatExpected(v interface{}, _ *string) string {
-	return FormatExpectedPython(v)
+func (g PythonGenerator) FormatExpected(v interface{}, typeHint *string) string {
+	switch val := v.(type) {
+	case float64:
+		if val == float64(int64(val)) {
+			return strconv.FormatInt(int64(val), 10)
+		}
+		return strconv.FormatFloat(val, 'f', -1, 64)
+	case string:
+		return fmt.Sprintf("%q", val)
+	case []any:
+		parts := make([]string, len(val))
+		for i, elem := range val {
+			parts[i] = g.FormatExpected(elem, typeHint)
+		}
+		return "[" + strings.Join(parts, ", ") + "]"
+	default:
+		return fmt.Sprintf("%v", val)
+	}
 }
 
 // FuncMap returns nil (no custom functions) for Python templates.

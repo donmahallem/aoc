@@ -2,8 +2,12 @@
 !.gitignore
 !README.md
 !CMakeLists.txt
+!src/
+!src/**/
 !src/**/*.c
 !src/**/*.h
+!test/
+!test/**/
 !test/**/*.c
 !test/**/*.h
 !src/**/CMakeLists.txt

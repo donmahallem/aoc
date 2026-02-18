@@ -35,7 +35,7 @@ aoc_error_t aoc24_day03_part2(FILE *in, aoc_result_t *out_result)
             switch (fgetc(in))
             {
             case 'n':
-                // found "don", disable mul until end of line
+                // found "don", disable mul
                 if (fgetc(in) != '\'')
                 {
                     fseek(in, -1, SEEK_CUR);

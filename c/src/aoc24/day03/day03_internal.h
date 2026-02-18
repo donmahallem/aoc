@@ -15,16 +15,12 @@ static inline int read_int(FILE *in, int *out, int *nums)
             *out = (*out * 10) + (c - '0');
             (*nums)++;
         }
-        else if (c == ',' || c == ')')
+        else
         {
             return c;
         }
-        else
-        {
-            return 0;
-        }
     }
-    return 0;
+    return EOF;
 }
 
 static inline int parse_mul(FILE *in, int *product)
@@ -45,23 +41,35 @@ static inline int parse_mul(FILE *in, int *product)
         return 1;
     }
 
-    int value = 0;
-    int parsedNums = 0;
+    int value1 = 0;
+    int parsedCount1 = 0;
     int endChar;
-    endChar = read_int(in, &value, &parsedNums);
-    if (endChar != ',' || parsedNums < 1)
+
+    endChar = read_int(in, &value1, &parsedCount1);
+    // Numbers can be 1-3 digits
+    if (endChar != ',' || parsedCount1 < 1 || parsedCount1 > 3)
     {
-        fseek(in, -1, SEEK_CUR);
+        if (endChar != EOF)
+        {
+            fseek(in, -1, SEEK_CUR);
+        }
         return 1;
     }
-    *product = value;
-    endChar = read_int(in, &value, &parsedNums);
-    if (endChar != ')' || parsedNums < 1)
+
+    int value2 = 0;
+    int parsedCount2 = 0;
+
+    endChar = read_int(in, &value2, &parsedCount2);
+    if (endChar != ')' || parsedCount2 < 1 || parsedCount2 > 3)
     {
-        fseek(in, -1, SEEK_CUR);
+        if (endChar != EOF)
+        {
+            fseek(in, -1, SEEK_CUR);
+        }
         return 1;
     }
-    *product *= value;
+
+    *product = value1 * value2;
     return 0;
 }
 #endif

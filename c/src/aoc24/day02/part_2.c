@@ -1,4 +1,5 @@
 #include "aoc24/day02/day02.h"
+#include "aoc24/day02/day02_internal.h"
 
 #include <string.h>
 

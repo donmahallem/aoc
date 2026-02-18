@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include "aoc24/day01/day01_internal.h"
 
 aoc_error_t aoc24_day01_part2(FILE *in, aoc_result_t *out_result)
 {

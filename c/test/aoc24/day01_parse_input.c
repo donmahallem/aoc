@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "aoc24/day01/day01.h"
+#include "aoc24/day01/day01_internal.h"
 
 static void test_day01_parse_input_valid(void)
 {

@@ -4,12 +4,15 @@
 #define TEST_DATA_DIR ""
 #endif
 
-#include <assert.h>
+#include "unity.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "aoc24/day01/day01_internal.h"
+
+void setUp(void) {}
+void tearDown(void) {}
 
 static void test_day01_parse_input_valid(void)
 {
@@ -18,19 +21,25 @@ static void test_day01_parse_input_valid(void)
     size_t n = 0;
     aoc_error_t err;
 
-    assert(in != NULL);
+    TEST_ASSERT_NOT_NULL(in);
     fputs("3 4\n4 3\n2 5\n1 3\n3 9\n3 3\n", in);
     rewind(in);
 
     err = aoc24_day01_parse_input(in, &left, &right, &n);
-    assert(err == AOC_OK);
-    assert(n == 6);
-    assert(left[0] == 3 && right[0] == 4);
-    assert(left[1] == 4 && right[1] == 3);
-    assert(left[2] == 2 && right[2] == 5);
-    assert(left[3] == 1 && right[3] == 3);
-    assert(left[4] == 3 && right[4] == 9);
-    assert(left[5] == 3 && right[5] == 3);
+    TEST_ASSERT_EQUAL(AOC_OK, err);
+    TEST_ASSERT_EQUAL_UINT64(6, n);
+    TEST_ASSERT_EQUAL_INT64(3, left[0]);
+    TEST_ASSERT_EQUAL_INT64(4, right[0]);
+    TEST_ASSERT_EQUAL_INT64(4, left[1]);
+    TEST_ASSERT_EQUAL_INT64(3, right[1]);
+    TEST_ASSERT_EQUAL_INT64(2, left[2]);
+    TEST_ASSERT_EQUAL_INT64(5, right[2]);
+    TEST_ASSERT_EQUAL_INT64(1, left[3]);
+    TEST_ASSERT_EQUAL_INT64(3, right[3]);
+    TEST_ASSERT_EQUAL_INT64(3, left[4]);
+    TEST_ASSERT_EQUAL_INT64(9, right[4]);
+    TEST_ASSERT_EQUAL_INT64(3, left[5]);
+    TEST_ASSERT_EQUAL_INT64(3, right[5]);
 
     free(left);
     free(right);
@@ -47,10 +56,12 @@ static void test_day01_parse_input_skips_blanks(void)
     rewind(in);
 
     aoc_error_t err = aoc24_day01_parse_input(in, &left, &right, &n);
-    assert(err == AOC_OK);
-    assert(n == 2);
-    assert(left[0] == 3 && right[0] == 4);
-    assert(left[1] == 4 && right[1] == 3);
+    TEST_ASSERT_EQUAL(AOC_OK, err);
+    TEST_ASSERT_EQUAL_UINT64(2, n);
+    TEST_ASSERT_EQUAL_INT64(3, left[0]);
+    TEST_ASSERT_EQUAL_INT64(4, right[0]);
+    TEST_ASSERT_EQUAL_INT64(4, left[1]);
+    TEST_ASSERT_EQUAL_INT64(3, right[1]);
 
     free(left);
     free(right);
@@ -67,8 +78,8 @@ static void test_day01_parse_input_empty_only(void)
     rewind(in);
 
     aoc_error_t err = aoc24_day01_parse_input(in, &left, &right, &n);
-    assert(err == AOC_OK);
-    assert(n == 0);
+    TEST_ASSERT_EQUAL(AOC_OK, err);
+    TEST_ASSERT_EQUAL_UINT64(0, n);
     /* parser still returns allocated buffers; free them */
     free(left);
     free(right);
@@ -85,7 +96,7 @@ static void test_day01_parse_input_invalid_characters(void)
     rewind(in);
 
     aoc_error_t err = aoc24_day01_parse_input(in, &left, &right, &n);
-    assert(err == AOC_ERR_PARSE);
+    TEST_ASSERT_EQUAL(AOC_ERR_PARSE, err);
     /* nothing allocated on error path (or freed by caller) */
     fclose(in);
 }
@@ -100,7 +111,7 @@ static void test_day01_parse_input_single_number_line(void)
     rewind(in);
 
     aoc_error_t err = aoc24_day01_parse_input(in, &left, &right, &n);
-    assert(err == AOC_ERR_PARSE);
+    TEST_ASSERT_EQUAL(AOC_ERR_PARSE, err);
     fclose(in);
 }
 
@@ -114,7 +125,7 @@ static void test_day01_parse_input_extra_trailing_junk(void)
     rewind(in);
 
     aoc_error_t err = aoc24_day01_parse_input(in, &left, &right, &n);
-    assert(err == AOC_ERR_PARSE);
+    TEST_ASSERT_EQUAL(AOC_ERR_PARSE, err);
     fclose(in);
 }
 
@@ -132,12 +143,12 @@ static void test_day01_parse_input_very_long_valid_input(void)
     rewind(in);
 
     aoc_error_t err = aoc24_day01_parse_input(in, &left, &right, &n);
-    assert(err == AOC_OK);
-    assert(n == 1000);
+    TEST_ASSERT_EQUAL(AOC_OK, err);
+    TEST_ASSERT_EQUAL_UINT64(1000, n);
     for (size_t i = 0; i < n; ++i)
     {
-        assert(left[i] == (int64_t)i);
-        assert(right[i] == (int64_t)(1000 - i));
+        TEST_ASSERT_EQUAL_INT64((int64_t)i, left[i]);
+        TEST_ASSERT_EQUAL_INT64((int64_t)(1000 - i), right[i]);
     }
 
     free(left);
@@ -147,12 +158,13 @@ static void test_day01_parse_input_very_long_valid_input(void)
 
 int main(void)
 {
-    test_day01_parse_input_valid();
-    test_day01_parse_input_skips_blanks();
-    test_day01_parse_input_empty_only();
-    test_day01_parse_input_invalid_characters();
-    test_day01_parse_input_single_number_line();
-    test_day01_parse_input_extra_trailing_junk();
-    test_day01_parse_input_very_long_valid_input();
-    return 0;
+    UNITY_BEGIN();
+    RUN_TEST(test_day01_parse_input_valid);
+    RUN_TEST(test_day01_parse_input_skips_blanks);
+    RUN_TEST(test_day01_parse_input_empty_only);
+    RUN_TEST(test_day01_parse_input_invalid_characters);
+    RUN_TEST(test_day01_parse_input_single_number_line);
+    RUN_TEST(test_day01_parse_input_extra_trailing_junk);
+    RUN_TEST(test_day01_parse_input_very_long_valid_input);
+    return UNITY_END();
 }

@@ -19,6 +19,11 @@ aoc_error_t aoc24_day04_part2(FILE *in, aoc_result_t *out_result)
     {
         for (idx = 0; lines[curLineIdx][idx] != '\0'; idx++)
         {
+            // ignore trailing empty lines. Just terminate on first empty line and ignore the rest of the file
+            if (lines[curLineIdx][idx] == '\n' && idx == 0)
+            {
+                break;
+            }
             if (expectedLineLength >= 0 && idx > expectedLineLength)
             {
                 return AOC_ERR_PARSE_UNEQUAL_LINES;

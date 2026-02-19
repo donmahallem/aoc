@@ -10,13 +10,13 @@
 typedef enum aoc_error
 {
     AOC_OK = 0,
-    AOC_ERR_NULL_ARG,
-    AOC_ERR_PARSE_UNEQUAL_LINES,
-    AOC_ERR_PARSE,
-    AOC_ERR_IO,
-    AOC_ERR_REGISTRY_FULL,
-    AOC_ERR_NOT_FOUND,
-    AOC_ERR_INVALID_PART,
+    AOC_ERR_NULL_ARG = 1,
+    AOC_ERR_PARSE_UNEQUAL_LINES = 2,
+    AOC_ERR_PARSE = 3,
+    AOC_ERR_IO = 4,
+    AOC_ERR_REGISTRY_FULL = 5,
+    AOC_ERR_NOT_FOUND = 6,
+    AOC_ERR_INVALID_PART = 7,
 } aoc_error_t;
 
 /**

@@ -5,89 +5,91 @@
 #define TEST_DATA_DIR ""
 #endif
 
-#include <assert.h>
+#include "unity.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "aoc24/day04/day04.h"
+
+void setUp(void) {}
+void tearDown(void) {}
 static void test_04_part1_sample(void)
 {
-    const char *path = TEST_DATA_DIR "/data/samples/24/04_sample.txt";
-    FILE *f = fopen(path, "r");
-    if (!f)
-    {
-        printf("missing %s\n", path);
-        return;
+    const char* path = TEST_DATA_DIR "/data/samples/24/04_sample.txt";
+    FILE* f = fopen(path, "r");
+    if (!f) {
+        char msg[512];
+        snprintf(msg, sizeof(msg), "missing %s", path);
+        TEST_FAIL_MESSAGE(msg);
     }
 
     aoc_result_t result;
     aoc_error_t err = aoc24_day04_part1(f, &result);
     fclose(f);
-    assert(err == AOC_OK);
-    assert(result.kind == AOC_RESULT_I64);
-    assert(result.value.i64 == 18);
+    TEST_ASSERT_EQUAL(AOC_OK, err);
+    TEST_ASSERT_EQUAL(AOC_RESULT_I64, result.kind);
+    TEST_ASSERT_EQUAL_INT64(18, result.value.i64);
 }
 static void test_04_part1_full_data(void)
 {
-    fprintf(stderr, "Running part 1 full data...\n");
-    const char *path = TEST_DATA_DIR "/data/full/24/04.txt";
-    FILE *f = fopen(path, "r");
-    if (!f)
-    {
-        printf("missing %s\n", path);
-        return;
+    const char* path = TEST_DATA_DIR "/data/full/24/04.txt";
+    FILE* f = fopen(path, "r");
+    if (!f) {
+        char msg[512];
+        snprintf(msg, sizeof(msg), "missing %s", path);
+        TEST_FAIL_MESSAGE(msg);
     }
 
     aoc_result_t result;
     aoc_error_t err = aoc24_day04_part1(f, &result);
     fclose(f);
-    assert(err == AOC_OK);
-    assert(result.kind == AOC_RESULT_I64);
-    assert(result.value.i64 == 2618);
+    TEST_ASSERT_EQUAL(AOC_OK, err);
+    TEST_ASSERT_EQUAL(AOC_RESULT_I64, result.kind);
+    TEST_ASSERT_EQUAL_INT64(2618, result.value.i64);
 }
 static void test_04_part2_sample(void)
 {
-    fprintf(stderr, "Running part 2 sample data...\n");
-    const char *path = TEST_DATA_DIR "/data/samples/24/04_sample.txt";
-    FILE *f = fopen(path, "r");
-    if (!f)
-    {
-        printf("missing %s\n", path);
-        return;
+    const char* path = TEST_DATA_DIR "/data/samples/24/04_sample.txt";
+    FILE* f = fopen(path, "r");
+    if (!f) {
+        char msg[512];
+        snprintf(msg, sizeof(msg), "missing %s", path);
+        TEST_FAIL_MESSAGE(msg);
     }
 
     aoc_result_t result;
     aoc_error_t err = aoc24_day04_part2(f, &result);
     fclose(f);
-    assert(err == AOC_OK);
-    assert(result.kind == AOC_RESULT_I64);
-    assert(result.value.i64 == 9);
+    TEST_ASSERT_EQUAL(AOC_OK, err);
+    TEST_ASSERT_EQUAL(AOC_RESULT_I64, result.kind);
+    TEST_ASSERT_EQUAL_INT64(9, result.value.i64);
 }
 static void test_04_part2_full_data(void)
 {
-    fprintf(stderr, "Running part 2 full data...\n");
-    const char *path = TEST_DATA_DIR "/data/full/24/04.txt";
-    FILE *f = fopen(path, "r");
-    if (!f)
-    {
-        printf("missing %s\n", path);
-        return;
+    const char* path = TEST_DATA_DIR "/data/full/24/04.txt";
+    FILE* f = fopen(path, "r");
+    if (!f) {
+        char msg[512];
+        snprintf(msg, sizeof(msg), "missing %s", path);
+        TEST_FAIL_MESSAGE(msg);
     }
 
     aoc_result_t result;
     aoc_error_t err = aoc24_day04_part2(f, &result);
     fclose(f);
-    assert(err == AOC_OK);
-    assert(result.kind == AOC_RESULT_I64);
-    assert(result.value.i64 == 2011);
+    TEST_ASSERT_EQUAL(AOC_OK, err);
+    TEST_ASSERT_EQUAL(AOC_RESULT_I64, result.kind);
+    TEST_ASSERT_EQUAL_INT64(2011, result.value.i64);
 }
 
 int main(void)
 {
-    test_04_part1_sample();
-    test_04_part1_full_data();
-    test_04_part2_sample();
-    test_04_part2_full_data();
-    return 0;
+    UNITY_BEGIN();
+    RUN_TEST(test_04_part1_sample);
+    RUN_TEST(test_04_part1_full_data);
+    RUN_TEST(test_04_part2_sample);
+    RUN_TEST(test_04_part2_full_data);
+
+    return UNITY_END();
 }

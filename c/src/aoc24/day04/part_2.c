@@ -68,7 +68,7 @@ aoc_error_t aoc24_day04_part2(FILE *in, aoc_result_t *out_result)
         {
             expectedLineLength = idx;
         }
-        else if (idx != expectedLineLength)
+        else if (idx < expectedLineLength - 1)
         {
             return AOC_ERR_PARSE_UNEQUAL_LINES;
         }

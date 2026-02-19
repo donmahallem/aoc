@@ -1,0 +1,5 @@
+# Ensure test data is checked out with LF line endings
+test/data/** text eol=lf
+# Make sure common text formats use LF
+*.txt text eol=lf
+*.md text eol=lf

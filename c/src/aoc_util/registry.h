@@ -11,6 +11,7 @@ typedef enum aoc_error
 {
     AOC_OK = 0,
     AOC_ERR_NULL_ARG,
+    AOC_ERR_PARSE_UNEQUAL_LINES,
     AOC_ERR_PARSE,
     AOC_ERR_IO,
     AOC_ERR_REGISTRY_FULL,

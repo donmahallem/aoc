@@ -1,87 +1,84 @@
 #include "aoc24/day04/day04.h"
+#include <string.h>
+#include <stdbool.h>
+
+/* Streaming, memory-friendly Part 2 parser with robust trimmed-line handling and explicit bounds checks. */
 
 aoc_error_t aoc24_day04_part2(FILE *in, aoc_result_t *out_result)
 {
-
     if (in == NULL || out_result == NULL)
         return AOC_ERR_NULL_ARG;
 
     char lines[3][AOC24_DAY04_MAX_LINE_LENGTH];
+    int line_len[3] = {0};
 
-    // check if line length varies
     int expectedLineLength = -1;
-    int totalCount = 0;
-    int lineIdx = 0;
     int crossCount = 0;
-    int idx;
+    int lineIdx = 0;
     int curLineIdx;
-    while ((fgets(lines[curLineIdx = lineIdx % 3], AOC24_DAY04_MAX_LINE_LENGTH, in)) != NULL)
+    bool seen_content = false;
+
+    while (fgets(lines[curLineIdx = lineIdx % 3], AOC24_DAY04_MAX_LINE_LENGTH, in) != NULL)
     {
-        for (idx = 0; lines[curLineIdx][idx] != '\0'; idx++)
+        /* trim newline/CR */
+        size_t len = strlen(lines[curLineIdx]);
+        while (len > 0 && (lines[curLineIdx][len - 1] == '\n' || lines[curLineIdx][len - 1] == '\r'))
         {
-            // ignore trailing empty lines. Just terminate on first empty line and ignore the rest of the file
-            if (lines[curLineIdx][idx] == '\n' && idx == 0)
-            {
-                break;
-            }
-            if (expectedLineLength >= 0 && idx > expectedLineLength)
-            {
-                return AOC_ERR_PARSE_UNEQUAL_LINES;
-            }
-            char c = lines[curLineIdx][idx];
-
-            if (lineIdx >= 2)
-            {
-
-                int midLineIdx = (curLineIdx + 2) % 3;
-                int topLineIdx = (curLineIdx + 1) % 3;
-                int botLineIdx = curLineIdx;
-
-                if (idx > 0 && idx < expectedLineLength - 1 && lines[midLineIdx][idx] == 'A')
-                {
-                    // Check diagonals
-                    // M . S
-                    // . A .
-                    // M . S
-
-                    // Diagonal 1 (Top-Left to Bottom-Right)
-                    int d1_valid = 0;
-                    char tl = lines[topLineIdx][idx - 1];
-                    char br = lines[botLineIdx][idx + 1];
-                    if ((tl == 'M' && br == 'S') || (tl == 'S' && br == 'M'))
-                    {
-                        d1_valid = 1;
-                    }
-
-                    // Diagonal 2 (Top-Right to Bottom-Left)
-                    int d2_valid = 0;
-                    char tr = lines[topLineIdx][idx + 1];
-                    char bl = lines[botLineIdx][idx - 1];
-                    if ((tr == 'M' && bl == 'S') || (tr == 'S' && bl == 'M'))
-                    {
-                        d2_valid = 1;
-                    }
-
-                    if (d1_valid && d2_valid)
-                    {
-                        totalCount++;
-                    }
-                }
-            }
+            lines[curLineIdx][--len] = '\0';
         }
+        line_len[curLineIdx] = (int)len;
+
+        if (len == 0)
+        {
+            if (!seen_content)
+            {
+                lineIdx++;
+                continue;
+            }
+            break;
+        }
+
+        seen_content = true;
+
         if (expectedLineLength == -1)
-        {
-            expectedLineLength = idx;
-        }
-        else if (idx < expectedLineLength - 1)
-        {
+            expectedLineLength = (int)len;
+        else if ((int)len != expectedLineLength)
             return AOC_ERR_PARSE_UNEQUAL_LINES;
+
+        // when we have a full 3-line window available, check the middle row for crosses
+        if (lineIdx >= 2)
+        {
+            const int mid = (curLineIdx + 2) % 3;
+            const int top = (curLineIdx + 1) % 3;
+            const int bot = curLineIdx;
+
+            // only indices with neighbors on both sides can be centers
+            for (int idx = 1; idx + 1 < expectedLineLength; ++idx)
+            {
+                if (lines[mid][idx] != 'A')
+                    continue;
+
+                // diagonal top-left / bot-right
+                char tl = lines[top][idx - 1];
+                char br = lines[bot][idx + 1];
+                bool d1 = (tl == 'M' && br == 'S') || (tl == 'S' && br == 'M');
+
+                // diagonal top-right / bot-left
+                char tr = lines[top][idx + 1];
+                char bl = lines[bot][idx - 1];
+                bool d2 = (tr == 'M' && bl == 'S') || (tr == 'S' && bl == 'M');
+
+                if (d1 && d2)
+                    ++crossCount;
+            }
         }
+
         lineIdx++;
     }
+
     if (ferror(in) != 0)
         return AOC_ERR_IO;
 
-    AOC_RESULT_SET_I64(out_result, totalCount);
+    AOC_RESULT_SET_I64(out_result, crossCount);
     return AOC_OK;
 }

@@ -8,32 +8,24 @@ aoc_error_t aoc24_day04_part1(FILE *in, aoc_result_t *out_result)
         return AOC_ERR_NULL_ARG;
 
     char lines[4][AOC24_DAY04_MAX_LINE_LENGTH];
-    int line_len[4] = {0};
 
     int expectedLineLength = -1;
     int totalCount = 0;
-    int lineIdx = 0;
+    int nonblank = 0;
     int curLineIdx;
     bool seen_content = false;
 
-    while (fgets(lines[curLineIdx = lineIdx % 4], AOC24_DAY04_MAX_LINE_LENGTH, in) != NULL)
+    while (fgets(lines[0], AOC24_DAY04_MAX_LINE_LENGTH, in) != NULL)
     {
         // trim newline/CR
-        size_t len = strlen(lines[curLineIdx]);
-        while (len > 0 && (lines[curLineIdx][len - 1] == '\n' || lines[curLineIdx][len - 1] == '\r'))
-        {
-            lines[curLineIdx][--len] = '\0';
-        }
-        line_len[curLineIdx] = (int)len;
+        size_t len = strlen(lines[0]);
+        while (len > 0 && (lines[0][len - 1] == '\n' || lines[0][len - 1] == '\r'))
+            lines[0][--len] = '\0';
 
         if (len == 0)
         {
             if (!seen_content)
-            {
-                // skip leading blank lines
-                lineIdx++;
                 continue;
-            }
             break;
         }
 
@@ -43,6 +35,10 @@ aoc_error_t aoc24_day04_part1(FILE *in, aoc_result_t *out_result)
             expectedLineLength = (int)len;
         else if ((int)len != expectedLineLength)
             return AOC_ERR_PARSE_UNEQUAL_LINES;
+
+        curLineIdx = nonblank % 4;
+        if (curLineIdx != 0)
+            memmove(lines[curLineIdx], lines[0], len + 1);
 
         /* scan trimmed characters only */
         for (int idx = 0; idx < (int)len; ++idx)
@@ -62,7 +58,7 @@ aoc_error_t aoc24_day04_part1(FILE *in, aoc_result_t *out_result)
             }
 
             /* vertical/diagonal checks require 4 rows available */
-            if (lineIdx >= 3)
+            if (nonblank >= 3)
             {
                 /* vertical up */
                 if (c == 'X')
@@ -103,7 +99,7 @@ aoc_error_t aoc24_day04_part1(FILE *in, aoc_result_t *out_result)
             }
         }
 
-        lineIdx++;
+        nonblank++;
     }
 
     if (ferror(in) != 0)

@@ -23,7 +23,7 @@ static inline aoc_error_t parse_ordering_rules(FILE *in, struct page_ordering_ru
     int rule_buffer_capacity = 16;
     page_ordering_rules = malloc(sizeof(struct page_ordering_rule) * rule_buffer_capacity);
     if (page_ordering_rules == NULL)
-        return AOC_ERR_IO;
+        return AOC_ERR_NOMEM;
 
     char line[AOC24_DAY05_MAX_LINE_LENGTH];
     while (fgets(line, AOC24_DAY05_MAX_LINE_LENGTH, in) != NULL)
@@ -40,7 +40,7 @@ static inline aoc_error_t parse_ordering_rules(FILE *in, struct page_ordering_ru
             if (new_buffer == NULL)
             {
                 free(page_ordering_rules);
-                return AOC_ERR_IO;
+                return AOC_ERR_NOMEM;
             }
             page_ordering_rules = new_buffer;
         }

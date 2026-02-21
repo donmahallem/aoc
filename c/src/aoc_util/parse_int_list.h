@@ -23,4 +23,17 @@
  */
 aoc_error_t aoc_util_parse_int_list(const char *str, const char *seperator, int64_t **out_arr, size_t *out_size);
 
+/**
+ * Parses a single-character separated list of integers from the input string 'str'
+ * into a caller-provided buffer of fixed capacity.
+ *
+ * @param str The input string containing the list of integers.
+ * @param seperator Pointer to a character containing the separator string.
+ * @param out_arr Caller-provided buffer to store the integers.
+ * @param capacity Maximum number of integers that out_arr can hold.
+ * @param out_size Output parameter for the number of integers parsed.
+ * @return AOC_OK on success, AOC_ERR_PARSE on failure, or AOC_ERR_NULL_ARG if any argument is NULL.
+ */
+aoc_error_t aoc_util_parse_int_list_to_buf(const char *str, const char *seperator, int64_t *out_arr, size_t capacity, size_t *out_size);
+
 #endif /* AOC_UTIL_PARSE_INT_LIST_H */

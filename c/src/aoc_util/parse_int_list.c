@@ -47,7 +47,7 @@ aoc_error_t aoc_util_parse_int_list(const char *str, const char *seperator, int6
             if (new_arr == NULL)
             {
                 free(arr);
-                return AOC_ERR_IO;
+                return AOC_ERR_NOMEM;
             }
             arr = new_arr;
         }
@@ -91,7 +91,7 @@ aoc_error_t aoc_util_parse_int_list_to_buf(const char *str, const char *seperato
 
         if (size >= capacity)
         {
-            return AOC_ERR_IO;
+            return AOC_ERR_BUFFER_OVERFLOW;
         }
 
         out_arr[size++] = value;

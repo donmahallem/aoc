@@ -11,12 +11,20 @@ typedef enum aoc_error
 {
     AOC_OK = 0,
     AOC_ERR_NULL_ARG = 1,
+    // indicates that input lines had unequal lengths when equal length was expected
     AOC_ERR_PARSE_UNEQUAL_LINES = 2,
+    // general parsing error such as invalid format or unexpected characters in the input
     AOC_ERR_PARSE = 3,
+    // indicates an I/O error occured during parsing such as file read failure
     AOC_ERR_IO = 4,
     AOC_ERR_REGISTRY_FULL = 5,
     AOC_ERR_NOT_FOUND = 6,
+    // indicates that a requested part function is not implemented or invalid
     AOC_ERR_INVALID_PART = 7,
+    // indicates that a provided buffer was too small to hold the parsed results
+    AOC_ERR_BUFFER_OVERFLOW = 8,
+    // indicates a memory allocation failure
+    AOC_ERR_NOMEM = 9,
 } aoc_error_t;
 
 /**

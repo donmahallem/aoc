@@ -1,6 +1,5 @@
 #include "aoc24/day05/day05.h"
 
-#include <ctype.h>
 #include "aoc_util/registry.h"
 #include "aoc_util/parse_int_list.h"
 

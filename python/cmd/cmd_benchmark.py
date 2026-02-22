@@ -8,12 +8,15 @@ from typing import Dict, Optional, TypedDict
 import json
 import io
 
+
 class BenchmarkArgs(CommonArgs):
     # allow multiple values for year/day/part; argparse will supply lists
     year: Optional[list[int]]
     day: Optional[list[int]]
     part: Optional[list[int]]
     timeout: Optional[float]
+
+
 class ResultStats(TypedDict):
     iterations: int
     avg_ms: float
@@ -33,16 +36,20 @@ def run_benchmark(args: BenchmarkArgs):
     if args.part is not None:
         for y in solvers:
             for d in list(solvers[y].keys()):
-                solvers[y][d] = {p: fn for p, fn in solvers[y][d].items() if p in args.part}
+                solvers[y][d] = {
+                    p: fn
+                    for p, fn in solvers[y][d].items() if p in args.part
+                }
                 if not solvers[y][d]:
                     del solvers[y][d]
 
-    data_path = pathlib.Path(__file__).parent.parent.parent / "test" / "data.json"
+    data_path = pathlib.Path(
+        __file__).parent.parent.parent / "test" / "data.json"
     if not data_path.exists():
         print("Error: Test data not found.")
         return
     test_data = TestData.load(data_path)
-    
+
     timeout_limit = args.timeout if args.timeout else 1.0
 
     results: Dict[int, Dict[int, Dict[int, Dict[str, ResultStats]]]] = {}
@@ -58,7 +65,8 @@ def run_benchmark(args: BenchmarkArgs):
             cases = test_data[year][day]
             for idx, case in enumerate(cases):
                 name = case.get("name", f"case{idx}")
-                input_data = case.get("input") or (data_path.parent / case["file"]).read_text()
+                input_data = case.get("input") or (data_path.parent /
+                                                   case["file"]).read_text()
 
                 for part, solver in parts.items():
                     if f"part{part}" not in case:
@@ -74,7 +82,8 @@ def run_benchmark(args: BenchmarkArgs):
                         iterations += 1
                         elapsed = time.perf_counter() - bench_start
 
-                    avg_ms = (elapsed / iterations) * 1000 if iterations else 0.0
+                    avg_ms = (elapsed /
+                              iterations) * 1000 if iterations else 0.0
                     # insert stat into nested results
                     year_dict = results.setdefault(year, {})
                     day_dict = year_dict.setdefault(day, {})
@@ -95,13 +104,17 @@ def run_benchmark(args: BenchmarkArgs):
                     for stats in cases.values():
                         total_avg += stats['avg_ms']
 
-        print(f"\n{'YEAR':<6} | {'DAY':<4} | {'PART':<4} | {'NAME':<15} | {'ITERATIONS':>12} | {'AVG TIME (ms)':>15} | {'%':>6}")
+        print(
+            f"\n{'YEAR':<6} | {'DAY':<4} | {'PART':<4} | {'NAME':<15} | {'ITERATIONS':>12} | {'AVG TIME (ms)':>15} | {'%':>6}"
+        )
         print("-" * 103)
-        print()  
+        print()
         for year, days in results.items():
             for day, parts in days.items():
                 for part, cases in parts.items():
                     for name, stats in cases.items():
-                        pct = (stats['avg_ms'] / total_avg * 100) if total_avg > 0 else 0.0
-                        print(f"{year:<6} | {f'{day:02}':<4} | {part:<4} | {name:<15} | {stats['iterations']:>12} | {stats['avg_ms']:>15.4f} | {pct:6.2f}")
-
+                        pct = (stats['avg_ms'] / total_avg *
+                               100) if total_avg > 0 else 0.0
+                        print(
+                            f"{year:<6} | {f'{day:02}':<4} | {part:<4} | {name:<15} | {stats['iterations']:>12} | {stats['avg_ms']:>15.4f} | {pct:6.2f}"
+                        )

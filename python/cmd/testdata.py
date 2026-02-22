@@ -7,22 +7,27 @@ ResultType: TypeAlias = Literal["int", "int16", "string"]
 
 TestResult: TypeAlias = Union[int, str, List[Union[int, str]]]
 
+
 class PartExpectation(TypedDict, total=False):
-    result: TestResult  
+    result: TestResult
     type: ResultType
     skip_languages: List[Language]
 
+
 class TestCase(TypedDict, total=False):
-    name: str           
+    name: str
     input: Optional[str]
     file: Optional[str]
     skip_languages: List[Language]
     part1: PartExpectation
     part2: PartExpectation
 
+
 ParsedTestData: TypeAlias = Mapping[int, Mapping[int, List[TestCase]]]
 
+
 class TestData:
+
     def __init__(self, data: ParsedTestData):
         self._data = data
 
@@ -32,26 +37,27 @@ class TestData:
         path = pathlib.Path(path)
         if not path.exists():
             raise FileNotFoundError(f"Test data file not found: {path}")
-        
-        raw: Dict[str, Dict[str, List[TestCase]]] = json.loads(path.read_text())
-        
+
+        raw: Dict[str, Dict[str,
+                            List[TestCase]]] = json.loads(path.read_text())
+
         parsed: Dict[int, Dict[int, List[TestCase]]] = {}
-        
+
         for y_str, days in raw.items():
             year = int(y_str)
             parsed[year] = {int(d_str): cases for d_str, cases in days.items()}
-            
+
         return cls(parsed)
-    
+
     def get_year(self, year: int) -> Mapping[int, List[TestCase]]:
         return self._data.get(year, {})
 
     def get_day(self, year: int, day: int) -> List[TestCase]:
         return self._data.get(year, {}).get(day, [])
-    
+
     def has_year(self, year: int) -> bool:
         return year in self._data
-    
+
     def has_day(self, year: int, day: int) -> bool:
         return day in self._data.get(year, {})
 

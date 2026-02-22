@@ -22,9 +22,12 @@ if __name__ == "__main__":
 
     # 3. Benchmark Subparser
     bench_parser = sub_parsers.add_parser("benchmark", help="benchmarks problems")
-    bench_parser.add_argument("year", type=int, nargs='?', choices=SUPPORTED_YEARS, help="Optional Year")
-    bench_parser.add_argument("day", type=int, nargs='?', choices=SUPPORTED_DAYS, help="Optional Day")
-    bench_parser.add_argument("part", type=int, nargs='?', choices=SUPPORTED_PARTS, help="Optional Part")
+    bench_parser.add_argument("--year", "-y", type=int, nargs='+', choices=SUPPORTED_YEARS,
+                              help="Filter by year(s), e.g. --year 24 25")
+    bench_parser.add_argument("--day", "-d", type=int, nargs='+', choices=SUPPORTED_DAYS,
+                              help="Filter by day(s), e.g. --day 1 2 24")
+    bench_parser.add_argument("--part", "-p", type=int, nargs='+', choices=SUPPORTED_PARTS,
+                              help="Filter by part(s)")
     bench_parser.add_argument('-t', '--timeout', type=float, default=1.0,
                               help="Maximum time (seconds) to spend on each solver")
     bench_parser.set_defaults(func=run_benchmark)

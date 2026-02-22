@@ -9,9 +9,10 @@ import json
 import io
 
 class BenchmarkArgs(CommonArgs):
-    year: Optional[int]
-    day: Optional[int]
-    part: Optional[int]
+    # allow multiple values for year/day/part; argparse will supply lists
+    year: Optional[list[int]]
+    day: Optional[list[int]]
+    part: Optional[list[int]]
     timeout: Optional[float]
 class ResultStats(TypedDict):
     iterations: int
@@ -23,16 +24,16 @@ def run_benchmark(args: BenchmarkArgs):
     solvers = collect_solvers()
 
     if args.year is not None:
-        solvers = {y: d for y, d in solvers.items() if y == args.year}
+        solvers = {y: d for y, d in solvers.items() if y in args.year}
     if args.day is not None:
         for y in list(solvers.keys()):
-            solvers[y] = {d: p for d, p in solvers[y].items() if d == args.day}
+            solvers[y] = {d: p for d, p in solvers[y].items() if d in args.day}
             if not solvers[y]:
                 del solvers[y]
     if args.part is not None:
         for y in solvers:
             for d in list(solvers[y].keys()):
-                solvers[y][d] = {p: fn for p, fn in solvers[y][d].items() if p == args.part}
+                solvers[y][d] = {p: fn for p, fn in solvers[y][d].items() if p in args.part}
                 if not solvers[y][d]:
                     del solvers[y][d]
 

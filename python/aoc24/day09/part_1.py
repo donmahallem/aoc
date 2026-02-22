@@ -1,38 +1,46 @@
 import typing
 
 
-def parseInput(input: typing.TextIO):
-    return [int(char) for char in input.readline().strip()]
+def parseInput(input: typing.TextIO) -> list[int]:
+    # single line of digits
+    return [int(ch) for ch in input.readline().strip()]
 
 
-def handleRow(row):
-    line = []
+def handleRow(row: list[int]) -> list[int]:
+    line: list[int] = []
     block_num = 0
-    for i in range(len(row)):
+    for i, count in enumerate(row):
         if i % 2 == 0:
-            for j in range(row[i]):
-                line.append(block_num)
+            if count:
+                line.extend([block_num])
+                if count > 1:
+                    line.extend([block_num] * (count - 1))
             block_num += 1
         else:
-            for j in range(row[i]):
-                line.append(-1)
-    idx = 0
-    while True:
-        while True:
-            if line[-1] == -1:
-                line = line[:-1]
-            else:
-                break
-        if line[idx] < 0:
-            line[idx] = line[-1]
-            line = line[:-1]
-        idx += 1
-        if idx >= len(line):
-            break
-    return line
+            if count:
+                line.extend([-1])
+                if count > 1:
+                    line.extend([-1] * (count - 1))
+    end = len(line) - 1
+    while end >= 0 and line[end] == -1:
+        end -= 1
+    i = 0
+    while i <= end:
+        if line[i] == -1:
+            line[i] = line[end]
+            end -= 1
+            while end >= 0 and line[end] == -1:
+                end -= 1
+        i += 1
+    # return the valid prefix
+    return line[:end + 1]
 
 
 def Part1(input: typing.TextIO) -> int:
     data = parseInput(input)
     line_data = handleRow(data)
-    return sum([i * num for i, num in enumerate(line_data) if num >= 0])
+    total = 0
+    for idx, num in enumerate(line_data):
+        if num >= 0:
+            total += idx * num
+    return total

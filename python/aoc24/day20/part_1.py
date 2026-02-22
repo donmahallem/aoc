@@ -1,15 +1,13 @@
 import typing
-import numpy as np
-from .shared import shortestPath, calculatePathCost, parseField, CountSheats
+from .shared import parseField, compute_shortest_path, count_cheats
 
 
 def handle(input: typing.TextIO, cheatSavings: int) -> int:
-    field, player_position, end_position = parseField(input)
-    if player_position == None or end_position == None:
-        raise Exception("Error parsing")
-    path_cost = calculatePathCost(field, player_position)
-    normal_path_taken = shortestPath(field, path_cost, end_position)
-    return CountSheats(normal_path_taken, path_cost, cheatSavings)
+    field, start, end = parseField(input)
+    if start is None or end is None:
+        raise ValueError("Error parsing field")
+    path = compute_shortest_path(field, start, end)
+    return count_cheats(path, cheatSavings)
 
 
 def Part1(input: typing.TextIO) -> int:

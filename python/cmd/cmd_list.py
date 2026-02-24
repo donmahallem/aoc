@@ -15,7 +15,7 @@ class ListArgs(CommonArgs):
 
 @dataclass
 class ListResult:
-    solvers: List['Solver']  
+    solvers: List['Solver']
 
     @staticmethod
     def execute(cfg: CliOutput, args: ListArgs) -> 'ListResult':

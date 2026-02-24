@@ -27,6 +27,7 @@ class BenchmarkEntry:
         return (self.year, self.day, self.part,
                 self.name) < (other.year, other.day, other.part, other.name)
 
+
 class BenchmarkArgs(CommonArgs):
     year: Optional[list[int]]
     day: Optional[list[int]]
@@ -36,7 +37,7 @@ class BenchmarkArgs(CommonArgs):
 
 @dataclass
 class BenchmarkResult:
-    entries: List['BenchmarkEntry']  
+    entries: List['BenchmarkEntry']
 
     @staticmethod
     def execute(cfg: CliOutput, args: BenchmarkArgs):
@@ -114,7 +115,6 @@ class BenchmarkResult:
                                part=part,
                                name=name,
                                stats=stats))
-
 
         if hasattr(progress_bar, 'close'):
             progress_bar.close()

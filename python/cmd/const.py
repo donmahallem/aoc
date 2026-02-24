@@ -27,4 +27,3 @@ class Solver:
         """Enable sorting: by year, then day, then part."""
         return (self.year, self.day, self.part) < (other.year, other.day,
                                                    other.part)
-

@@ -1,34 +1,64 @@
+from dataclasses import dataclass
+from typing import TYPE_CHECKING, List
+
+from .cli_output import CliOutput
+
 from .const import CommonArgs
-from .collect_solvers import collect_solvers
-import json
-from .const import SUPPORTED_PARTS
+
+if TYPE_CHECKING:
+    from .const import Solver
 
 
 class ListArgs(CommonArgs):
     pass
 
 
-def run_list(args: ListArgs):
-    '''Lists all available solvers.'''
+@dataclass
+class ListResult:
+    solvers: List['Solver']  
 
-    solvers = collect_solvers()
-    if args.json:
-        out = {
-            y: {
-                d: {
-                    p: True
-                    for p in parts
-                }
-                for d, parts in days.items()
-            }
-            for y, days in solvers.items()
-        }
-        print(json.dumps(out))
-    else:
-        for year, days in solvers.items():
-            print(f"Year {year}:")
-            for day, parts in days.items():
-                line = f"  Day {day:02}:"
-                for p in SUPPORTED_PARTS:
-                    line += f" part{p}={str(p in parts).lower()}"
-                print(line)
+    @staticmethod
+    def execute(cfg: CliOutput, args: ListArgs) -> 'ListResult':
+        from .collect_solvers import collect_solvers
+
+        solvers = collect_solvers()
+        return ListResult(solvers=solvers)
+
+    def render_text(self) -> str:
+        lines = []
+        current_year = None
+        printed_days = set()
+
+        for solver in self.solvers:
+            if solver.year != current_year:
+                if current_year is not None:
+                    lines.append("")
+                lines.append(f"Year {solver.year}:")
+                current_year = solver.year
+
+            # Print once per day
+            day_key = (solver.year, solver.day)
+            if day_key not in printed_days:
+                parts = sorted([
+                    s.part for s in self.solvers
+                    if s.year == solver.year and s.day == solver.day
+                ])
+                line = f"  Day {solver.day:02}:"
+                for p in parts:
+                    line += f" part{p}=true"
+                lines.append(line)
+                printed_days.add(day_key)
+
+        return "\n".join(lines)
+
+    def to_json(self) -> dict:
+        output = {}
+        for solver in self.solvers:
+            y, d, p = solver.year, solver.day, solver.part
+            if y not in output:
+                output[y] = {}
+            if d not in output[y]:
+                output[y][d] = []
+            if p not in output[y][d]:
+                output[y][d].append(p)
+        return output

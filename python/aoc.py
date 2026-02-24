@@ -1,7 +1,9 @@
 import argparse
 
-from cmd import run_solver, run_benchmark, run_list
+from cmd import SolverResult, ListResult, BenchmarkResult
 from cmd import SUPPORTED_YEARS, SUPPORTED_DAYS, SUPPORTED_PARTS
+
+from cmd import CliOutput, CliOutputConfig
 
 if __name__ == "__main__":
     # 1. Root Parser - Global flags go here
@@ -36,7 +38,7 @@ if __name__ == "__main__":
                               type=str,
                               required=True,
                               help="Input file")
-    solve_parser.set_defaults(func=run_solver)
+    solve_parser.set_defaults(result_class=SolverResult)
 
     # 3. Benchmark Subparser
     bench_parser = sub_parsers.add_parser("benchmark",
@@ -65,14 +67,18 @@ if __name__ == "__main__":
         type=float,
         default=1.0,
         help="Maximum time (seconds) to spend on each solver")
-    bench_parser.set_defaults(func=run_benchmark)
+    bench_parser.set_defaults(result_class=BenchmarkResult)
 
     # 4. List Solvers
     list_parser = sub_parsers.add_parser("list",
                                          help="lists available solvers")
-    list_parser.set_defaults(func=run_list)
+    list_parser.set_defaults(result_class=ListResult)
 
     args = parser.parse_args()
 
-    if hasattr(args, 'func'):
-        args.func(args)
+    cfg_dict = CliOutputConfig(json=args.json, verbose=args.verbose)
+    cfg = CliOutput(cfg_dict)
+    if hasattr(args, 'result_class'):
+        result = args.result_class.execute(cfg, args)
+        if result is not None:
+            cfg.render(result)

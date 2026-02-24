@@ -1,6 +1,8 @@
+from .cli_output import CliOutput
+
 from .const import CommonArgs
-from .get_part import getPart
-import json
+from typing import Optional, Any
+from dataclasses import dataclass
 import sys
 
 
@@ -8,31 +10,43 @@ class SolveArgs(CommonArgs):
     year: int
     day: int
     part: int
-    input: str
+    input: Optional[str]
 
 
-def run_solver(args):
-    '''Runs the specified solver with the provided input and outputs the result.'''
-    solver = getPart(args.year, args.day, args.part)
-    if not solver:
-        print("Could not find requested solver")
-        return
+@dataclass
+class SolverResult:
+    year: int
+    day: int
+    part: int
+    result: Any
 
-    if args.input:
-        with open(args.input, 'r') as f:
-            result = solver(f)
-    else:
-        result = solver(sys.stdin)
+    @staticmethod
+    def execute(cfg: CliOutput, args: SolveArgs) -> Optional['SolverResult']:
+        from .get_part import getPart
 
-    if args.json:
-        print(
-            json.dumps({
-                "year": args.year,
-                "day": args.day,
-                "part": args.part,
-                "result": result
-            }))
-    else:
-        print(
-            f"Result (Year {args.year}, Day {args.day}, Part {args.part}): {result}"
-        )
+        solver = getPart(args.year, args.day, args.part)
+        if not solver:
+            cfg.print("Could not find requested solver")
+            return None
+
+        if args.input:
+            with open(args.input, 'r') as f:
+                result = solver(f)
+        else:
+            result = solver(sys.stdin)
+
+        return SolverResult(year=args.year,
+                            day=args.day,
+                            part=args.part,
+                            result=result)
+
+    def render_text(self) -> str:
+        return f"Result (Year {self.year}, Day {self.day}, Part {self.part}): {self.result}"
+
+    def to_json(self) -> dict:
+        return {
+            "year": self.year,
+            "day": self.day,
+            "part": self.part,
+            "result": self.result,
+        }

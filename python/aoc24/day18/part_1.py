@@ -12,7 +12,7 @@ def shortestPath(gameMap: list[list[int]]) -> list[list[int]]:
     width = len(gameMap[0]) if height else 0
     # initialize cost grid with -1
     pathCost = [[-1] * width for _ in range(height)]
-    dq = deque()
+    dq: deque[tuple[int, int]] = deque()
     dq.append((0, 0))
     pathCost[0][0] = 0
     dirs = ((0, 1), (1, 0), (0, -1), (-1, 0))

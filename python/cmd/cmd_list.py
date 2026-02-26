@@ -8,6 +8,7 @@ from .const import CommonArgs
 if TYPE_CHECKING:
     from .const import Solver
 
+
 @dataclass(slots=True)
 class ListArgs(CommonArgs):
     pass

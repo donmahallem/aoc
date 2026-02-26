@@ -1,6 +1,6 @@
 import typing
 
-_splitter: typing.TypeAlias = set[int]
+type _splitter = set[int]
 
 
 def __parseInput(input: typing.TextIO) -> tuple[tuple[int, int], _splitter, int, int]:

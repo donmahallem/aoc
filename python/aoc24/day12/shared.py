@@ -1,10 +1,9 @@
 import typing
 
-_coord: typing.TypeAlias = tuple[int, int]
+type _coord = tuple[int, int]
 
 
 class _Field:
-    # Corrected to plural: __slots__
     __slots__ = ["width", "height", "data"]
 
     def __init__(

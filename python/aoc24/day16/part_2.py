@@ -3,12 +3,10 @@ import heapq
 import sys
 from .shared import _build_graph, Graph, GraphNode
 
-from typing import TypeAlias
-
-Coord: TypeAlias = tuple[int, int]
-Direction: TypeAlias = tuple[int, int]
-State: TypeAlias = tuple[Coord, Direction]
-ParentInfo: TypeAlias = tuple[State, set[Coord]]
+type Coord = tuple[int, int]
+type Direction = tuple[int, int]
+type State = tuple[Coord, Direction]
+type ParentInfo = tuple[State, set[Coord]]
 
 
 def get_turn_cost(d1: Direction, d2: Direction) -> int:

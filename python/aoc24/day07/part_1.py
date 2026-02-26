@@ -2,7 +2,7 @@ import typing
 from .shared import parseRows, Equation
 
 
-def is_valid(target: int, values: tuple[int]) -> bool:
+def is_valid(target: int, values: tuple[int,...]) -> bool:
     if len(values) == 1:
         return values[0] == target
 

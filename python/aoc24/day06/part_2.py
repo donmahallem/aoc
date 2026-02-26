@@ -11,8 +11,8 @@ def Part2(input: typing.TextIO) -> int:
     grid, start = parseField(input)
     rows, cols = len(grid), len(grid[0])
 
-    obs_rows = [[] for _ in range(rows)]
-    obs_cols = [[] for _ in range(cols)]
+    obs_rows: list[list[int]] = [[] for _ in range(rows)]
+    obs_cols: list[list[int]] = [[] for _ in range(cols)]
     for r in range(rows):
         for c in range(cols):
             if grid[r][c] == 1:
@@ -70,7 +70,6 @@ def Part2(input: typing.TextIO) -> int:
             d = (d + 1) % 4
 
     count = 0
-    start_pos = (start[0], start[1])
     for i in range(1, len(base_path)):
         obs_y, obs_x, _ = base_path[i]
         # Resume from the state at index i-1

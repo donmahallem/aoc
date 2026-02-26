@@ -1,5 +1,4 @@
 import typing
-import numpy as np
 
 from .shared import _Field
 

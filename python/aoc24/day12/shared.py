@@ -7,14 +7,14 @@ class _Field:
     # Corrected to plural: __slots__
     __slots__ = ["width", "height", "data"]
 
-    def __init__(self, width: int = 0, height: int = 0, data: list = None):
+    def __init__(self, width: int = 0, height: int = 0, data: list[bytearray] | None = None):
         self.width = width
         self.height = height
         self.data = data if data is not None else []
 
     @classmethod
     def parse_input(cls, file_stream: typing.TextIO) -> "_Field":
-        data = []
+        data: list[bytearray] = []
         width = 0
 
         for line in file_stream:
@@ -73,7 +73,7 @@ class _Field:
         return islands
 
     @staticmethod
-    def count_edges(island: list[_coord], straight_edges: bool = False):
+    def count_edges(island: set[_coord], straight_edges: bool = False):
         '''
         Counts the number of edges of the island
         '''

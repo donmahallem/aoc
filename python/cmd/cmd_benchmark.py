@@ -27,6 +27,7 @@ class BenchmarkEntry:
         return (self.year, self.day, self.part,
                 self.name) < (other.year, other.day, other.part, other.name)
 
+
 @dataclass(slots=True)
 class BenchmarkArgs(CommonArgs):
     year: Optional[list[int]]
@@ -78,7 +79,8 @@ class BenchmarkResult:
                         continue
                     input_path = data_path.parent / file_ref
                     if not input_path.exists():
-                        cfg.print(f"Warning: Input file {input_path} not found.")
+                        cfg.print(
+                            f"Warning: Input file {input_path} not found.")
                         continue
                     input_data = input_path.read_text()
                 if f"part{solver.part}" in case:
@@ -151,7 +153,7 @@ class BenchmarkResult:
 
     def to_json(self) -> dict:
         """Convert to JSON-serializable nested dict."""
-        output:dict[int, dict[int, dict[int, dict[str, dict]]]] = {}
+        output: dict[int, dict[int, dict[int, dict[str, dict]]]] = {}
         for entry in self.entries:
             y, d, p = entry.year, entry.day, entry.part
             if y not in output:

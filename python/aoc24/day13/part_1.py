@@ -1,7 +1,7 @@
 import typing
 import re
 
-Button = tuple[str, int, int]
+Button: typing.TypeAlias = tuple[str, int, int]
 
 
 class Machine(typing.TypedDict):
@@ -9,7 +9,7 @@ class Machine(typing.TypedDict):
     price: tuple[int, int]
 
 
-Machines = list[Machine]
+Machines: typing.TypeAlias = list[Machine]
 
 
 def parseInput(input: typing.TextIO) -> Machines:

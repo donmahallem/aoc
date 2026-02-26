@@ -7,7 +7,6 @@ SUPPORTED_DAYS: Final[tuple[int, ...]] = tuple(range(1, 26))
 
 SUPPORTED_PARTS: Final[tuple[int, ...]] = (1, 2)
 
-from typing import TypedDict
 
 @dataclass(slots=True)
 class CommonArgs():

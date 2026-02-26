@@ -25,10 +25,7 @@ Triple: TypeAlias = tuple[str, str, str]
 
 
 def findInterconnected(connections: dict[str, list[str]]) -> set[Triple]:
-    conn_sets: dict[str, set[str]] = {
-        k: set(v)
-        for k, v in connections.items()
-    }
+    conn_sets: dict[str, set[str]] = {k: set(v) for k, v in connections.items()}
 
     interconnected: set[Triple] = set()
     keys = sorted(connections.keys())

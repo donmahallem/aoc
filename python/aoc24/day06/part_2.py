@@ -36,7 +36,8 @@ def Part2(input: typing.TextIO) -> int:
 
         while True:
             state = (y, x, d)
-            if state in seen: return True
+            if state in seen:
+                return True
             seen.add(state)
 
             ny, nx = -1, -1

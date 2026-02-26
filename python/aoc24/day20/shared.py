@@ -5,7 +5,7 @@ Position = tuple[int, int]
 
 
 def parseField(
-    input: typing.TextIO
+    input: typing.TextIO,
 ) -> tuple[list[list[int]], Position | None, Position | None]:
     lines = [line.rstrip("\n") for line in input]
     if not lines:
@@ -26,8 +26,9 @@ def parseField(
     return grid, start, end
 
 
-def compute_shortest_path(grid: list[list[int]], start: Position,
-                          end: Position) -> list[Position]:
+def compute_shortest_path(
+    grid: list[list[int]], start: Position, end: Position
+) -> list[Position]:
     h = len(grid)
     w = len(grid[0]) if h else 0
     dq = deque([start])
@@ -55,17 +56,16 @@ def compute_shortest_path(grid: list[list[int]], start: Position,
     return path
 
 
-def count_cheats(path: list[Position],
-                 min_savings: int,
-                 max_distance: int | None = None) -> int:
+def count_cheats(
+    path: list[Position], min_savings: int, max_distance: int | None = None
+) -> int:
     n = len(path)
     if n == 0 or min_savings >= n:
         return 0
     idx_map: dict[Position, int] = {pos: i for i, pos in enumerate(path)}
 
     if max_distance is None:
-        offsets = [(2, 0), (-2, 0), (0, 2), (0, -2), (1, 1), (1, -1), (-1, 1),
-                   (-1, -1)]
+        offsets = [(2, 0), (-2, 0), (0, 2), (0, -2), (1, 1), (1, -1), (-1, 1), (-1, -1)]
     else:
         offsets = []
         md = max_distance

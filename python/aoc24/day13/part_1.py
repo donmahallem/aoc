@@ -16,7 +16,8 @@ def parseInput(input: typing.TextIO) -> Machines:
     machines: Machines = list()
     machine: Machine = Machine(buttons=list(), price=(0, 0))
     button_regex = re.compile(
-        r"(?:Button\s([A-Za-z]+)\:)\s(?:[XY]([+-]\d+)),\s(?:[XY]([+-]\d+))")
+        r"(?:Button\s([A-Za-z]+)\:)\s(?:[XY]([+-]\d+)),\s(?:[XY]([+-]\d+))"
+    )
     prize_regex = re.compile(r"(?:Prize)\:\s(?:[XY]=(\d+)),\s*(?:[XY]=(\d+))")
     for line in input.readlines():
         line = line.strip()
@@ -32,8 +33,7 @@ def parseInput(input: typing.TextIO) -> Machines:
             machine["buttons"].append(button)
         reg_res = prize_regex.match(line)
         if reg_res:
-            machine["price"] = (int(reg_res.groups()[0]),
-                                int(reg_res.groups()[1]))
+            machine["price"] = (int(reg_res.groups()[0]), int(reg_res.groups()[1]))
             machines.append(machine)
             machine = Machine(buttons=list(), price=(0, 0))
     return machines
@@ -58,8 +58,9 @@ def Part1(input: typing.TextIO) -> int:
         target_x, target_y = machine["price"]
         _, btn_a_x, btn_a_y = machine["buttons"][0]
         _, btn_b_x, btn_b_y = machine["buttons"][1]
-        fac_1, fac_2 = calc((btn_a_x, btn_a_y), (btn_b_x, btn_b_y),
-                            (target_x, target_y))
+        fac_1, fac_2 = calc(
+            (btn_a_x, btn_a_y), (btn_b_x, btn_b_y), (target_x, target_y)
+        )
         if fac_1.is_integer() and fac_2.is_integer():
             summe += int(fac_1) * 3 + int(fac_2)
     return int(summe)

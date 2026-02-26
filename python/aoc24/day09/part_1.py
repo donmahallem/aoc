@@ -33,7 +33,7 @@ def handleRow(row: list[int]) -> list[int]:
                 end -= 1
         i += 1
     # return the valid prefix
-    return line[:end + 1]
+    return line[: end + 1]
 
 
 def Part1(input: typing.TextIO) -> int:

@@ -1,8 +1,7 @@
 import codecs
 
 test_data = False
-with codecs.open("data.txt" if test_data else "data2.txt",
-                 encoding="utf8") as f:
+with codecs.open("data.txt" if test_data else "data2.txt", encoding="utf8") as f:
     data = f.read()
     register_raw, wires_raw = data.split("\r\n\r\n")
 
@@ -12,8 +11,7 @@ with codecs.open("data.txt" if test_data else "data2.txt",
     }
     wires2 = [line.strip() for line in wires_raw.split("\r\n")]
     wires = [
-        tuple(item[0:3] + [item[4]])
-        for item in [line.split(" ") for line in wires2]
+        tuple(item[0:3] + [item[4]]) for item in [line.split(" ") for line in wires2]
     ]
 
 
@@ -29,9 +27,7 @@ def getInitialValue(val):
     return int(val[1:3])
 
 
-all_ends = [
-    wire[3] for wire in wires if wire[3][1:].isnumeric() and wire[3][0] == "z"
-]
+all_ends = [wire[3] for wire in wires if wire[3][1:].isnumeric() and wire[3][0] == "z"]
 all_ends = sorted(all_ends)
 
 
@@ -46,8 +42,10 @@ def validateChild(cons, cur, target_value):
     count = 0
     for test in cons[cur]:
         if isInitial(test):
-            if (getInitialValue(test) == target_value
-                    or getInitialValue(test) == target_value - 1):
+            if (
+                getInitialValue(test) == target_value
+                or getInitialValue(test) == target_value - 1
+            ):
                 count += 1
         else:
             if validateChild(cons, test, target_value):
@@ -145,5 +143,4 @@ while swapped:
             exit()
         carries[z] = output_or
 
-print(",".join(sorted(["fgc", "z12", "z29", "mtj", "dgr", "vvm", "z37",
-                       "dtv"])))
+print(",".join(sorted(["fgc", "z12", "z29", "mtj", "dgr", "vvm", "z37", "dtv"])))

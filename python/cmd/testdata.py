@@ -27,19 +27,17 @@ ParsedTestData: TypeAlias = Mapping[int, Mapping[int, List[TestCase]]]
 
 
 class TestData:
-
     def __init__(self, data: ParsedTestData):
         self._data = data
 
     @classmethod
     def load(cls, path: str | pathlib.Path) -> "TestData":
-        '''Loads test data from a JSON file and parses keys to integers.'''
+        """Loads test data from a JSON file and parses keys to integers."""
         path = pathlib.Path(path)
         if not path.exists():
             raise FileNotFoundError(f"Test data file not found: {path}")
 
-        raw: Dict[str, Dict[str,
-                            List[TestCase]]] = json.loads(path.read_text())
+        raw: Dict[str, Dict[str, List[TestCase]]] = json.loads(path.read_text())
 
         parsed: Dict[int, Dict[int, List[TestCase]]] = {}
 

@@ -23,19 +23,21 @@ class CliOutputConfig:
 
 
 class CliOutput:
-
     def __init__(self, config):
         if isinstance(config, dict):
-            self._config = CliOutputConfig(json=config.get("json", False),
-                                           verbose=config.get(
-                                               "verbose", False))
+            self._config = CliOutputConfig(
+                json=config.get("json", False), verbose=config.get("verbose", False)
+            )
         else:
             self._config = config
 
     @property
     def json(self) -> bool:
-        return self._config.json if hasattr(
-            self._config, 'json') else self._config.get("json", False)
+        return (
+            self._config.json
+            if hasattr(self._config, "json")
+            else self._config.get("json", False)
+        )
 
     @json.setter
     def json(self, value: bool) -> None:
@@ -43,8 +45,11 @@ class CliOutput:
 
     @property
     def verbose(self) -> bool:
-        return self._config.verbose if hasattr(
-            self._config, 'verbose') else self._config.get("verbose", False)
+        return (
+            self._config.verbose
+            if hasattr(self._config, "verbose")
+            else self._config.get("verbose", False)
+        )
 
     @verbose.setter
     def verbose(self, value: bool) -> None:
@@ -69,7 +74,7 @@ class CliOutput:
 
     def render(self, result: Any) -> None:
         """Render a result object using its built-in render methods."""
-        if hasattr(result, 'render_text') and hasattr(result, 'to_json'):
+        if hasattr(result, "render_text") and hasattr(result, "to_json"):
             if self.json:
                 builtins.print(json.dumps(result.to_json(), indent=2))
             else:

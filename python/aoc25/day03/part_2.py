@@ -2,17 +2,14 @@ import sys
 import typing
 
 
-def get_max_subsequence(digits: typing.List[int],
-                        seqLength: int) -> typing.List[int]:
+def get_max_subsequence(digits: typing.List[int], seqLength: int) -> typing.List[int]:
     n = len(digits)
     if seqLength >= n:
         return digits[:]  # nothing to remove
     res: typing.List[int] = []
     for i, d in enumerate(digits):
         # pop while we can and replacing yields larger lexicographic subsequence
-        while res and \
-            res[-1] < d and \
-            len(res) - 1 + (n - i) >= seqLength:
+        while res and res[-1] < d and len(res) - 1 + (n - i) >= seqLength:
             # check if we can pop
             # check if previous digit is smaller
             # check if enough digits remain to fill seqLength

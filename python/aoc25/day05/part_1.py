@@ -2,8 +2,7 @@ import sys
 import typing
 
 
-def parseInput(
-        input: typing.TextIO) -> tuple[list[tuple[int, int]], list[int]]:
+def parseInput(input: typing.TextIO) -> tuple[list[tuple[int, int]], list[int]]:
     ranges: list[tuple[int, int]] = list()
     ingredients: list[int] = list()
     firstBlock = True

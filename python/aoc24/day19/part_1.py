@@ -11,8 +11,8 @@ def Part1(input: typing.TextIO) -> int:
         for test_pattern in available_patterns:
             if test_pattern == pattern:
                 return True
-            elif pattern[0:len(test_pattern)] == test_pattern:
-                if checkPattern2(pattern[len(test_pattern):]):
+            elif pattern[0 : len(test_pattern)] == test_pattern:
+                if checkPattern2(pattern[len(test_pattern) :]):
                     return True
         return False
 

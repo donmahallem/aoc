@@ -2,8 +2,7 @@ import sys
 import typing
 import numpy as np
 
-surrounding = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0),
-               (1, 1)]
+surrounding = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
 
 
 def moveable(field: np.ndarray) -> typing.List[typing.Tuple[int, int]]:
@@ -33,7 +32,7 @@ def parseInput(input: typing.TextIO) -> np.ndarray:
     field = np.zeros((height, width), dtype=bool)
     for y in range(height):
         for x in range(width):
-            if lines[y][x] == '@':
+            if lines[y][x] == "@":
                 field[y, x] = True
     return field
 

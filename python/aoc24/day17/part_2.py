@@ -7,7 +7,7 @@ def checkNum2(base_program, target, target_program):
     pointer = 0
     output = []
     while pointer < len(base_program):
-        if output != target_program[0:len(output)]:
+        if output != target_program[0 : len(output)]:
             # print(output,program)
             return False
         opcode = base_program[pointer]
@@ -46,8 +46,8 @@ def Part2(input: typing.TextIO) -> int:
     j = 0
     for i in range(len(program) - 1, -1, -1):
         while True:
-            result = checkNum2(program, j, program[i:len(program)])
-            if result == program[i:len(program)]:
+            result = checkNum2(program, j, program[i : len(program)])
+            if result == program[i : len(program)]:
                 if i == 0:
                     return j
                 j *= 8

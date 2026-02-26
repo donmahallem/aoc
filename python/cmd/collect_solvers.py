@@ -12,6 +12,7 @@ def collect_solvers() -> List[Solver]:
                 part_func = getPart(year, day, part)
                 if part_func:
                     solvers.append(
-                        Solver(year=year, day=day, part=part, func=part_func))
+                        Solver(year=year, day=day, part=part, func=part_func)
+                    )
 
     return sorted(solvers)

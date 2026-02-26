@@ -9,8 +9,7 @@ def Part2(input_file: typing.TextIO) -> int:
     total_sum = 0
 
     @lru_cache(maxsize=None)
-    def can_solve(current_target: int, idx: int,
-                  terms_tuple: tuple[int, ...]) -> bool:
+    def can_solve(current_target: int, idx: int, terms_tuple: tuple[int, ...]) -> bool:
         if idx == 0:
             return terms_tuple[0] == current_target
 
@@ -27,10 +26,14 @@ def Part2(input_file: typing.TextIO) -> int:
             if can_solve(current_target // last_val, idx - 1, terms_tuple):
                 return True
 
-        if last_val < 10: mag = 10
-        elif last_val < 100: mag = 100
-        elif last_val < 1000: mag = 1000
-        else: mag = 10**(int(math.log10(last_val)) + 1)
+        if last_val < 10:
+            mag = 10
+        elif last_val < 100:
+            mag = 100
+        elif last_val < 1000:
+            mag = 1000
+        else:
+            mag = 10 ** (int(math.log10(last_val)) + 1)
 
         if current_target % mag == last_val:
             if can_solve(current_target // mag, idx - 1, terms_tuple):

@@ -16,10 +16,10 @@ class ListArgs(CommonArgs):
 
 @dataclass
 class ListResult:
-    solvers: List['Solver']
+    solvers: List["Solver"]
 
     @staticmethod
-    def execute(cfg: CliOutput, args: ListArgs) -> 'ListResult':
+    def execute(cfg: CliOutput, args: ListArgs) -> "ListResult":
         from .collect_solvers import collect_solvers
 
         solvers = collect_solvers()
@@ -40,10 +40,13 @@ class ListResult:
             # Print once per day
             day_key = (solver.year, solver.day)
             if day_key not in printed_days:
-                parts = sorted([
-                    s.part for s in self.solvers
-                    if s.year == solver.year and s.day == solver.day
-                ])
+                parts = sorted(
+                    [
+                        s.part
+                        for s in self.solvers
+                        if s.year == solver.year and s.day == solver.day
+                    ]
+                )
                 line = f"  Day {solver.day:02}:"
                 for p in parts:
                     line += f" part{p}=true"

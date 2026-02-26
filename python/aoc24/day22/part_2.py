@@ -3,14 +3,14 @@ from .shared import _step, _ITERATIONS, _parseInput
 
 
 def Part2(input: typing.TextIO) -> int:
-    ''' 
+    """
     Takes a preallocated buffer of size 2**20 to store all potential 5 digit sequences
     (there are 10**5 = 100000 possible sequences, but we can encode them in 20 bits).
     For each seed, we generate the sequence of digits and keep track of the sum of each 5 digit sequence we see.
     We also keep track of which seeds have contributed to each sequence to avoid double-counting.
     We return the maximum sum of any 5 digit sequence.
 
-    '''
+    """
     seeds = _parseInput(input)
 
     MASK = 0xFFFFF

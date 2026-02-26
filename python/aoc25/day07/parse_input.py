@@ -3,8 +3,7 @@ import typing
 _splitter: typing.TypeAlias = set[int]
 
 
-def __parseInput(
-        input: typing.TextIO) -> tuple[tuple[int, int], _splitter, int, int]:
+def __parseInput(input: typing.TextIO) -> tuple[tuple[int, int], _splitter, int, int]:
     splitter: _splitter = set()
     width: int = -1
     height: int = 0
@@ -16,9 +15,9 @@ def __parseInput(
             width = len(line)
         for i, c in enumerate(line):
             match c:
-                case 'S':
+                case "S":
                     start = (i, height)
-                case '^':
+                case "^":
                     splitter.add(i + height * width)
         height += 1
     return start, splitter, width, height

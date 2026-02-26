@@ -131,8 +131,10 @@ def possiblePathsNumerical(start, end):
     location_dict["0"] = (3, 1)
     location_dict["A"] = (3, 2)
     return [
-        item + ("A", ) for item in possiblePathsNumericalCoord(
-            location_dict[start], location_dict[end])
+        item + ("A",)
+        for item in possiblePathsNumericalCoord(
+            location_dict[start], location_dict[end]
+        )
     ]
 
 
@@ -145,8 +147,10 @@ def possiblePathsDirectional(start, end):
     location_dict["v"] = (1, 1)
     location_dict[">"] = (1, 2)
     return [
-        item + ("A", ) for item in possiblePathsDirectionalCoord(
-            location_dict[start], location_dict[end])
+        item + ("A",)
+        for item in possiblePathsDirectionalCoord(
+            location_dict[start], location_dict[end]
+        )
     ]
 
 
@@ -157,15 +161,15 @@ def findShortest(inp: tuple[str], max_depth=2, depth=0):
     sequence = 0
     for i in range(-1, len(inp) - 1):
         if depth == 0:
-            next_sequence = possiblePathsNumerical(inp[i] if i >= 0 else "A",
-                                                   inp[i + 1])
+            next_sequence = possiblePathsNumerical(
+                inp[i] if i >= 0 else "A", inp[i + 1]
+            )
         else:
-            next_sequence = possiblePathsDirectional(inp[i] if i >= 0 else "A",
-                                                     inp[i + 1])
+            next_sequence = possiblePathsDirectional(
+                inp[i] if i >= 0 else "A", inp[i + 1]
+            )
         seqs = [
-            findShortest(next_sequence_sub,
-                         max_depth=max_depth,
-                         depth=depth + 1)
+            findShortest(next_sequence_sub, max_depth=max_depth, depth=depth + 1)
             for next_sequence_sub in next_sequence
         ]
         seqs = sorted(seqs)
@@ -176,10 +180,15 @@ def findShortest(inp: tuple[str], max_depth=2, depth=0):
 def calculate_puzzle_output(data, numeric_keypads):
     summe = 0
     for line in data:
-        numeric_part = int("".join([
-            item for item in line
-            if item in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
-        ]))
+        numeric_part = int(
+            "".join(
+                [
+                    item
+                    for item in line
+                    if item in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+                ]
+            )
+        )
         l = findShortest(tuple(line), numeric_keypads)
         summe += numeric_part * l
     return summe

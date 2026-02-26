@@ -14,8 +14,10 @@ def Part2(input: typing.TextIO) -> int:
             if data[y][x] == "A":
                 for axis in dirs:
                     for dirx1, diry1, dirx2, diry2 in axis:
-                        if (data[y + diry1][x + dirx1] == "M"
-                                and data[y + diry2][x + dirx2] == "S"):
+                        if (
+                            data[y + diry1][x + dirx1] == "M"
+                            and data[y + diry2][x + dirx2] == "S"
+                        ):
                             matches += 1
                             # Only max one occurence per axis
                             break

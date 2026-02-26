@@ -11,6 +11,7 @@ TEST_DIR = CURRENT_DIR.parent / "test"
 
 class AOCTestCase(unittest.TestCase):
     """Base class for dynamically generated AOC tests."""
+
     pass
 
 
@@ -27,7 +28,7 @@ def _generate_tests():
         return
 
     try:
-        with open(data_json_path, 'r', encoding='utf-8') as f:
+        with open(data_json_path, "r", encoding="utf-8") as f:
             data = json.load(f)
     except Exception as e:
         print(f"Error loading data.json: {e}")
@@ -46,8 +47,7 @@ def _generate_tests():
             func_name = f"Part{p}"
             func = getattr(mod, func_name, None)
             if not func:
-                self.skipTest(
-                    f"Function {func_name} not found in {module_name}")
+                self.skipTest(f"Function {func_name} not found in {module_name}")
 
             if inp is not None:
                 f_obj = io.StringIO(inp)
@@ -55,7 +55,7 @@ def _generate_tests():
                 abs_path = TEST_DIR.joinpath(fp).resolve()
                 if not os.path.exists(abs_path):
                     self.fail(f"Input file not found: {abs_path}")
-                f_obj = open(abs_path, 'r', encoding='utf-8')
+                f_obj = open(abs_path, "r", encoding="utf-8")
             else:
                 self.fail("No input provided for test case")
 
@@ -91,13 +91,17 @@ def _generate_tests():
                     test_name = f"test_{year}_day{day}_{name}_part{part_num}"
 
                     setattr(
-                        AOCTestCase, test_name,
-                        make_test(y=year,
-                                  d=day,
-                                  p=part_num,
-                                  exp=expected,
-                                  inp=input_data,
-                                  fp=file_path))
+                        AOCTestCase,
+                        test_name,
+                        make_test(
+                            y=year,
+                            d=day,
+                            p=part_num,
+                            exp=expected,
+                            inp=input_data,
+                            fp=file_path,
+                        ),
+                    )
 
 
 _generate_tests()
@@ -110,5 +114,5 @@ def load_tests(loader, standard_tests, pattern):
     return suite
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

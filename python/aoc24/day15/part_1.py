@@ -7,7 +7,7 @@ def parseField(input: typing.TextIO):
     data = list(map(str.strip, input.readlines()))
     splitIdx = data.index("")
     fieldData = data[0:splitIdx]
-    movementData = data[splitIdx + 1:]
+    movementData = data[splitIdx + 1 :]
     field = np.zeros((len(fieldData), len(fieldData[0])))
     player_position = None
     for row in range(0, len(fieldData)):
@@ -21,8 +21,7 @@ def parseField(input: typing.TextIO):
 
     movementDataStr = "".join(movementData)
 
-    return field, player_position, list(map(translateMovement,
-                                            movementDataStr))
+    return field, player_position, list(map(translateMovement, movementDataStr))
 
 
 def next_empty(field, cur_y, cur_x, dir_y, dir_x):
@@ -39,16 +38,14 @@ def Part1(input: typing.TextIO) -> int:
     field, playerPosition, movements = parseField(input)
 
     for move in movements:
-        next_y, next_x = playerPosition[0] + move[0], playerPosition[1] + move[
-            1]
+        next_y, next_x = playerPosition[0] + move[0], playerPosition[1] + move[1]
         if field[next_y, next_x] == CELL_WALL:
             continue
         elif field[next_y, next_x] == CELL_EMPTY:
             playerPosition = (next_y, next_x)
             continue
         elif field[next_y, next_x] == CELL_BOX:
-            maybe_next_empty = next_empty(field, next_y, next_x, move[0],
-                                          move[1])
+            maybe_next_empty = next_empty(field, next_y, next_x, move[0], move[1])
             if maybe_next_empty:
                 next_empty_y, next_empty_x = maybe_next_empty
                 playerPosition = (next_y, next_x)

@@ -9,7 +9,7 @@ SUPPORTED_PARTS: Final[tuple[int, ...]] = (1, 2)
 
 
 @dataclass(slots=True)
-class CommonArgs():
+class CommonArgs:
     json: bool
     verbose: bool
 
@@ -19,10 +19,8 @@ class Solver:
     year: int
     day: int
     part: int
-    func: Optional[
-        Callable] = None  # None when only listing, populated when executing
+    func: Optional[Callable] = None  # None when only listing, populated when executing
 
-    def __lt__(self, other: 'Solver') -> bool:
+    def __lt__(self, other: "Solver") -> bool:
         """Enable sorting: by year, then day, then part."""
-        return (self.year, self.day, self.part) < (other.year, other.day,
-                                                   other.part)
+        return (self.year, self.day, self.part) < (other.year, other.day, other.part)

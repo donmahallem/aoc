@@ -22,7 +22,7 @@ class SolverResult:
     result: Any
 
     @staticmethod
-    def execute(cfg: CliOutput, args: SolveArgs) -> Optional['SolverResult']:
+    def execute(cfg: CliOutput, args: SolveArgs) -> Optional["SolverResult"]:
         from .get_part import getPart
 
         solver = getPart(args.year, args.day, args.part)
@@ -31,15 +31,12 @@ class SolverResult:
             return None
 
         if args.input:
-            with open(args.input, 'r') as f:
+            with open(args.input, "r") as f:
                 result = solver(f)
         else:
             result = solver(sys.stdin)
 
-        return SolverResult(year=args.year,
-                            day=args.day,
-                            part=args.part,
-                            result=result)
+        return SolverResult(year=args.year, day=args.day, part=args.part, result=result)
 
     def render_text(self) -> str:
         return f"Result (Year {self.year}, Day {self.day}, Part {self.part}): {self.result}"

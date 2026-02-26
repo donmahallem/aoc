@@ -23,9 +23,13 @@ class BenchmarkEntry:
     name: str
     stats: BenchmarkStats
 
-    def __lt__(self, other: 'BenchmarkEntry') -> bool:
-        return (self.year, self.day, self.part,
-                self.name) < (other.year, other.day, other.part, other.name)
+    def __lt__(self, other: "BenchmarkEntry") -> bool:
+        return (self.year, self.day, self.part, self.name) < (
+            other.year,
+            other.day,
+            other.part,
+            other.name,
+        )
 
 
 @dataclass(slots=True)
@@ -38,7 +42,7 @@ class BenchmarkArgs(CommonArgs):
 
 @dataclass
 class BenchmarkResult:
-    entries: List['BenchmarkEntry']
+    entries: List["BenchmarkEntry"]
 
     @staticmethod
     def execute(cfg: CliOutput, args: BenchmarkArgs):
@@ -54,8 +58,7 @@ class BenchmarkResult:
         if args.part is not None:
             solvers = [s for s in solvers if s.part in args.part]
 
-        data_path = pathlib.Path(
-            __file__).parent.parent.parent / "test" / "data.json"
+        data_path = pathlib.Path(__file__).parent.parent.parent / "test" / "data.json"
         if not data_path.exists():
             cfg.print("Error: Test data not found.")
             return None
@@ -71,35 +74,40 @@ class BenchmarkResult:
             cases = test_data[solver.year][solver.day]
             for idx, case in enumerate(cases):
                 name = case.get("name", f"case{idx}")
-                if 'input' in case:
-                    input_data = case['input']
+                if "input" in case:
+                    input_data = case["input"]
                 else:
                     file_ref = case.get("file")
                     if not file_ref:
                         continue
                     input_path = data_path.parent / file_ref
                     if not input_path.exists():
-                        cfg.print(
-                            f"Warning: Input file {input_path} not found.")
+                        cfg.print(f"Warning: Input file {input_path} not found.")
                         continue
                     input_data = input_path.read_text()
                 if f"part{solver.part}" in case:
-                    tasks.append({
-                        "year": solver.year,
-                        "day": solver.day,
-                        "part": solver.part,
-                        "name": name,
-                        "solver": solver.func,
-                        "input_data": input_data
-                    })
+                    tasks.append(
+                        {
+                            "year": solver.year,
+                            "day": solver.day,
+                            "part": solver.part,
+                            "name": name,
+                            "solver": solver.func,
+                            "input_data": input_data,
+                        }
+                    )
 
         timeout_limit = args.timeout if args.timeout else 1.0
         entries = []
 
         progress_bar = cfg.progress(tasks, desc="Benchmarking")
         for task in progress_bar:
-            year, day, part, name = task["year"], task["day"], task[
-                "part"], task["name"]
+            year, day, part, name = (
+                task["year"],
+                task["day"],
+                task["part"],
+                task["name"],
+            )
             solver, input_data = task["solver"], task["input_data"]
 
             iterations = 0
@@ -120,13 +128,10 @@ class BenchmarkResult:
                 total_time_sec=elapsed,
             )
             entries.append(
-                BenchmarkEntry(year=year,
-                               day=day,
-                               part=part,
-                               name=name,
-                               stats=stats))
+                BenchmarkEntry(year=year, day=day, part=part, name=name, stats=stats)
+            )
 
-        if hasattr(progress_bar, 'close'):
+        if hasattr(progress_bar, "close"):
             progress_bar.close()
 
         return BenchmarkResult(entries=entries)
@@ -143,8 +148,7 @@ class BenchmarkResult:
         lines.append("")
 
         for entry in sorted(self.entries):
-            pct = (entry.stats.avg_ms / total_avg *
-                   100) if total_avg > 0 else 0.0
+            pct = (entry.stats.avg_ms / total_avg * 100) if total_avg > 0 else 0.0
             lines.append(
                 f"{entry.year:<6} | {entry.day:02d} | {entry.part:<4} | {entry.name:<15} | {entry.stats.iterations:>12} | {entry.stats.avg_ms:>15.4f} | {pct:6.2f}"
             )

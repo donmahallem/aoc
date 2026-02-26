@@ -24,8 +24,11 @@ def shortestPath(gameMap: list[list[int]]) -> list[list[int]]:
         current_path_cost = pathCost[cur_y][cur_x]
         for dir_y, dir_x in dirs:
             next_y, next_x = cur_y + dir_y, cur_x + dir_x
-            if (0 <= next_y < height and 0 <= next_x < width
-                    and gameMap[next_y][next_x] != CELL_CORRUPTED):
+            if (
+                0 <= next_y < height
+                and 0 <= next_x < width
+                and gameMap[next_y][next_x] != CELL_CORRUPTED
+            ):
                 prev = pathCost[next_y][next_x]
                 if prev < 0 or current_path_cost + 1 < prev:
                     pathCost[next_y][next_x] = current_path_cost + 1

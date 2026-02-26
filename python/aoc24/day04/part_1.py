@@ -20,8 +20,7 @@ def Part1(input: typing.TextIO) -> int:
         return True
 
     count = 0
-    dirs = [[1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1],
-            [1, 1]]
+    dirs = [[1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1], [1, 1]]
     for y in range(0, zeilen):
         for x in range(spalten):
             for xdir, ydir in dirs:

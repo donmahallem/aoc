@@ -15,9 +15,12 @@ def expandToGroups(data: list[int]) -> tuple[list[tuple[int, int]], int]:
     return line, block_num - 1
 
 
-def handleRow(line: list[tuple[int, int]], current_idx: int,
-              group_positions: list[int],
-              blank_positions: list[int]) -> list[tuple[int, int]]:
+def handleRow(
+    line: list[tuple[int, int]],
+    current_idx: int,
+    group_positions: list[int],
+    blank_positions: list[int],
+) -> list[tuple[int, int]]:
     end_idx = group_positions[current_idx]
     if end_idx < 0:
         return line

@@ -12,9 +12,9 @@ def Part2(input: typing.TextIO) -> int:
         if len(line) > len(columns):
             columns.extend([0] * (len(line) - len(columns)))
         for i, c in enumerate(line):
-            if c >= '0' and c <= '9':
+            if c >= "0" and c <= "9":
                 columns[i] = columns[i] * 10 + int(c)
-            elif c == '+' or c == '*':
+            elif c == "+" or c == "*":
                 ops.append(c)
         if len(ops) > 0:
             break
@@ -28,9 +28,9 @@ def Part2(input: typing.TextIO) -> int:
                 currentNumber = columns[i]
             else:
                 match ops[currentOperator]:
-                    case '+':
+                    case "+":
                         currentNumber += columns[i]
-                    case '*':
+                    case "*":
                         currentNumber *= columns[i]
         else:
             totalSum += currentNumber

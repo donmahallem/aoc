@@ -2,9 +2,10 @@ import sys
 import typing
 
 
-def parseInput(input: typing.TextIO) -> tuple[tuple[int, int], list[int]]:
-    ranges = list()
-    ingredients = list()
+def parseInput(
+        input: typing.TextIO) -> tuple[list[tuple[int, int]], list[int]]:
+    ranges: list[tuple[int, int]] = list()
+    ingredients: list[int] = list()
     firstBlock = True
     for line in input:
         line = line.strip()
@@ -17,12 +18,12 @@ def parseInput(input: typing.TextIO) -> tuple[tuple[int, int], list[int]]:
         else:
             ingredients.append(int(line))
 
-    return (ranges, ingredients)
+    return ranges, ingredients
 
 
 def compressRanges(ranges: list[tuple[int, int]]) -> list[tuple[int, int]]:
     ranges = sorted(ranges, key=lambda r: r[0])
-    compressed = list()
+    compressed: list[tuple[int, int]] = list()
     curStart, curEnd = ranges[0]
     for r in ranges[1:]:
         if r[0] <= curEnd + 1:
@@ -37,10 +38,10 @@ def compressRanges(ranges: list[tuple[int, int]]) -> list[tuple[int, int]]:
 
 def Part1(input: typing.TextIO) -> int:
     ranges, ingredients = parseInput(input)
-    compresed = compressRanges(ranges)
+    compressed = compressRanges(ranges)
     goodIngredients = 0
     for ing in ingredients:
-        for r in compresed:
+        for r in compressed:
             if r[0] <= ing <= r[1]:
                 goodIngredients += 1
                 break

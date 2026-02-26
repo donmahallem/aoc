@@ -76,7 +76,7 @@ class _Field:
         return islands
 
     @staticmethod
-    def count_edges(island: list[_coord], straight_edges: bool = False):
+    def count_edges(island: set[_coord], straight_edges: bool = False):
         '''
         Counts the number of edges of the island
         '''

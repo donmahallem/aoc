@@ -19,9 +19,7 @@ def parseField(input: typing.TextIO) -> dict[str, list[str]]:
     return connections
 
 
-from typing import TypeAlias
-
-Triple: TypeAlias = tuple[str, str, str]
+type Triple = tuple[str, str, str]
 
 
 def findInterconnected(connections: dict[str, list[str]]) -> set[Triple]:

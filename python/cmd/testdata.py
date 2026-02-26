@@ -1,11 +1,11 @@
 import pathlib
 import json
-from typing import Dict, TypedDict, List, Optional, Union, Literal, TypeAlias, Mapping
+from typing import Dict, TypedDict, List, Optional, Union, Literal, Mapping
 
-Language: TypeAlias = Literal["go", "python"]
-ResultType: TypeAlias = Literal["int", "int16", "string"]
+type Language = Literal["go", "python"]
+type ResultType = Literal["int", "int16", "string"]
 
-TestResult: TypeAlias = Union[int, str, List[Union[int, str]]]
+type TestResult = Union[int, str, List[Union[int, str]]]
 
 
 class PartExpectation(TypedDict, total=False):
@@ -23,7 +23,7 @@ class TestCase(TypedDict, total=False):
     part2: PartExpectation
 
 
-ParsedTestData: TypeAlias = Mapping[int, Mapping[int, List[TestCase]]]
+type ParsedTestData = Mapping[int, Mapping[int, List[TestCase]]]
 
 
 class TestData:

@@ -3,7 +3,7 @@ import typing
 from functools import lru_cache
 from .parse_input import __parseInput
 
-Coord: typing.TypeAlias = tuple[int, int]
+type Coord = tuple[int, int]
 
 
 def Part2(input: typing.TextIO) -> int:

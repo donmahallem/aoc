@@ -28,6 +28,7 @@ class BenchmarkEntry:
                 self.name) < (other.year, other.day, other.part, other.name)
 
 
+@dataclass(slots=True)
 class BenchmarkArgs(CommonArgs):
     year: Optional[list[int]]
     day: Optional[list[int]]
@@ -70,9 +71,18 @@ class BenchmarkResult:
             cases = test_data[solver.year][solver.day]
             for idx, case in enumerate(cases):
                 name = case.get("name", f"case{idx}")
-                input_data = case.get("input") or (data_path.parent /
-                                                   case["file"]).read_text()
-
+                if 'input' in case:
+                    input_data = case['input']
+                else:
+                    file_ref = case.get("file")
+                    if not file_ref:
+                        continue
+                    input_path = data_path.parent / file_ref
+                    if not input_path.exists():
+                        cfg.print(
+                            f"Warning: Input file {input_path} not found.")
+                        continue
+                    input_data = input_path.read_text()
                 if f"part{solver.part}" in case:
                     tasks.append({
                         "year": solver.year,
@@ -143,7 +153,7 @@ class BenchmarkResult:
 
     def to_json(self) -> dict:
         """Convert to JSON-serializable nested dict."""
-        output = {}
+        output: dict[int, dict[int, dict[int, dict[str, dict]]]] = {}
         for entry in self.entries:
             y, d, p = entry.year, entry.day, entry.part
             if y not in output:

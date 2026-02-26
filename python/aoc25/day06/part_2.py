@@ -3,11 +3,11 @@ import typing
 
 
 def Part2(input: typing.TextIO) -> int:
-    columns = None
-    ops = []
+    columns: list[int] = []
+    ops: list[str] = []
     for line in input:
         line = line.rstrip()
-        if columns is None:
+        if not columns:
             columns = [0] * len(line)
         if len(line) > len(columns):
             columns.extend([0] * (len(line) - len(columns)))

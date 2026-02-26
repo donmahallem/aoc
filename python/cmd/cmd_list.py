@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from .const import Solver
 
 
+@dataclass(slots=True)
 class ListArgs(CommonArgs):
     pass
 
@@ -52,7 +53,7 @@ class ListResult:
         return "\n".join(lines)
 
     def to_json(self) -> dict:
-        output = {}
+        output: dict[int, dict[int, list[int]]] = {}
         for solver in self.solvers:
             y, d, p = solver.year, solver.day, solver.part
             if y not in output:

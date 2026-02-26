@@ -53,3 +53,4 @@ def Part2(input: typing.TextIO) -> int:
                 j *= 8
                 break
             j += 1
+    return -1

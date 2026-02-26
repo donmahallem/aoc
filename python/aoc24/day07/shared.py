@@ -1,6 +1,6 @@
 import typing
 
-Equation = tuple[int, tuple[int]]
+Equation = tuple[int, tuple[int, ...]]
 
 
 def parseRows(file_stream: typing.TextIO) -> list[Equation]:

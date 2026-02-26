@@ -1,10 +1,11 @@
 import typing
 
+_splitter: typing.TypeAlias = set[int]
+
 
 def __parseInput(
-        input: typing.TextIO) -> tuple[list[tuple[int, int]], list[str]]:
-    start: tuple[int, int] = None
-    splitter: dict[int, bool] = dict()
+        input: typing.TextIO) -> tuple[tuple[int, int], _splitter, int, int]:
+    splitter: _splitter = set()
     width: int = -1
     height: int = 0
     for line in input:
@@ -18,6 +19,6 @@ def __parseInput(
                 case 'S':
                     start = (i, height)
                 case '^':
-                    splitter[i + height * width] = True
+                    splitter.add(i + height * width)
         height += 1
     return start, splitter, width, height

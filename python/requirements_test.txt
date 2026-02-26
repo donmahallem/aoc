@@ -1,2 +1,3 @@
 coverage>=7.6
 yapf>=0.43.0
+mypy>=1.19.1

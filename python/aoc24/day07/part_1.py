@@ -1,23 +1,31 @@
 import typing
-from .shared import parseRows
+from .shared import parseRows, Equation
 
 
-def Part1(input: typing.TextIO) -> int:
-    rows = parseRows(input)
+def is_valid(target: int, values: tuple[int, ...]) -> bool:
+    if len(values) == 1:
+        return values[0] == target
 
-    def isValidRow(row):
+    last = values[-1]
+    remaining = values[:-1]
 
-        def nextOp(value, target, remaining_terms):
-            if len(remaining_terms) == 0:
-                return target == value
-            elif value > target:
-                return False
-            return nextOp(value + remaining_terms[0], target,
-                          remaining_terms[1:]) or nextOp(
-                              value * remaining_terms[0], target,
-                              remaining_terms[1:])
+    if target > last:
+        if is_valid(target - last, remaining):
+            return True
 
-        result, terms = row
-        return nextOp(terms[0], result, terms[1:])
+    if target % last == 0:
+        if is_valid(target // last, remaining):
+            return True
 
-    return sum([row[0] for row in rows if isValidRow(row)])
+    return False
+
+
+def Part1(file_stream: typing.TextIO) -> int:
+    rows = parseRows(file_stream)
+    total_sum = 0
+
+    for expected, values in rows:
+        if is_valid(expected, values):
+            total_sum += expected
+
+    return total_sum

@@ -4,7 +4,8 @@ import typing
 
 
 # parseInput Gen
-def parseInputGen(inp: typing.TextIO) -> typing.Generator[int, None, None]:
+def parseInputGen(
+        inp: typing.TextIO) -> typing.Generator[tuple[int, int], None, None]:
     for line in inp:
         for pair in line.strip().split(','):
             if pair == '':

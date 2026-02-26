@@ -7,15 +7,14 @@ SUPPORTED_DAYS: Final[tuple[int, ...]] = tuple(range(1, 26))
 
 SUPPORTED_PARTS: Final[tuple[int, ...]] = (1, 2)
 
-from typing import TypedDict
 
-
-class CommonArgs(TypedDict):
+@dataclass(slots=True)
+class CommonArgs():
     json: bool
     verbose: bool
 
 
-@dataclass
+@dataclass(slots=True)
 class Solver:
     year: int
     day: int

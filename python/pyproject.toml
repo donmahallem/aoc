@@ -10,3 +10,7 @@ dependencies = []
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["aoc*","cmd*"]
+
+[[tool.mypy.overrides]]
+module = "tqdm.*"
+ignore_missing_imports = true

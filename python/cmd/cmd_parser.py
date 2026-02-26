@@ -6,6 +6,7 @@ from dataclasses import dataclass
 import sys
 
 
+@dataclass(slots=True)
 class SolveArgs(CommonArgs):
     year: int
     day: int

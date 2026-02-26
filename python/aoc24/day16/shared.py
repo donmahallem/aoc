@@ -12,11 +12,14 @@ class GraphNode:
 
 class Graph:
     __slots__ = ("nodes", "start_node", "end_node")
+    start_node: GraphNode | None
+    end_node: GraphNode | None
+    nodes: dict[tuple[int, int], GraphNode]
 
     def __init__(self):
-        self.nodes: dict[tuple[int, int], GraphNode] = {}
-        self.start_node: GraphNode | None = None
-        self.end_node: GraphNode | None = None
+        self.nodes = {}
+        self.start_node = None
+        self.end_node = None
 
 
 def _build_graph(input_data: typing.TextIO) -> Graph:

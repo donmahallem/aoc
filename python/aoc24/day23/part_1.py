@@ -19,19 +19,33 @@ def parseField(input: typing.TextIO) -> dict[str, list[str]]:
     return connections
 
 
-def findInterconnected(connections: dict[str, list[str]]):
-    interconnected: set[tuple[str, str, str]] = set()
-    for key in connections.keys():
-        test = connections[key]
-        for test_key in test:
-            for con3 in connections[test_key]:
-                if con3 in connections[key]:
-                    items = tuple(sorted([key, test_key, con3]))
-                    interconnected.add(items)
+from typing import TypeAlias
+
+Triple: TypeAlias = tuple[str, str, str]
+
+
+def findInterconnected(connections: dict[str, list[str]]) -> set[Triple]:
+    conn_sets: dict[str, set[str]] = {
+        k: set(v)
+        for k, v in connections.items()
+    }
+
+    interconnected: set[Triple] = set()
+    keys = sorted(connections.keys())
+
+    for i, a in enumerate(keys):
+        for j in range(i + 1, len(keys)):
+            b = keys[j]
+            if b in conn_sets[a]:
+                common = conn_sets[a] & conn_sets[b]
+                for c in common:
+                    if c > b:
+                        interconnected.add((a, b, c))
+
     return interconnected
 
 
-def countT(items: list[tuple[str, str, str]]) -> int:
+def countT(items: set[tuple[str, str, str]]) -> int:
     sum: int = 0
     for item in items:
         for a in item:

@@ -28,7 +28,7 @@ def findLongest(connections: dict[str, list[str]],
     return largerConnections
 
 
-def Part2(input: typing.TextIO) -> tuple[str, ...]:
+def Part2(input: typing.TextIO) -> list[str]:
     connections = parseField(input)
     interconnected = findInterconnected(connections)
     max_groups = findLongest(connections, interconnected)

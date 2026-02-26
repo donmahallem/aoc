@@ -113,6 +113,8 @@ jobs:
           coverage run --source=. -m unittest discover
       - name: Run Lint
         run: yapf -r -q -p .
+      - name: Run Type Check
+        run: mypy --ignore-missing-imports .
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:

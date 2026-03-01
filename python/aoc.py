@@ -2,8 +2,7 @@ import argparse
 
 from cmd import SolverResult, ListResult, BenchmarkResult
 from cmd import SUPPORTED_YEARS, SUPPORTED_DAYS, SUPPORTED_PARTS
-
-from cmd import CliOutput, CliOutputConfig
+from cmd import CliOutput
 
 if __name__ == "__main__":
     # 1. Root Parser - Global flags go here
@@ -21,7 +20,13 @@ if __name__ == "__main__":
         action=argparse.BooleanOptionalAction,
         help="Enable verbose output (Global)",
     )
-
+    parser.add_argument(
+        "-o",
+        "--output",
+        type=str,
+        default=None,
+        help="Output file for requested data (JSON)",
+    )
     sub_parsers = parser.add_subparsers(dest="command", required=True)
 
     # 2. Solve Subparser
@@ -75,8 +80,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    cfg_dict = CliOutputConfig(json=args.json, verbose=args.verbose)
-    cfg = CliOutput(cfg_dict)
+    cfg = CliOutput(json=args.json, verbose=args.verbose, output=args.output)
     if hasattr(args, "result_class"):
         result = args.result_class.execute(cfg, args)
         if result is not None:

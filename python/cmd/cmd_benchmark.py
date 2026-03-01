@@ -131,9 +131,6 @@ class BenchmarkResult:
                 BenchmarkEntry(year=year, day=day, part=part, name=name, stats=stats)
             )
 
-        if hasattr(progress_bar, "close"):
-            progress_bar.close()
-
         return BenchmarkResult(entries=entries)
 
     def render_text(self) -> str:

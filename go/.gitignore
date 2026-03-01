@@ -1,6 +1,12 @@
-main
-main.exe
-*.wasm
+*
 
-benchmark.json
-benchmark.txt
+!*/
+
+!**/*.go
+!go.mod
+!go.sum
+
+!README.md
+!CHANGELOG.md
+
+!.gitignore

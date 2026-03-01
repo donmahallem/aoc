@@ -1,87 +1,50 @@
-from typing import Any
+from typing import Any, Optional
 import tqdm
-import json
-import builtins
+import json as _json
 import sys
 from dataclasses import asdict
 
 
-class CliOutputConfig:
-    """Configuration for CLI output: JSON format and verbosity."""
-
-    def __init__(self, json: bool = False, verbose: bool = False):
-        self.json = json
-        self.verbose = verbose
-
-    def __getitem__(self, key):
-        """Support dict-like access for backward compatibility."""
-        return getattr(self, key)
-
-    def get(self, key, default=False):
-        """Support dict.get() pattern."""
-        return getattr(self, key, default)
-
-
 class CliOutput:
-    def __init__(self, config):
-        if isinstance(config, dict):
-            self._config = CliOutputConfig(
-                json=config.get("json", False), verbose=config.get("verbose", False)
-            )
-        else:
-            self._config = config
-
-    @property
-    def json(self) -> bool:
-        return (
-            self._config.json
-            if hasattr(self._config, "json")
-            else self._config.get("json", False)
-        )
-
-    @json.setter
-    def json(self, value: bool) -> None:
-        self._config.json = value
-
-    @property
-    def verbose(self) -> bool:
-        return (
-            self._config.verbose
-            if hasattr(self._config, "verbose")
-            else self._config.get("verbose", False)
-        )
-
-    @verbose.setter
-    def verbose(self, value: bool) -> None:
-        self._config.verbose = value
+    def __init__(
+        self,
+        json: bool = False,
+        verbose: bool = False,
+        output: Optional[str] = None,
+    ):
+        self.json = bool(json)
+        self.verbose = bool(verbose)
+        self.output = output
 
     def progress(self, iterable, **kwargs):
-        """Progress bar on stderr only when verbose and not json."""
-        if self.verbose and not self.json:
+        """Return a tqdm progress bar on stderr, unless JSON is streaming to
+        stdout *and* verbose is off (would interleave with the JSON output)."""
+        # json_to_stdout: structured output is going directly to the terminal.
+        json_to_stdout = self.json and self.output is None
+        if not json_to_stdout or self.verbose:
             return tqdm.tqdm(iterable, file=sys.stderr, **kwargs)
         return iterable
 
     def print(self, *args, **kwargs) -> None:
-        """Print output - serializes to JSON if json mode is enabled."""
-        if self.json:
-            obj = args[0] if len(args) == 1 else args
-            try:
-                builtins.print(json.dumps(obj, indent=2), **kwargs)
-            except Exception:
-                builtins.print(*args, **kwargs)
-        else:
-            builtins.print(*args, **kwargs)
+        """Print a diagnostic / warning message to stderr."""
+        print(*args, file=sys.stderr, **kwargs)
 
     def render(self, result: Any) -> None:
-        """Render a result object using its built-in render methods."""
-        if hasattr(result, "render_text") and hasattr(result, "to_json"):
-            if self.json:
-                builtins.print(json.dumps(result.to_json(), indent=2))
-            else:
-                text = result.render_text()
-                builtins.print(text)
+        """Render a result to the output file (if set) or stdout.
+
+        JSON mode writes JSON; plain mode writes render_text().
+        The output file receives exactly one result and is always UTF-8.
+        """
+        if self.json:
+            data = result.to_json() if hasattr(result, "to_json") else asdict(result)
+            text = _json.dumps(data, indent=2)
         else:
-            if self.json:
-                builtins.print(json.dumps(asdict(result), indent=2))
-            else:
-                builtins.print(result)
+            text = (
+                result.render_text() if hasattr(result, "render_text") else str(result)
+            )
+
+        if self.output:
+            with open(self.output, "w", encoding="utf-8") as f:
+                f.write(text + "\n")
+        else:
+            print(text)

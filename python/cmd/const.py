@@ -12,6 +12,7 @@ SUPPORTED_PARTS: Final[tuple[int, ...]] = (1, 2)
 class CommonArgs:
     json: bool
     verbose: bool
+    output: Optional[str]
 
 
 @dataclass(slots=True)

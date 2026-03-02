@@ -462,7 +462,7 @@
         },
         {
           "series_key": "go",
-          "group_key": "23/17/1_sample",
+          "group_key": "23/17/1_sample1",
           "duration": "84728ns",
           "iterations": 14156,
           "description": "sample"
@@ -476,14 +476,14 @@
         },
         {
           "series_key": "go",
-          "group_key": "23/17/2_sample_part2_2",
+          "group_key": "23/17/2_sample2",
           "duration": "5752ns",
           "iterations": 203751,
           "description": "sample_part2_2"
         },
         {
           "series_key": "go",
-          "group_key": "23/17/2_sample",
+          "group_key": "23/17/2_sample1",
           "duration": "71956ns",
           "iterations": 16670,
           "description": "sample"
@@ -2943,7 +2943,7 @@
         },
         {
           "series_key": "go",
-          "group_key": "23/17/1_sample",
+          "group_key": "23/17/1_sample1",
           "duration": "70476ns",
           "iterations": 17100,
           "description": "sample"
@@ -2957,14 +2957,14 @@
         },
         {
           "series_key": "go",
-          "group_key": "23/17/2_sample_part2_2",
+          "group_key": "23/17/2_sample2",
           "duration": "6094ns",
           "iterations": 199066,
           "description": "sample_part2_2"
         },
         {
           "series_key": "go",
-          "group_key": "23/17/2_sample",
+          "group_key": "23/17/2_sample1",
           "duration": "71534ns",
           "iterations": 16677,
           "description": "sample"
@@ -5424,7 +5424,7 @@
         },
         {
           "series_key": "go",
-          "group_key": "23/17/1_sample",
+          "group_key": "23/17/1_sample1",
           "duration": "82516ns",
           "iterations": 14436,
           "description": "sample"
@@ -5438,14 +5438,14 @@
         },
         {
           "series_key": "go",
-          "group_key": "23/17/2_sample_part2_2",
+          "group_key": "23/17/2_sample2",
           "duration": "5904ns",
           "iterations": 192572,
           "description": "sample_part2_2"
         },
         {
           "series_key": "go",
-          "group_key": "23/17/2_sample",
+          "group_key": "23/17/2_sample1",
           "duration": "76341ns",
           "iterations": 15667,
           "description": "sample"

@@ -205,12 +205,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: testbranch
-          path: _pages
+          path: benchmark_page 
         continue-on-error: true
-      - name: Initialize _pages if checkout failed
+      - name: Initialize benchmark_page if checkout failed
         run: |
-          if [ ! -d "_pages/.git" ]; then
-            git init _pages
+          if [ ! -d "benchmark_page/.git" ]; then
+            git init benchmark_page
           fi
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -219,16 +219,16 @@ jobs:
           path: benchmarks
           merge-multiple: true
       - name: Aggregate benchmarks
-        uses: donmahallem/aggregate_benchmark@v0.0.1
+        uses: donmahallem/aggregate_benchmark@v0.0.2
         with:
           input-dir: benchmarks
-          pages-dir: _pages
+          pages-dir: benchmark_page
           max-history: 100
       - name: Publish to testbranch
         if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_pages
+          publish_dir: benchmark_page
           publish_branch: testbranch
           commit_message: "Update benchmarks [skip ci]"

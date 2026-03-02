@@ -1,6 +1,6 @@
 import sys
 import typing
-from .shared import parse_line
+from .shared import _parse_line
 
 
 def Part2(input: typing.TextIO) -> int:
@@ -9,7 +9,7 @@ def Part2(input: typing.TextIO) -> int:
         line = line.strip()
         if not line:
             continue
-        _, blocks = parse_line(line)
+        _, blocks = _parse_line(line)
         min_red = max(b.red for b in blocks)
         min_green = max(b.green for b in blocks)
         min_blue = max(b.blue for b in blocks)

@@ -8,9 +8,6 @@ import (
 	"strings"
 )
 
-//go:embed sample.txt
-var sample string
-
 const actionReject = "R"
 const actionAccept = "A"
 

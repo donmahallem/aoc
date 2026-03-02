@@ -35,10 +35,11 @@ type testEvent struct {
 	Output  string `json:"Output"`
 }
 
-// timingRe matches the summary line emitted for each benchmark result:
+// timingRe matches the summary line emitted for each benchmark result,
+// with optional -benchmem fields:
 //
-//	797310   1409 ns/op
-var timingRe = regexp.MustCompile(`(\d+)\s+(\d+(?:\.\d+)?)\s+ns/op`)
+//	797310   1409 ns/op   128 B/op   3 allocs/op
+var timingRe = regexp.MustCompile(`(\d+)\s+(\d+(?:\.\d+)?)\s+ns/op(?:\s+(\d+)\s+B/op\s+(\d+)\s+allocs/op)?`)
 
 func parsePackage(pkg string) (year, day int) {
 	parts := strings.Split(pkg, "/")
@@ -56,15 +57,15 @@ func parsePackage(pkg string) (year, day int) {
 	return year, day
 }
 
-func parseTest(test string) (part int, groupKey string) {
+func parseTest(test string) (part int, description string) {
 	switch {
 	case strings.Contains(test, "Part1"):
 		part = 1
 	case strings.Contains(test, "Part2"):
 		part = 2
 	}
-	_, groupKey, _ = strings.Cut(test, "/")
-	return part, groupKey
+	_, description, _ = strings.Cut(test, "/")
+	return part, description
 }
 
 func main() {
@@ -100,15 +101,24 @@ func main() {
 		duration := fmt.Sprintf("%dns", int64(timingNs))
 
 		year, day := parsePackage(ev.Package)
-		part, groupKey := parseTest(ev.Test)
+		part, description := parseTest(ev.Test)
+
+		// Append -benchmem fields to description when present (m[3]=B/op, m[4]=allocs/op).
+		if m[3] != "" && m[4] != "" {
+			mem := fmt.Sprintf("%s B/op, %s allocs/op", m[3], m[4])
+			if description != "" {
+				description = description + " | " + mem
+			} else {
+				description = mem
+			}
+		}
+
 		measurements = append(measurements, aggBench.Measurement{
-			Language:   "go",
-			GroupKey:   groupKey,
-			Duration:   duration,
-			Iterations: iters,
-			Day:        day,
-			Year:       year,
-			Part:       part,
+			SeriesKey:   "go",
+			GroupKey:    fmt.Sprintf("%d/%02d/%d", year, day, part),
+			Duration:    duration,
+			Iterations:  iters,
+			Description: description,
 		})
 	}
 	if err := scanner.Err(); err != nil {

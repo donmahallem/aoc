@@ -17,7 +17,7 @@ def parse(input_stream: TextIO) -> None:
     for year_str, year_data in data.items():
         for day_str, day_data in year_data.items():
             for part_str, part_data in day_data.items():
-                for group_key, metrics in part_data.items():
+                for description, metrics in part_data.items():
                     year = int(year_str)
                     day = int(day_str)
                     part = int(part_str)
@@ -29,13 +29,11 @@ def parse(input_stream: TextIO) -> None:
                     duration_ns = max(1, int(avg_ms * 1_000_000))
 
                     entry: dict = {
-                        "language": "python",
-                        "group_key": group_key,
+                        "series_key": "python",
+                        "group_key": f"{year}/{day:02d}/{part}",
                         "duration": f"{duration_ns}ns",
                         "iterations": iterations,
-                        "day": day,
-                        "year": year,
-                        "part": part,
+                        "description": description,
                     }
                     measurements.append(entry)
 

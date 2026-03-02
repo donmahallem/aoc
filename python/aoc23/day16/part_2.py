@@ -9,11 +9,15 @@ def Part2(input: typing.TextIO) -> int:
 
     for x in range(width):
         best = max(best, simulate(field, width, height, complex(x, 0), _DIR_DOWN))
-        best = max(best, simulate(field, width, height, complex(x, height - 1), _DIR_UP))
+        best = max(
+            best, simulate(field, width, height, complex(x, height - 1), _DIR_UP)
+        )
 
     for y in range(height):
         best = max(best, simulate(field, width, height, complex(0, y), _DIR_RIGHT))
-        best = max(best, simulate(field, width, height, complex(width - 1, y), _DIR_LEFT))
+        best = max(
+            best, simulate(field, width, height, complex(width - 1, y), _DIR_LEFT)
+        )
 
     return best
 

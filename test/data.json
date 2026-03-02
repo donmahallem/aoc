@@ -25,6 +25,28 @@
           "result": 54518
         }
       }
+    ],
+    "02": [
+      {
+        "name": "sample",
+        "file": "data/samples/23/02_sample.txt",
+        "part1": {
+          "result": 8
+        },
+        "part2": {
+          "result": 2286
+        }
+      },
+      {
+        "name": "full_data",
+        "file": "data/full/23/02.txt",
+        "part1": {
+          "result": 2913
+        },
+        "part2": {
+          "result": 55593
+        }
+      }
     ]
   },
   "24": {

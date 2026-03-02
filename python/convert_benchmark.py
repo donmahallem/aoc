@@ -30,7 +30,7 @@ def parse(input_stream: TextIO) -> None:
 
                     entry: dict = {
                         "series_key": "python",
-                        "group_key": f"{year}/{day:02d}/{part}",
+                        "group_key": f"{year}/{day:02d}/{part}_{description}",
                         "duration": f"{duration_ns}ns",
                         "iterations": iterations,
                         "description": description,

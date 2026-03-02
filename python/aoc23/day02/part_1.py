@@ -1,6 +1,6 @@
 import sys
 import typing
-from .shared import parse_line
+from .shared import _parse_line
 
 
 def Part1(input: typing.TextIO) -> int:
@@ -9,7 +9,7 @@ def Part1(input: typing.TextIO) -> int:
         line = line.strip()
         if not line:
             continue
-        game_id, blocks = parse_line(line)
+        game_id, blocks = _parse_line(line)
         if all(b.red <= 12 and b.green <= 13 and b.blue <= 14 for b in blocks):
             total += game_id
     return total

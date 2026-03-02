@@ -4,7 +4,7 @@ from util.point import Point
 
 type _CellMap = dict[Point, int]
 
-def parse_input(input: typing.TextIO) -> _CellMap:
+def _parse_input(input: typing.TextIO) -> _CellMap:
     """Return a dictionary mapping Point coordinates to digit values."""
     cells: _CellMap = {}
     height = 0
@@ -26,7 +26,7 @@ def parse_input(input: typing.TextIO) -> _CellMap:
 _DIRS = [Point(0, 1), Point(1, 0), Point(0, -1), Point(-1, 0)]
 
 
-def find_shortest_path(
+def _find_shortest_path(
     cells: _CellMap, width: int, height: int, min_straight: int, max_straight: int
 ) -> int:
     """Dijkstra with state (cost, dir_idx, steps, pos)."""

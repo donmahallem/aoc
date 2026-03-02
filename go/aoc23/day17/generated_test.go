@@ -17,7 +17,7 @@ var testData = `111111111111
 999999999991`
 
 func TestPart1(t *testing.T) {
-	t.Run("sample", func(t *testing.T) {
+	t.Run("sample1", func(t *testing.T) {
 		result, ok := test_utils.TestPartFromPath(t, "data/samples/23/17_sample.txt", day17.Part1)
 		if !ok {
 			return
@@ -39,7 +39,7 @@ func TestPart1(t *testing.T) {
 }
 
 func BenchmarkPart1(b *testing.B) {
-	b.Run("sample", func(b *testing.B) {
+	b.Run("sample1", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/samples/23/17_sample.txt", day17.Part1)
 	})
 
@@ -49,7 +49,7 @@ func BenchmarkPart1(b *testing.B) {
 }
 
 func TestPart2(t *testing.T) {
-	t.Run("sample_part2_2", func(t *testing.T) {
+	t.Run("sample2", func(t *testing.T) {
 		result, err := day17.Part2(strings.NewReader(testData))
 		if err != nil {
 			t.Fatalf("Unexpected error: %v", err)
@@ -59,7 +59,7 @@ func TestPart2(t *testing.T) {
 		}
 	})
 
-	t.Run("sample", func(t *testing.T) {
+	t.Run("sample1", func(t *testing.T) {
 		result, ok := test_utils.TestPartFromPath(t, "data/samples/23/17_sample.txt", day17.Part2)
 		if !ok {
 			return
@@ -81,7 +81,7 @@ func TestPart2(t *testing.T) {
 }
 
 func BenchmarkPart2(b *testing.B) {
-	b.Run("sample_part2_2", func(b *testing.B) {
+	b.Run("sample2", func(b *testing.B) {
 		reader := strings.NewReader(testData)
 		for b.Loop() {
 			reader.Seek(0, io.SeekStart)
@@ -89,7 +89,7 @@ func BenchmarkPart2(b *testing.B) {
 		}
 	})
 
-	b.Run("sample", func(b *testing.B) {
+	b.Run("sample1", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/samples/23/17_sample.txt", day17.Part2)
 	})
 

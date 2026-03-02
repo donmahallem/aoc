@@ -4,7 +4,8 @@ from util.point import Point
 
 type _CellMap = dict[Point, int]
 
-def _parse_input(input: typing.TextIO) -> _CellMap:
+
+def _parse_input(input: typing.TextIO) -> tuple[_CellMap, int, int]:
     """Return a dictionary mapping Point coordinates to digit values."""
     cells: _CellMap = {}
     height = 0

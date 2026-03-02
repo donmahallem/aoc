@@ -1,7 +1,7 @@
 from typing import Final, Optional, Callable
 from dataclasses import dataclass
 
-SUPPORTED_YEARS: Final[tuple[int, ...]] = (24, 25)
+SUPPORTED_YEARS: Final[tuple[int, ...]] = (23, 24, 25)
 
 SUPPORTED_DAYS: Final[tuple[int, ...]] = tuple(range(1, 26))
 

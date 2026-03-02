@@ -377,7 +377,7 @@
     ],
     "17": [
       {
-        "name": "sample",
+        "name": "sample1",
         "file": "data/samples/23/17_sample.txt",
         "part1": {
           "result": 102
@@ -387,7 +387,7 @@
         }
       },
       {
-        "name": "sample_part2_2",
+        "name": "sample2",
         "input": "111111111111\n999999999991\n999999999991\n999999999991\n999999999991",
         "part2": {
           "result": 71

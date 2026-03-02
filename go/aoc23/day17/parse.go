@@ -8,9 +8,6 @@ import (
 	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
-//go:embed sample.txt
-var sample string
-
 type cell = uint32
 
 type step struct {

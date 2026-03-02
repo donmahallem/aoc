@@ -10,9 +10,6 @@ import (
 	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
-//go:embed sample.txt
-var sample string
-
 const (
 	dirUp    = 'U'
 	dirRight = 'R'

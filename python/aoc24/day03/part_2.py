@@ -3,23 +3,26 @@ import sys
 import re
 
 
-def Part2(input: typing.TextIO) -> int:
-    data = "\n".join(input.readlines())
-    enabled = True
-    comp = re.compile(r"do(n\'t)?\(\)", flags=re.MULTILINE)
-    comp2 = re.compile(r"mul\((\d+)\,(\d+)\)", flags=re.MULTILINE)
+def Part2(input_stream: typing.TextIO) -> int:
+    data = input_stream.read()
+
     total = 0
-    for item in comp.split(data):
-        if item == "n't":
-            enabled = False
-            continue
-        elif item == None:
-            enabled = True
-        elif enabled:
-            findings = comp2.findall(item)
-            total += sum([int(a) * int(b) for a, b in findings])
+    mul_pattern = re.compile(r"mul\((\d+),(\d+)\)")
+
+    parts = data.split("don't()")
+
+    for a, b in mul_pattern.findall(parts[0]):
+        total += int(a) * int(b)
+
+    for part in parts[1:]:
+        if "do()" in part:
+            sub_chunks = part.split("do()")
+            for chunk in sub_chunks[1:]:
+                for a, b in mul_pattern.findall(chunk):
+                    total += int(a) * int(b)
+
     return total
 
 
 if __name__ == "__main__":
-    Part2(sys.stdin)
+    print(Part2(sys.stdin))

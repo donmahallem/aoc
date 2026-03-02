@@ -2,7 +2,15 @@ import sys
 import typing
 
 _WORDS: list[str] = [
-    "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
 ]
 
 
@@ -17,7 +25,7 @@ def _parse_line(line: str) -> int:
             val = int(ch)
         else:
             for word_idx, word in enumerate(_WORDS):
-                if line[i:i + len(word)] == word:
+                if line[i : i + len(word)] == word:
                     val = word_idx + 1
                     break
         if val is not None:
@@ -27,7 +35,7 @@ def _parse_line(line: str) -> int:
 
     if first is None:
         return 0
-    return first * 10 + last
+    return first * 10 + (last if last is not None else 0)
 
 
 def Part2(input: typing.TextIO) -> int:

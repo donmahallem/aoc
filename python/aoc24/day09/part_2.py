@@ -5,12 +5,12 @@ from .shared import _parse_input
 
 def Part2(input: typing.TextIO) -> int:
     data = _parse_input(input)
-    
+
     # files maps file_id -> (position, size)
     files: dict[int, tuple[int, int]] = {}
     # spaces[s] is a min-heap of starting positions of free spaces of size s
     spaces: list[list[int]] = [[] for _ in range(10)]
-    
+
     pos = 0
     for idx, size in enumerate(data):
         if size > 0:
@@ -29,9 +29,9 @@ def Part2(input: typing.TextIO) -> int:
     for file_id in range(max_id, -1, -1):
         if file_id not in files:
             continue
-            
+
         old_pos, size = files[file_id]
-        
+
         # Find the leftmost space that can fit the file
         best_size = -1
         best_pos = old_pos
@@ -39,11 +39,11 @@ def Part2(input: typing.TextIO) -> int:
             if spaces[s] and spaces[s][0] < best_pos:
                 best_pos = spaces[s][0]
                 best_size = s
-                
+
         if best_size != -1:
             new_pos = heapq.heappop(spaces[best_size])
             files[file_id] = (new_pos, size)
-            
+
             # The remainder of the space is added back to the pool
             if best_size > size:
                 heapq.heappush(spaces[best_size - size], new_pos + size)

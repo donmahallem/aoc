@@ -1,46 +1,50 @@
 import typing
-
-
-def parseInput(input: typing.TextIO) -> list[int]:
-    # single line of digits
-    return [int(ch) for ch in input.readline().strip()]
-
-
-def handleRow(row: list[int]) -> list[int]:
-    line: list[int] = []
-    block_num = 0
-    for i, count in enumerate(row):
-        if i % 2 == 0:
-            if count:
-                line.extend([block_num])
-                if count > 1:
-                    line.extend([block_num] * (count - 1))
-            block_num += 1
-        else:
-            if count:
-                line.extend([-1])
-                if count > 1:
-                    line.extend([-1] * (count - 1))
-    end = len(line) - 1
-    while end >= 0 and line[end] == -1:
-        end -= 1
-    i = 0
-    while i <= end:
-        if line[i] == -1:
-            line[i] = line[end]
-            end -= 1
-            while end >= 0 and line[end] == -1:
-                end -= 1
-        i += 1
-    # return the valid prefix
-    return line[: end + 1]
+from .shared import _parse_input
 
 
 def Part1(input: typing.TextIO) -> int:
-    data = parseInput(input)
-    line_data = handleRow(data)
+    data: list[int] = _parse_input(input)
+
+    pos = 0
     total = 0
-    for idx, num in enumerate(line_data):
-        if num >= 0:
-            total += idx * num
+    idxL = 0
+    idxR = len(data) - 1
+    if idxR % 2 != 0:
+        idxR -= 1
+
+    r_file_rem = data[idxR]
+
+    while idxL < idxR:
+        size = data[idxL]
+        if size > 0:
+            f_id = idxL >> 1
+            total += (f_id * size * (2 * pos + size - 1)) // 2
+            pos += size
+        idxL += 1
+
+        if idxL >= idxR:
+            break
+
+        space = data[idxL]
+        while space > 0 and idxL < idxR:
+            if r_file_rem == 0:
+                idxR -= 2
+                if idxR <= idxL:
+                    break
+                r_file_rem = data[idxR]
+                continue
+
+            take = space if space < r_file_rem else r_file_rem
+            f_id = idxR >> 1
+            total += (f_id * take * (2 * pos + take - 1)) // 2
+
+            pos += take
+            space -= take
+            r_file_rem -= take
+
+        idxL += 1
+
+    if r_file_rem > 0:
+        total += ((idxR >> 1) * r_file_rem * (2 * pos + r_file_rem - 1)) // 2
+
     return total

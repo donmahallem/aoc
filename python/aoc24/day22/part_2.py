@@ -1,40 +1,44 @@
 import typing
-from .shared import _step, _ITERATIONS, _parseInput
+from .shared import _parseInput
 
 
 def Part2(input: typing.TextIO) -> int:
-    """
-    Takes a preallocated buffer of size 2**20 to store all potential 5 digit sequences
-    (there are 10**5 = 100000 possible sequences, but we can encode them in 20 bits).
-    For each seed, we generate the sequence of digits and keep track of the sum of each 5 digit sequence we see.
-    We also keep track of which seeds have contributed to each sequence to avoid double-counting.
-    We return the maximum sum of any 5 digit sequence.
+    mask = 16777215  # 0xFFFFFF
+    kmask = 1048575  # 0xFFFFF
 
-    """
-    seeds = _parseInput(input)
+    # cache for the sums of the seen keys, and which seed_id was the last to update it
+    psums = [0] * 1048576
+    seen = [-1] * 1048576
 
-    MASK = 0xFFFFF
-
-    psums = [0] * (MASK + 1)
-    seen = [-1] * (MASK + 1)
-
-    for seed_id, seed in enumerate(seeds):
-        tmp = seed
-        prev_val = seed % 10
+    for seed_id, tmp in enumerate(_parseInput(input)):
+        prev_val = tmp % 10
         key = 0
 
-        for i in range(1, _ITERATIONS):
-            tmp = _step(tmp)
+        # instead of checking every iteration if three have passed
+        # just run them first and than just run the remaining iterations
+        for _ in range(3):
+            tmp = (tmp ^ (tmp << 6)) & mask
+            tmp = (tmp ^ (tmp >> 5)) & mask
+            tmp = (tmp ^ (tmp << 11)) & mask
+
             curr = tmp % 10
+            key = ((key << 5) & kmask) | (curr - prev_val + 9)
+            prev_val = curr
 
-            diff = curr - prev_val + 9
+        # --- THE HOT LOOP ---
+        for _ in range(
+            1996
+        ):  # 2000 total iterations, minus 1 for initial state, minus 3 for peeled. (1996)
+            tmp = (tmp ^ (tmp << 6)) & mask
+            tmp = (tmp ^ (tmp >> 5)) & mask
+            tmp = (tmp ^ (tmp << 11)) & mask
 
-            key = ((key << 5) & MASK) | diff
+            curr = tmp % 10
+            key = ((key << 5) & kmask) | (curr - prev_val + 9)
 
-            if i >= 4:
-                if seen[key] != seed_id:
-                    seen[key] = seed_id
-                    psums[key] += curr
+            if seen[key] != seed_id:
+                seen[key] = seed_id
+                psums[key] += curr
 
             prev_val = curr
 

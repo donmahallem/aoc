@@ -3,10 +3,10 @@ from .shared import parseField, compute_shortest_path, count_cheats
 
 
 def handle(input: typing.TextIO, cheatSavings: int) -> int:
-    field, start, end = parseField(input)
-    if start is None or end is None:
+    field = parseField(input)
+    if field is None or field.start is None or field.end is None:
         raise ValueError("Error parsing field")
-    path = compute_shortest_path(field, start, end)
+    path = compute_shortest_path(field)
     return count_cheats(path, cheatSavings)
 
 

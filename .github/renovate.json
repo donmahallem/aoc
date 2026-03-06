@@ -1,4 +1,15 @@
 {
     "baseBranchPatterns": ["main"],
-    "extends": ["github>donmahallem/renovate-config"]
+    "extends": ["github>donmahallem/renovate-config"],
+    "customManagers": [
+        {
+            "customType": "regex",
+            "description": "Update CMake FetchContent_Declare GIT_TAG versions",
+            "fileMatch": ["(^|/)CMakeLists\\.txt$"],
+            "matchStrings": [
+                "GIT_REPOSITORY\\s+https://github\\.com/(?<depName>[^/\\s]+/[^/\\s.]+?)(?:\\.git)?\\s+GIT_TAG\\s+(?<currentValue>v?[\\d.]+)"
+            ],
+            "datasourceTemplate": "github-tags"
+        }
+    ]
 }

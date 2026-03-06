@@ -49,7 +49,8 @@ if(BUILD_TESTS)
   )
   FetchContent_Declare(
     nlohmann_json
-    URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
+    GIT_REPOSITORY https://github.com/nlohmann/json.git
+    GIT_TAG v3.11.3
   )
   # For Windows: Prevent overriding the parent's compiler/linker settings.
   set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)

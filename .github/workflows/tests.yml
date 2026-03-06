@@ -76,7 +76,7 @@ jobs:
           go test ./... --json -bench . | go run ./cmd/convert_benchmark > go_benchmark.json
       - name: Upload Go Benchmark Artifact
         if: github.event_name == 'push'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: benchmark-go
           path: ./go/go_benchmark.json
@@ -122,7 +122,7 @@ jobs:
           python aoc.py --json benchmark | python convert_benchmark.py > python_benchmark.json
       - name: Upload Python Benchmark Artifact
         if: github.event_name == 'push'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: benchmark-python
           path: ./python/python_benchmark.json
@@ -179,7 +179,7 @@ jobs:
           | python convert_benchmark.py > cpp_benchmark.json
       - name: Upload C++ Benchmark Artifact
         if: github.event_name == 'push'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: benchmark-cpp
           path: ./cpp/cpp_benchmark.json

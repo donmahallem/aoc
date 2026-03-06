@@ -1,13 +1,13 @@
 import sys
 import typing
-from .parse_input import parseInputGen
-from .find_repeated_blocks import find_repeated_blocks
+from .parse_input import _parse_input
+from .find_repeated_blocks import _find_repeated_blocks
 
 
 def Part1(input: typing.TextIO) -> int:
     total_sum = 0
-    for start, end in parseInputGen(input):
-        invalids = find_repeated_blocks(start, end)
+    for start, end in _parse_input(input):
+        invalids = _find_repeated_blocks(start, end)
         for num, k in invalids.items():
             if k == 2:
                 total_sum += num

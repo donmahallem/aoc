@@ -42,10 +42,27 @@ if(BUILD_TESTS)
     googletest
     URL https://github.com/google/googletest/archive/release-1.12.1.zip
   )
+  FetchContent_Declare(
+    googlebenchmark
+    GIT_REPOSITORY https://github.com/google/benchmark.git
+    GIT_TAG        v1.9.5
+  )
+  FetchContent_Declare(
+    nlohmann_json
+    URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
+  )
   # For Windows: Prevent overriding the parent's compiler/linker settings.
   set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-  FetchContent_MakeAvailable(googletest)
+  # Disable benchmark's own tests
+  set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
+  set(BENCHMARK_ENABLE_GTEST_TESTS OFF CACHE BOOL "" FORCE)
+  set(BENCHMARK_INSTALL_DOCS OFF CACHE BOOL "" FORCE)
+  # Disable nlohmann_json tests/install
+  set(JSON_BuildTests OFF CACHE BOOL "" FORCE)
+  set(JSON_Install OFF CACHE BOOL "" FORCE)
+  FetchContent_MakeAvailable(googletest googlebenchmark nlohmann_json)
 
-  # Add the test directory which builds your tests
+  # Add the test and bench directories
   add_subdirectory(test)
+  add_subdirectory(bench)
 endif()

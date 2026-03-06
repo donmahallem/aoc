@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: 3.14
       - name: Install dependencies
@@ -98,7 +98,7 @@ jobs:
           DATA_PW: ${{ secrets.DATA_PW }}
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: 3.14
       - name: Install dependencies
@@ -162,7 +162,7 @@ jobs:
           flags: cpp
       - name: Setup Python # for benchmark converter)
         if: github.event_name == 'push'
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.14'
       - name: Configure for benchmarks

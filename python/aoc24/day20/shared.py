@@ -29,11 +29,11 @@ def parseField(input: typing.TextIO) -> _Field | None:
         if start is None:
             x = line.find("S")
             if x != -1:
-                start = Coord((CoordX(y), CoordY(x)))
+                start = Coord((CoordY(y), CoordX(x)))
         if end is None:
             x = line.find("E")
             if x != -1:
-                end = Coord((CoordX(y), CoordY(x)))
+                end = Coord((CoordY(y), CoordX(x)))
 
     if start is None or end is None:
         return None
@@ -80,7 +80,7 @@ def compute_shortest_path(field: _Field) -> list[Coord]:
     cur_idx = end_idx
     while cur_idx != start_idx:
         py, px = divmod(cur_idx, w)
-        path.append(Coord((CoordX(py), CoordY(px))))
+        path.append(Coord((CoordY(py), CoordX(px))))
         cur_idx = parent[cur_idx]
 
     path.append(field.start)

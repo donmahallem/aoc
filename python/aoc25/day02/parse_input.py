@@ -4,10 +4,13 @@ import typing
 
 
 # parseInput Gen
-def parseInputGen(inp: typing.TextIO) -> typing.Generator[tuple[int, int], None, None]:
+def _parse_input(inp: typing.TextIO) -> list[tuple[int, int]]:
+    items: list[tuple[int, int]] = []
     for line in inp:
         for pair in line.strip().split(","):
             if pair == "":
                 continue
             a, b = pair.split("-")
-            yield (int(a), int(b))
+            items.append((int(a), int(b)))
+
+    return items

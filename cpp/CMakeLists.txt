@@ -41,7 +41,7 @@ if(BUILD_TESTS)
   FetchContent_Declare(
     googletest
     GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG        v1.15.2
+    GIT_TAG        v1.17.0
   )
   FetchContent_Declare(
     googlebenchmark
@@ -51,7 +51,7 @@ if(BUILD_TESTS)
   FetchContent_Declare(
     nlohmann_json
     GIT_REPOSITORY https://github.com/nlohmann/json.git
-    GIT_TAG v3.11.3
+    GIT_TAG v3.12.0
   )
   # For Windows: Prevent overriding the parent's compiler/linker settings.
   set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)

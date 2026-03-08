@@ -1,9 +1,8 @@
-from typing import NewType
+from typing import NewType, TypeAlias
 
 # Designating coord X
-CoordX = NewType("CoordX", int)
+type CoordX = int
 # Designating coord Y
-CoordY = NewType("CoordY", int)
-
+type CoordY = int
 # Designating a coordinate as a tuple of (Y, X)
-Coord = NewType("Coord", tuple[CoordY, CoordX])
+type Coord = tuple[CoordY, CoordX]

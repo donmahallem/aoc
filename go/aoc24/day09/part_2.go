@@ -2,94 +2,84 @@ package day09
 
 import (
 	"io"
+
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
-func FindEmptySpace(inp *[]int16, size *int, rangeEnd *int) (int, int, bool) {
-	n := len(*inp)
-	limit := *rangeEnd
-	if limit < 0 || limit > n {
-		limit = n
-	}
-	startIdx := -1
-	count := 0
-	for i := 0; i < limit; i++ {
-		if (*inp)[i] == -1 {
-			if startIdx < 0 {
-				startIdx = i
-				count = 1
-			} else {
-				count++
-			}
-			if count == *size {
-				return startIdx, i + 1, true
-			}
-		} else {
-			startIdx = -1
-			count = 0
-		}
-	}
-	return -1, -1, false
-}
-
-func FindBlock(inp *[]int16, id *int16, maxIdx *int) (int, int, bool) {
-	var startIdx, endIdx int
-	inside := false
-	searchStart := *maxIdx
-	if searchStart < 0 {
-		searchStart = len((*inp)) - 1
-	}
-	for i := searchStart; i >= 0; i-- {
-		if !inside && (*inp)[i] == *id {
-			startIdx = i
-			endIdx = startIdx + 1
-			inside = true
-		} else if inside {
-			if (*inp)[i] == *id {
-				startIdx--
-			} else {
-				return startIdx, endIdx, true
-			}
-		}
-	}
-	return -1, -1, false
-}
-
-func CompactLess(inp *[]int16) {
-	if len(*inp) == 0 {
-		return
-	}
-	blockId := (*inp)[len((*inp))-1]
-	var lastBlockStart int = -1
-	for ; blockId >= 0; blockId-- {
-		if blockStart, blockEnd, blockOk := FindBlock(inp, &blockId, &lastBlockStart); blockOk {
-			blockSize := blockEnd - blockStart
-			if blockSize <= 0 {
-				lastBlockStart = blockStart
-				continue
-			}
-			if spaceStart, _, spaceOk := FindEmptySpace(inp, &blockSize, &blockStart); spaceOk {
-				// validate bounds
-				n := len(*inp)
-				if spaceStart < 0 || blockStart < 0 || spaceStart+blockSize > n || blockStart+blockSize > n {
-					lastBlockStart = blockStart
-					continue
-				}
-				for i := 0; i < blockSize; i++ {
-					(*inp)[spaceStart+i] = (*inp)[blockStart+i]
-					(*inp)[blockStart+i] = -1
-				}
-			}
-			lastBlockStart = blockStart
-		}
-	}
-}
-
 func Part2(in io.Reader) (int, error) {
-	data, _ := io.ReadAll(in)
-	expandedData, err := convertInput(data)
+	data, err := io.ReadAll(in)
 	if err != nil {
 		return 0, err
 	}
-	CompactLess(&expandedData)
-	return checkSum(&expandedData), nil
+	for len(data) > 0 && (data[len(data)-1] == '\n' || data[len(data)-1] == '\r') {
+		data = data[:len(data)-1]
+	}
+	if len(data) == 0 {
+		return 0, nil
+	}
+
+	numFiles := (len(data) + 1) / 2
+	// tracks block start positions
+	blockPos := make([]int, numFiles)
+	// tracks gap start positions
+	gapStart := make([]int, numFiles)
+	// tracks the space available for each gap
+	gapAvail := make([]int, numFiles)
+
+	pos := 0
+	for i := range numFiles {
+		idx := i * 2
+		if data[idx] < '0' || data[idx] > '9' {
+			return 0, aoc_utils.NewUnexpectedInputError(data[idx])
+		}
+		blockPos[i] = pos
+		pos += int(data[idx] - '0')
+
+		if gapIdx := idx + 1; gapIdx < len(data) {
+			if data[gapIdx] < '0' || data[gapIdx] > '9' {
+				return 0, aoc_utils.NewUnexpectedInputError(data[gapIdx])
+			}
+			sz := int(data[gapIdx] - '0')
+			gapStart[i] = pos
+			gapAvail[i] = sz
+			pos += sz
+		}
+	}
+
+	total := 0
+	firstGap := [10]int{}
+
+	for id := numFiles - 1; id >= 0; id-- {
+		size := int(data[id*2] - '0')
+		if size == 0 {
+			continue
+		}
+
+		placed := false
+		j := firstGap[size]
+		for ; j < id; j++ {
+			if gapAvail[j] >= size {
+				startPos := gapStart[j]
+				total += id * (size*startPos + size*(size-1)/2)
+				gapStart[j] += size
+				gapAvail[j] -= size
+				placed = true
+				break
+			}
+		}
+
+		// All indices < j definitively have avail < size,
+		// which means they also have avail < s for any s >= size.
+		for s := size; s <= 9; s++ {
+			if firstGap[s] < j {
+				firstGap[s] = j
+			}
+		}
+
+		if !placed {
+			startPos := blockPos[id]
+			total += id * (size*startPos + size*(size-1)/2)
+		}
+	}
+	return total, nil
 }

@@ -36,34 +36,6 @@ if(BUILD_TESTS)
   # Enable testing globally
   enable_testing()
 
-  # Download and configure GoogleTest using FetchContent
-  include(FetchContent)
-  FetchContent_Declare(
-    googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG        v1.17.0
-  )
-  FetchContent_Declare(
-    googlebenchmark
-    GIT_REPOSITORY https://github.com/google/benchmark.git
-    GIT_TAG        v1.9.5
-  )
-  FetchContent_Declare(
-    nlohmann_json
-    GIT_REPOSITORY https://github.com/nlohmann/json.git
-    GIT_TAG v3.12.0
-  )
-  # For Windows: Prevent overriding the parent's compiler/linker settings.
-  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-  # Disable benchmark's own tests
-  set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
-  set(BENCHMARK_ENABLE_GTEST_TESTS OFF CACHE BOOL "" FORCE)
-  set(BENCHMARK_INSTALL_DOCS OFF CACHE BOOL "" FORCE)
-  # Disable nlohmann_json tests/install
-  set(JSON_BuildTests OFF CACHE BOOL "" FORCE)
-  set(JSON_Install OFF CACHE BOOL "" FORCE)
-  FetchContent_MakeAvailable(googletest googlebenchmark nlohmann_json)
-
   # Add the test and bench directories
   add_subdirectory(test)
   add_subdirectory(bench)

@@ -19,7 +19,7 @@ file(GLOB_RECURSE TEST_FILES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
 add_executable(aoc_solver_test ${TEST_FILES})
 
 # Link the test executable with the main library and GoogleTest libraries.
-target_link_libraries(aoc_solver_test PRIVATE gtest gtest_main aoc24)
+target_link_libraries(aoc_solver_test PRIVATE gtest gtest_main aoc23 aoc24)
 
 # Define TEST_DATA_DIR so generated tests can locate data files.
 # The extra escaped quotes ensure the value is a C string literal after macro expansion.

@@ -13,6 +13,14 @@ namespace aoc23::day05
             {
                 continue;
             }
+            else if (line.back() == '\r')
+            {
+                line.pop_back();
+                if (line.empty())
+                {
+                    continue;
+                }
+            }
             size_t rowIdx = line.find(":");
             if (rowIdx != std::string::npos)
             {

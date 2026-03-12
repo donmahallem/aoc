@@ -8,6 +8,7 @@ Usage:
     python convert_benchmark.py results.json
 """
 
+import argparse
 import json
 import os
 import re
@@ -24,7 +25,7 @@ _NAME_RE = re.compile(
 )
 
 
-def parse(input_stream: TextIO) -> None:
+def parse(input_stream: TextIO, *, series_key: str = "cpp", bench_name: str = "C++ Benchmark") -> None:
     try:
         data = json.load(input_stream)
     except json.JSONDecodeError as exc:
@@ -80,7 +81,7 @@ def parse(input_stream: TextIO) -> None:
 
         measurements.append(
             {
-                "series_key": "cpp",
+                "series_key": series_key,
                 "group_key": f"{year}/{day:02d}/{part}_{description}",
                 "duration": f"{duration_ns}ns",
                 "iterations": iterations,
@@ -89,7 +90,7 @@ def parse(input_stream: TextIO) -> None:
         )
 
     output = {
-        "name": "C++ Benchmark",
+        "name": bench_name,
         "hash": os.environ.get("GITHUB_SHA", "unknown"),
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "measurements": measurements,
@@ -100,8 +101,14 @@ def parse(input_stream: TextIO) -> None:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        with open(sys.argv[1]) as f:
-            parse(f)
+    parser = argparse.ArgumentParser(description="Convert Google Benchmark JSON to aggregate format.")
+    parser.add_argument("file", nargs="?", help="Input JSON file (default: stdin)")
+    parser.add_argument("--series-key", default="cpp", help="Series key for measurements (default: cpp)")
+    parser.add_argument("--name", default="C++ Benchmark", help="Benchmark suite name (default: C++ Benchmark)")
+    args = parser.parse_args()
+
+    if args.file:
+        with open(args.file) as f:
+            parse(f, series_key=args.series_key, bench_name=args.name)
     else:
-        parse(sys.stdin)
+        parse(sys.stdin, series_key=args.series_key, bench_name=args.name)

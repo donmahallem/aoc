@@ -175,7 +175,7 @@ jobs:
         run: |
           ./build_bench/bin/aoc_solver_bench \
             --benchmark_format=json \
-          | python convert_benchmark.py > cpp_benchmark.json
+          | python convert_benchmark.py --series-key "cpp" --name "C++ Benchmark" > cpp_benchmark.json
       - name: Upload C++ Benchmark Artifact
         if: github.event_name == 'push'
         uses: actions/upload-artifact@v7
@@ -232,7 +232,7 @@ jobs:
         run: |
           ./build_bench/bin/aoc_solver_bench_c \
             --benchmark_format=json \
-          | python ../cpp/convert_benchmark.py > c_benchmark.json
+          | python ../cpp/convert_benchmark.py --series-key c --name "C Benchmark" > c_benchmark.json
       - name: Upload C Benchmark Artifact
         if: github.event_name == 'push'
         uses: actions/upload-artifact@v7

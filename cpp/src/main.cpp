@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 
+#include "aoc23/aoc23.h"
 #include "aoc24/aoc24.h"
 
 /**
@@ -83,6 +84,7 @@ int main(int argc, char** argv)
         return 1;
     }
     aoc_util::Registry registry;
+    aoc23::RegisterParts(&registry);
     aoc24::RegisterParts(&registry);
 
     try

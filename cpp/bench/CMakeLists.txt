@@ -27,6 +27,7 @@ FetchContent_MakeAvailable(nlohmann_json)
 
 target_link_libraries(aoc_solver_bench PRIVATE
     benchmark::benchmark
+    aoc23
     aoc24
     nlohmann_json::nlohmann_json
 )

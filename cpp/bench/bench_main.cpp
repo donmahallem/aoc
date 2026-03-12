@@ -19,6 +19,7 @@
 #include <stdexcept>
 #include <string>
 
+#include "aoc23/aoc23.h"
 #include "aoc24/aoc24.h"
 #include "aoc_util/registry.h"
 
@@ -48,6 +49,7 @@ int main(int argc, char** argv)
 {
     // init registry
     aoc_util::Registry registry;
+    aoc23::RegisterParts(&registry);
     aoc24::RegisterParts(&registry);
 
     const std::string dataDir = TEST_DATA_DIR;

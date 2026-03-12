@@ -216,11 +216,34 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./cpp/build/coverage.info
           flags: cpp
+      - name: Setup Python # for benchmark converter
+        if: github.event_name == 'push'
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+      - name: Configure for benchmarks
+        if: github.event_name == 'push'
+        run: cmake -S . -B build_bench -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON
+      - name: Build benchmark target
+        if: github.event_name == 'push'
+        run: cmake --build build_bench --target aoc_solver_bench_c
+      - name: Benchmark C
+        if: github.event_name == 'push'
+        run: |
+          ./build_bench/bin/aoc_solver_bench_c \
+            --benchmark_format=json \
+          | python ../cpp/convert_benchmark.py > c_benchmark.json
+      - name: Upload C Benchmark Artifact
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v7
+        with:
+          name: benchmark-c
+          path: ./c/c_benchmark.json
 
   aggregate_benchmarks:
     name: Aggregate Benchmarks
     runs-on: ubuntu-latest
-    needs: [test_go, test_python, test_cpp]
+    needs: [test_go, test_python, test_cpp, test_c]
     if: github.event_name == 'push'
     steps:
       - name: Checkout testbranch

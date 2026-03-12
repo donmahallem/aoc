@@ -6,6 +6,7 @@ namespace aoc23
     {
         using R = aoc_util::Registry;
         auto regFunc = registry->CreateYearRegistry(23);
+        regFunc(1, R::Wrap(aoc23::day01::Part1), R::Wrap(aoc23::day01::Part2));
         regFunc(5, R::Wrap(aoc23::day05::Part1), R::Wrap(aoc23::day05::Part2));
     }
 }  // namespace aoc23

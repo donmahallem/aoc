@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.5.0](https://github.com/donmahallem/aoc/compare/aoc-go-v0.4.0...aoc-go-v0.5.0) (2026-03-13)
+
+
+### Features
+
+* **python:** add year 23 day 01 ([#286](https://github.com/donmahallem/aoc/issues/286)) ([4fa4c0f](https://github.com/donmahallem/aoc/commit/4fa4c0f9b51700eb7d114bcbe821f4896474167d))
+* **python:** add year 23 day 02 ([#287](https://github.com/donmahallem/aoc/issues/287)) ([7829a94](https://github.com/donmahallem/aoc/commit/7829a947caa0f0ab7f6a714c4b4f276e637495ba))
+* **python:** add year 23 day 17 ([#292](https://github.com/donmahallem/aoc/issues/292)) ([8162f74](https://github.com/donmahallem/aoc/commit/8162f7404e3f574d8ccb3a1f57e52b73aa737f0d))
+* refactor of input schema ([#282](https://github.com/donmahallem/aoc/issues/282)) ([d24c8fd](https://github.com/donmahallem/aoc/commit/d24c8fd02e85924af94a15515cf372c00ba94d0d))
+
+
+### Performance Improvements
+
+* **go:** improve performance of year 24 day 09 ([#336](https://github.com/donmahallem/aoc/issues/336)) ([bbc4e9e](https://github.com/donmahallem/aoc/commit/bbc4e9e268df90478bf7324f802cdbbca294265d))
+
 ## [0.4.0](https://github.com/donmahallem/aoc/compare/aoc-go-v0.3.0...aoc-go-v0.4.0) (2026-02-13)
 
 

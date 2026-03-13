@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/donmahallem/aoc/compare/aoc-cpp-v0.3.0...aoc-cpp-v0.4.0) (2026-03-12)
+
+
+### Features
+
+* **cpp:** add year 23 day 01 solution ([#346](https://github.com/donmahallem/aoc/issues/346)) ([a48cbaf](https://github.com/donmahallem/aoc/commit/a48cbafc7873a2a03b14593a4b20ad2f18b01492))
+
 ## [0.3.0](https://github.com/donmahallem/aoc/compare/aoc-cpp-v0.2.0...aoc-cpp-v0.3.0) (2026-03-11)
 
 

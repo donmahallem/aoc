@@ -67,7 +67,7 @@ jobs:
       - name: Test with the Go CLI
         run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Benchmark Go
@@ -112,7 +112,7 @@ jobs:
       - name: Run Type Check
         run: mypy --ignore-missing-imports .
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Benchmark Python
@@ -154,7 +154,7 @@ jobs:
       - name: Generate coverage report
         run: cmake --build build --target coverage
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./cpp/build/coverage.info
@@ -211,7 +211,7 @@ jobs:
       - name: Generate coverage report
         run: cmake --build build --target coverage
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./cpp/build/coverage.info

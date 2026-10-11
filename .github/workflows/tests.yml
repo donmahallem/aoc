@@ -17,7 +17,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v7
         with:
-          python-version: 3.14
+          python-version: 3.15
       - name: Install dependencies
         working-directory: ./python
         run: |
@@ -100,7 +100,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v7
         with:
-          python-version: 3.14
+          python-version: 3.15
       - name: Install dependencies
         run: |
           pip install -e ".[all]"
@@ -163,7 +163,7 @@ jobs:
         if: github.event_name == 'push'
         uses: actions/setup-python@v7
         with:
-          python-version: '3.14'
+          python-version: '3.15'
       - name: Configure for benchmarks
         if: github.event_name == 'push'
         run: cmake -S . -B build_bench -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON
@@ -220,7 +220,7 @@ jobs:
         if: github.event_name == 'push'
         uses: actions/setup-python@v7
         with:
-          python-version: '3.14'
+          python-version: '3.15'
       - name: Configure for benchmarks
         if: github.event_name == 'push'
         run: cmake -S . -B build_bench -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON

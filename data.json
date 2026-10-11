@@ -175424,6 +175424,3110 @@
           "description": "full_data"
         }
       ]
+    },
+    {
+      "hash": "5ed4e2a5bb068ad2fa425317a458f32a6a45b124",
+      "timestamp": "2026-10-11T04:56:02Z",
+      "measurements": [
+        {
+          "series_key": "c",
+          "group_key": "24/01/1_sample",
+          "duration": "23075ns",
+          "iterations": 31004,
+          "description": "sample"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/01/2_sample",
+          "duration": "22789ns",
+          "iterations": 30559,
+          "description": "sample"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/01/1_full_data",
+          "duration": "83299ns",
+          "iterations": 8473,
+          "description": "full_data"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/01/2_full_data",
+          "duration": "78262ns",
+          "iterations": 8900,
+          "description": "full_data"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/02/1_sample",
+          "duration": "22336ns",
+          "iterations": 29715,
+          "description": "sample"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/02/2_sample",
+          "duration": "22523ns",
+          "iterations": 29634,
+          "description": "sample"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/02/1_full_data",
+          "duration": "79647ns",
+          "iterations": 8520,
+          "description": "full_data"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/02/2_full_data",
+          "duration": "89117ns",
+          "iterations": 7816,
+          "description": "full_data"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/03/1_sample",
+          "duration": "22595ns",
+          "iterations": 30465,
+          "description": "sample"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/03/2_sample",
+          "duration": "22328ns",
+          "iterations": 27341,
+          "description": "sample"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/03/1_full_data",
+          "duration": "101676ns",
+          "iterations": 7013,
+          "description": "full_data"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/03/2_full_data",
+          "duration": "85946ns",
+          "iterations": 8164,
+          "description": "full_data"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/04/1_sample",
+          "duration": "22472ns",
+          "iterations": 30466,
+          "description": "sample"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/04/2_sample",
+          "duration": "22385ns",
+          "iterations": 31419,
+          "description": "sample"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/04/1_full_data",
+          "duration": "61895ns",
+          "iterations": 11118,
+          "description": "full_data"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/04/2_full_data",
+          "duration": "40251ns",
+          "iterations": 15914,
+          "description": "full_data"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/05/1_sample",
+          "duration": "23774ns",
+          "iterations": 29536,
+          "description": "sample"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/05/2_sample",
+          "duration": "24385ns",
+          "iterations": 28916,
+          "description": "sample"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/05/1_full_data",
+          "duration": "1114174ns",
+          "iterations": 628,
+          "description": "full_data"
+        },
+        {
+          "series_key": "c",
+          "group_key": "24/05/2_full_data",
+          "duration": "9086715ns",
+          "iterations": 77,
+          "description": "full_data"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "23/01/1_sample1",
+          "duration": "826ns",
+          "iterations": 1692263,
+          "description": "sample1"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "23/01/2_sample2",
+          "duration": "2246ns",
+          "iterations": 624010,
+          "description": "sample2"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "23/01/1_full_data",
+          "duration": "684527ns",
+          "iterations": 2046,
+          "description": "full_data"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "23/01/2_full_data",
+          "duration": "688702ns",
+          "iterations": 2046,
+          "description": "full_data"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "23/05/1_sample",
+          "duration": "2374ns",
+          "iterations": 586688,
+          "description": "sample"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "23/05/2_sample",
+          "duration": "3148ns",
+          "iterations": 444762,
+          "description": "sample"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "23/05/1_full_data",
+          "duration": "32086ns",
+          "iterations": 43660,
+          "description": "full_data"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "23/05/2_full_data",
+          "duration": "41810ns",
+          "iterations": 33015,
+          "description": "full_data"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "24/01/1_sample",
+          "duration": "451ns",
+          "iterations": 3106171,
+          "description": "sample"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "24/01/2_sample",
+          "duration": "572ns",
+          "iterations": 2444157,
+          "description": "sample"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "24/01/1_full_data",
+          "duration": "76112ns",
+          "iterations": 18347,
+          "description": "full_data"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "24/01/2_full_data",
+          "duration": "129375ns",
+          "iterations": 10539,
+          "description": "full_data"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "24/02/1_sample",
+          "duration": "713ns",
+          "iterations": 1960342,
+          "description": "sample"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "24/02/2_sample",
+          "duration": "793ns",
+          "iterations": 1756334,
+          "description": "sample"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "24/02/1_full_data",
+          "duration": "177491ns",
+          "iterations": 7894,
+          "description": "full_data"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "24/02/2_full_data",
+          "duration": "200486ns",
+          "iterations": 6998,
+          "description": "full_data"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "24/03/1_sample",
+          "duration": "554ns",
+          "iterations": 2533361,
+          "description": "sample"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "24/03/2_sample",
+          "duration": "671ns",
+          "iterations": 2080748,
+          "description": "sample"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "24/03/1_full_data",
+          "duration": "167939ns",
+          "iterations": 8338,
+          "description": "full_data"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "24/03/2_full_data",
+          "duration": "194872ns",
+          "iterations": 7198,
+          "description": "full_data"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "24/04/1_sample",
+          "duration": "1185ns",
+          "iterations": 1181919,
+          "description": "sample"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "24/04/2_sample",
+          "duration": "325ns",
+          "iterations": 4312689,
+          "description": "sample"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "24/04/1_full_data",
+          "duration": "333791ns",
+          "iterations": 4200,
+          "description": "full_data"
+        },
+        {
+          "series_key": "cpp",
+          "group_key": "24/04/2_full_data",
+          "duration": "26920ns",
+          "iterations": 51933,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/01/1_sample1",
+          "duration": "1781ns",
+          "iterations": 690081,
+          "description": "sample1"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/01/1_full_data",
+          "duration": "35850ns",
+          "iterations": 33728,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/01/2_sample2",
+          "duration": "1641ns",
+          "iterations": 652995,
+          "description": "sample2"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/01/2_full_data",
+          "duration": "318647ns",
+          "iterations": 3976,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/02/1_sample",
+          "duration": "1719ns",
+          "iterations": 655714,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/02/1_full_data",
+          "duration": "36217ns",
+          "iterations": 32952,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/02/2_sample",
+          "duration": "1752ns",
+          "iterations": 688396,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/02/2_full_data",
+          "duration": "36221ns",
+          "iterations": 33069,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/03/1_sample",
+          "duration": "2689ns",
+          "iterations": 447085,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/03/1_full_data",
+          "duration": "4923094ns",
+          "iterations": 242,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/03/2_sample",
+          "duration": "2757ns",
+          "iterations": 402381,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/03/2_full_data",
+          "duration": "4919143ns",
+          "iterations": 242,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/04/1_sample",
+          "duration": "2457ns",
+          "iterations": 478309,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/04/1_full_data",
+          "duration": "177819ns",
+          "iterations": 6679,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/04/2_sample",
+          "duration": "2756ns",
+          "iterations": 415543,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/04/2_full_data",
+          "duration": "215839ns",
+          "iterations": 5344,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/05/1_sample",
+          "duration": "4014ns",
+          "iterations": 295500,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/05/1_full_data",
+          "duration": "42130ns",
+          "iterations": 28512,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/05/2_sample",
+          "duration": "6625ns",
+          "iterations": 175294,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/05/2_full_data",
+          "duration": "88051ns",
+          "iterations": 13486,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/06/1_sample",
+          "duration": "1014ns",
+          "iterations": 1000000,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/06/1_full_data",
+          "duration": "1107ns",
+          "iterations": 1000000,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/06/2_sample",
+          "duration": "806ns",
+          "iterations": 1494381,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/06/2_full_data",
+          "duration": "827ns",
+          "iterations": 1456230,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/07/1_sample",
+          "duration": "1825ns",
+          "iterations": 629241,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/07/2_sample",
+          "duration": "1879ns",
+          "iterations": 585855,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/07/2_sample2",
+          "duration": "2795ns",
+          "iterations": 398000,
+          "description": "sample2"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/08/1_sample1",
+          "duration": "2380ns",
+          "iterations": 516130,
+          "description": "sample1"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/08/1_sample2",
+          "duration": "1794ns",
+          "iterations": 654254,
+          "description": "sample2"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/08/1_full_data",
+          "duration": "204340ns",
+          "iterations": 5797,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/08/2_sample3",
+          "duration": "2843ns",
+          "iterations": 391549,
+          "description": "sample3"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/08/2_full_data",
+          "duration": "415000ns",
+          "iterations": 2872,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/09/1_sample",
+          "duration": "1444ns",
+          "iterations": 759080,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/09/1_full_data",
+          "duration": "155348ns",
+          "iterations": 7272,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/09/2_sample",
+          "duration": "1491ns",
+          "iterations": 799335,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/09/2_full_data",
+          "duration": "151191ns",
+          "iterations": 7834,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/10/1_sample1",
+          "duration": "5946ns",
+          "iterations": 201050,
+          "description": "sample1"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/10/1_full_data",
+          "duration": "8701281ns",
+          "iterations": 138,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/10/2_sample2",
+          "duration": "27016ns",
+          "iterations": 44461,
+          "description": "sample2"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/10/2_full_data",
+          "duration": "15356928ns",
+          "iterations": 79,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/11/1_sample",
+          "duration": "3118ns",
+          "iterations": 390057,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/11/1_full_data",
+          "duration": "184451ns",
+          "iterations": 6327,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/11/2_sample",
+          "duration": "3079ns",
+          "iterations": 333538,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/11/2_full_data",
+          "duration": "185092ns",
+          "iterations": 6246,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/12/1_sample",
+          "duration": "7296ns",
+          "iterations": 158577,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/12/1_full_data",
+          "duration": "1969320ns",
+          "iterations": 529,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/12/2_sample",
+          "duration": "65584ns",
+          "iterations": 17847,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/12/2_full_data",
+          "duration": "24644194ns",
+          "iterations": 49,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/13/1_sample",
+          "duration": "1352ns",
+          "iterations": 832878,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/13/1_full_data",
+          "duration": "84451ns",
+          "iterations": 14307,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/13/2_sample",
+          "duration": "1404ns",
+          "iterations": 767502,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/13/2_full_data",
+          "duration": "91172ns",
+          "iterations": 13183,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/14/1_sample",
+          "duration": "1073ns",
+          "iterations": 1000000,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/14/1_full_data",
+          "duration": "17070ns",
+          "iterations": 69920,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/14/2_sample",
+          "duration": "9537ns",
+          "iterations": 118686,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/14/2_full_data",
+          "duration": "22078577ns",
+          "iterations": 54,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/15/1_sample_hash",
+          "duration": "762ns",
+          "iterations": 1572890,
+          "description": "sample_hash"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/15/1_sample",
+          "duration": "827ns",
+          "iterations": 1448743,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/15/1_full_data",
+          "duration": "46748ns",
+          "iterations": 25634,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/15/2_sample",
+          "duration": "1343ns",
+          "iterations": 863971,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/15/2_full_data",
+          "duration": "156300ns",
+          "iterations": 7652,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/16/1_sample",
+          "duration": "1514ns",
+          "iterations": 769282,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/16/1_full_data",
+          "duration": "109303ns",
+          "iterations": 10000,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/16/2_sample",
+          "duration": "14710ns",
+          "iterations": 81278,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/16/2_full_data",
+          "duration": "21602099ns",
+          "iterations": 54,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/17/1_sample1",
+          "duration": "72890ns",
+          "iterations": 16258,
+          "description": "sample1"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/17/1_full_data",
+          "duration": "72597977ns",
+          "iterations": 15,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/17/2_sample2",
+          "duration": "5744ns",
+          "iterations": 204135,
+          "description": "sample2"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/17/2_sample1",
+          "duration": "66761ns",
+          "iterations": 17863,
+          "description": "sample1"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/17/2_full_data",
+          "duration": "85157307ns",
+          "iterations": 13,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/18/1_sample",
+          "duration": "2198ns",
+          "iterations": 506508,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/18/1_full_data",
+          "duration": "71206ns",
+          "iterations": 16454,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/18/2_sample",
+          "duration": "2289ns",
+          "iterations": 506089,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/18/2_full_data",
+          "duration": "86816ns",
+          "iterations": 13839,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/19/1_sample",
+          "duration": "5690ns",
+          "iterations": 206691,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/19/1_full_data",
+          "duration": "289858ns",
+          "iterations": 4011,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/19/2_sample",
+          "duration": "6328ns",
+          "iterations": 188445,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/19/2_full_data",
+          "duration": "336489ns",
+          "iterations": 3484,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/20/1_sample1",
+          "duration": "219905ns",
+          "iterations": 5324,
+          "description": "sample1"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/20/1_sample2",
+          "duration": "206030ns",
+          "iterations": 5757,
+          "description": "sample2"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/20/1_full_data",
+          "duration": "2356729ns",
+          "iterations": 505,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/20/2_full_data",
+          "duration": "10124472ns",
+          "iterations": 100,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/21/1_sample",
+          "duration": "10554ns",
+          "iterations": 112730,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/21/1_full_data",
+          "duration": "1309923ns",
+          "iterations": 915,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/21/2_sample",
+          "duration": "109438ns",
+          "iterations": 9433,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/21/2_full_data",
+          "duration": "70909717ns",
+          "iterations": 16,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/22/1_sample",
+          "duration": "1767ns",
+          "iterations": 633872,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/22/1_full_data",
+          "duration": "9437331ns",
+          "iterations": 126,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/22/2_sample",
+          "duration": "2016ns",
+          "iterations": 563725,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/22/2_full_data",
+          "duration": "10857581ns",
+          "iterations": 100,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/23/1_sample",
+          "duration": "13288ns",
+          "iterations": 89126,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/23/1_full_data",
+          "duration": "399522ns",
+          "iterations": 2874,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/23/2_sample",
+          "duration": "11790ns",
+          "iterations": 100066,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/23/2_full_data",
+          "duration": "1904618768ns",
+          "iterations": 1,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/24/1_sample",
+          "duration": "3194ns",
+          "iterations": 349982,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/24/1_full_data",
+          "duration": "799377ns",
+          "iterations": 1490,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/24/2_sample",
+          "duration": "3554ns",
+          "iterations": 354213,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "23/24/2_full_data",
+          "duration": "65684ns",
+          "iterations": 18270,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/01/1_sample",
+          "duration": "1263ns",
+          "iterations": 949851,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/01/1_full_data",
+          "duration": "126070ns",
+          "iterations": 8992,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/01/2_sample",
+          "duration": "1260ns",
+          "iterations": 1000000,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/01/2_full_data",
+          "duration": "726901ns",
+          "iterations": 1638,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/02/1_sample",
+          "duration": "1686ns",
+          "iterations": 666058,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/02/1_full_data",
+          "duration": "211099ns",
+          "iterations": 5832,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/02/2_sample",
+          "duration": "2314ns",
+          "iterations": 512150,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/02/2_full_data",
+          "duration": "413122ns",
+          "iterations": 2834,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/03/1_sample",
+          "duration": "419ns",
+          "iterations": 2875951,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/03/1_full_data",
+          "duration": "62481ns",
+          "iterations": 19573,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/03/2_sample",
+          "duration": "942ns",
+          "iterations": 1274826,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/03/2_full_data",
+          "duration": "209162ns",
+          "iterations": 5425,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/04/1_sample",
+          "duration": "1731ns",
+          "iterations": 662310,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/04/1_full_data",
+          "duration": "485285ns",
+          "iterations": 2486,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/04/2_sample",
+          "duration": "1084ns",
+          "iterations": 999691,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/04/2_full_data",
+          "duration": "30076ns",
+          "iterations": 40395,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/05/1_sample",
+          "duration": "3107ns",
+          "iterations": 429698,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/05/1_full_data",
+          "duration": "253792ns",
+          "iterations": 4542,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/05/2_sample",
+          "duration": "3653ns",
+          "iterations": 313969,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/05/2_full_data",
+          "duration": "642959ns",
+          "iterations": 1842,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/06/1_sample",
+          "duration": "2501ns",
+          "iterations": 475095,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/06/1_full_data",
+          "duration": "311037ns",
+          "iterations": 3818,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/06/2_sample",
+          "duration": "15838ns",
+          "iterations": 74185,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/06/2_full_data",
+          "duration": "194575846ns",
+          "iterations": 6,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/07/1_sample",
+          "duration": "1237ns",
+          "iterations": 979582,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/07/1_full_data",
+          "duration": "9707086ns",
+          "iterations": 123,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/07/2_sample",
+          "duration": "2490ns",
+          "iterations": 452622,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/07/2_full_data",
+          "duration": "1360361004ns",
+          "iterations": 1,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/08/1_sample_1",
+          "duration": "2167ns",
+          "iterations": 539955,
+          "description": "sample_1"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/08/1_full_data",
+          "duration": "44971ns",
+          "iterations": 27038,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/08/2_sample_1",
+          "duration": "2675ns",
+          "iterations": 415179,
+          "description": "sample_1"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/08/2_sample_2",
+          "duration": "2479ns",
+          "iterations": 511318,
+          "description": "sample_2"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/08/2_full_data",
+          "duration": "127830ns",
+          "iterations": 8977,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/09/1_sample",
+          "duration": "144ns",
+          "iterations": 7992624,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/09/1_full_data",
+          "duration": "135071ns",
+          "iterations": 8580,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/09/2_sample",
+          "duration": "279ns",
+          "iterations": 4295133,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/09/2_full_data",
+          "duration": "226514ns",
+          "iterations": 5284,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/10/1_sample",
+          "duration": "4337ns",
+          "iterations": 267582,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/10/1_full_data",
+          "duration": "119017ns",
+          "iterations": 9740,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/10/2_sample",
+          "duration": "2731ns",
+          "iterations": 397964,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/10/2_full_data",
+          "duration": "79006ns",
+          "iterations": 15326,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/11/0_",
+          "duration": "172ns",
+          "iterations": 7107624
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/11/1_sample",
+          "duration": "74062ns",
+          "iterations": 16191,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/11/1_full_data",
+          "duration": "282721ns",
+          "iterations": 4177,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/11/2_sample",
+          "duration": "541877ns",
+          "iterations": 2166,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/11/2_full_data",
+          "duration": "18099850ns",
+          "iterations": 67,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/12/1_sample",
+          "duration": "28791ns",
+          "iterations": 41526,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/12/1_full_data",
+          "duration": "11384500ns",
+          "iterations": 100,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/12/2_sample",
+          "duration": "26150ns",
+          "iterations": 46032,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/12/2_full_data",
+          "duration": "13091966ns",
+          "iterations": 92,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/13/1_sample",
+          "duration": "1893ns",
+          "iterations": 589783,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/13/1_full_data",
+          "duration": "40555ns",
+          "iterations": 29666,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/13/2_sample",
+          "duration": "1941ns",
+          "iterations": 650406,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/13/2_full_data",
+          "duration": "41703ns",
+          "iterations": 28719,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/14/1_full_data",
+          "duration": "33359ns",
+          "iterations": 36193,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/14/2_full_data",
+          "duration": "27832748ns",
+          "iterations": 42,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/15/1_sample_large",
+          "duration": "7683ns",
+          "iterations": 151791,
+          "description": "sample_large"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/15/1_sample_small",
+          "duration": "1695ns",
+          "iterations": 707478,
+          "description": "sample_small"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/15/1_full_data",
+          "duration": "373559ns",
+          "iterations": 3150,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/15/2_sample_large",
+          "duration": "11140ns",
+          "iterations": 106144,
+          "description": "sample_large"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/15/2_sample_small",
+          "duration": "2115ns",
+          "iterations": 584942,
+          "description": "sample_small"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/15/2_full_data",
+          "duration": "530598ns",
+          "iterations": 2240,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/16/1_sample_1",
+          "duration": "8235ns",
+          "iterations": 142868,
+          "description": "sample_1"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/16/1_sample_2",
+          "duration": "8425ns",
+          "iterations": 147088,
+          "description": "sample_2"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/16/1_full_data",
+          "duration": "1385904ns",
+          "iterations": 862,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/16/2_sample_1",
+          "duration": "13117ns",
+          "iterations": 89778,
+          "description": "sample_1"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/16/2_sample_2",
+          "duration": "17136ns",
+          "iterations": 71554,
+          "description": "sample_2"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/16/2_full_data",
+          "duration": "2355865ns",
+          "iterations": 506,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/17/1_sample_1",
+          "duration": "1697ns",
+          "iterations": 663558,
+          "description": "sample_1"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/17/1_full_data",
+          "duration": "2154ns",
+          "iterations": 521397,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/17/2_sample_2",
+          "duration": "3946ns",
+          "iterations": 286950,
+          "description": "sample_2"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/17/2_full_data",
+          "duration": "84260623ns",
+          "iterations": 13,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/18/1_full_data",
+          "duration": "1129567ns",
+          "iterations": 1057,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/18/2_full_data",
+          "duration": "753817ns",
+          "iterations": 1543,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/19/1_sample",
+          "duration": "5791ns",
+          "iterations": 201802,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/19/1_full_data",
+          "duration": "38811922ns",
+          "iterations": 31,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/19/2_sample",
+          "duration": "7194ns",
+          "iterations": 160441,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/19/2_full_data",
+          "duration": "292400164ns",
+          "iterations": 4,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/20/1_sample",
+          "duration": "3675ns",
+          "iterations": 318816,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/20/1_full_data",
+          "duration": "114571250ns",
+          "iterations": 9,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/20/2_sample",
+          "duration": "3767ns",
+          "iterations": 312950,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/20/2_full_data",
+          "duration": "129979523ns",
+          "iterations": 8,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/21/0_",
+          "duration": "1ns",
+          "iterations": 706202290
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/21/1_sample",
+          "duration": "13146ns",
+          "iterations": 91688,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/21/1_full_data",
+          "duration": "13081ns",
+          "iterations": 89774,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/21/2_sample",
+          "duration": "112500ns",
+          "iterations": 9624,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/21/2_full_data",
+          "duration": "111295ns",
+          "iterations": 10000,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/22/1_sample_part1",
+          "duration": "20675ns",
+          "iterations": 57738,
+          "description": "sample_part1"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/22/1_full_data",
+          "duration": "8828773ns",
+          "iterations": 135,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/22/2_sample_part2",
+          "duration": "774902ns",
+          "iterations": 1508,
+          "description": "sample_part2"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/22/2_full_data",
+          "duration": "136008431ns",
+          "iterations": 8,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/23/1_sample",
+          "duration": "8356ns",
+          "iterations": 141015,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/23/1_full_data",
+          "duration": "766799ns",
+          "iterations": 1546,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/23/2_sample",
+          "duration": "16312ns",
+          "iterations": 72303,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "24/23/2_full_data",
+          "duration": "77386481ns",
+          "iterations": 14,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/01/1_sample",
+          "duration": "906ns",
+          "iterations": 1322499,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/01/1_full_data",
+          "duration": "86620ns",
+          "iterations": 13828,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/01/2_sample",
+          "duration": "926ns",
+          "iterations": 1296866,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/01/2_full_data",
+          "duration": "111797ns",
+          "iterations": 9949,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/02/1_sample",
+          "duration": "9067ns",
+          "iterations": 131607,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/02/1_full_data",
+          "duration": "192402ns",
+          "iterations": 5835,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/02/2_sample",
+          "duration": "9042ns",
+          "iterations": 132955,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/02/2_full_data",
+          "duration": "190559ns",
+          "iterations": 5989,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/04/1_sample",
+          "duration": "2275ns",
+          "iterations": 502297,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/04/1_full_data",
+          "duration": "347076ns",
+          "iterations": 3436,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/04/2_sample",
+          "duration": "4084ns",
+          "iterations": 290055,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/04/2_full_data",
+          "duration": "867621ns",
+          "iterations": 1383,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/05/0_benchmark_sample_data",
+          "duration": "927ns",
+          "iterations": 1299888,
+          "description": "benchmark_sample_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/05/0_benchmark_full_data",
+          "duration": "45452ns",
+          "iterations": 26493,
+          "description": "benchmark_full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/05/1_sample",
+          "duration": "1309ns",
+          "iterations": 809571,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/05/1_full_data",
+          "duration": "76865ns",
+          "iterations": 14971,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/05/2_sample",
+          "duration": "1261ns",
+          "iterations": 824415,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/05/2_full_data",
+          "duration": "59911ns",
+          "iterations": 20014,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/06/1_sample",
+          "duration": "942ns",
+          "iterations": 1321732,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/06/1_full_data",
+          "duration": "63595ns",
+          "iterations": 18856,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/06/2_sample",
+          "duration": "1004ns",
+          "iterations": 1000000,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/06/2_full_data",
+          "duration": "68918ns",
+          "iterations": 17466,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/07/0_benchmark_sample_data",
+          "duration": "4044ns",
+          "iterations": 302203,
+          "description": "benchmark_sample_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/07/1_sample",
+          "duration": "6087ns",
+          "iterations": 185163,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/07/1_full_data",
+          "duration": "185369ns",
+          "iterations": 6438,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/07/2_sample",
+          "duration": "6901ns",
+          "iterations": 171942,
+          "description": "sample"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/07/2_full_data",
+          "duration": "197625ns",
+          "iterations": 5792,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/11/1_sample_part1",
+          "duration": "6846ns",
+          "iterations": 175590,
+          "description": "sample_part1"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/11/1_full_data",
+          "duration": "91121ns",
+          "iterations": 13170,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/11/2_sample_part2",
+          "duration": "3895ns",
+          "iterations": 308151,
+          "description": "sample_part2"
+        },
+        {
+          "series_key": "go",
+          "group_key": "25/11/2_full_data",
+          "duration": "294274ns",
+          "iterations": 3924,
+          "description": "full_data"
+        },
+        {
+          "series_key": "go",
+          "group_key": "0/00/0_",
+          "duration": "6ns",
+          "iterations": 183387362
+        },
+        {
+          "series_key": "go",
+          "group_key": "0/00/0_test_fifo_size_10",
+          "duration": "69573ns",
+          "iterations": 17247,
+          "description": "test_fifo_size_10"
+        },
+        {
+          "series_key": "go",
+          "group_key": "0/00/0_test_fifo_size_100",
+          "duration": "69633ns",
+          "iterations": 17226,
+          "description": "test_fifo_size_100"
+        },
+        {
+          "series_key": "go",
+          "group_key": "0/00/0_test_fifo_size_1000",
+          "duration": "69634ns",
+          "iterations": 17233,
+          "description": "test_fifo_size_1000"
+        },
+        {
+          "series_key": "go",
+          "group_key": "0/00/0_test_fifo_size_10000",
+          "duration": "69893ns",
+          "iterations": 17169,
+          "description": "test_fifo_size_10000"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/01/1_sample1",
+          "duration": "3986ns",
+          "iterations": 250865,
+          "description": "sample1"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/01/1_full_data",
+          "duration": "907786ns",
+          "iterations": 1102,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/01/2_sample2",
+          "duration": "8176ns",
+          "iterations": 122298,
+          "description": "sample2"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/01/2_full_data",
+          "duration": "1177489ns",
+          "iterations": 850,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/02/1_sample",
+          "duration": "19126ns",
+          "iterations": 52283,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/02/1_full_data",
+          "duration": "567517ns",
+          "iterations": 1763,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/02/2_sample",
+          "duration": "23095ns",
+          "iterations": 43299,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/02/2_full_data",
+          "duration": "666531ns",
+          "iterations": 1501,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/03/1_sample",
+          "duration": "23277ns",
+          "iterations": 42960,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/03/1_full_data",
+          "duration": "46481089ns",
+          "iterations": 22,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/03/2_sample",
+          "duration": "18642ns",
+          "iterations": 53643,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/03/2_full_data",
+          "duration": "22963184ns",
+          "iterations": 44,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/04/1_sample",
+          "duration": "20958ns",
+          "iterations": 47714,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/04/1_full_data",
+          "duration": "1324143ns",
+          "iterations": 756,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/04/2_sample",
+          "duration": "22841ns",
+          "iterations": 43781,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/04/2_full_data",
+          "duration": "1403533ns",
+          "iterations": 713,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/05/1_sample",
+          "duration": "24918ns",
+          "iterations": 40131,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/05/1_full_data",
+          "duration": "388058ns",
+          "iterations": 2577,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/05/2_sample",
+          "duration": "39941ns",
+          "iterations": 25037,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/05/2_full_data",
+          "duration": "1733010ns",
+          "iterations": 578,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/06/1_sample",
+          "duration": "3977ns",
+          "iterations": 251412,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/06/1_full_data",
+          "duration": "4768ns",
+          "iterations": 209732,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/06/2_sample",
+          "duration": "3227ns",
+          "iterations": 309863,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/06/2_full_data",
+          "duration": "5516ns",
+          "iterations": 181291,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/07/1_sample",
+          "duration": "11231ns",
+          "iterations": 89034,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/07/2_sample",
+          "duration": "11522ns",
+          "iterations": 86787,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/07/2_sample2",
+          "duration": "20181ns",
+          "iterations": 49551,
+          "description": "sample2"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/08/1_sample1",
+          "duration": "11385ns",
+          "iterations": 87828,
+          "description": "sample1"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/08/1_sample2",
+          "duration": "6026ns",
+          "iterations": 165941,
+          "description": "sample2"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/08/1_full_data",
+          "duration": "2584552ns",
+          "iterations": 387,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/08/2_sample3",
+          "duration": "14243ns",
+          "iterations": 70207,
+          "description": "sample3"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/08/2_full_data",
+          "duration": "11883735ns",
+          "iterations": 85,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/09/1_sample",
+          "duration": "7862ns",
+          "iterations": 127193,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/09/1_full_data",
+          "duration": "2579241ns",
+          "iterations": 388,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/09/2_sample",
+          "duration": "8024ns",
+          "iterations": 124613,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/09/2_full_data",
+          "duration": "2515035ns",
+          "iterations": 398,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/16/1_sample",
+          "duration": "64893ns",
+          "iterations": 15410,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/16/1_full_data",
+          "duration": "9731428ns",
+          "iterations": 103,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/16/2_sample",
+          "duration": "938631ns",
+          "iterations": 1066,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/16/2_full_data",
+          "duration": "1773697196ns",
+          "iterations": 1,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/17/1_sample1",
+          "duration": "8696283ns",
+          "iterations": 115,
+          "description": "sample1"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/17/1_full_data",
+          "duration": "1836687432ns",
+          "iterations": 1,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/17/2_sample1",
+          "duration": "5476127ns",
+          "iterations": 183,
+          "description": "sample1"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/17/2_sample2",
+          "duration": "259563ns",
+          "iterations": 3853,
+          "description": "sample2"
+        },
+        {
+          "series_key": "python",
+          "group_key": "23/17/2_full_data",
+          "duration": "5789823901ns",
+          "iterations": 1,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/01/1_sample",
+          "duration": "4505ns",
+          "iterations": 221956,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/01/1_full_data",
+          "duration": "601539ns",
+          "iterations": 1663,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/01/2_sample",
+          "duration": "4921ns",
+          "iterations": 203184,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/01/2_full_data",
+          "duration": "9260468ns",
+          "iterations": 108,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/02/1_sample",
+          "duration": "7085ns",
+          "iterations": 141141,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/02/1_full_data",
+          "duration": "1408963ns",
+          "iterations": 710,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/02/2_sample",
+          "duration": "15836ns",
+          "iterations": 63147,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/02/2_full_data",
+          "duration": "3443721ns",
+          "iterations": 291,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/03/1_sample",
+          "duration": "2783ns",
+          "iterations": 359259,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/03/1_full_data",
+          "duration": "295928ns",
+          "iterations": 3380,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/03/2_sample",
+          "duration": "2660ns",
+          "iterations": 375862,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/03/2_full_data",
+          "duration": "232135ns",
+          "iterations": 4308,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/04/1_sample",
+          "duration": "227512ns",
+          "iterations": 4396,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/04/1_full_data",
+          "duration": "55731122ns",
+          "iterations": 18,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/04/2_sample",
+          "duration": "11347ns",
+          "iterations": 88125,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/04/2_full_data",
+          "duration": "2552497ns",
+          "iterations": 392,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/05/1_sample",
+          "duration": "21291ns",
+          "iterations": 46968,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/05/1_full_data",
+          "duration": "1342975ns",
+          "iterations": 745,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/05/2_sample",
+          "duration": "28539ns",
+          "iterations": 35040,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/05/2_full_data",
+          "duration": "9197485ns",
+          "iterations": 109,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/06/1_sample",
+          "duration": "26621ns",
+          "iterations": 37565,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/06/1_full_data",
+          "duration": "3433523ns",
+          "iterations": 292,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/06/2_sample",
+          "duration": "97891ns",
+          "iterations": 10216,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/06/2_full_data",
+          "duration": "125792345ns",
+          "iterations": 8,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/07/1_sample",
+          "duration": "21799ns",
+          "iterations": 45874,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/07/1_full_data",
+          "duration": "4564911ns",
+          "iterations": 220,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/07/2_sample",
+          "duration": "23239ns",
+          "iterations": 43030,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/07/2_full_data",
+          "duration": "6359894ns",
+          "iterations": 158,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/08/1_sample_1",
+          "duration": "14622ns",
+          "iterations": 68389,
+          "description": "sample_1"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/08/1_full_data",
+          "duration": "289192ns",
+          "iterations": 3458,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/08/2_sample_1",
+          "duration": "24857ns",
+          "iterations": 40231,
+          "description": "sample_1"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/08/2_sample_2",
+          "duration": "25835ns",
+          "iterations": 38708,
+          "description": "sample_2"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/08/2_full_data",
+          "duration": "812330ns",
+          "iterations": 1232,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/09/1_sample",
+          "duration": "4039ns",
+          "iterations": 247577,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/09/1_full_data",
+          "duration": "5254700ns",
+          "iterations": 191,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/09/2_sample",
+          "duration": "10528ns",
+          "iterations": 94978,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/09/2_full_data",
+          "duration": "11755781ns",
+          "iterations": 86,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/10/1_sample",
+          "duration": "590526ns",
+          "iterations": 1694,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/10/1_full_data",
+          "duration": "21890768ns",
+          "iterations": 46,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/10/2_sample",
+          "duration": "582633ns",
+          "iterations": 1717,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/10/2_full_data",
+          "duration": "21472844ns",
+          "iterations": 47,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/11/1_sample",
+          "duration": "1228ns",
+          "iterations": 813739,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/11/1_full_data",
+          "duration": "2521ns",
+          "iterations": 396657,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/11/2_sample",
+          "duration": "1306ns",
+          "iterations": 765649,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/11/2_full_data",
+          "duration": "2881ns",
+          "iterations": 347021,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/12/1_sample",
+          "duration": "241162ns",
+          "iterations": 4147,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/12/1_full_data",
+          "duration": "58890304ns",
+          "iterations": 17,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/12/2_sample",
+          "duration": "240521ns",
+          "iterations": 4158,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/12/2_full_data",
+          "duration": "59141470ns",
+          "iterations": 17,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/13/1_sample",
+          "duration": "22108ns",
+          "iterations": 45233,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/13/1_full_data",
+          "duration": "1553647ns",
+          "iterations": 644,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/13/2_sample",
+          "duration": "23434ns",
+          "iterations": 42672,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/13/2_full_data",
+          "duration": "1667010ns",
+          "iterations": 600,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/14/1_full_data",
+          "duration": "590168ns",
+          "iterations": 1695,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/14/2_full_data",
+          "duration": "214800511ns",
+          "iterations": 5,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/15/1_sample_large",
+          "duration": "162093ns",
+          "iterations": 6170,
+          "description": "sample_large"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/15/1_sample_small",
+          "duration": "14478ns",
+          "iterations": 69069,
+          "description": "sample_small"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/15/1_full_data",
+          "duration": "4670301ns",
+          "iterations": 215,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/15/2_sample_large",
+          "duration": "349233ns",
+          "iterations": 2864,
+          "description": "sample_large"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/15/2_sample_small",
+          "duration": "18938ns",
+          "iterations": 52804,
+          "description": "sample_small"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/15/2_full_data",
+          "duration": "9218919ns",
+          "iterations": 109,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/16/1_sample_1",
+          "duration": "460379ns",
+          "iterations": 2173,
+          "description": "sample_1"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/16/1_sample_2",
+          "duration": "551097ns",
+          "iterations": 1815,
+          "description": "sample_2"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/16/1_full_data",
+          "duration": "57661933ns",
+          "iterations": 18,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/16/2_sample_1",
+          "duration": "505725ns",
+          "iterations": 1978,
+          "description": "sample_1"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/16/2_sample_2",
+          "duration": "601482ns",
+          "iterations": 1663,
+          "description": "sample_2"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/16/2_full_data",
+          "duration": "63086510ns",
+          "iterations": 17,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/17/1_sample_1",
+          "duration": "8175ns",
+          "iterations": 122316,
+          "description": "sample_1"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/17/1_full_data",
+          "duration": "16097ns",
+          "iterations": 62121,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/17/2_sample_2",
+          "duration": "57373ns",
+          "iterations": 17430,
+          "description": "sample_2"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/17/2_full_data",
+          "duration": "2482635974ns",
+          "iterations": 1,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/18/1_full_data",
+          "duration": "5284965ns",
+          "iterations": 190,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/18/2_full_data",
+          "duration": "71283129ns",
+          "iterations": 15,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/19/1_sample",
+          "duration": "21810ns",
+          "iterations": 45851,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/19/1_full_data",
+          "duration": "68088520ns",
+          "iterations": 15,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/19/2_sample",
+          "duration": "30695ns",
+          "iterations": 32579,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/19/2_full_data",
+          "duration": "545476596ns",
+          "iterations": 2,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/20/1_sample",
+          "duration": "72286ns",
+          "iterations": 13834,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/20/1_full_data",
+          "duration": "10071742ns",
+          "iterations": 100,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/20/2_sample",
+          "duration": "71575ns",
+          "iterations": 13972,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/20/2_full_data",
+          "duration": "41645750ns",
+          "iterations": 25,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/21/1_sample",
+          "duration": "6538ns",
+          "iterations": 152947,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/21/1_full_data",
+          "duration": "6580ns",
+          "iterations": 151970,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/21/2_sample",
+          "duration": "6840ns",
+          "iterations": 146188,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/21/2_full_data",
+          "duration": "7050ns",
+          "iterations": 141828,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/22/1_sample_part1",
+          "duration": "2099000ns",
+          "iterations": 477,
+          "description": "sample_part1"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/22/1_full_data",
+          "duration": "942793759ns",
+          "iterations": 2,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/22/2_sample_part2",
+          "duration": "19714903ns",
+          "iterations": 51,
+          "description": "sample_part2"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/22/2_full_data",
+          "duration": "1560669888ns",
+          "iterations": 1,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/23/1_sample",
+          "duration": "38799ns",
+          "iterations": 25774,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/23/1_full_data",
+          "duration": "16240780ns",
+          "iterations": 62,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/23/2_sample",
+          "duration": "47731ns",
+          "iterations": 20951,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "24/23/2_full_data",
+          "duration": "75800987ns",
+          "iterations": 14,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/01/1_sample",
+          "duration": "3668ns",
+          "iterations": 272626,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/01/1_full_data",
+          "duration": "1390993ns",
+          "iterations": 719,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/01/2_sample",
+          "duration": "4841ns",
+          "iterations": 206562,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/01/2_full_data",
+          "duration": "1963555ns",
+          "iterations": 510,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/02/1_sample",
+          "duration": "35033ns",
+          "iterations": 28545,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/02/1_full_data",
+          "duration": "319860ns",
+          "iterations": 3127,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/02/2_sample",
+          "duration": "32828ns",
+          "iterations": 30462,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/02/2_full_data",
+          "duration": "302561ns",
+          "iterations": 3306,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/03/1_sample",
+          "duration": "26168ns",
+          "iterations": 38214,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/03/1_full_data",
+          "duration": "34513099ns",
+          "iterations": 29,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/03/2_sample",
+          "duration": "15882ns",
+          "iterations": 62963,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/03/2_full_data",
+          "duration": "4716941ns",
+          "iterations": 213,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/04/1_sample",
+          "duration": "101685ns",
+          "iterations": 9835,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/04/1_full_data",
+          "duration": "17819506ns",
+          "iterations": 57,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/04/2_sample",
+          "duration": "286338ns",
+          "iterations": 3493,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/04/2_full_data",
+          "duration": "61162544ns",
+          "iterations": 17,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/05/1_sample",
+          "duration": "5089ns",
+          "iterations": 196476,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/05/1_full_data",
+          "duration": "3003844ns",
+          "iterations": 333,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/05/2_sample",
+          "duration": "4705ns",
+          "iterations": 212539,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/05/2_full_data",
+          "duration": "368989ns",
+          "iterations": 2711,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/06/1_sample",
+          "duration": "8461ns",
+          "iterations": 118183,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/06/1_full_data",
+          "duration": "1092535ns",
+          "iterations": 916,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/06/2_sample",
+          "duration": "9680ns",
+          "iterations": 103296,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/06/2_full_data",
+          "duration": "2525522ns",
+          "iterations": 396,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/07/1_sample",
+          "duration": "33207ns",
+          "iterations": 30114,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/07/1_full_data",
+          "duration": "2491714ns",
+          "iterations": 402,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/07/2_sample",
+          "duration": "40995ns",
+          "iterations": 24393,
+          "description": "sample"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/07/2_full_data",
+          "duration": "3431790ns",
+          "iterations": 292,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/11/1_sample_part1",
+          "duration": "14185ns",
+          "iterations": 70497,
+          "description": "sample_part1"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/11/1_full_data",
+          "duration": "609975ns",
+          "iterations": 1640,
+          "description": "full_data"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/11/2_sample_part2",
+          "duration": "28135ns",
+          "iterations": 35543,
+          "description": "sample_part2"
+        },
+        {
+          "series_key": "python",
+          "group_key": "25/11/2_full_data",
+          "duration": "2005726ns",
+          "iterations": 499,
+          "description": "full_data"
+        }
+      ]
     }
   ]
 }

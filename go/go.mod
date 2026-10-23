@@ -1,6 +1,6 @@
 module github.com/donmahallem/aoc/go
 
-go 1.25.4
+go 1.27
 
 require github.com/donmahallem/aggregate_benchmark v0.0.2
 

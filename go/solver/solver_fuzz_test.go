@@ -78,28 +78,25 @@ func FuzzSolver(f *testing.F) {
 		}
 		// only run registered parts to avoid noise from unregistered selections
 		if _, ok := s.GetRegistry().GetPart(aoc_utils.PartSelector{Year: int(year), Day: int(day), Part: part}); !ok {
+			// count as skipped because the part is not registered
+			t.Skip("Part not registered")
 			return
 		}
 		res := s.Solve(int(year), int(day), part, reader)
 		if res.Error != nil {
-			var parseError *aoc_utils.ParseError
-			var notImplError *aoc_utils.NotImplementedError
-			var solverError *aoc_utils.SolverError
-			var timeoutError *aoc_utils.TimeoutError
-			var atoiError *strconv.NumError
-			if errors.As(res.Error, &parseError) {
-				t.Logf("Parse error: %v", parseError)
+			if parseError, ok := errors.AsType[*aoc_utils.ParseError](res.Error); ok {
+				t.Skipf("Parse error: %v", parseError)
 				return
-			} else if errors.As(res.Error, &notImplError) {
-				t.Logf("Not implemented: %v", res.Error)
+			} else if notImplError, ok := errors.AsType[*aoc_utils.NotImplementedError](res.Error); ok {
+				t.Skipf("Not implemented: %v", notImplError)
 				return
-			} else if errors.As(res.Error, &solverError) {
-				t.Logf("Solver error: %v", res.Error)
+			} else if solverError, ok := errors.AsType[*aoc_utils.SolverError](res.Error); ok {
+				t.Skipf("Solver error: %v", solverError)
 				return
-			} else if errors.As(res.Error, &timeoutError) {
-				t.Fatalf("Timeout error: %v", res.Error)
-			} else if errors.As(res.Error, &atoiError) {
-				t.Logf("Atoi error: %v", res.Error)
+			} else if timeoutError, ok := errors.AsType[*aoc_utils.TimeoutError](res.Error); ok {
+				t.Fatalf("Timeout error: %v", timeoutError)
+			} else if numError, ok := errors.AsType[*strconv.NumError](res.Error); ok {
+				t.Skipf("Atoi error: failed to parse \"%s\" to %s", numError.Num, numError.Func)
 				return
 			} else {
 				t.Fatalf("Unexpected error: %v", res.Error)

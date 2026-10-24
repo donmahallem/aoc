@@ -7,7 +7,10 @@ import (
 )
 
 func Part2(in io.Reader) (int, error) {
-	almanac := parseAlmanac(in)
+	almanac, err := parseAlmanac(in)
+	if err != nil {
+		return 0, err
+	}
 	return FindSmallestEndIndexFixed(almanac), nil
 }
 

@@ -4,12 +4,17 @@ import (
 	"io"
 	"math"
 	"slices"
+
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
 func Part2(in io.Reader) (int, error) {
 	almanac, err := parseAlmanac(in)
 	if err != nil {
 		return 0, err
+	}
+	if len(almanac.Seeds)%2 != 0 {
+		return 0, aoc_utils.NewParseError("seeds must be pairs", nil)
 	}
 	return FindSmallestEndIndexFixed(almanac), nil
 }

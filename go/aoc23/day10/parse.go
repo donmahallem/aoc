@@ -65,6 +65,10 @@ func parseInput(r io.Reader) (*node, error) {
 		y++
 	}
 
+	if err := scanner.Err(); err != nil {
+		return nil, err
+	}
+
 	if !hasStart {
 		return nil, io.EOF
 	}

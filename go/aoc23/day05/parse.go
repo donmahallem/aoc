@@ -62,13 +62,13 @@ func translateMap(line []int, data *map[int]int) {
 	}
 }
 
-func parseAlmanac(in io.Reader) almanac {
+func parseAlmanac(in io.Reader) (almanac, error) {
 	s := bufio.NewScanner(in)
 	alma := almanac{}
 	var target *[]almanacRange
 	for s.Scan() {
 		line := s.Text()
-		if strings.HasPrefix(line, "seeds:") {
+		if strings.HasPrefix(line, "seeds:") && len(line) >= 7 {
 			alma.Seeds = parseSeeds(line[7:])
 			continue
 		} else if len(line) == 0 {
@@ -104,5 +104,9 @@ func parseAlmanac(in io.Reader) almanac {
 		}
 
 	}
-	return alma
+	if s.Err() != nil {
+		// handle scanner error if needed
+		return almanac{}, s.Err()
+	}
+	return alma, nil
 }

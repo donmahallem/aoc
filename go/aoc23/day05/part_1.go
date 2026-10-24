@@ -27,7 +27,10 @@ func getPosition(a almanac, start int) int {
 }
 
 func Part1(in io.Reader) (int, error) {
-	almanac := parseAlmanac(in)
+	almanac, err := parseAlmanac(in)
+	if err != nil {
+		return 0, err
+	}
 	lowest := math.MaxInt
 	for _, seed := range almanac.Seeds {
 		lowest = min(lowest, getPosition(almanac, seed))

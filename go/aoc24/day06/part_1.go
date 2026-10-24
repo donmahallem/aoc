@@ -98,7 +98,7 @@ type PathInfo struct {
 /*
 resolves the path taken by the guard until it leaves the area
 */
-func leaveArea(field *Field, guard Guard) PathInfo {
+func leaveArea(field *Field, guard Guard) (PathInfo, error) {
 	total := int(field.width) * int(field.height)
 	visited := make([]bool, total)
 	steps := make([]PathStep, 0, total)
@@ -107,11 +107,11 @@ func leaveArea(field *Field, guard Guard) PathInfo {
 	visited[int(startIdx)] = true
 	unique := 1
 
-	for {
+	for budget := total * 4; budget >= 0; budget-- {
 		switch guard.dir {
 		case DIR_DOWN:
 			if guard.y == 0 {
-				return PathInfo{UniqueCount: unique, Steps: steps}
+				return PathInfo{UniqueCount: unique, Steps: steps}, nil
 			}
 			nextY := guard.y - 1
 			if field.HasObstacle(guard.x, nextY) {
@@ -128,7 +128,7 @@ func leaveArea(field *Field, guard Guard) PathInfo {
 
 		case DIR_UP:
 			if guard.y+1 >= field.height {
-				return PathInfo{UniqueCount: unique, Steps: steps}
+				return PathInfo{UniqueCount: unique, Steps: steps}, nil
 			}
 			nextY := guard.y + 1
 			if field.HasObstacle(guard.x, nextY) {
@@ -145,7 +145,7 @@ func leaveArea(field *Field, guard Guard) PathInfo {
 
 		case DIR_RIGHT:
 			if guard.x+1 >= field.width {
-				return PathInfo{UniqueCount: unique, Steps: steps}
+				return PathInfo{UniqueCount: unique, Steps: steps}, nil
 			}
 			nextX := guard.x + 1
 			if field.HasObstacle(nextX, guard.y) {
@@ -162,7 +162,7 @@ func leaveArea(field *Field, guard Guard) PathInfo {
 
 		case DIR_LEFT:
 			if guard.x == 0 {
-				return PathInfo{UniqueCount: unique, Steps: steps}
+				return PathInfo{UniqueCount: unique, Steps: steps}, nil
 			}
 			nextX := guard.x - 1
 			if field.HasObstacle(nextX, guard.y) {
@@ -178,6 +178,7 @@ func leaveArea(field *Field, guard Guard) PathInfo {
 			guard.x = nextX
 		}
 	}
+	return PathInfo{}, aoc_utils.NewSolverErrorf("guard never leaves the area")
 }
 
 func Part1(in io.Reader) (int, error) {
@@ -185,6 +186,9 @@ func Part1(in io.Reader) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	info := leaveArea(&field, guard)
+	info, err := leaveArea(&field, guard)
+	if err != nil {
+		return 0, err
+	}
 	return info.UniqueCount, nil
 }

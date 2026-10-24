@@ -70,7 +70,7 @@ func parseInput(r io.Reader) (*node, error) {
 	}
 
 	if !hasStart {
-		return nil, io.EOF
+		return nil, aoc_utils.NewParseError("no start position 'S' found", nil)
 	}
 
 	// Deduce S mask from neighbors that actually connect back.

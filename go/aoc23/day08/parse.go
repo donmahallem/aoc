@@ -83,11 +83,12 @@ func parseId(b []byte, offset int) (uint32, error) {
 func parseInstructions(line []byte) (pathInstructions, error) {
 	instructions := make(pathInstructions, 0, len(line))
 	for _, ch := range line {
-		if ch == 'R' {
+		switch ch {
+		case 'R':
 			instructions = append(instructions, true)
-		} else if ch == 'L' {
+		case 'L':
 			instructions = append(instructions, false)
-		} else {
+		default:
 			return nil, aoc_utils.NewUnexpectedInputError(ch)
 		}
 	}
@@ -170,8 +171,9 @@ func parseInput(in io.Reader) (*input, error) {
 	startId := hashNodeId([]byte{'A', 'A', 'A'})
 	endId := hashNodeId([]byte{'Z', 'Z', 'Z'})
 	s := bufio.NewScanner(in)
-	inp := input{}
-	inp.Nodes = make(map[uint32]*node, 64)
+	inp := input{
+		Nodes: make(map[uint32]*node, 64),
+	}
 	pNodeMap := &inp.Nodes
 	instructionsRead := false
 	var instructionsParsed pathInstructions
@@ -206,13 +208,17 @@ func parseInput(in io.Reader) (*input, error) {
 			}
 			currentNode.Left = leftNode
 			currentNode.Right = rightNode
-			if currentNode.Id == startId {
+			switch currentNode.Id {
+			case startId:
 				inp.Start = currentNode
-			} else if currentNode.Id == endId {
+			case endId:
 				inp.End = currentNode
 			}
 		}
 
+	}
+	if s.Err() != nil {
+		return nil, s.Err()
 	}
 	return &input{
 		Instructions: instructionsParsed,

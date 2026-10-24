@@ -2,6 +2,7 @@ package day08
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 
 	"github.com/donmahallem/aoc/go/aoc_utils"
@@ -39,6 +40,21 @@ func hashNodeId(id []byte) uint32 {
 	v1, _ := charVal(id[1])
 	v2, _ := charVal(id[2])
 	return (v0 * 36 * 36) + (v1 * 36) + v2
+}
+
+func unhashNodeId(id uint32) []byte {
+	b := make([]byte, 3)
+	b[2] = byte(id%36) + '0'
+	id /= 36
+	b[1] = byte(id%36) + '0'
+	id /= 36
+	b[0] = byte(id%36) + '0'
+	for i := 0; i < 3; i++ {
+		if b[i] > '9' {
+			b[i] = 'A' + (b[i] - '0' - 10)
+		}
+	}
+	return b
 }
 
 func getOrCreateNode(nodeMap *map[uint32]*node, strId []byte) (*node, error) {
@@ -219,6 +235,14 @@ func parseInput(in io.Reader) (*input, error) {
 	}
 	if s.Err() != nil {
 		return nil, s.Err()
+	}
+	if !instructionsRead {
+		return nil, aoc_utils.NewParseError("missing path instructions", nil)
+	}
+	for _, n := range inp.Nodes {
+		if n.Left == nil || n.Right == nil {
+			return nil, aoc_utils.NewParseError(fmt.Sprintf("node %s is referenced but never defined", unhashNodeId(n.Id)), nil)
+		}
 	}
 	return &input{
 		Instructions: instructionsParsed,

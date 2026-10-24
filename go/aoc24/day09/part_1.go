@@ -19,6 +19,9 @@ func Part1(in io.Reader) (int, error) {
 	for endIdx >= 0 && (data[endIdx] == '\n' || data[endIdx] == '\r') {
 		endIdx--
 	}
+	if endIdx < 0 {
+		return 0, nil
+	}
 
 	// endIdx must sit on a file entry (even index).
 	if endIdx%2 != 0 {

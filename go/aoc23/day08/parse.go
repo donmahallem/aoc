@@ -2,6 +2,7 @@ package day08
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 
 	"github.com/donmahallem/aoc/go/aoc_utils"
@@ -39,6 +40,21 @@ func hashNodeId(id []byte) uint32 {
 	v1, _ := charVal(id[1])
 	v2, _ := charVal(id[2])
 	return (v0 * 36 * 36) + (v1 * 36) + v2
+}
+
+func unhashNodeId(id uint32) []byte {
+	b := make([]byte, 3)
+	b[2] = byte(id%36) + '0'
+	id /= 36
+	b[1] = byte(id%36) + '0'
+	id /= 36
+	b[0] = byte(id%36) + '0'
+	for i := 0; i < 3; i++ {
+		if b[i] > '9' {
+			b[i] = 'A' + (b[i] - '0' - 10)
+		}
+	}
+	return b
 }
 
 func getOrCreateNode(nodeMap *map[uint32]*node, strId []byte) (*node, error) {
@@ -83,11 +99,12 @@ func parseId(b []byte, offset int) (uint32, error) {
 func parseInstructions(line []byte) (pathInstructions, error) {
 	instructions := make(pathInstructions, 0, len(line))
 	for _, ch := range line {
-		if ch == 'R' {
+		switch ch {
+		case 'R':
 			instructions = append(instructions, true)
-		} else if ch == 'L' {
+		case 'L':
 			instructions = append(instructions, false)
-		} else {
+		default:
 			return nil, aoc_utils.NewUnexpectedInputError(ch)
 		}
 	}
@@ -170,8 +187,9 @@ func parseInput(in io.Reader) (*input, error) {
 	startId := hashNodeId([]byte{'A', 'A', 'A'})
 	endId := hashNodeId([]byte{'Z', 'Z', 'Z'})
 	s := bufio.NewScanner(in)
-	inp := input{}
-	inp.Nodes = make(map[uint32]*node, 64)
+	inp := input{
+		Nodes: make(map[uint32]*node, 64),
+	}
 	pNodeMap := &inp.Nodes
 	instructionsRead := false
 	var instructionsParsed pathInstructions
@@ -206,13 +224,25 @@ func parseInput(in io.Reader) (*input, error) {
 			}
 			currentNode.Left = leftNode
 			currentNode.Right = rightNode
-			if currentNode.Id == startId {
+			switch currentNode.Id {
+			case startId:
 				inp.Start = currentNode
-			} else if currentNode.Id == endId {
+			case endId:
 				inp.End = currentNode
 			}
 		}
 
+	}
+	if s.Err() != nil {
+		return nil, s.Err()
+	}
+	if !instructionsRead {
+		return nil, aoc_utils.NewParseError("missing path instructions", nil)
+	}
+	for _, n := range inp.Nodes {
+		if n.Left == nil || n.Right == nil {
+			return nil, aoc_utils.NewParseError(fmt.Sprintf("node %s is referenced but never defined", unhashNodeId(n.Id)), nil)
+		}
 	}
 	return &input{
 		Instructions: instructionsParsed,

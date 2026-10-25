@@ -83,3 +83,18 @@ func BenchmarkPart2(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/full/24/11.txt", day11.Part2)
 	})
 }
+
+func FuzzSolver(f *testing.F) {
+	test_utils.AddTestDataSeeds(f, 24, 11)
+
+	f.Fuzz(func(t *testing.T, input string) {
+		_, err1 := day11.Part1(strings.NewReader(input))
+		if err1 != nil && !test_utils.FuzzHandleError(t, err1) {
+			return
+		}
+		_, err2 := day11.Part2(strings.NewReader(input))
+		if err2 != nil && !test_utils.FuzzHandleError(t, err2) {
+			return
+		}
+	})
+}

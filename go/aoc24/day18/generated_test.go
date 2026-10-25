@@ -3,6 +3,7 @@ package day18_test
 
 import (
 	"slices"
+	"strings"
 	"testing"
 
 	"github.com/donmahallem/aoc/go/aoc24/day18"
@@ -43,5 +44,20 @@ func TestPart2(t *testing.T) {
 func BenchmarkPart2(b *testing.B) {
 	b.Run("full_data", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/full/24/18.txt", day18.Part2)
+	})
+}
+
+func FuzzSolver(f *testing.F) {
+	test_utils.AddTestDataSeeds(f, 24, 18)
+
+	f.Fuzz(func(t *testing.T, input string) {
+		_, err1 := day18.Part1(strings.NewReader(input))
+		if err1 != nil && !test_utils.FuzzHandleError(t, err1) {
+			return
+		}
+		_, err2 := day18.Part2(strings.NewReader(input))
+		if err2 != nil && !test_utils.FuzzHandleError(t, err2) {
+			return
+		}
 	})
 }

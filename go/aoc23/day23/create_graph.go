@@ -107,7 +107,6 @@ func upsertEdge(edges *[]edge, to int, distance int) {
 	for i, e := range *edges {
 		if e.toIdx == to {
 			if distance > e.distance {
-				fmt.Printf("found\n")
 				(*edges)[i].distance = distance
 			}
 			return

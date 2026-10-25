@@ -2,9 +2,11 @@
 package {{.GoPackage}}_test
 
 import (
+{{- if or .HasSamples .Part1 .Part2}}
+	"strings"
+{{- end}}
 {{- if .HasSamples}}
 	"io"
-	"strings"
 {{- end}}
 {{- if .HasArrayResult}}
 	"slices"
@@ -131,3 +133,24 @@ func BenchmarkPart2(b *testing.B) {
 {{end -}}
 }
 {{end}}
+{{- if or .Part1 .Part2}}
+
+func FuzzSolver(f *testing.F) {
+	test_utils.AddTestDataSeeds(f, {{.Year}}, {{.Day}})
+
+	f.Fuzz(func(t *testing.T, input string) {
+{{- if .Part1}}
+		_, err1 := {{.GoPackage}}.Part1(strings.NewReader(input))
+		if err1 != nil && !test_utils.FuzzHandleError(t, err1) {
+			return
+		}
+{{- end}}
+{{- if .Part2}}
+		_, err2 := {{.GoPackage}}.Part2(strings.NewReader(input))
+		if err2 != nil && !test_utils.FuzzHandleError(t, err2) {
+			return
+		}
+{{- end}}
+	})
+}
+{{- end}}

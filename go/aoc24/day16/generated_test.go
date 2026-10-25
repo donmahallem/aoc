@@ -2,6 +2,7 @@
 package day16_test
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/donmahallem/aoc/go/aoc24/day16"
@@ -97,5 +98,20 @@ func BenchmarkPart2(b *testing.B) {
 
 	b.Run("full_data", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/full/24/16.txt", day16.Part2)
+	})
+}
+
+func FuzzSolver(f *testing.F) {
+	test_utils.AddTestDataSeeds(f, 24, 16)
+
+	f.Fuzz(func(t *testing.T, input string) {
+		_, err1 := day16.Part1(strings.NewReader(input))
+		if err1 != nil && !test_utils.FuzzHandleError(t, err1) {
+			return
+		}
+		_, err2 := day16.Part2(strings.NewReader(input))
+		if err2 != nil && !test_utils.FuzzHandleError(t, err2) {
+			return
+		}
 	})
 }

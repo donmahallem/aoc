@@ -14,6 +14,10 @@ type ParseError struct {
 	Err error
 }
 
+func NewParseErrorf(format string, args ...interface{}) error {
+	return &ParseError{Msg: fmt.Sprintf(format, args...), Err: nil}
+}
+
 // NewParseError creates a new ParseError
 func NewParseError(msg string, err error) error {
 	return &ParseError{Msg: msg, Err: err}

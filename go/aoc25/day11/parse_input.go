@@ -1,44 +1,76 @@
 package day11
 
 import (
-	"bufio"
+	"bytes"
 	"io"
 
 	aoc_utils "github.com/donmahallem/aoc/go/aoc_utils"
 )
 
-func parseInput(in io.Reader) (map[uint64][]uint64, error) {
-	s := bufio.NewScanner(in)
+var errNodeNameLength = aoc_utils.NewParseErrorf("node names must have 3 letters")
 
-	nodeMap := make(map[uint64][]uint64)
-	for s.Scan() {
-		line := s.Bytes()
+func encodeKey(a, b, c byte) uint32 {
+	return uint32(a)<<16 | uint32(b)<<8 | uint32(c)
+}
 
-		sourceKey := uint64(0)
-		currentKey := uint64(0)
-		inSourceKey := true
-		targets := make([]uint64, 0, 4)
+func parseInput(in io.Reader) (*graph, error) {
+	data, err := io.ReadAll(in)
+	if err != nil {
+		return nil, aoc_utils.NewParseError("reading input", err)
+	}
+	// Each line defines one source; sizing from the line count avoids map and slice growth.
+	lines := bytes.Count(data, []byte{'\n'}) + 1
+	ids := newNodeIndex(lines)
+	node := ids.intern
+
+	// pairs holds consecutive (from, to) node ids; capacity fits the puzzle input, append grows otherwise.
+	pairs := make([]int32, 0, lines*6)
+	for len(data) > 0 {
+		var line []byte
+		if i := bytes.IndexByte(data, '\n'); i >= 0 {
+			line, data = data[:i], data[i+1:]
+		} else {
+			line, data = data, nil
+		}
+		if n := len(line); n > 0 && line[n-1] == '\r' {
+			line = line[:n-1]
+		}
+
+		source := int32(-1)
+		key := uint32(0)
+		keyLen := 0
 		for _, c := range line {
-			if c == ':' {
-				inSourceKey = false
-				sourceKey = currentKey
-				currentKey = 0
-			} else if c >= 'a' && c <= 'z' {
-				currentKey = currentKey<<8 + uint64(c)
-			} else if c == ' ' {
-				if !inSourceKey && currentKey != 0 {
-					targets = append(targets, currentKey)
-					currentKey = 0
+			switch {
+			case c == ':':
+				if keyLen != 3 {
+					return nil, errNodeNameLength
 				}
-			} else {
+				source = node(key)
+				key, keyLen = 0, 0
+			case c >= 'a' && c <= 'z':
+				key = key<<8 | uint32(c)
+				keyLen++
+			case c == ' ':
+				if source >= 0 && keyLen > 0 {
+					if keyLen != 3 {
+						return nil, errNodeNameLength
+					}
+					pairs = append(pairs, source, node(key))
+					key, keyLen = 0, 0
+				}
+			default:
 				return nil, aoc_utils.NewUnexpectedInputError(c)
 			}
-			// Any other character (like \r) is simply ignored, preventing key corruption
 		}
-		if currentKey != 0 {
-			targets = append(targets, currentKey)
+		if source < 0 {
+			continue
 		}
-		nodeMap[sourceKey] = targets
+		if keyLen > 0 {
+			if keyLen != 3 {
+				return nil, errNodeNameLength
+			}
+			pairs = append(pairs, source, node(key))
+		}
 	}
-	return nodeMap, nil
+	return buildGraph(ids, pairs), nil
 }

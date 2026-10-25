@@ -1,0 +1,5 @@
+go test fuzz v1
+byte('\x17')
+byte('\x13')
+bool(true)
+string("{a<6:,lnx}\nqkq{x<6:A,crn}\ncrn{x>2:A,}\nin{s<5:px,qqz}\nqqz{s>7:2")

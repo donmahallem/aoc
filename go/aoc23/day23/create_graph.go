@@ -1,7 +1,5 @@
 package day23
 
-import "fmt"
-
 func findStart(parseData []cell, w int) int {
 	for idx := 0; idx < w; idx++ {
 		if parseData[idx]&dirExitBottom != 0 {
@@ -100,7 +98,6 @@ func upsertEdge(edges *[]edge, to int, distance int) {
 	for i, e := range *edges {
 		if e.toIdx == to {
 			if distance > e.distance {
-				fmt.Printf("found\n")
 				(*edges)[i].distance = distance
 			}
 			return

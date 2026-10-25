@@ -1,0 +1,5 @@
+go test fuzz v1
+byte('\x17')
+byte('\x14')
+bool(true)
+string("%nr -> mr\r\n&sx -> zh\r\n%rk -> dc, bl\r\n%lx -> rs\r\n%hx -> bl\r\n%hp -> bj\r\n%dk -> mr, lf\r\n%hc -> xc\r\n%bj -> vv, rd\r\n&jt -> zh\r\n&bl -> ks, kn, dc, hc, zk\r\n&zh -> rx\r\n%sp -> hz, bl\r\n%rd -> vv, tp\r\n%cg -> dk\r\n%rg -> jl, pv\r\n%jl -> js\r\n%fb -> vv, zd\r\n%gv -> lx\r\n%lr -> vj, bl\r\n;vz -> hc, bl\r\n%kn -> bl, zk\r\n%rj -> mr, nr\r\n%cn -> pv, sb\r\n%rs -> vv, hp\r\n&mr -> qc, kb, gc, vl, bs, cg, lf\r\n%rb -> qj\r\n%sm -> bv, vv\r\n%dh -> rg\r\n%zk -> vz\r\n%qj -> xs, pv\r\n%ng -> ql, pv\r\n%vj -> bl, sp\r\n&kb -> zh\r\n%sb -> pv\r\n%vl -> mr, cz\r\n%dc -> lr\r\n%xc -> rk, bl\r\n%cz -> cg, mr\r\n%hz -> bl, hx\r\n%xs -> pv, cn\r\n%js -> ng\r\n%cb -> mr, nc\r\n%qb -> vv\r\n%gc -> qc\r\n%bv -> qb, vv\r\nbroadcaster -> kn, fb, ln, vl\r\n%bs -> cb\r\n%lf -> gc\r\n%nc -> mr, rj\r\n%ln@-> pv, dh\r\n%qc -> bs\r\n&vv -> zd, jt, fb, hp, gv, lx\r\n&ks -> zh\r\n%ql -> rb\r\n%tp -> sm, vv\r\n&pv -> sx, dh, jl, ln, js, rb, ql\r\n%zd -> gv")

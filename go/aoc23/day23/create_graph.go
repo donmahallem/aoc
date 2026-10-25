@@ -1,6 +1,8 @@
 package day23
 
-import "fmt"
+import (
+	"github.com/donmahallem/aoc/go/aoc_utils"
+)
 
 func findStart(parseData []cell, w int) int {
 	for idx := 0; idx < w; idx++ {
@@ -31,18 +33,21 @@ type node struct {
 	neighbors []edge
 }
 
-func createGraph(parseData []cell, w, h int) (map[int]*node, int, int) {
+// Set sensible limit to DFS
+const maxJunctions = 128
+
+func createGraph(parseData []cell, w, h int) (map[int]*node, int, int, error) {
 	if len(parseData) == 0 || w <= 0 || h <= 0 {
-		return map[int]*node{}, -1, -1
+		return map[int]*node{}, -1, -1, aoc_utils.NewParseError("No parse data or negative dimensions", nil)
 	}
 
 	startIdx := findStart(parseData, w)
 	if startIdx == -1 {
-		return map[int]*node{}, -1, -1
+		return map[int]*node{}, -1, -1, aoc_utils.NewParseError("Start not found", nil)
 	}
 	endIdx := findEnd(parseData, w)
 	if endIdx == -1 {
-		return map[int]*node{}, -1, -1
+		return map[int]*node{}, -1, -1, aoc_utils.NewParseError("End not found", nil)
 	}
 
 	graph := make(map[int]*node)
@@ -92,8 +97,10 @@ func createGraph(parseData []cell, w, h int) (map[int]*node, int, int) {
 			}
 		}
 	}
-
-	return graph, startIdx, endIdx
+	if len(graph) > maxJunctions {
+		return graph, startIdx, endIdx, aoc_utils.NewParseErrorf("graph has too many junctions( %d vs %d)", len(graph), maxJunctions)
+	}
+	return graph, startIdx, endIdx, nil
 }
 
 func upsertEdge(edges *[]edge, to int, distance int) {

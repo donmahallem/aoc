@@ -87,7 +87,9 @@ class BenchmarkResult:
                         continue
                     input_data = input_path.read_text()
                 part_expectation = case.get(f"part{solver.part}")
-                if part_expectation is None or "python" in part_expectation.get("skip_languages", []):
+                if part_expectation is None or "python" in part_expectation.get(
+                    "skip_languages", []
+                ):
                     continue
                 tasks.append(
                     {

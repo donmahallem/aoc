@@ -72,8 +72,9 @@ class BenchmarkResult:
                 continue
 
             cases = test_data[solver.year][solver.day]
-            for idx, case in enumerate(cases):
-                name = case.get("name", f"case{idx}")
+            for name, case in cases.items():
+                if "python" in case.get("skip_languages", []):
+                    continue
                 if "input" in case:
                     input_data = case["input"]
                 else:
@@ -85,17 +86,19 @@ class BenchmarkResult:
                         cfg.print(f"Warning: Input file {input_path} not found.")
                         continue
                     input_data = input_path.read_text()
-                if f"part{solver.part}" in case:
-                    tasks.append(
-                        {
-                            "year": solver.year,
-                            "day": solver.day,
-                            "part": solver.part,
-                            "name": name,
-                            "solver": solver.func,
-                            "input_data": input_data,
-                        }
-                    )
+                part_expectation = case.get(f"part{solver.part}")
+                if part_expectation is None or "python" in part_expectation.get("skip_languages", []):
+                    continue
+                tasks.append(
+                    {
+                        "year": solver.year,
+                        "day": solver.day,
+                        "part": solver.part,
+                        "name": name,
+                        "solver": solver.func,
+                        "input_data": input_data,
+                    }
+                )
 
         timeout_limit = args.timeout if args.timeout else 1.0
         entries = []

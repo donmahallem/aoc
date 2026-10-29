@@ -2,8 +2,8 @@ package test_utils
 
 import (
 	"errors"
-	"fmt"
-	"os"
+	"maps"
+	"slices"
 	"strconv"
 	"testing"
 
@@ -11,28 +11,16 @@ import (
 )
 
 func AddTestDataSeeds(f *testing.F, year, day int) {
-	yearKey := fmt.Sprintf("%02d", year)
-	dayKey := fmt.Sprintf("%02d", day)
-	data, err := LoadTestData(DefaultTestDataPath())
-	if err != nil {
-		f.Fatal(err)
-	}
-	for _, tc := range data[yearKey][dayKey] {
-		input, found := loadTestCaseInput(tc)
-		if !found {
-			f.Logf("Skipping test case %s/%s (%s) because input not found", yearKey, dayKey, tc.Name)
+	cases := LoadDefaultTestData(f)[year][day]
+	for _, name := range slices.Sorted(maps.Keys(cases)) {
+		tc := cases[name]
+		input, err := tc.Fetch()
+		if err != nil {
+			f.Logf("Skipping test case %d/%d (%s): %v", year, day, name, err)
 			continue
 		}
-		f.Add(input)
+		f.Add(string(input))
 	}
-}
-
-func loadTestCaseInput(tc TestCase) (string, bool) {
-	if tc.Input != nil {
-		return *tc.Input, true
-	}
-	raw, err := os.ReadFile(GetTestSampleFilePath(*tc.File))
-	return string(raw), err == nil
 }
 
 // FuzzHandleError skips expected solver errors and fails the fuzz run on anything else.

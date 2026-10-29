@@ -1,1086 +1,647 @@
 {
   "23": {
-    "01": [
-      {
-        "name": "sample1",
+    "01": {
+      "sample1": {
         "input": "1abc2\npqr3stu8vwx\na1b2c3d4e5f\ntreb7uchet",
-        "part1": {
-          "result": 142
-        }
+        "part1": { "result": 142, "type": "int" }
       },
-      {
-        "name": "sample2",
+      "sample2": {
         "input": "two1nine\neightwothree\nabcone2threexyz\nxtwone3four\n4nineeightseven2\nzoneight234\n7pqrstsixteen",
-        "part2": {
-          "result": 281
-        }
+        "part2": { "result": 281, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/01.txt",
-        "part1": {
-          "result": 54331
-        },
-        "part2": {
-          "result": 54518
-        }
+        "part1": { "result": 54331, "type": "int" },
+        "part2": { "result": 54518, "type": "int" }
       }
-    ],
-    "02": [
-      {
-        "name": "sample",
+    },
+    "02": {
+      "sample": {
         "file": "data/samples/23/02_sample.txt",
-        "part1": {
-          "result": 8
-        },
-        "part2": {
-          "result": 2286
-        }
+        "part1": { "result": 8, "type": "int" },
+        "part2": { "result": 2286, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/02.txt",
-        "part1": {
-          "result": 2913
-        },
-        "part2": {
-          "result": 55593
-        }
+        "part1": { "result": 2913, "type": "int" },
+        "part2": { "result": 55593, "type": "int" }
       }
-    ],
-    "03": [
-      {
-        "name": "sample",
+    },
+    "03": {
+      "sample": {
         "file": "data/samples/23/03_sample.txt",
-        "part1": {
-          "result": 4484
-        },
-        "part2": {
-          "result": 467835
-        }
+        "part1": { "result": 4484, "type": "int" },
+        "part2": { "result": 467835, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/03.txt",
-        "part1": {
-          "result": 540025
-        },
-        "part2": {
-          "result": 84584891
-        }
+        "part1": { "result": 540025, "type": "int" },
+        "part2": { "result": 84584891, "type": "int" }
       }
-    ],
-    "04": [
-      {
-        "name": "sample",
+    },
+    "04": {
+      "sample": {
         "file": "data/samples/23/04_sample.txt",
-        "part1": {
-          "result": 13
-        },
-        "part2": {
-          "result": 30
-        }
+        "part1": { "result": 13, "type": "int" },
+        "part2": { "result": 30, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/04.txt",
-        "part1": {
-          "result": 26443
-        },
-        "part2": {
-          "result": 6284877
-        }
+        "part1": { "result": 26443, "type": "int" },
+        "part2": { "result": 6284877, "type": "int" }
       }
-    ],
-    "05": [
-      {
-        "name": "sample",
+    },
+    "05": {
+      "sample": {
         "file": "data/samples/23/05_sample.txt",
-        "part1": {
-          "result": 35
-        },
-        "part2": {
-          "result": 46
-        }
+        "part1": { "result": 35, "type": "int" },
+        "part2": { "result": 46, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/05.txt",
-        "part1": {
-          "result": 261668924
-        },
-        "part2": {
-          "result": 24261545
-        }
+        "part1": { "result": 261668924, "type": "int" },
+        "part2": { "result": 24261545, "type": "int" }
       }
-    ],
-    "06": [
-      {
-        "name": "sample",
+    },
+    "06": {
+      "sample": {
         "input": "Time:      7  15   30\nDistance:  9  40  200",
-        "part1": {
-          "result": 288
-        },
-        "part2": {
-          "result": 71503
-        }
+        "part1": { "result": 288, "type": "int" },
+        "part2": { "result": 71503, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/06.txt",
-        "part1": {
-          "result": 219849
-        },
-        "part2": {
-          "result": 29432455
-        }
+        "part1": { "result": 219849, "type": "int" },
+        "part2": { "result": 29432455, "type": "int" }
       }
-    ],
-    "07": [
-      {
-        "name": "sample",
+    },
+    "07": {
+      "sample": {
         "input": "32T3K 765\nT55J5 684\nKK677 28\nKTJJT 220\nQQQJA 483",
-        "part1": {
-          "result": 6440
-        },
-        "part2": {
-          "result": 5905
-        }
+        "part1": { "result": 6440, "type": "int" },
+        "part2": { "result": 5905, "type": "int" }
       },
-      {
-        "name": "sample2",
+      "sample2": {
         "file": "data/samples/23/07_sample2.txt",
-        "part2": {
-          "result": 9800
-        }
+        "part2": { "result": 9800, "type": "int" }
       }
-    ],
-    "08": [
-      {
-        "name": "sample1",
+    },
+    "08": {
+      "sample1": {
         "file": "data/samples/23/08_sample1.txt",
-        "part1": {
-          "result": 2
-        }
+        "part1": { "result": 2, "type": "int" }
       },
-      {
-        "name": "sample2",
+      "sample2": {
         "file": "data/samples/23/08_sample2.txt",
-        "part1": {
-          "result": 6
-        }
+        "part1": { "result": 6, "type": "int" }
       },
-      {
-        "name": "sample3",
+      "sample3": {
         "file": "data/samples/23/08_sample3.txt",
-        "part2": {
-          "result": 6
-        }
+        "part2": { "result": 6, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/08.txt",
-        "part1": {
-          "result": 16531
-        },
-        "part2": {
-          "result": 24035773251517
-        }
+        "part1": { "result": 16531, "type": "int" },
+        "part2": { "result": 24035773251517, "type": "int" }
       }
-    ],
-    "09": [
-      {
-        "name": "sample",
+    },
+    "09": {
+      "sample": {
         "input": "0 3 6 9 12 15\n1 3 6 10 15 21\n10 13 16 21 30 45",
-        "part1": {
-          "result": 114
-        },
-        "part2": {
-          "result": 2
-        }
+        "part1": { "result": 114, "type": "int" },
+        "part2": { "result": 2, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/09.txt",
-        "part1": {
-          "result": 1641934234
-        },
-        "part2": {
-          "result": 975
-        }
+        "part1": { "result": 1641934234, "type": "int" },
+        "part2": { "result": 975, "type": "int" }
       }
-    ],
-    "10": [
-      {
-        "name": "sample1",
+    },
+    "10": {
+      "sample1": {
         "input": "..F7.\n.FJ|.\nSJ.L7\n|F--J\nLJ...",
-        "part1": {
-          "result": 8
-        }
+        "part1": { "result": 8, "type": "int" }
       },
-      {
-        "name": "sample2",
+      "sample2": {
         "file": "data/samples/23/10_sample2.txt",
-        "part2": {
-          "result": 4
-        }
+        "part2": { "result": 4, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/10.txt",
-        "part1": {
-          "result": 6923
-        },
-        "part2": {
-          "result": 529
-        }
+        "part1": { "result": 6923, "type": "int" },
+        "part2": { "result": 529, "type": "int" }
       }
-    ],
-    "11": [
-      {
-        "name": "sample",
+    },
+    "11": {
+      "sample": {
         "file": "data/samples/23/11_sample.txt",
-        "part1": {
-          "result": 374
-        },
-        "part2": {
-          "result": 82000210
-        }
+        "part1": { "result": 374, "type": "int" },
+        "part2": { "result": 82000210, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/11.txt",
-        "part1": {
-          "result": 9686930
-        },
-        "part2": {
-          "result": 630728425490
-        }
+        "part1": { "result": 9686930, "type": "int" },
+        "part2": { "result": 630728425490, "type": "int" }
       }
-    ],
-    "12": [
-      {
-        "name": "sample",
+    },
+    "12": {
+      "sample": {
         "file": "data/samples/23/12_sample.txt",
-        "part1": {
-          "result": 21
-        },
-        "part2": {
-          "result": 525152
-        }
+        "part1": { "result": 21, "type": "int" },
+        "part2": { "result": 525152, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/12.txt",
-        "part1": {
-          "result": 7622
-        },
-        "part2": {
-          "result": 4964259839627
-        }
+        "part1": { "result": 7622, "type": "int" },
+        "part2": { "result": 4964259839627, "type": "int" }
       }
-    ],
-    "13": [
-      {
-        "name": "sample",
+    },
+    "13": {
+      "sample": {
         "file": "data/samples/23/13_sample.txt",
-        "part1": {
-          "result": 405
-        },
-        "part2": {
-          "result": 400
-        }
+        "part1": { "result": 405, "type": "int" },
+        "part2": { "result": 400, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/13.txt",
-        "part1": {
-          "result": 42974
-        },
-        "part2": {
-          "result": 27587
-        }
+        "part1": { "result": 42974, "type": "int" },
+        "part2": { "result": 27587, "type": "int" }
       }
-    ],
-    "14": [
-      {
-        "name": "sample",
+    },
+    "14": {
+      "sample": {
         "file": "data/samples/23/14_sample.txt",
-        "part1": {
-          "result": 136
-        },
-        "part2": {
-          "result": 64
-        }
+        "part1": { "result": 136, "type": "int" },
+        "part2": { "result": 64, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/14.txt",
-        "part1": {
-          "result": 106517
-        },
-        "part2": {
-          "result": 79723
-        }
+        "part1": { "result": 106517, "type": "int" },
+        "part2": { "result": 79723, "type": "int" }
       }
-    ],
-    "15": [
-      {
-        "name": "sample_hash",
+    },
+    "15": {
+      "sample_hash": {
         "input": "HASH",
-        "part1": {
-          "result": 52
-        }
+        "part1": { "result": 52, "type": "int" }
       },
-      {
-        "name": "sample",
+      "sample": {
         "input": "rn=1,cm-,qp=3,cm=2,qp-,pc=4,ot=9,ab=5,pc-,pc=6,ot=7",
-        "part1": {
-          "result": 1320
-        },
-        "part2": {
-          "result": 145
-        }
+        "part1": { "result": 1320, "type": "int" },
+        "part2": { "result": 145, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/15.txt",
-        "part1": {
-          "result": 507769
-        },
-        "part2": {
-          "result": 269747
-        }
+        "part1": { "result": 507769, "type": "int" },
+        "part2": { "result": 269747, "type": "int" }
       }
-    ],
-    "16": [
-      {
-        "name": "sample",
+    },
+    "16": {
+      "sample": {
         "file": "data/samples/23/16_sample.txt",
-        "part1": {
-          "result": 46
-        },
-        "part2": {
-          "result": 51
-        }
+        "part1": { "result": 46, "type": "int" },
+        "part2": { "result": 51, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/16.txt",
-        "part1": {
-          "result": 6906
-        },
-        "part2": {
-          "result": 7330
-        }
+        "part1": { "result": 6906, "type": "int" },
+        "part2": { "result": 7330, "type": "int" }
       }
-    ],
-    "17": [
-      {
-        "name": "sample1",
+    },
+    "17": {
+      "sample1": {
         "file": "data/samples/23/17_sample.txt",
-        "part1": {
-          "result": 102
-        },
-        "part2": {
-          "result": 94
-        }
+        "part1": { "result": 102, "type": "int" },
+        "part2": { "result": 94, "type": "int" }
       },
-      {
-        "name": "sample2",
+      "sample2": {
         "input": "111111111111\n999999999991\n999999999991\n999999999991\n999999999991",
-        "part2": {
-          "result": 71
-        }
+        "part2": { "result": 71, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/17.txt",
-        "part1": {
-          "result": 967
-        },
-        "part2": {
-          "result": 1101
-        }
+        "part1": { "result": 967, "type": "int" },
+        "part2": { "result": 1101, "type": "int" }
       }
-    ],
-    "18": [
-      {
-        "name": "sample",
+    },
+    "18": {
+      "sample": {
         "file": "data/samples/23/18_sample.txt",
-        "part1": {
-          "result": 62
-        },
-        "part2": {
-          "result": 952408144115
-        }
+        "part1": { "result": 62, "type": "int" },
+        "part2": { "result": 952408144115, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/18.txt",
-        "part1": {
-          "result": 31171
-        },
-        "part2": {
-          "result": 131431655002266
-        }
+        "part1": { "result": 31171, "type": "int" },
+        "part2": { "result": 131431655002266, "type": "int" }
       }
-    ],
-    "19": [
-      {
-        "name": "sample",
+    },
+    "19": {
+      "sample": {
         "file": "data/samples/23/19_sample.txt",
-        "part1": {
-          "result": 19114
-        },
-        "part2": {
-          "result": 167409079868000
-        }
+        "part1": { "result": 19114, "type": "int" },
+        "part2": { "result": 167409079868000, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/19.txt",
-        "part1": {
-          "result": 319295
-        },
-        "part2": {
-          "result": 110807725108076
-        }
+        "part1": { "result": 319295, "type": "int" },
+        "part2": { "result": 110807725108076, "type": "int" }
       }
-    ],
-    "20": [
-      {
-        "name": "sample1",
+    },
+    "20": {
+      "sample1": {
         "input": "broadcaster -> a, b, c\n%a -> b\n%b -> c\n%c -> inv\n&inv -> a",
-        "part1": {
-          "result": 32000000
-        }
+        "part1": { "result": 32000000, "type": "int" }
       },
-      {
-        "name": "sample2",
+      "sample2": {
         "input": "broadcaster -> a\n%a -> inv, con\n&inv -> b\n%b -> con\n&con -> output",
-        "part1": {
-          "result": 11687500
-        }
+        "part1": { "result": 11687500, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/20.txt",
-        "part1": {
-          "result": 777666211
-        },
-        "part2": {
-          "result": 243081086866483
-        }
+        "part1": { "result": 777666211, "type": "int" },
+        "part2": { "result": 243081086866483, "type": "int" }
       }
-    ],
-    "21": [
-      {
-        "name": "sample",
+    },
+    "21": {
+      "sample": {
         "file": "data/samples/23/21_sample.txt",
-        "part1": {
-          "result": 42
-        },
-        "part2": {
-          "result": 394693535848011
-        }
+        "part1": { "result": 42, "type": "int" },
+        "part2": { "result": 394693535848011, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/21.txt",
-        "part1": {
-          "result": 3697
-        },
-        "part2": {
-          "result": 608152828731262
-        }
+        "part1": { "result": 3697, "type": "int" },
+        "part2": { "result": 608152828731262, "type": "int" }
       }
-    ],
-    "22": [
-      {
-        "name": "sample",
+    },
+    "22": {
+      "sample": {
         "input": "1,0,1~1,2,1\n0,0,2~2,0,2\n0,2,3~2,2,3\n0,0,4~0,2,4\n2,0,5~2,2,5\n0,1,6~2,1,6\n1,1,8~1,1,9",
-        "part1": {
-          "result": 5
-        },
-        "part2": {
-          "result": 7
-        }
+        "part1": { "result": 5, "type": "int" },
+        "part2": { "result": 7, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/22.txt",
-        "part1": {
-          "result": 503
-        },
-        "part2": {
-          "result": 98431
-        }
+        "part1": { "result": 503, "type": "int" },
+        "part2": { "result": 98431, "type": "int" }
       }
-    ],
-    "23": [
-      {
-        "name": "sample",
+    },
+    "23": {
+      "sample": {
         "file": "data/samples/23/23_sample.txt",
-        "part1": {
-          "result": 94
-        },
-        "part2": {
-          "result": 154
-        }
+        "part1": { "result": 94, "type": "int" },
+        "part2": { "result": 154, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/23.txt",
-        "part1": {
-          "result": 2094
-        },
-        "part2": {
-          "result": 6442
-        }
+        "part1": { "result": 2094, "type": "int" },
+        "part2": { "result": 6442, "type": "int" }
       }
-    ],
-    "24": [
-      {
-        "name": "sample",
+    },
+    "24": {
+      "sample": {
         "input": "19, 13, 30 @ -2,  1, -2\n18, 19, 22 @ -1, -1, -2\n20, 25, 34 @ -2, -2, -4\n12, 31, 28 @ -1, -2, -1\n20, 19, 15 @  1, -5, -3",
-        "part1": {
-          "result": 0
-        },
-        "part2": {
-          "result": 47
-        }
+        "part1": { "result": 0, "type": "int" },
+        "part2": { "result": 47, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/23/24.txt",
-        "part1": {
-          "result": 20361
-        },
-        "part2": {
-          "result": 558415252330828
-        }
+        "part1": { "result": 20361, "type": "int" },
+        "part2": { "result": 558415252330828, "type": "int" }
       }
-    ]
+    }
   },
   "24": {
-    "01": [
-      {
-        "name": "sample",
+    "01": {
+      "sample": {
         "input": "3   4\n4   3\n2   5\n1   3\n3   9\n3   3",
-        "part1": {
-          "result": 11
-        },
-        "part2": {
-          "result": 31
-        }
+        "part1": { "result": 11, "type": "int" },
+        "part2": { "result": 31, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/01.txt",
-        "part1": {
-          "result": 2057374
-        },
-        "part2": {
-          "result": 23177084
-        }
+        "part1": { "result": 2057374, "type": "int" },
+        "part2": { "result": 23177084, "type": "int" }
       }
-    ],
-    "02": [
-      {
-        "name": "sample",
+    },
+    "02": {
+      "sample": {
         "input": "7 6 4 2 1\n1 2 7 8 9\n9 7 6 2 1\n1 3 2 4 5\n8 6 4 4 1\n1 3 6 7 9",
-        "part1": {
-          "result": 2
-        },
-        "part2": {
-          "result": 4
-        }
+        "part1": { "result": 2, "type": "int" },
+        "part2": { "result": 4, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/02.txt",
-        "part1": {
-          "result": 390
-        },
-        "part2": {
-          "result": 439
-        }
+        "part1": { "result": 390, "type": "int" },
+        "part2": { "result": 439, "type": "int" }
       }
-    ],
-    "03": [
-      {
-        "name": "sample",
+    },
+    "03": {
+      "sample": {
         "input": "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))",
-        "part1": {
-          "result": 161
-        },
-        "part2": {
-          "result": 48
-        }
+        "part1": { "result": 161, "type": "int" },
+        "part2": { "result": 48, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/03.txt",
-        "part1": {
-          "result": 179571322
-        },
-        "part2": {
-          "result": 103811193
-        }
+        "part1": { "result": 179571322, "type": "int" },
+        "part2": { "result": 103811193, "type": "int" }
       }
-    ],
-    "04": [
-      {
-        "name": "sample",
+    },
+    "04": {
+      "sample": {
         "file": "data/samples/24/04_sample.txt",
-        "part1": {
-          "result": 18
-        },
-        "part2": {
-          "result": 9
-        }
+        "part1": { "result": 18, "type": "int" },
+        "part2": { "result": 9, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/04.txt",
-        "part1": {
-          "result": 2618
-        },
-        "part2": {
-          "result": 2011
-        }
+        "part1": { "result": 2618, "type": "int" },
+        "part2": { "result": 2011, "type": "int" }
       }
-    ],
-    "05": [
-      {
-        "name": "sample",
+    },
+    "05": {
+      "sample": {
         "file": "data/samples/24/05_sample.txt",
-        "part1": {
-          "result": 143
-        },
-        "part2": {
-          "result": 123
-        }
+        "part1": { "result": 143, "type": "int" },
+        "part2": { "result": 123, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/05.txt",
-        "part1": {
-          "result": 5268
-        },
-        "part2": {
-          "result": 5799
-        }
+        "part1": { "result": 5268, "type": "int" },
+        "part2": { "result": 5799, "type": "int" }
       }
-    ],
-    "06": [
-      {
-        "name": "sample",
+    },
+    "06": {
+      "sample": {
         "file": "data/samples/24/06_sample.txt",
-        "part1": {
-          "result": 41
-        },
-        "part2": {
-          "result": 6
-        }
+        "part1": { "result": 41, "type": "int" },
+        "part2": { "result": 6, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/06.txt",
-        "part1": {
-          "result": 5305
-        },
-        "part2": {
-          "result": 2143
-        }
+        "part1": { "result": 5305, "type": "int" },
+        "part2": { "result": 2143, "type": "int" }
       }
-    ],
-    "07": [
-      {
-        "name": "sample",
+    },
+    "07": {
+      "sample": {
         "file": "data/samples/24/07_sample.txt",
-        "part1": {
-          "result": 3749
-        },
-        "part2": {
-          "result": 11387
-        }
+        "part1": { "result": 3749, "type": "int" },
+        "part2": { "result": 11387, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/07.txt",
-        "part1": {
-          "result": 3598800864292
-        },
-        "part2": {
-          "result": 340362529351427
-        }
+        "part1": { "result": 3598800864292, "type": "int" },
+        "part2": { "result": 340362529351427, "type": "int" }
       }
-    ],
-    "08": [
-      {
-        "name": "sample_1",
+    },
+    "08": {
+      "sample_1": {
         "file": "data/samples/24/08_sample_1.txt",
-        "part1": {
-          "result": 14
-        },
-        "part2": {
-          "result": 34
-        }
+        "part1": { "result": 14, "type": "int" },
+        "part2": { "result": 34, "type": "int" }
       },
-      {
-        "name": "sample_2",
+      "sample_2": {
         "file": "data/samples/24/08_sample_2.txt",
-        "part2": {
-          "result": 12
-        }
+        "part2": { "result": 12, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/08.txt",
-        "part1": {
-          "result": 351
-        },
-        "part2": {
-          "result": 1259
-        }
+        "part1": { "result": 351, "type": "int" },
+        "part2": { "result": 1259, "type": "int" }
       }
-    ],
-    "09": [
-      {
-        "name": "sample",
+    },
+    "09": {
+      "sample": {
         "input": "2333133121414131402",
-        "part1": {
-          "result": 1928
-        },
-        "part2": {
-          "result": 2858
-        }
+        "part1": { "result": 1928, "type": "int" },
+        "part2": { "result": 2858, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/09.txt",
-        "part1": {
-          "result": 6435922584968
-        },
-        "part2": {
-          "result": 6469636832766
-        }
+        "part1": { "result": 6435922584968, "type": "int" },
+        "part2": { "result": 6469636832766, "type": "int" }
       }
-    ],
-    "10": [
-      {
-        "name": "sample",
+    },
+    "10": {
+      "sample": {
         "input": "89010123\n78121874\n87430965\n96549874\n45678903\n32019012\n01329801\n10456732",
-        "part1": {
-          "result": 36
-        },
-        "part2": {
-          "result": 81
-        }
+        "part1": { "result": 36, "type": "int" },
+        "part2": { "result": 81, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/10.txt",
-        "part1": {
-          "result": 796
-        },
-        "part2": {
-          "result": 1942
-        }
+        "part1": { "result": 796, "type": "int" },
+        "part2": { "result": 1942, "type": "int" }
       }
-    ],
-    "11": [
-      {
-        "name": "sample",
+    },
+    "11": {
+      "sample": {
         "input": "125 17",
-        "part1": {
-          "result": 55312
-        },
-        "part2": {
-          "result": 65601038650482
-        }
+        "part1": { "result": 55312, "type": "int" },
+        "part2": { "result": 65601038650482, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/11.txt",
-        "part1": {
-          "result": 235850
-        },
-        "part2": {
-          "result": 279903140844645
-        }
+        "part1": { "result": 235850, "type": "int" },
+        "part2": { "result": 279903140844645, "type": "int" }
       }
-    ],
-    "12": [
-      {
-        "name": "sample",
+    },
+    "12": {
+      "sample": {
         "file": "data/samples/24/12_sample.txt",
-        "part1": {
-          "result": 1930
-        },
-        "part2": {
-          "result": 1206
-        }
+        "part1": { "result": 1930, "type": "int" },
+        "part2": { "result": 1206, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/12.txt",
-        "part1": {
-          "result": 1522850
-        },
-        "part2": {
-          "result": 953738
-        }
+        "part1": { "result": 1522850, "type": "int" },
+        "part2": { "result": 953738, "type": "int" }
       }
-    ],
-    "13": [
-      {
-        "name": "sample",
+    },
+    "13": {
+      "sample": {
         "file": "data/samples/24/13_sample.txt",
-        "part1": {
-          "result": 480
-        },
-        "part2": {
-          "result": 875318608908
-        }
+        "part1": { "result": 480, "type": "int" },
+        "part2": { "result": 875318608908, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/13.txt",
-        "part1": {
-          "result": 28753
-        },
-        "part2": {
-          "result": 102718967795500
-        }
+        "part1": { "result": 28753, "type": "int" },
+        "part2": { "result": 102718967795500, "type": "int" }
       }
-    ],
-    "14": [
-      {
-        "name": "full_data",
+    },
+    "14": {
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/14.txt",
-        "part1": {
-          "result": 224554908
-        },
-        "part2": {
-          "result": 6644
-        }
+        "part1": { "result": 224554908, "type": "int" },
+        "part2": { "result": 6644, "type": "int" }
       }
-    ],
-    "15": [
-      {
-        "name": "sample_large",
+    },
+    "15": {
+      "sample_large": {
         "file": "data/samples/24/15_sample_large.txt",
-        "part1": {
-          "result": 10092
-        },
-        "part2": {
-          "result": 9021
-        }
+        "part1": { "result": 10092, "type": "int" },
+        "part2": { "result": 9021, "type": "int" }
       },
-      {
-        "name": "sample_small",
+      "sample_small": {
         "file": "data/samples/24/15_sample_small.txt",
-        "part1": {
-          "result": 2028
-        },
-        "part2": {
-          "result": 1751
-        }
+        "part1": { "result": 2028, "type": "int" },
+        "part2": { "result": 1751, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/15.txt",
-        "part1": {
-          "result": 1430536
-        },
-        "part2": {
-          "result": 1452348
-        }
+        "part1": { "result": 1430536, "type": "int" },
+        "part2": { "result": 1452348, "type": "int" }
       }
-    ],
-    "16": [
-      {
-        "name": "sample_1",
+    },
+    "16": {
+      "sample_1": {
         "file": "data/samples/24/16_sample_1.txt",
-        "part1": {
-          "result": 7036
-        },
-        "part2": {
-          "result": 45
-        }
+        "part1": { "result": 7036, "type": "int" },
+        "part2": { "result": 45, "type": "int" }
       },
-      {
-        "name": "sample_2",
+      "sample_2": {
         "file": "data/samples/24/16_sample_2.txt",
-        "part1": {
-          "result": 11048
-        },
-        "part2": {
-          "result": 64
-        }
+        "part1": { "result": 11048, "type": "int" },
+        "part2": { "result": 64, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/16.txt",
-        "part1": {
-          "result": 105508
-        },
-        "part2": {
-          "result": 548
-        }
+        "part1": { "result": 105508, "type": "int" },
+        "part2": { "result": 548, "type": "int" }
       }
-    ],
-    "17": [
-      {
-        "name": "sample_1",
+    },
+    "17": {
+      "sample_1": {
         "file": "data/samples/24/17_sample_1.txt",
-        "part1": {
-          "result": [4, 6, 3, 5, 6, 3, 5, 2, 1, 0]
-        }
+        "part1": { "result": [4, 6, 3, 5, 6, 3, 5, 2, 1, 0], "type": "[]int" }
       },
-      {
-        "name": "sample_2",
+      "sample_2": {
         "file": "data/samples/24/17_sample_2.txt",
-        "part2": {
-          "result": 117440
-        }
+        "part2": { "result": 117440, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/17.txt",
-        "part1": {
-          "result": [6, 7, 5, 2, 1, 3, 5, 1, 7]
-        },
-        "part2": {
-          "result": 216549846240877
-        }
+        "part1": { "result": [6, 7, 5, 2, 1, 3, 5, 1, 7], "type": "[]int" },
+        "part2": { "result": 216549846240877, "type": "int" }
       }
-    ],
-    "18": [
-      {
-        "name": "full_data",
+    },
+    "18": {
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/18.txt",
-        "part1": {
-          "result": 370
-        },
-        "part2": {
-          "result": [65, 6],
-          "type": "int16"
-        }
+        "part1": { "result": 370, "type": "int" },
+        "part2": { "result": [65, 6], "type": "[]int16" }
       }
-    ],
-    "19": [
-      {
-        "name": "sample",
+    },
+    "19": {
+      "sample": {
         "input": "r, wr, b, g, bwu, rb, gb, br\n\nbrwrr\nbggr\ngbbr\nrrbgbr\nubwu\nbwurrg\nbrgr\nbbrgwb",
-        "part1": {
-          "result": 6
-        },
-        "part2": {
-          "result": 16
-        }
+        "part1": { "result": 6, "type": "int" },
+        "part2": { "result": 16, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/19.txt",
-        "part1": {
-          "result": 333
-        },
-        "part2": {
-          "result": 678536865274732
-        }
+        "part1": { "result": 333, "type": "int" },
+        "part2": { "result": 678536865274732, "type": "int" }
       }
-    ],
-    "20": [
-      {
-        "name": "sample",
+    },
+    "20": {
+      "sample": {
         "file": "data/samples/24/20_sample.txt",
-        "part1": {
-          "result": 0
-        },
-        "part2": {
-          "result": 0
-        }
+        "part1": { "result": 0, "type": "int" },
+        "part2": { "result": 0, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/20.txt",
-        "part1": {
-          "result": 1417
-        },
-        "part2": {
-          "result": 1014683
-        }
+        "part1": { "result": 1417, "type": "int" },
+        "part2": { "result": 1014683, "type": "int" }
       }
-    ],
-    "21": [
-      {
-        "name": "sample",
+    },
+    "21": {
+      "sample": {
         "input": "029A\n980A\n179A\n456A\n379A",
-        "part1": {
-          "result": 126384
-        },
-        "part2": {
-          "result": 154115708116294
-        }
+        "part1": { "result": 126384, "type": "int" },
+        "part2": { "result": 154115708116294, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/21.txt",
-        "part1": {
-          "result": 246990
-        },
-        "part2": {
-          "result": 306335137543664
-        }
+        "part1": { "result": 246990, "type": "int" },
+        "part2": { "result": 306335137543664, "type": "int" }
       }
-    ],
-    "22": [
-      {
-        "name": "sample_part1",
+    },
+    "22": {
+      "sample_part1": {
         "input": "1\n10\n100\n2024",
-        "part1": {
-          "result": 37327623
-        }
+        "part1": { "result": 37327623, "type": "int" }
       },
-      {
-        "name": "sample_part2",
+      "sample_part2": {
         "input": "1\n2\n3\n2024",
-        "part2": {
-          "result": 23
-        }
+        "part2": { "result": 23, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/22.txt",
-        "part1": {
-          "result": 14622549304
-        },
-        "part2": {
-          "result": 1735
-        }
+        "part1": { "result": 14622549304, "type": "int" },
+        "part2": { "result": 1735, "type": "int" }
       }
-    ],
-    "23": [
-      {
-        "name": "sample",
+    },
+    "23": {
+      "sample": {
         "file": "data/samples/24/23_sample.txt",
-        "part1": {
-          "result": 7
-        },
-        "part2": {
-          "result": ["co", "de", "ka", "ta"]
-        }
+        "part1": { "result": 7, "type": "int" },
+        "part2": { "result": ["co", "de", "ka", "ta"], "type": "[]string" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/24/23.txt",
-        "part1": {
-          "result": 926
-        },
+        "part1": { "result": 926, "type": "int" },
         "part2": {
           "result": [
             "az",
@@ -1096,191 +657,119 @@
             "wc",
             "yg",
             "zz"
-          ]
+          ],
+          "type": "[]string"
         }
       }
-    ]
+    }
   },
   "25": {
-    "01": [
-      {
-        "name": "sample",
+    "01": {
+      "sample": {
         "file": "data/samples/25/01_sample.txt",
-        "part1": {
-          "result": 3
-        },
-        "part2": {
-          "result": 6
-        }
+        "part1": { "result": 3, "type": "int" },
+        "part2": { "result": 6, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/25/01.txt",
-        "part1": {
-          "result": 1129
-        },
-        "part2": {
-          "result": 6638
-        }
+        "part1": { "result": 1129, "type": "int" },
+        "part2": { "result": 6638, "type": "int" }
       }
-    ],
-    "02": [
-      {
-        "name": "sample",
+    },
+    "02": {
+      "sample": {
         "file": "data/samples/25/02_sample.txt",
-        "part1": {
-          "result": 1227775554
-        },
-        "part2": {
-          "result": 4174379265
-        }
+        "part1": { "result": 1227775554, "type": "int" },
+        "part2": { "result": 4174379265, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/25/02.txt",
-        "part1": {
-          "result": 64215794229
-        },
-        "part2": {
-          "result": 85513235135
-        }
+        "part1": { "result": 64215794229, "type": "int" },
+        "part2": { "result": 85513235135, "type": "int" }
       }
-    ],
-    "03": [
-      {
-        "name": "sample",
+    },
+    "03": {
+      "sample": {
         "file": "data/samples/25/03_sample.txt",
-        "part1": {
-          "result": 357
-        },
-        "part2": {
-          "result": 3121910778619
-        }
+        "part1": { "result": 357, "type": "int" },
+        "part2": { "result": 3121910778619, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/25/03.txt",
-        "part1": {
-          "result": 17452
-        },
-        "part2": {
-          "result": 173300819005913
-        }
+        "part1": { "result": 17452, "type": "int" },
+        "part2": { "result": 173300819005913, "type": "int" }
       }
-    ],
-    "04": [
-      {
-        "name": "sample",
+    },
+    "04": {
+      "sample": {
         "file": "data/samples/25/04_sample.txt",
-        "part1": {
-          "result": 13
-        },
-        "part2": {
-          "result": 43
-        }
+        "part1": { "result": 13, "type": "int" },
+        "part2": { "result": 43, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/25/04.txt",
-        "part1": {
-          "result": 1460
-        },
-        "part2": {
-          "result": 9243
-        }
+        "part1": { "result": 1460, "type": "int" },
+        "part2": { "result": 9243, "type": "int" }
       }
-    ],
-    "05": [
-      {
-        "name": "sample",
+    },
+    "05": {
+      "sample": {
         "file": "data/samples/25/05_sample.txt",
-        "part1": {
-          "result": 3
-        },
-        "part2": {
-          "result": 14
-        }
+        "part1": { "result": 3, "type": "int" },
+        "part2": { "result": 14, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/25/05.txt",
-        "part1": {
-          "result": 509
-        },
-        "part2": {
-          "result": 336790092076620
-        }
+        "part1": { "result": 509, "type": "int" },
+        "part2": { "result": 336790092076620, "type": "int" }
       }
-    ],
-    "06": [
-      {
-        "name": "sample",
+    },
+    "06": {
+      "sample": {
         "file": "data/samples/25/06_sample.txt",
-        "part1": {
-          "result": 4277556
-        },
-        "part2": {
-          "result": 3263827
-        }
+        "part1": { "result": 4277556, "type": "int" },
+        "part2": { "result": 3263827, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/25/06.txt",
-        "part1": {
-          "result": 4583860641327
-        },
-        "part2": {
-          "result": 11602774058280
-        }
+        "part1": { "result": 4583860641327, "type": "int" },
+        "part2": { "result": 11602774058280, "type": "int" }
       }
-    ],
-    "07": [
-      {
-        "name": "sample",
+    },
+    "07": {
+      "sample": {
         "file": "data/samples/25/07_sample.txt",
-        "part1": {
-          "result": 21
-        },
-        "part2": {
-          "result": 40
-        }
+        "part1": { "result": 21, "type": "int" },
+        "part2": { "result": 40, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/25/07.txt",
-        "part1": {
-          "result": 1658
-        },
-        "part2": {
-          "result": 53916299384254
-        }
+        "part1": { "result": 1658, "type": "int" },
+        "part2": { "result": 53916299384254, "type": "int" }
       }
-    ],
-    "11": [
-      {
-        "name": "sample_part1",
+    },
+    "11": {
+      "sample_part1": {
         "file": "data/samples/25/11_sample.txt",
-        "part1": {
-          "result": 5
-        }
+        "part1": { "result": 5, "type": "int" }
       },
-      {
-        "name": "sample_part2",
+      "sample_part2": {
         "file": "data/samples/25/11_sample2.txt",
-        "part2": {
-          "result": 2
-        }
+        "part2": { "result": 2, "type": "int" }
       },
-      {
-        "name": "full_data",
+      "full_data": {
+        "fullData": true,
         "file": "data/full/25/11.txt",
-        "part1": {
-          "result": 640
-        },
-        "part2": {
-          "result": 367579641755680
-        }
+        "part1": { "result": 640, "type": "int" },
+        "part2": { "result": 367579641755680, "type": "int" }
       }
-    ]
+    }
   }
 }

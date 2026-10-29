@@ -32,7 +32,6 @@ func TestPart1(t *testing.T) {
 			t.Errorf("Expected %v, got %v", 32000000, result)
 		}
 	})
-
 	t.Run("sample2", func(t *testing.T) {
 		result, err := day20.Part1(strings.NewReader(testData2))
 		if err != nil {
@@ -42,7 +41,6 @@ func TestPart1(t *testing.T) {
 			t.Errorf("Expected %v, got %v", 11687500, result)
 		}
 	})
-
 	t.Run("full_data", func(t *testing.T) {
 		result, ok := test_utils.TestPartFromPath(t, "data/full/23/20.txt", day20.Part1)
 		if !ok {
@@ -62,7 +60,6 @@ func BenchmarkPart1(b *testing.B) {
 			day20.Part1(reader)
 		}
 	})
-
 	b.Run("sample2", func(b *testing.B) {
 		reader := strings.NewReader(testData2)
 		for b.Loop() {
@@ -70,7 +67,6 @@ func BenchmarkPart1(b *testing.B) {
 			day20.Part1(reader)
 		}
 	})
-
 	b.Run("full_data", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/full/23/20.txt", day20.Part1)
 	})

@@ -48,6 +48,7 @@ static void test_01_part1_full_data(void)
     aoc_error_t err = aoc24_day01_part1(f, &result);
     fclose(f);
     TEST_ASSERT_EQUAL(AOC_OK, err);
+    /* scalar expected (i64) */
     TEST_ASSERT_EQUAL(AOC_RESULT_I64, result.kind);
     TEST_ASSERT_EQUAL_INT64(2057374, result.value.i64);
 }
@@ -84,6 +85,7 @@ static void test_01_part2_full_data(void)
     aoc_error_t err = aoc24_day01_part2(f, &result);
     fclose(f);
     TEST_ASSERT_EQUAL(AOC_OK, err);
+    /* scalar expected (i64) */
     TEST_ASSERT_EQUAL(AOC_RESULT_I64, result.kind);
     TEST_ASSERT_EQUAL_INT64(23177084, result.value.i64);
 }

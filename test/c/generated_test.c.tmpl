@@ -20,9 +20,10 @@ static const char {{.VarName}}[] = {{cEscapeString .Input}};
 {{- end}}
 
 {{- if .Part1}}
-{{- range .Part1.Samples}}
+{{- range .Part1.Cases}}
 static void test_{{$.PaddedDay}}_part1_{{.Name}}(void)
 {
+{{- if .VarName}}
     FILE* in = tmpfile();
     aoc_result_t result;
     aoc_error_t err;
@@ -34,56 +35,7 @@ static void test_{{$.PaddedDay}}_part1_{{.Name}}(void)
     rewind(in);
     err = aoc24_day{{$.PaddedDay}}_part1(in, &result);
     TEST_ASSERT_EQUAL(AOC_OK, err);
-
-    {{- if .IsArray}}
-    /* expected array initializer ({{.ValueKind}}) */
-    {{- if eq .ValueKind "i64_array" }}
-    const int64_t expected[] = {{.Expected}};
-    {{- else if eq .ValueKind "i16_array" }}
-    const int16_t expected[] = {{.Expected}};
-    {{- else if eq .ValueKind "cstr_array" }}
-    const char *expected[] = {{.Expected}};
-    {{- end}}
-    const size_t expected_len = sizeof(expected) / sizeof(expected[0]);
-
-    {{- if eq .ValueKind "i64_array" }}
-    TEST_ASSERT_EQUAL(AOC_RESULT_I64_ARRAY, result.kind);
-    TEST_ASSERT_EQUAL_INT(expected_len, result.value.i64_array.length);
-    for (size_t i = 0; i < expected_len; ++i) {
-        TEST_ASSERT_EQUAL_INT64(expected[i], result.value.i64_array.items[i]);
-    }
-    {{- else if eq .ValueKind "i16_array" }}
-    TEST_ASSERT_EQUAL(AOC_RESULT_I16_ARRAY, result.kind);
-    TEST_ASSERT_EQUAL_INT(expected_len, result.value.i16_array.length);
-    for (size_t i = 0; i < expected_len; ++i) {
-        TEST_ASSERT_EQUAL_INT16(expected[i], result.value.i16_array.items[i]);
-    }
-    {{- else if eq .ValueKind "cstr_array" }}
-    TEST_ASSERT_EQUAL(AOC_RESULT_CSTR_ARRAY, result.kind);
-    TEST_ASSERT_EQUAL_INT(expected_len, result.value.cstr_array.length);
-    for (size_t i = 0; i < expected_len; ++i) {
-        TEST_ASSERT_EQUAL_STRING(expected[i], result.value.cstr_array.items[i]);
-    }
-    {{- end}}
-
-    {{- else}}
-    /* scalar expected ({{.ValueKind}}) */
-    {{- if eq .ValueKind "cstr" }}
-    TEST_ASSERT_EQUAL(AOC_RESULT_CSTR, result.kind);
-    TEST_ASSERT_EQUAL_STRING({{.Expected}}, result.value.cstr);
-    {{- else}}
-    TEST_ASSERT_EQUAL(AOC_RESULT_I64, result.kind);
-    TEST_ASSERT_EQUAL_INT64({{.Expected}}, result.value.i64);
-    {{- end}}
-    {{- end}}
-
-    fclose(in);
-}
-{{- end}}
-
-{{- range .Part1.Files}}
-static void test_{{$.PaddedDay}}_part1_{{.Name}}(void)
-{
+{{- else}}
     const char* path = TEST_DATA_DIR "/{{.FilePath}}";
     FILE* f = fopen(path, "r");
     if (!f) {
@@ -96,65 +48,7 @@ static void test_{{$.PaddedDay}}_part1_{{.Name}}(void)
     aoc_error_t err = aoc24_day{{$.PaddedDay}}_part1(f, &result);
     fclose(f);
     TEST_ASSERT_EQUAL(AOC_OK, err);
-
-    {{- if .IsArray}}
-    {{- if eq .ValueKind "i64_array" }}
-    const int64_t expected[] = {{.Expected}};
-    {{- else if eq .ValueKind "i16_array" }}
-    const int16_t expected[] = {{.Expected}};
-    {{- else if eq .ValueKind "cstr_array" }}
-    const char *expected[] = {{.Expected}};
-    {{- end}}
-    const size_t expected_len = sizeof(expected) / sizeof(expected[0]);
-
-    {{- if eq .ValueKind "i64_array" }}
-    TEST_ASSERT_EQUAL(AOC_RESULT_I64_ARRAY, result.kind);
-    TEST_ASSERT_EQUAL_INT(expected_len, result.value.i64_array.length);
-    for (size_t i = 0; i < expected_len; ++i) {
-        TEST_ASSERT_EQUAL_INT64(expected[i], result.value.i64_array.items[i]);
-    }
-    {{- else if eq .ValueKind "i16_array" }}
-    TEST_ASSERT_EQUAL(AOC_RESULT_I16_ARRAY, result.kind);
-    TEST_ASSERT_EQUAL_INT(expected_len, result.value.i16_array.length);
-    for (size_t i = 0; i < expected_len; ++i) {
-        TEST_ASSERT_EQUAL_INT16(expected[i], result.value.i16_array.items[i]);
-    }
-    {{- else if eq .ValueKind "cstr_array" }}
-    TEST_ASSERT_EQUAL(AOC_RESULT_CSTR_ARRAY, result.kind);
-    TEST_ASSERT_EQUAL_INT(expected_len, result.value.cstr_array.length);
-    for (size_t i = 0; i < expected_len; ++i) {
-        TEST_ASSERT_EQUAL_STRING(expected[i], result.value.cstr_array.items[i]);
-    }
-    {{- end}}
-
-    {{- else}}
-    {{- if eq .ValueKind "cstr" }}
-    TEST_ASSERT_EQUAL(AOC_RESULT_CSTR, result.kind);
-    TEST_ASSERT_EQUAL_STRING({{.Expected}}, result.value.cstr);
-    {{- else}}
-    TEST_ASSERT_EQUAL(AOC_RESULT_I64, result.kind);
-    TEST_ASSERT_EQUAL_INT64({{.Expected}}, result.value.i64);
-    {{- end}}
-    {{- end}}
-}
 {{- end}}
-{{- end}}
-
-{{- if .Part2}}
-{{- range .Part2.Samples}}
-static void test_{{$.PaddedDay}}_part2_{{.Name}}(void)
-{
-    FILE* in = tmpfile();
-    aoc_result_t result;
-    aoc_error_t err;
-
-    TEST_ASSERT_NOT_NULL(in);
-
-    /* inline sample input */
-    fputs({{.VarName}}, in);
-    rewind(in);
-    err = aoc24_day{{$.PaddedDay}}_part2(in, &result);
-    TEST_ASSERT_EQUAL(AOC_OK, err);
 
     {{- if .IsArray}}
     /* expected array initializer ({{.ValueKind}}) */
@@ -197,14 +91,31 @@ static void test_{{$.PaddedDay}}_part2_{{.Name}}(void)
     TEST_ASSERT_EQUAL_INT64({{.Expected}}, result.value.i64);
     {{- end}}
     {{- end}}
+{{- if .VarName}}
 
     fclose(in);
+{{- end}}
 }
 {{- end}}
+{{- end}}
 
-{{- range .Part2.Files}}
+{{- if .Part2}}
+{{- range .Part2.Cases}}
 static void test_{{$.PaddedDay}}_part2_{{.Name}}(void)
 {
+{{- if .VarName}}
+    FILE* in = tmpfile();
+    aoc_result_t result;
+    aoc_error_t err;
+
+    TEST_ASSERT_NOT_NULL(in);
+
+    /* inline sample input */
+    fputs({{.VarName}}, in);
+    rewind(in);
+    err = aoc24_day{{$.PaddedDay}}_part2(in, &result);
+    TEST_ASSERT_EQUAL(AOC_OK, err);
+{{- else}}
     const char* path = TEST_DATA_DIR "/{{.FilePath}}";
     FILE* f = fopen(path, "r");
     if (!f) {
@@ -217,8 +128,10 @@ static void test_{{$.PaddedDay}}_part2_{{.Name}}(void)
     aoc_error_t err = aoc24_day{{$.PaddedDay}}_part2(f, &result);
     fclose(f);
     TEST_ASSERT_EQUAL(AOC_OK, err);
+{{- end}}
 
     {{- if .IsArray}}
+    /* expected array initializer ({{.ValueKind}}) */
     {{- if eq .ValueKind "i64_array" }}
     const int64_t expected[] = {{.Expected}};
     {{- else if eq .ValueKind "i16_array" }}
@@ -249,6 +162,7 @@ static void test_{{$.PaddedDay}}_part2_{{.Name}}(void)
     {{- end}}
 
     {{- else}}
+    /* scalar expected ({{.ValueKind}}) */
     {{- if eq .ValueKind "cstr" }}
     TEST_ASSERT_EQUAL(AOC_RESULT_CSTR, result.kind);
     TEST_ASSERT_EQUAL_STRING({{.Expected}}, result.value.cstr);
@@ -257,9 +171,12 @@ static void test_{{$.PaddedDay}}_part2_{{.Name}}(void)
     TEST_ASSERT_EQUAL_INT64({{.Expected}}, result.value.i64);
     {{- end}}
     {{- end}}
+{{- if .VarName}}
+
+    fclose(in);
+{{- end}}
 }
 {{- end}}
-
 {{- end}}
 
 int main(void)
@@ -267,18 +184,12 @@ int main(void)
     UNITY_BEGIN();
 
 {{- if .Part1}}
-{{- range .Part1.Samples}}
-    RUN_TEST(test_{{$.PaddedDay}}_part1_{{.Name}});
-{{- end}}
-{{- range .Part1.Files}}
+{{- range .Part1.Cases}}
     RUN_TEST(test_{{$.PaddedDay}}_part1_{{.Name}});
 {{- end}}
 {{- end}}
 {{- if .Part2}}
-{{- range .Part2.Samples}}
-    RUN_TEST(test_{{$.PaddedDay}}_part2_{{.Name}});
-{{- end}}
-{{- range .Part2.Files}}
+{{- range .Part2.Cases}}
     RUN_TEST(test_{{$.PaddedDay}}_part2_{{.Name}});
 {{- end}}
 {{- end}}

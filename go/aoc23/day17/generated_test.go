@@ -26,7 +26,6 @@ func TestPart1(t *testing.T) {
 			t.Errorf("Expected %v, got %v", 102, result)
 		}
 	})
-
 	t.Run("full_data", func(t *testing.T) {
 		result, ok := test_utils.TestPartFromPath(t, "data/full/23/17.txt", day17.Part1)
 		if !ok {
@@ -42,23 +41,12 @@ func BenchmarkPart1(b *testing.B) {
 	b.Run("sample1", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/samples/23/17_sample.txt", day17.Part1)
 	})
-
 	b.Run("full_data", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/full/23/17.txt", day17.Part1)
 	})
 }
 
 func TestPart2(t *testing.T) {
-	t.Run("sample2", func(t *testing.T) {
-		result, err := day17.Part2(strings.NewReader(testData))
-		if err != nil {
-			t.Fatalf("Unexpected error: %v", err)
-		}
-		if result != 71 {
-			t.Errorf("Expected %v, got %v", 71, result)
-		}
-	})
-
 	t.Run("sample1", func(t *testing.T) {
 		result, ok := test_utils.TestPartFromPath(t, "data/samples/23/17_sample.txt", day17.Part2)
 		if !ok {
@@ -68,7 +56,15 @@ func TestPart2(t *testing.T) {
 			t.Errorf("Expected %v, got %v", 94, result)
 		}
 	})
-
+	t.Run("sample2", func(t *testing.T) {
+		result, err := day17.Part2(strings.NewReader(testData))
+		if err != nil {
+			t.Fatalf("Unexpected error: %v", err)
+		}
+		if result != 71 {
+			t.Errorf("Expected %v, got %v", 71, result)
+		}
+	})
 	t.Run("full_data", func(t *testing.T) {
 		result, ok := test_utils.TestPartFromPath(t, "data/full/23/17.txt", day17.Part2)
 		if !ok {
@@ -81,6 +77,9 @@ func TestPart2(t *testing.T) {
 }
 
 func BenchmarkPart2(b *testing.B) {
+	b.Run("sample1", func(b *testing.B) {
+		test_utils.BenchmarkPartFromPath(b, "data/samples/23/17_sample.txt", day17.Part2)
+	})
 	b.Run("sample2", func(b *testing.B) {
 		reader := strings.NewReader(testData)
 		for b.Loop() {
@@ -88,11 +87,6 @@ func BenchmarkPart2(b *testing.B) {
 			day17.Part2(reader)
 		}
 	})
-
-	b.Run("sample1", func(b *testing.B) {
-		test_utils.BenchmarkPartFromPath(b, "data/samples/23/17_sample.txt", day17.Part2)
-	})
-
 	b.Run("full_data", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/full/23/17.txt", day17.Part2)
 	})

@@ -12,9 +12,6 @@ var errNodeNameLength = aoc_utils.NewParseErrorf("node names must have 3 letters
 // nodeNameLen is the fixed length of every node name in the input.
 const nodeNameLen = 3
 
-// letterBits is the width of one packed letter in a node key.
-const letterBits = 8
-
 // noNode marks a line whose source has not been parsed yet.
 const noNode int32 = -1
 
@@ -22,7 +19,7 @@ const noNode int32 = -1
 const pairsPerLine = 6
 
 func encodeKey(a, b, c byte) uint32 {
-	return uint32(a)<<(2*letterBits) | uint32(b)<<letterBits | uint32(c)
+	return uint32(a)<<(16) | uint32(b)<<8 | uint32(c)
 }
 
 func parseInput(in io.Reader) (*graph, error) {

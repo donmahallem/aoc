@@ -3,7 +3,27 @@ import json
 from typing import Dict, TypedDict, List, Optional, Union, Literal, Mapping
 
 type Language = Literal["go", "python"]
-type ResultType = Literal["int", "int16", "string"]
+type ResultType = Literal[
+    "int",
+    "int16",
+    "int32",
+    "int64",
+    "uint",
+    "uint16",
+    "uint32",
+    "uint64",
+    "string",
+    "[]int",
+    "[]int16",
+    "[]int32",
+    "[]int64",
+    "[]uint",
+    "[]uint16",
+    "[]uint32",
+    "[]uint64",
+    "[]string",
+    "[]array",
+]
 
 type TestResult = Union[int, str, List[Union[int, str]]]
 
@@ -15,7 +35,6 @@ class PartExpectation(TypedDict, total=False):
 
 
 class TestCase(TypedDict, total=False):
-    name: str
     input: Optional[str]
     file: Optional[str]
     skip_languages: List[Language]
@@ -23,7 +42,7 @@ class TestCase(TypedDict, total=False):
     part2: PartExpectation
 
 
-type ParsedTestData = Mapping[int, Mapping[int, List[TestCase]]]
+type ParsedTestData = Mapping[int, Mapping[int, Mapping[str, TestCase]]]
 
 
 class TestData:
@@ -37,9 +56,9 @@ class TestData:
         if not path.exists():
             raise FileNotFoundError(f"Test data file not found: {path}")
 
-        raw: Dict[str, Dict[str, List[TestCase]]] = json.loads(path.read_text())
+        raw: Dict[str, Dict[str, Dict[str, TestCase]]] = json.loads(path.read_text())
 
-        parsed: Dict[int, Dict[int, List[TestCase]]] = {}
+        parsed: Dict[int, Dict[int, Dict[str, TestCase]]] = {}
 
         for y_str, days in raw.items():
             year = int(y_str)
@@ -47,11 +66,11 @@ class TestData:
 
         return cls(parsed)
 
-    def get_year(self, year: int) -> Mapping[int, List[TestCase]]:
+    def get_year(self, year: int) -> Mapping[int, Mapping[str, TestCase]]:
         return self._data.get(year, {})
 
-    def get_day(self, year: int, day: int) -> List[TestCase]:
-        return self._data.get(year, {}).get(day, [])
+    def get_day(self, year: int, day: int) -> Mapping[str, TestCase]:
+        return self._data.get(year, {}).get(day, {})
 
     def has_year(self, year: int) -> bool:
         return year in self._data
@@ -59,7 +78,7 @@ class TestData:
     def has_day(self, year: int, day: int) -> bool:
         return day in self._data.get(year, {})
 
-    def __getitem__(self, key: int) -> Mapping[int, List[TestCase]]:
+    def __getitem__(self, key: int) -> Mapping[int, Mapping[str, TestCase]]:
         return self._data[key]
 
     def __repr__(self) -> str:

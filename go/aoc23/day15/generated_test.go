@@ -10,23 +10,13 @@ import (
 	"github.com/donmahallem/aoc/go/test_utils"
 )
 
-var testData = `HASH`
+var testData = `rn=1,cm-,qp=3,cm=2,qp-,pc=4,ot=9,ab=5,pc-,pc=6,ot=7`
 
-var testData2 = `rn=1,cm-,qp=3,cm=2,qp-,pc=4,ot=9,ab=5,pc-,pc=6,ot=7`
+var testData2 = `HASH`
 
 func TestPart1(t *testing.T) {
-	t.Run("sample_hash", func(t *testing.T) {
-		result, err := day15.Part1(strings.NewReader(testData))
-		if err != nil {
-			t.Fatalf("Unexpected error: %v", err)
-		}
-		if result != 52 {
-			t.Errorf("Expected %v, got %v", 52, result)
-		}
-	})
-
 	t.Run("sample", func(t *testing.T) {
-		result, err := day15.Part1(strings.NewReader(testData2))
+		result, err := day15.Part1(strings.NewReader(testData))
 		if err != nil {
 			t.Fatalf("Unexpected error: %v", err)
 		}
@@ -34,7 +24,15 @@ func TestPart1(t *testing.T) {
 			t.Errorf("Expected %v, got %v", 1320, result)
 		}
 	})
-
+	t.Run("sample_hash", func(t *testing.T) {
+		result, err := day15.Part1(strings.NewReader(testData2))
+		if err != nil {
+			t.Fatalf("Unexpected error: %v", err)
+		}
+		if result != 52 {
+			t.Errorf("Expected %v, got %v", 52, result)
+		}
+	})
 	t.Run("full_data", func(t *testing.T) {
 		result, ok := test_utils.TestPartFromPath(t, "data/full/23/15.txt", day15.Part1)
 		if !ok {
@@ -47,22 +45,20 @@ func TestPart1(t *testing.T) {
 }
 
 func BenchmarkPart1(b *testing.B) {
-	b.Run("sample_hash", func(b *testing.B) {
+	b.Run("sample", func(b *testing.B) {
 		reader := strings.NewReader(testData)
 		for b.Loop() {
 			reader.Seek(0, io.SeekStart)
 			day15.Part1(reader)
 		}
 	})
-
-	b.Run("sample", func(b *testing.B) {
+	b.Run("sample_hash", func(b *testing.B) {
 		reader := strings.NewReader(testData2)
 		for b.Loop() {
 			reader.Seek(0, io.SeekStart)
 			day15.Part1(reader)
 		}
 	})
-
 	b.Run("full_data", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/full/23/15.txt", day15.Part1)
 	})
@@ -70,7 +66,7 @@ func BenchmarkPart1(b *testing.B) {
 
 func TestPart2(t *testing.T) {
 	t.Run("sample", func(t *testing.T) {
-		result, err := day15.Part2(strings.NewReader(testData2))
+		result, err := day15.Part2(strings.NewReader(testData))
 		if err != nil {
 			t.Fatalf("Unexpected error: %v", err)
 		}
@@ -78,7 +74,6 @@ func TestPart2(t *testing.T) {
 			t.Errorf("Expected %v, got %v", 145, result)
 		}
 	})
-
 	t.Run("full_data", func(t *testing.T) {
 		result, ok := test_utils.TestPartFromPath(t, "data/full/23/15.txt", day15.Part2)
 		if !ok {
@@ -92,13 +87,12 @@ func TestPart2(t *testing.T) {
 
 func BenchmarkPart2(b *testing.B) {
 	b.Run("sample", func(b *testing.B) {
-		reader := strings.NewReader(testData2)
+		reader := strings.NewReader(testData)
 		for b.Loop() {
 			reader.Seek(0, io.SeekStart)
 			day15.Part2(reader)
 		}
 	})
-
 	b.Run("full_data", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/full/23/15.txt", day15.Part2)
 	})

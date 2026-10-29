@@ -5,6 +5,7 @@ import (
 	"encoding/json/v2"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strconv"
 )
 
@@ -23,6 +24,18 @@ func Load(path string) (TestData, error) {
 	var data TestData
 	if err := json.Unmarshal(raw, &data); err != nil {
 		return nil, fmt.Errorf("failed to parse data file: %w", err)
+	}
+	base, err := filepath.Abs(filepath.Dir(path))
+	if err != nil {
+		return nil, fmt.Errorf("failed to resolve data file directory: %w", err)
+	}
+	for _, days := range data {
+		for _, cases := range days {
+			for name, tc := range cases {
+				tc.baseDir = base
+				cases[name] = tc
+			}
+		}
 	}
 	return data, nil
 }

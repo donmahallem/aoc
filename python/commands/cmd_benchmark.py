@@ -86,7 +86,9 @@ class BenchmarkResult:
                         cfg.print(f"Warning: Input file {input_path} not found.")
                         continue
                     input_data = input_path.read_text()
-                part_expectation = case.get(f"part{solver.part}")
+                part_expectation = (
+                    case.get("part1") if solver.part == 1 else case.get("part2")
+                )
                 if part_expectation is None or "python" in part_expectation.get(
                     "skip_languages", []
                 ):

@@ -13,7 +13,7 @@
         "fullData": true,
         "file": "data/full/21/01.txt",
         "part1": { "result": 1342, "type": "int" },
-        "part2": { "result": 1365, "type": "int" }
+        "part2": { "result": 1378, "type": "int" }
       }
     }
   },

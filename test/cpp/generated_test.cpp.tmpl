@@ -7,11 +7,11 @@
 
 #include <gtest/gtest.h>
 #include <sstream>
-{{- if .HasFiles}}
+{{- if .HasFileCases}}
 #include <fstream>
 #include <filesystem>
 {{- end}}
-{{- if .HasArrayResult}}
+{{- if .HasArrayExpectations}}
 #include <vector>
 {{- end}}
 
@@ -20,14 +20,14 @@
 static const std::string {{.VarName}} = R"testgen({{.Input}})testgen";
 {{- end}}
 {{- if .Part1}}
-{{- range .Part1.Samples}}
+{{- range .Part1.Cases}}
+{{- if .VarName}}
 
 TEST({{$.TestSuite}}Part1, {{.Name}}) {
     std::istringstream stream({{.VarName}});
     EXPECT_EQ({{$.Namespace}}::Part1(stream), {{.Expected}});
 }
-{{- end}}
-{{- range .Part1.Files}}
+{{- else}}
 
 TEST({{$.TestSuite}}Part1, {{.Name}}) {
     const std::string path = std::string(TEST_DATA_DIR) + "/{{.FilePath}}";
@@ -35,17 +35,18 @@ TEST({{$.TestSuite}}Part1, {{.Name}}) {
     std::ifstream stream(path);
     EXPECT_EQ({{$.Namespace}}::Part1(stream), {{.Expected}});
 }
+{{- end}}
 {{- end}}
 {{- end}}
 {{- if .Part2}}
-{{- range .Part2.Samples}}
+{{- range .Part2.Cases}}
+{{- if .VarName}}
 
 TEST({{$.TestSuite}}Part2, {{.Name}}) {
     std::istringstream stream({{.VarName}});
     EXPECT_EQ({{$.Namespace}}::Part2(stream), {{.Expected}});
 }
-{{- end}}
-{{- range .Part2.Files}}
+{{- else}}
 
 TEST({{$.TestSuite}}Part2, {{.Name}}) {
     const std::string path = std::string(TEST_DATA_DIR) + "/{{.FilePath}}";
@@ -53,5 +54,6 @@ TEST({{$.TestSuite}}Part2, {{.Name}}) {
     std::ifstream stream(path);
     EXPECT_EQ({{$.Namespace}}::Part2(stream), {{.Expected}});
 }
+{{- end}}
 {{- end}}
 {{- end}}

@@ -3,7 +3,6 @@ package test_utils
 import (
 	"bytes"
 	"errors"
-	"fmt"
 	"io"
 	"io/fs"
 	"os"
@@ -17,62 +16,9 @@ var (
 	basepath   = filepath.Dir(b)
 )
 
-type TestFileDb struct {
-	basepath string
-}
-
-func (t *TestFileDb) CreateTestFilePath(year int, day int) string {
-	return filepath.Join(t.basepath, fmt.Sprintf("../../test/data/full/%02d/%02d.txt", year, day))
-}
-
-func (t *TestFileDb) CheckTestDataExists(year int, day int) bool {
-	return FileExists(t.CreateTestFilePath(year, day))
-}
-
-func createTestFilePath(year int, day int) string {
-	return filepath.Join(basepath, fmt.Sprintf("../../test/data/full/%02d/%02d.txt", year, day))
-}
-
-func getTestSampleFileBasePath() string {
-	return "../../test/"
-}
-
-func GetTestSampleFilePath(path string) string {
-	return filepath.Join(basepath, getTestSampleFileBasePath(), path)
-}
-
-func CheckTestDataExists(year int, day int) bool {
-	return FileExists(createTestFilePath(year, day))
-}
-
-// PreloadFullData reads the full input for year and day into memory.
-func PreloadFullData(year int, day int) ([]byte, error) {
-	return os.ReadFile(createTestFilePath(year, day))
-}
-
-func GetTestData(year int, day int) (string, bool) {
-	data, err := PreloadFullData(year, day)
-	if err != nil {
-		return "", false
-	}
-	return string(data), true
-}
-
-type Part int
-
-const (
-	Part1 Part = 1
-	Part2 Part = 2
-)
-
-// TestFullDataForDate calls a function with the signature
-// func(io.Reader) (A, error). If the function returns a non-nil error the
-// test fails. This replaces the previous legacy helper that accepted
-// func(io.Reader) A.
-func TestFullDataForDate[A any](t *testing.T, year int, day int, fn func(in io.Reader) (A, error)) (A, bool) {
-	t.Helper()
-	input, err := PreloadFullData(year, day)
-	return RunInput(t, requireInput(t, input, err, createTestFilePath(year, day)), fn), true
+// samplePath resolves path relative to test/.
+func samplePath(path string) string {
+	return filepath.Join(basepath, "../../test", path)
 }
 
 // requireInput skips the test when the file is missing and fails it on other read errors.
@@ -87,8 +33,8 @@ func requireInput(tb testing.TB, input []byte, err error, path string) []byte {
 	return input
 }
 
-// RunInput calls fn on in-memory input and fails the test if fn returns an error.
-func RunInput[A any](t *testing.T, input []byte, fn func(in io.Reader) (A, error)) A {
+// runInput calls fn on in-memory input and fails the test if fn returns an error.
+func runInput[A any](t *testing.T, input []byte, fn func(in io.Reader) (A, error)) A {
 	t.Helper()
 	res, err := fn(bytes.NewReader(input))
 	if err != nil {
@@ -97,8 +43,8 @@ func RunInput[A any](t *testing.T, input []byte, fn func(in io.Reader) (A, error
 	return res
 }
 
-// BenchInput times fn on in-memory input.
-func BenchInput[A any](b *testing.B, input []byte, fn func(in io.Reader) (A, error)) {
+// benchInput times fn on in-memory input.
+func benchInput[A any](b *testing.B, input []byte, fn func(in io.Reader) (A, error)) {
 	b.Helper()
 	reader := bytes.NewReader(input)
 	for b.Loop() {
@@ -109,34 +55,16 @@ func BenchInput[A any](b *testing.B, input []byte, fn func(in io.Reader) (A, err
 	}
 }
 
-func FileExists(path string) bool {
-	fileInfo, err := os.Stat(path)
-	return err == nil && fileInfo.Mode().IsRegular()
-}
-
 func TestPartFromPath[A any](t *testing.T, path string, fn func(in io.Reader) (A, error)) (A, bool) {
 	t.Helper()
-	input, err := PreloadPartFromPath(path)
-	return RunInput(t, requireInput(t, input, err, GetTestSampleFilePath(path)), fn), true
-}
-
-// PreloadPartFromPath reads a sample file, relative to test/, into memory.
-func PreloadPartFromPath(path string) ([]byte, error) {
-	return os.ReadFile(GetTestSampleFilePath(path))
-}
-
-/*
-Method for testing full data in benchmarks
-It will skip if the full test data file does not exist
-*/
-func BenchmarkFullDataForDate[A any](b *testing.B, year int, day int, fn func(in io.Reader) (A, error)) {
-	b.Helper()
-	input, err := PreloadFullData(year, day)
-	BenchInput(b, requireInput(b, input, err, createTestFilePath(year, day)), fn)
+	file := samplePath(path)
+	input, err := os.ReadFile(file)
+	return runInput(t, requireInput(t, input, err, file), fn), true
 }
 
 func BenchmarkPartFromPath[A any](b *testing.B, path string, fn func(in io.Reader) (A, error)) {
 	b.Helper()
-	input, err := PreloadPartFromPath(path)
-	BenchInput(b, requireInput(b, input, err, GetTestSampleFilePath(path)), fn)
+	file := samplePath(path)
+	input, err := os.ReadFile(file)
+	benchInput(b, requireInput(b, input, err, file), fn)
 }

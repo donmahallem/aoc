@@ -12,12 +12,12 @@ import (
 	"github.com/donmahallem/aoc/test/testgen/model"
 )
 
-func DefaultTestDataPath() string {
+func defaultTestDataPath() string {
 	return filepath.Join(basepath, "../../test/data.json")
 }
 
 var defaultTestData = sync.OnceValues(func() (model.TestData, error) {
-	return model.Load(DefaultTestDataPath())
+	return model.Load(defaultTestDataPath())
 })
 
 // LoadDefaultTestData returns the parsed test/data.json, parsed once per test binary.

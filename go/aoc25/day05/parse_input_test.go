@@ -52,6 +52,6 @@ func BenchmarkParseInput(b *testing.B) {
 	})
 
 	b.Run("benchmark full data", func(b *testing.B) {
-		test_utils.BenchmarkFullDataForDate(b, 25, 5, parseInput)
+		test_utils.BenchmarkPartFromPath(b, "data/full/25/05.txt", parseInput)
 	})
 }

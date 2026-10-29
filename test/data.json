@@ -1,4 +1,22 @@
 {
+  "21": {
+    "01": {
+      "sample1": {
+        "input": "199\n200\n208\n210\n200\n207\n240\n269\n260\n263",
+        "part1": {
+          "result": 7,
+          "type": "int"
+        },
+        "part2": { "result": 5, "type": "int" }
+      },
+      "full_data": {
+        "fullData": true,
+        "file": "data/full/21/01.txt",
+        "part1": { "result": 1342, "type": "int" },
+        "part2": { "result": 1378, "type": "int" }
+      }
+    }
+  },
   "23": {
     "01": {
       "sample1": {
@@ -87,9 +105,17 @@
         "part1": { "result": 6440, "type": "int" },
         "part2": { "result": 5905, "type": "int" }
       },
-      "sample2": {
-        "file": "data/samples/23/07_sample2.txt",
-        "part2": { "result": 9800, "type": "int" }
+      "full_data": {
+        "fullData": true,
+        "file": "data/full/23/07.txt",
+        "part1": {
+          "result": 253866470,
+          "type": "int"
+        },
+        "part2": {
+          "result": 254494947,
+          "type": "int"
+        }
       }
     },
     "08": {

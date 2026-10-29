@@ -3,11 +3,13 @@ package model
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
 // TestCase provides either an inline Input or a File path, with expectations for at least one part.
 type TestCase struct {
 	fileCache     []byte
+	baseDir       string
 	Input         *string          `json:"input,omitempty"`
 	File          *string          `json:"file,omitempty"`
 	Part1         *PartExpectation `json:"part1,omitempty"`
@@ -32,7 +34,7 @@ func (r *TestCase) Fetch() ([]byte, error) {
 		return r.fileCache, nil
 	}
 	if r.File != nil {
-		data, err := os.ReadFile(*r.File)
+		data, err := os.ReadFile(r.resolvedFile())
 		if err != nil {
 			return nil, err
 		}
@@ -40,4 +42,12 @@ func (r *TestCase) Fetch() ([]byte, error) {
 		return r.fileCache, nil
 	}
 	return nil, fmt.Errorf("no input or file specified")
+}
+
+// resolvedFile joins a relative File with the data file's directory; without Load, it stays relative to the working directory.
+func (r *TestCase) resolvedFile() string {
+	if r.baseDir == "" || filepath.IsAbs(*r.File) {
+		return *r.File
+	}
+	return filepath.Join(r.baseDir, *r.File)
 }

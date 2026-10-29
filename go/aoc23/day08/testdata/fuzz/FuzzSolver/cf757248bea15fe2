@@ -1,0 +1,2 @@
+go test fuzz v1
+string("RL\nZZZ=(BBB,CCC)\nBBB=(DDD,EEE)\nCCC=(ZZZ,GGG)\nDDD=(DDD,DDD)\nEEE=(EEE,EEE)\nGGG=(GGG,GGG)\n AAA=(ZZZ,ZZZ)")

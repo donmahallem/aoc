@@ -1,4 +1,22 @@
 {
+  "21": {
+    "01": {
+      "sample1": {
+        "input": "199\n200\n208\n210\n200\n207\n240\n269\n260\n263",
+        "part1": {
+          "result": 7,
+          "type": "int"
+        },
+        "part2": { "result": 5, "type": "int" }
+      },
+      "full_data": {
+        "fullData": true,
+        "file": "data/full/21/01.txt",
+        "part1": { "result": 1342, "type": "int" },
+        "part2": { "result": 1365, "type": "int" }
+      }
+    }
+  },
   "23": {
     "01": {
       "sample1": {

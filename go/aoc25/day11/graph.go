@@ -63,8 +63,8 @@ func (t *nodeIndex) home(key uint32) uint64 {
 // hashKey folds the packed letters of key into a base-31 polynomial.
 func hashKey(key uint32) uint32 {
 	var h uint32
-	for ; key != 0; key >>= 8 {
-		h = h*hashBase + key&(1<<7)
+	for ; key != 0; key >>= byteBits {
+		h = h*hashBase + key&(1<<byteBits-1)
 	}
 	return h
 }

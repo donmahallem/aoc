@@ -39,7 +39,7 @@ jobs:
           schema: 'test/test_schema.json'
       - name: Validate testgen
         working-directory: ./test/testgen
-        run: go test ./...
+        run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v7
         with:

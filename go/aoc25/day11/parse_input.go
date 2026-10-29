@@ -18,8 +18,10 @@ const noNode int32 = -1
 // pairsPerLine estimates the edges per input line; the puzzle input averages about 5.5.
 const pairsPerLine = 6
 
+const byteBits = 8
+
 func encodeKey(a, b, c byte) uint32 {
-	return uint32(a)<<(16) | uint32(b)<<8 | uint32(c)
+	return uint32(a)<<(byteBits*2) | uint32(b)<<byteBits | uint32(c)
 }
 
 func parseInput(in io.Reader) (*graph, error) {
@@ -57,7 +59,7 @@ func parseInput(in io.Reader) (*graph, error) {
 				source = node(key)
 				key, keyLen = 0, 0
 			case c >= 'a' && c <= 'z':
-				key = key<<8 | uint32(c)
+				key = key<<byteBits | uint32(c)
 				keyLen++
 			case c == ' ':
 				if source != noNode && keyLen > 0 {

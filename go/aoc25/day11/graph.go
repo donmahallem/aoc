@@ -13,8 +13,23 @@ type graph struct {
 	edges   []int32
 }
 
-// hashMul is the Fibonacci hashing multiplier used to spread packed keys.
-const hashMul = 0x9E3779B97F4A7C15
+// hashBase is the polynomial base of the string hash; 31 is the classic choice.
+const hashBase = 31
+
+// emptyKey marks an unused slot; encodeKey never returns it.
+const emptyKey = 0
+
+// slotsPerNode keeps the table at most half full so probe chains stay short.
+const slotsPerNode = 2
+
+// minNodeIndexSize is the smallest table allocated for an index.
+const minNodeIndexSize = 16
+
+// inlineSkips is the skip-list length that stays on the stack.
+const inlineSkips = 4
+
+// pairWidth is the number of ids per (from, to) entry in the pairs slice.
+const pairWidth = 2
 
 // nodeIndex maps packed node keys to dense ids using open addressing with linear probing.
 type nodeIndex struct {
@@ -22,15 +37,15 @@ type nodeIndex struct {
 	count int32
 }
 
-// nodeSlot pairs a key with its id; key 0 marks an empty slot since encodeKey never returns 0.
+// nodeSlot pairs a key with its id; a key equal to emptyKey marks an unused slot.
 type nodeSlot struct {
 	key uint32
 	id  int32
 }
 
 func newNodeIndex(expected int) *nodeIndex {
-	size := 16
-	for size < expected*2 {
+	size := minNodeIndexSize
+	for size < expected*slotsPerNode {
 		size <<= 1
 	}
 	return &nodeIndex{slots: make([]nodeSlot, size)}
@@ -40,14 +55,28 @@ func (t *nodeIndex) size() int {
 	return int(t.count)
 }
 
+// home returns the first probe position for key.
+func (t *nodeIndex) home(key uint32) uint64 {
+	return uint64(hashKey(key)) & uint64(len(t.slots)-1)
+}
+
+// hashKey folds the packed letters of key into a base-31 polynomial.
+func hashKey(key uint32) uint32 {
+	var h uint32
+	for ; key != 0; key >>= byteBits {
+		h = h*hashBase + key&(1<<byteBits-1)
+	}
+	return h
+}
+
 func (t *nodeIndex) find(key uint32) (int32, bool) {
 	mask := uint64(len(t.slots) - 1)
-	for i := ((uint64(key) * hashMul) >> 32) & mask; ; i = (i + 1) & mask {
+	for i := t.home(key); ; i = (i + 1) & mask {
 		s := &t.slots[i]
 		if s.key == key {
 			return s.id, true
 		}
-		if s.key == 0 {
+		if s.key == emptyKey {
 			return 0, false
 		}
 	}
@@ -55,16 +84,16 @@ func (t *nodeIndex) find(key uint32) (int32, bool) {
 
 // intern returns the id of key, assigning the next id if key is new.
 func (t *nodeIndex) intern(key uint32) int32 {
-	if int(t.count)*2 >= len(t.slots) {
+	if int(t.count)*slotsPerNode >= len(t.slots) {
 		t.grow()
 	}
 	mask := uint64(len(t.slots) - 1)
-	for i := ((uint64(key) * hashMul) >> 32) & mask; ; i = (i + 1) & mask {
+	for i := t.home(key); ; i = (i + 1) & mask {
 		s := &t.slots[i]
 		if s.key == key {
 			return s.id
 		}
-		if s.key == 0 {
+		if s.key == emptyKey {
 			s.key = key
 			s.id = t.count
 			t.count++
@@ -78,11 +107,11 @@ func (t *nodeIndex) grow() {
 	t.slots = make([]nodeSlot, 2*len(old))
 	mask := uint64(len(t.slots) - 1)
 	for _, s := range old {
-		if s.key == 0 {
+		if s.key == emptyKey {
 			continue
 		}
-		j := ((uint64(s.key) * hashMul) >> 32) & mask
-		for t.slots[j].key != 0 {
+		j := t.home(s.key)
+		for t.slots[j].key != emptyKey {
 			j = (j + 1) & mask
 		}
 		t.slots[j] = s
@@ -95,16 +124,16 @@ func buildGraph(ids *nodeIndex, pairs []int32) *graph {
 	g := &graph{
 		ids:     ids,
 		offsets: make([]int32, n+1),
-		edges:   make([]int32, len(pairs)/2),
+		edges:   make([]int32, len(pairs)/pairWidth),
 	}
-	for i := 0; i < len(pairs); i += 2 {
+	for i := 0; i < len(pairs); i += pairWidth {
 		g.offsets[pairs[i]+1]++
 	}
 	for i := 1; i <= n; i++ {
 		g.offsets[i] += g.offsets[i-1]
 	}
 	// Advancing offsets[from] per edge leaves offsets[i] at the start of i+1, so shift right afterwards.
-	for i := 0; i < len(pairs); i += 2 {
+	for i := 0; i < len(pairs); i += pairWidth {
 		from := pairs[i]
 		g.edges[g.offsets[from]] = pairs[i+1]
 		g.offsets[from]++
@@ -170,7 +199,7 @@ func (p *pathCounter) count(start, target uint32, skip ...uint32) uint64 {
 		return 0
 	}
 
-	var blockedBuf [4]int32
+	var blockedBuf [inlineSkips]int32
 	blocked := blockedBuf[:0]
 	for _, key := range skip {
 		if id, ok := p.graph.ids.find(key); ok {

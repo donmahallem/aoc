@@ -9,8 +9,17 @@ import (
 
 var errNodeNameLength = aoc_utils.NewParseErrorf("node names must have 3 letters")
 
+// nodeNameLen is the fixed length of every node name in the input.
+const nodeNameLen = 3
+
+// noNode marks a line whose source has not been parsed yet.
+const noNode int32 = -1
+
+// pairsPerLine estimates the edges per input line; the puzzle input averages about 5.5.
+const pairsPerLine = 6
+
 func encodeKey(a, b, c byte) uint32 {
-	return uint32(a)<<16 | uint32(b)<<8 | uint32(c)
+	return uint32(a)<<(16) | uint32(b)<<8 | uint32(c)
 }
 
 func parseInput(in io.Reader) (*graph, error) {
@@ -24,7 +33,7 @@ func parseInput(in io.Reader) (*graph, error) {
 	node := ids.intern
 
 	// pairs holds consecutive (from, to) node ids; capacity fits the puzzle input, append grows otherwise.
-	pairs := make([]int32, 0, lines*6)
+	pairs := make([]int32, 0, lines*pairsPerLine)
 	for len(data) > 0 {
 		var line []byte
 		if i := bytes.IndexByte(data, '\n'); i >= 0 {
@@ -36,13 +45,13 @@ func parseInput(in io.Reader) (*graph, error) {
 			line = line[:n-1]
 		}
 
-		source := int32(-1)
+		source := noNode
 		key := uint32(0)
 		keyLen := 0
 		for _, c := range line {
 			switch {
 			case c == ':':
-				if keyLen != 3 {
+				if keyLen != nodeNameLen {
 					return nil, errNodeNameLength
 				}
 				source = node(key)
@@ -51,8 +60,8 @@ func parseInput(in io.Reader) (*graph, error) {
 				key = key<<8 | uint32(c)
 				keyLen++
 			case c == ' ':
-				if source >= 0 && keyLen > 0 {
-					if keyLen != 3 {
+				if source != noNode && keyLen > 0 {
+					if keyLen != nodeNameLen {
 						return nil, errNodeNameLength
 					}
 					pairs = append(pairs, source, node(key))
@@ -62,11 +71,11 @@ func parseInput(in io.Reader) (*graph, error) {
 				return nil, aoc_utils.NewUnexpectedInputError(c)
 			}
 		}
-		if source < 0 {
+		if source == noNode {
 			continue
 		}
 		if keyLen > 0 {
-			if keyLen != 3 {
+			if keyLen != nodeNameLen {
 				return nil, errNodeNameLength
 			}
 			pairs = append(pairs, source, node(key))

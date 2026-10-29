@@ -19,7 +19,6 @@ func TestPart1(t *testing.T) {
 			t.Errorf("Expected %v, got %v", 2, result)
 		}
 	})
-
 	t.Run("sample2", func(t *testing.T) {
 		result, ok := test_utils.TestPartFromPath(t, "data/samples/23/08_sample2.txt", day08.Part1)
 		if !ok {
@@ -29,7 +28,6 @@ func TestPart1(t *testing.T) {
 			t.Errorf("Expected %v, got %v", 6, result)
 		}
 	})
-
 	t.Run("full_data", func(t *testing.T) {
 		result, ok := test_utils.TestPartFromPath(t, "data/full/23/08.txt", day08.Part1)
 		if !ok {
@@ -45,11 +43,9 @@ func BenchmarkPart1(b *testing.B) {
 	b.Run("sample1", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/samples/23/08_sample1.txt", day08.Part1)
 	})
-
 	b.Run("sample2", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/samples/23/08_sample2.txt", day08.Part1)
 	})
-
 	b.Run("full_data", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/full/23/08.txt", day08.Part1)
 	})
@@ -65,7 +61,6 @@ func TestPart2(t *testing.T) {
 			t.Errorf("Expected %v, got %v", 6, result)
 		}
 	})
-
 	t.Run("full_data", func(t *testing.T) {
 		result, ok := test_utils.TestPartFromPath(t, "data/full/23/08.txt", day08.Part2)
 		if !ok {
@@ -81,7 +76,6 @@ func BenchmarkPart2(b *testing.B) {
 	b.Run("sample3", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/samples/23/08_sample3.txt", day08.Part2)
 	})
-
 	b.Run("full_data", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/full/23/08.txt", day08.Part2)
 	})

@@ -26,6 +26,15 @@ func TestPart1(t *testing.T) {
 			t.Errorf("Expected %v, got %v", 6440, result)
 		}
 	})
+	t.Run("full_data", func(t *testing.T) {
+		result, ok := test_utils.TestPartFromPath(t, "data/full/23/07.txt", day07.Part1)
+		if !ok {
+			return
+		}
+		if result != 253866470 {
+			t.Errorf("Expected %v, got %v", 253866470, result)
+		}
+	})
 }
 
 func BenchmarkPart1(b *testing.B) {
@@ -35,6 +44,9 @@ func BenchmarkPart1(b *testing.B) {
 			reader.Seek(0, io.SeekStart)
 			day07.Part1(reader)
 		}
+	})
+	b.Run("full_data", func(b *testing.B) {
+		test_utils.BenchmarkPartFromPath(b, "data/full/23/07.txt", day07.Part1)
 	})
 }
 
@@ -48,13 +60,13 @@ func TestPart2(t *testing.T) {
 			t.Errorf("Expected %v, got %v", 5905, result)
 		}
 	})
-	t.Run("sample2", func(t *testing.T) {
-		result, ok := test_utils.TestPartFromPath(t, "data/samples/23/07_sample2.txt", day07.Part2)
+	t.Run("full_data", func(t *testing.T) {
+		result, ok := test_utils.TestPartFromPath(t, "data/full/23/07.txt", day07.Part2)
 		if !ok {
 			return
 		}
-		if result != 9800 {
-			t.Errorf("Expected %v, got %v", 9800, result)
+		if result != 254494947 {
+			t.Errorf("Expected %v, got %v", 254494947, result)
 		}
 	})
 }
@@ -67,8 +79,8 @@ func BenchmarkPart2(b *testing.B) {
 			day07.Part2(reader)
 		}
 	})
-	b.Run("sample2", func(b *testing.B) {
-		test_utils.BenchmarkPartFromPath(b, "data/samples/23/07_sample2.txt", day07.Part2)
+	b.Run("full_data", func(b *testing.B) {
+		test_utils.BenchmarkPartFromPath(b, "data/full/23/07.txt", day07.Part2)
 	})
 }
 

@@ -3,64 +3,30 @@ package solver
 import (
 	_ "embed"
 	"errors"
-	"maps"
-	"os"
-	"slices"
 	"strconv"
 	"strings"
 	"testing"
 
 	"github.com/donmahallem/aoc/go/aoc_utils"
 	"github.com/donmahallem/aoc/go/test_utils"
+	"github.com/donmahallem/aoc/test/testgen/model"
 )
 
 // addTestDataSeeds adds every input from test/data.json as a seed for each part it covers.
 func addTestDataSeeds(f *testing.F) {
-	data, err := test_utils.LoadTestData(test_utils.DefaultTestDataPath())
-	if err != nil {
-		f.Fatal(err)
-	}
-	for _, yearKey := range slices.Sorted(maps.Keys(data)) {
-		year, err := strconv.ParseUint(yearKey, 10, 8)
+	test_utils.EachTestCase(test_utils.LoadDefaultTestData(f), func(year, day int, name string, tc model.TestCase) {
+		input, err := tc.Fetch()
 		if err != nil {
-			f.Fatal(err)
+			f.Logf("Skipping test case %d/%d (%s): %v", year, day, name, err)
+			return
 		}
-		days := data[yearKey]
-		for _, dayKey := range slices.Sorted(maps.Keys(days)) {
-			day, err := strconv.ParseUint(dayKey, 10, 8)
-			if err != nil {
-				f.Fatal(err)
-			}
-			for _, tc := range days[dayKey] {
-				input, found := loadInput(tc)
-				if !found {
-					// don't throw exception just skip this test case
-					f.Logf("Skipping test case %s/%s (%s) because input not found", yearKey, dayKey, tc.Name)
-					continue
-				}
-				if tc.Part1 != nil {
-					f.Add(uint8(year), uint8(day), false, input)
-				}
-				if tc.Part2 != nil {
-					f.Add(uint8(year), uint8(day), true, input)
-				}
-			}
+		if tc.Part1 != nil {
+			f.Add(uint8(year), uint8(day), false, string(input))
 		}
-	}
-}
-
-// loadInput loads the input from either inline or file if present.
-func loadInput(tc test_utils.TestCase) (string, bool) {
-	if tc.Input != nil {
-		return *tc.Input, true
-	}
-	sampleFilePath := test_utils.GetTestSampleFilePath(*tc.File)
-	if _, err := os.Stat(sampleFilePath); !os.IsNotExist(err) {
-		raw, err := os.ReadFile(sampleFilePath)
-		return string(raw), err == nil
-	}
-	// if no inline data or file is available pass
-	return "", false
+		if tc.Part2 != nil {
+			f.Add(uint8(year), uint8(day), true, string(input))
+		}
+	})
 }
 
 func FuzzSolver(f *testing.F) {

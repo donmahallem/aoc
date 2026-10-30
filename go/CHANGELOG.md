@@ -1,5 +1,46 @@
 # Changelog
 
+## [0.5.0](https://github.com/donmahallem/aoc/compare/aoc-go-v0.4.0...aoc-go-v0.5.0) (2026-10-30)
+
+
+### Features
+
+* **go:** add aoc21 day01 ([#381](https://github.com/donmahallem/aoc/issues/381)) ([e2b5744](https://github.com/donmahallem/aoc/commit/e2b57442349b2cac4a3653c4d0a913a0cd97c327))
+* **go:** add aoc21 day02 ([#386](https://github.com/donmahallem/aoc/issues/386)) ([0e2bffa](https://github.com/donmahallem/aoc/commit/0e2bffa78b1f319dcb0337e28b9662cee342c3cf))
+* **go:** add extended ParseError constructor ([#375](https://github.com/donmahallem/aoc/issues/375)) ([41d6313](https://github.com/donmahallem/aoc/commit/41d63132d5990f1ada2a818e6a6b9368c7a2b627))
+* **go:** add test data file parser ([#357](https://github.com/donmahallem/aoc/issues/357)) ([795a0b3](https://github.com/donmahallem/aoc/commit/795a0b3db7567bd1fc9a821c4d8c5999f652bb6b))
+* **go:** bump Go version from 1.25.4 to 1.27 ([#358](https://github.com/donmahallem/aoc/issues/358)) ([3505f42](https://github.com/donmahallem/aoc/commit/3505f42b9e80167795cd85ae664593a624bd7b96))
+* **python:** add year 23 day 01 ([#286](https://github.com/donmahallem/aoc/issues/286)) ([4fa4c0f](https://github.com/donmahallem/aoc/commit/4fa4c0f9b51700eb7d114bcbe821f4896474167d))
+* **python:** add year 23 day 02 ([#287](https://github.com/donmahallem/aoc/issues/287)) ([7829a94](https://github.com/donmahallem/aoc/commit/7829a947caa0f0ab7f6a714c4b4f276e637495ba))
+* **python:** add year 23 day 17 ([#292](https://github.com/donmahallem/aoc/issues/292)) ([8162f74](https://github.com/donmahallem/aoc/commit/8162f7404e3f574d8ccb3a1f57e52b73aa737f0d))
+* refactor of input schema ([#282](https://github.com/donmahallem/aoc/issues/282)) ([d24c8fd](https://github.com/donmahallem/aoc/commit/d24c8fd02e85924af94a15515cf372c00ba94d0d))
+
+
+### Bug Fixes
+
+* **go:** add missing aoc23 day02 export ([#387](https://github.com/donmahallem/aoc/issues/387)) ([de17737](https://github.com/donmahallem/aoc/commit/de17737789744e2777aac06abb03f93632eca9c4))
+* **go:** aoc23 day 20 limit max interaction count ([#376](https://github.com/donmahallem/aoc/issues/376)) ([9ccb0d4](https://github.com/donmahallem/aoc/commit/9ccb0d440d18855ec5307dbeaf08923a38dd4a03))
+* **go:** aoc23 day05 add guard against non pairs ([#367](https://github.com/donmahallem/aoc/issues/367)) ([7eadd74](https://github.com/donmahallem/aoc/commit/7eadd7469ecfeb0b22d03be4a2bda469d8f0d32d))
+* **go:** aoc23 day08 smaller fuzz issues fixed ([#368](https://github.com/donmahallem/aoc/issues/368)) ([29d7c8a](https://github.com/donmahallem/aoc/commit/29d7c8a6a74d45d9b3690be68794658833362b07))
+* **go:** aoc23 day15 fix check for holes in wall ([#370](https://github.com/donmahallem/aoc/issues/370)) ([56c9178](https://github.com/donmahallem/aoc/commit/56c917852b8288f5ad64da34b1af402a0d7f2636))
+* **go:** aoc23 day17 fix infinite loop on invalid input ([#369](https://github.com/donmahallem/aoc/issues/369)) ([e16e5b8](https://github.com/donmahallem/aoc/commit/e16e5b8eb04d4d3c258bc82d9c0adb4fcc40fd0e))
+* **go:** aoc23 day19 fix infinite loop search for solution ([#371](https://github.com/donmahallem/aoc/issues/371)) ([d0ce657](https://github.com/donmahallem/aoc/commit/d0ce65736ae4ba8bc3b06b77a84bc78982efa872))
+* **go:** aoc23 day23 limit graph size to 128 ([#374](https://github.com/donmahallem/aoc/issues/374)) ([c3c21ba](https://github.com/donmahallem/aoc/commit/c3c21ba5814bba761c2ac1181fde5290d7d4ba93))
+* **go:** aoc24 day05 fix fuzz issue ([#365](https://github.com/donmahallem/aoc/issues/365)) ([a4abc49](https://github.com/donmahallem/aoc/commit/a4abc49c533b16d5b820644a1e38a8ea551da269))
+* **go:** aoc24 day06 add guard against endless run ([#363](https://github.com/donmahallem/aoc/issues/363)) ([cda077c](https://github.com/donmahallem/aoc/commit/cda077c66debfd598a11192da048562468a9ce35))
+* **go:** aoc24 day08 fix fuzz issue ([#364](https://github.com/donmahallem/aoc/issues/364)) ([831d01a](https://github.com/donmahallem/aoc/commit/831d01a075556065926b22c682ccc169903e5f80))
+* **go:** aoc25 day11 ([#379](https://github.com/donmahallem/aoc/issues/379)) ([413dcbd](https://github.com/donmahallem/aoc/commit/413dcbd0edfde6d77258ffea8c20c15c261a9dcd))
+* **go:** aoc25 day11 handle fuzz test case ([#378](https://github.com/donmahallem/aoc/issues/378)) ([0445f92](https://github.com/donmahallem/aoc/commit/0445f921572156e09af2a440a1c4de252aca7ad1))
+* **go:** endIdx out of bounds ([#362](https://github.com/donmahallem/aoc/issues/362)) ([3a56e45](https://github.com/donmahallem/aoc/commit/3a56e4562a4b743dd41a917c3b8ce88c6fc63afc))
+* **go:** improve input handling aoc23 day 10 ([#360](https://github.com/donmahallem/aoc/issues/360)) ([2447e6f](https://github.com/donmahallem/aoc/commit/2447e6f4c90ec940ae9aa77cb0979713bd024808))
+* **go:** remove stray log statement ([#373](https://github.com/donmahallem/aoc/issues/373)) ([a3333ad](https://github.com/donmahallem/aoc/commit/a3333ad5fdc605674e60bb0cb7d29da5a9ed80fb))
+* **go:** require square grid ([#361](https://github.com/donmahallem/aoc/issues/361)) ([788e5f4](https://github.com/donmahallem/aoc/commit/788e5f40114666fa41071fae8af23bea7ad379d9))
+
+
+### Performance Improvements
+
+* **go:** improve performance of year 24 day 09 ([#336](https://github.com/donmahallem/aoc/issues/336)) ([bbc4e9e](https://github.com/donmahallem/aoc/commit/bbc4e9e268df90478bf7324f802cdbbca294265d))
+
 ## [0.4.0](https://github.com/donmahallem/aoc/compare/aoc-go-v0.3.0...aoc-go-v0.4.0) (2026-02-13)
 
 

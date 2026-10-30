@@ -1,6 +1,7 @@
 package test_utils
 
 import (
+	"bufio"
 	"errors"
 	"maps"
 	"slices"
@@ -43,6 +44,9 @@ func FuzzHandleError(t *testing.T, err error) bool {
 		return false
 	} else if numError, ok := errors.AsType[*strconv.NumError](err); ok {
 		t.Skipf("Atoi error: failed to parse \"%s\" to %s", numError.Num, numError.Func)
+		return true
+	} else if errors.Is(err, bufio.ErrTooLong) {
+		t.Skipf("Bufio error: %v", err)
 		return true
 	} else {
 		t.Fatalf("Unexpected error: %v", err)

@@ -16,6 +16,19 @@
         "part2": { "result": 1378, "type": "int" }
       }
     },
+    "02": {
+      "sample": {
+        "input": "forward 5\ndown 5\nforward 8\nup 3\ndown 8\nforward 2",
+        "part1": { "result": 150, "type": "int" },
+        "part2": { "result": 900, "type": "int" }
+      },
+      "full_data": {
+        "fullData": true,
+        "file": "data/full/21/02.txt",
+        "part1": { "result": 1938402, "type": "int" },
+        "part2": { "result": 1947878632, "type": "int" }
+      }
+    },
     "03": {
       "sample": {
         "input": "00100\n11110\n10110\n10111\n10101\n01111\n00111\n11100\n10000\n11001\n00010\n01010",

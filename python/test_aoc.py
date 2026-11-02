@@ -54,7 +54,7 @@ def _generate_tests():
             elif fp:
                 abs_path = TEST_DIR.joinpath(fp).resolve()
                 if not os.path.exists(abs_path):
-                    self.fail(f"Input file not found: {abs_path}")
+                    self.skipTest(f"Test data {abs_path} could not be found")
                 f_obj = open(abs_path, "r", encoding="utf-8")
             else:
                 self.fail("No input provided for test case")
@@ -69,8 +69,9 @@ def _generate_tests():
 
     for year, days in data.items():
         for day, cases in days.items():
-            for i, case in enumerate(cases):
-                name = case.get("name", f"case_{i}")
+            for name, case in cases.items():
+                if "python" in case.get("skip_languages", []):
+                    continue
                 input_data = case.get("input")
                 file_path = case.get("file")
 
@@ -84,6 +85,8 @@ def _generate_tests():
                     continue
 
                 for part_num, expected_data in parts:
+                    if "python" in expected_data.get("skip_languages", []):
+                        continue
                     if "result" not in expected_data:
                         continue
 

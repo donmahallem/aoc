@@ -36,16 +36,7 @@ if(BUILD_TESTS)
   # Enable testing globally
   enable_testing()
 
-  # Download and configure GoogleTest using FetchContent
-  include(FetchContent)
-  FetchContent_Declare(
-    googletest
-    URL https://github.com/google/googletest/archive/release-1.12.1.zip
-  )
-  # For Windows: Prevent overriding the parent's compiler/linker settings.
-  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-  FetchContent_MakeAvailable(googletest)
-
-  # Add the test directory which builds your tests
+  # Add the test and bench directories
   add_subdirectory(test)
+  add_subdirectory(bench)
 endif()

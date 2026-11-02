@@ -2,6 +2,7 @@
 package day04_test
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/donmahallem/aoc/go/aoc24/day04"
@@ -18,7 +19,6 @@ func TestPart1(t *testing.T) {
 			t.Errorf("Expected %v, got %v", 18, result)
 		}
 	})
-
 	t.Run("full_data", func(t *testing.T) {
 		result, ok := test_utils.TestPartFromPath(t, "data/full/24/04.txt", day04.Part1)
 		if !ok {
@@ -34,7 +34,6 @@ func BenchmarkPart1(b *testing.B) {
 	b.Run("sample", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/samples/24/04_sample.txt", day04.Part1)
 	})
-
 	b.Run("full_data", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/full/24/04.txt", day04.Part1)
 	})
@@ -50,7 +49,6 @@ func TestPart2(t *testing.T) {
 			t.Errorf("Expected %v, got %v", 9, result)
 		}
 	})
-
 	t.Run("full_data", func(t *testing.T) {
 		result, ok := test_utils.TestPartFromPath(t, "data/full/24/04.txt", day04.Part2)
 		if !ok {
@@ -66,8 +64,22 @@ func BenchmarkPart2(b *testing.B) {
 	b.Run("sample", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/samples/24/04_sample.txt", day04.Part2)
 	})
-
 	b.Run("full_data", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/full/24/04.txt", day04.Part2)
+	})
+}
+
+func FuzzSolver(f *testing.F) {
+	test_utils.AddTestDataSeeds(f, 24, 4)
+
+	f.Fuzz(func(t *testing.T, input string) {
+		_, err1 := day04.Part1(strings.NewReader(input))
+		if err1 != nil && !test_utils.FuzzHandleError(t, err1) {
+			return
+		}
+		_, err2 := day04.Part2(strings.NewReader(input))
+		if err2 != nil && !test_utils.FuzzHandleError(t, err2) {
+			return
+		}
 	})
 }

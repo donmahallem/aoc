@@ -4,9 +4,13 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"maps"
 	"os"
 	"path/filepath"
-	"strings"
+	"slices"
+
+	"github.com/donmahallem/aoc/test/testgen/generator"
+	"github.com/donmahallem/aoc/test/testgen/model"
 )
 
 type LanguageConfig struct {
@@ -33,22 +37,17 @@ func loadConfig(path string) (*Config, error) {
 		return nil, fmt.Errorf("failed to decode config file: %w", err)
 	}
 
-	// Resolve paths relative to config file location
-	configDir := filepath.Dir(path)
-	// Get absolute path of config file directory to deal with relative paths correctly
-	absConfigDir, err := filepath.Abs(configDir)
+	// Resolve paths relative to the config file location.
+	configDir, err := filepath.Abs(filepath.Dir(path))
 	if err != nil {
 		return nil, fmt.Errorf("failed to get absolute path of config file directory: %w", err)
 	}
 
 	resolve := func(p string) string {
-		if p == "" {
-			return ""
-		}
-		if filepath.IsAbs(p) {
+		if p == "" || filepath.IsAbs(p) {
 			return p
 		}
-		return filepath.Join(absConfigDir, p)
+		return filepath.Join(configDir, p)
 	}
 
 	cfg.DataPath = resolve(cfg.DataPath)
@@ -84,30 +83,30 @@ func main() {
 		os.Exit(1)
 	}
 
-	data, err := LoadData(cfg.DataPath)
+	data, err := model.Load(cfg.DataPath)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error loading data: %v\n", err)
 		os.Exit(1)
 	}
 
-	if err := ValidateData(*data); err != nil {
-		fmt.Fprintf(os.Stderr, "Error validating data: %v\n", err)
-		os.Exit(1)
-	}
-
-	baseOpts := GenerationOptions{DryRun: *dryRun, CheckOnly: *check}
-
-	for langName, langCfg := range cfg.Languages {
-		generator, ok := generators[langName]
+	for _, langName := range slices.Sorted(maps.Keys(cfg.Languages)) {
+		langCfg := cfg.Languages[langName]
+		lang, ok := generator.Languages[langName]
 		if !ok {
 			fmt.Fprintf(os.Stderr, "Warning: No generator found for language '%s'\n", langName)
 			continue
 		}
 
-		fmt.Printf("=== Generating %s tests ===\n", strings.Title(langName))
-		opts := baseOpts
-		opts.CreateMissingDirs = langCfg.CreateMissingDirs
-		if err := GenerateGeneric(generator, langName, *data, langCfg.TemplateDir, langCfg.OutputDir, langCfg.SourceDir, opts); err != nil {
+		fmt.Printf("=== Generating %s tests ===\n", langName)
+		opts := generator.Options{
+			TemplateDir:       langCfg.TemplateDir,
+			OutputDir:         langCfg.OutputDir,
+			SourceDir:         langCfg.SourceDir,
+			CreateMissingDirs: langCfg.CreateMissingDirs,
+			DryRun:            *dryRun,
+			CheckOnly:         *check,
+		}
+		if err := generator.Generate(langName, lang, data, opts); err != nil {
 			fmt.Fprintf(os.Stderr, "Error generating %s tests: %v\n", langName, err)
 			os.Exit(1)
 		}

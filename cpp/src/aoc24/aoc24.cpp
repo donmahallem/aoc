@@ -9,5 +9,6 @@ namespace aoc24
         regFunc(1, R::Wrap(aoc24::day01::Part1), R::Wrap(aoc24::day01::Part2));
         regFunc(2, R::Wrap(aoc24::day02::Part1), R::Wrap(aoc24::day02::Part2));
         regFunc(3, R::Wrap(aoc24::day03::Part1), R::Wrap(aoc24::day03::Part2));
+        regFunc(4, R::Wrap(aoc24::day04::Part1), R::Wrap(aoc24::day04::Part2));
     }
 }  // namespace aoc24

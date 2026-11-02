@@ -4,17 +4,36 @@ import (
 	"io"
 
 	"github.com/donmahallem/aoc/go/aoc_utils"
-	"github.com/donmahallem/aoc/go/aoc_utils/int_util"
 )
+
+// maxSteps to prevent infinite runtime
+const maxSteps = 1 << 16
+
+// shiftRight returns value / 2^shift. Shifts of 63 or more return 0 instead of overflowing
+func shiftRight(value, shift int) int {
+	if shift <= 0 {
+		return value
+	}
+	if shift >= 63 {
+		return 0
+	}
+	return value / (1 << shift)
+}
 
 func CalculateOutput(reg *Register, program *Program) (*Program, error) {
 	output := make(Program, 0)
 	pointer := 0
+	steps := 0
 	var opcode, operand, operand_value int
 	if len(*program)%2 != 0 {
 		return nil, aoc_utils.NewParseError("malformed program: odd length", nil)
 	}
 	for pointer < len(*program) {
+		steps++
+		if steps > maxSteps {
+			// circuit breaker
+			return nil, aoc_utils.NewSolverErrorf("program did not halt within %d steps", maxSteps)
+		}
 		if pointer+1 >= len(*program) {
 			return nil, aoc_utils.NewParseError("malformed program: missing operand", nil)
 		}
@@ -33,17 +52,17 @@ func CalculateOutput(reg *Register, program *Program) (*Program, error) {
 		}
 		switch opcode {
 		case 0:
-			(*reg)[0] = (*reg)[0] / int_util.IntPow(2, operand_value)
+			(*reg)[0] = shiftRight((*reg)[0], operand_value)
 		case 1:
 			(*reg)[1] = (*reg)[1] ^ operand
 		case 2:
 			(*reg)[1] = operand_value % 8
 		case 3:
 			if (*reg)[0] != 0 {
-				if operand_value < 0 || operand_value >= len(*program) {
+				if operand >= len(*program) {
 					return nil, aoc_utils.NewParseError("invalid jump target", nil)
 				}
-				pointer = operand_value
+				pointer = operand
 				continue
 			}
 		case 4:
@@ -51,9 +70,9 @@ func CalculateOutput(reg *Register, program *Program) (*Program, error) {
 		case 5:
 			output = append(output, operand_value%8)
 		case 6:
-			(*reg)[1] = (*reg)[0] / (int_util.IntPow(2, operand_value))
+			(*reg)[1] = shiftRight((*reg)[0], operand_value)
 		case 7:
-			(*reg)[2] = (*reg)[0] / (int_util.IntPow(2, operand_value))
+			(*reg)[2] = shiftRight((*reg)[0], operand_value)
 		default:
 			return nil, aoc_utils.NewParseError("invalid opcode", nil)
 		}

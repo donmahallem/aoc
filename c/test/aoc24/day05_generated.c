@@ -28,6 +28,7 @@ static void test_05_part1_sample(void)
     aoc_error_t err = aoc24_day05_part1(f, &result);
     fclose(f);
     TEST_ASSERT_EQUAL(AOC_OK, err);
+    /* scalar expected (i64) */
     TEST_ASSERT_EQUAL(AOC_RESULT_I64, result.kind);
     TEST_ASSERT_EQUAL_INT64(143, result.value.i64);
 }
@@ -45,6 +46,7 @@ static void test_05_part1_full_data(void)
     aoc_error_t err = aoc24_day05_part1(f, &result);
     fclose(f);
     TEST_ASSERT_EQUAL(AOC_OK, err);
+    /* scalar expected (i64) */
     TEST_ASSERT_EQUAL(AOC_RESULT_I64, result.kind);
     TEST_ASSERT_EQUAL_INT64(5268, result.value.i64);
 }
@@ -62,6 +64,7 @@ static void test_05_part2_sample(void)
     aoc_error_t err = aoc24_day05_part2(f, &result);
     fclose(f);
     TEST_ASSERT_EQUAL(AOC_OK, err);
+    /* scalar expected (i64) */
     TEST_ASSERT_EQUAL(AOC_RESULT_I64, result.kind);
     TEST_ASSERT_EQUAL_INT64(123, result.value.i64);
 }
@@ -79,6 +82,7 @@ static void test_05_part2_full_data(void)
     aoc_error_t err = aoc24_day05_part2(f, &result);
     fclose(f);
     TEST_ASSERT_EQUAL(AOC_OK, err);
+    /* scalar expected (i64) */
     TEST_ASSERT_EQUAL(AOC_RESULT_I64, result.kind);
     TEST_ASSERT_EQUAL_INT64(5799, result.value.i64);
 }

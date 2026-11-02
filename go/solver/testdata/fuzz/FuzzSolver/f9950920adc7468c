@@ -1,0 +1,5 @@
+go test fuzz v1
+byte('\x18')
+byte('\x0f')
+bool(true)
+string("###O####\n##@.####\n\n>>^")

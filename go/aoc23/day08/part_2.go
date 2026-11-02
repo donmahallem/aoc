@@ -7,9 +7,9 @@ import (
 	"github.com/donmahallem/aoc/go/aoc_utils/int_util"
 )
 
-func getCycleSize(instructions pathInstructions, n *node) (uint, error) {
+func getCycleSize(instructions pathInstructions, n *node, maxSteps int) (uint, error) {
 	current := n
-	for i := 0; ; i++ {
+	for i := 0; i <= maxSteps; i++ {
 		if current == nil {
 			return 0, aoc_utils.NewParseError("Reached nil node in cycle detection", nil)
 		}
@@ -22,6 +22,7 @@ func getCycleSize(instructions pathInstructions, n *node) (uint, error) {
 			current = current.Left
 		}
 	}
+	return 0, aoc_utils.NewSolverErrorf("no node ending in Z reached after %d steps", maxSteps)
 }
 
 func Part2(in io.Reader) (uint, error) {
@@ -30,9 +31,10 @@ func Part2(in io.Reader) (uint, error) {
 		return 0, err
 	}
 	var currentBase uint = 1
+	maxSteps := len(games.Nodes) * len(games.Instructions)
 	for _, n := range games.Nodes {
 		if n.EndsInA {
-			cycleSize, err := getCycleSize(games.Instructions, n)
+			cycleSize, err := getCycleSize(games.Instructions, n, maxSteps)
 			if err != nil {
 				return 0, err
 			}

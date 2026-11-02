@@ -21,3 +21,9 @@ Or tests for a specific day with:
 ```sh
 python test_aoc.py -k test_24_day06 -v
 ```
+
+Before commit please format with
+
+```sh
+python -m ruff format ./
+```

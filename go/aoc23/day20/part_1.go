@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"bytes"
 	"io"
+
+	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
 // converts module ID from byte slice to int
@@ -105,8 +107,11 @@ type pulse struct {
 	high bool
 }
 
+// bounds the pulses in one press
+const maxPulsesPerPress = 1 << 16
+
 // simulates a single press with optional observer callback
-func simulatePress(inp *parsedInput, observer func(pulse)) (int, int) {
+func simulatePress(inp *parsedInput, observer func(pulse)) (int, int, error) {
 	lowCount, highCount := 1, 0
 
 	queue := make([]pulse, 0, 32)
@@ -118,7 +123,12 @@ func simulatePress(inp *parsedInput, observer func(pulse)) (int, int) {
 		})
 	}
 
+	pulses := 0
 	for len(queue) > 0 {
+		pulses++
+		if pulses > maxPulsesPerPress {
+			return 0, 0, aoc_utils.NewSolverErrorf("press sent more than %d pulses", maxPulsesPerPress)
+		}
 		current := queue[0]
 		queue = queue[1:]
 
@@ -150,7 +160,7 @@ func simulatePress(inp *parsedInput, observer func(pulse)) (int, int) {
 		}
 	}
 
-	return lowCount, highCount
+	return lowCount, highCount, nil
 }
 
 func Part1(in io.Reader) (int, error) {
@@ -158,7 +168,10 @@ func Part1(in io.Reader) (int, error) {
 
 	totalLow, totalHigh := 0, 0
 	for range 1000 {
-		low, high := simulatePress(&inp, nil)
+		low, high, err := simulatePress(&inp, nil)
+		if err != nil {
+			return 0, err
+		}
 		totalLow += low
 		totalHigh += high
 	}

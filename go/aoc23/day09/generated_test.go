@@ -24,7 +24,6 @@ func TestPart1(t *testing.T) {
 			t.Errorf("Expected %v, got %v", 114, result)
 		}
 	})
-
 	t.Run("full_data", func(t *testing.T) {
 		result, ok := test_utils.TestPartFromPath(t, "data/full/23/09.txt", day09.Part1)
 		if !ok {
@@ -44,7 +43,6 @@ func BenchmarkPart1(b *testing.B) {
 			day09.Part1(reader)
 		}
 	})
-
 	b.Run("full_data", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/full/23/09.txt", day09.Part1)
 	})
@@ -60,7 +58,6 @@ func TestPart2(t *testing.T) {
 			t.Errorf("Expected %v, got %v", 2, result)
 		}
 	})
-
 	t.Run("full_data", func(t *testing.T) {
 		result, ok := test_utils.TestPartFromPath(t, "data/full/23/09.txt", day09.Part2)
 		if !ok {
@@ -80,8 +77,22 @@ func BenchmarkPart2(b *testing.B) {
 			day09.Part2(reader)
 		}
 	})
-
 	b.Run("full_data", func(b *testing.B) {
 		test_utils.BenchmarkPartFromPath(b, "data/full/23/09.txt", day09.Part2)
+	})
+}
+
+func FuzzSolver(f *testing.F) {
+	test_utils.AddTestDataSeeds(f, 23, 9)
+
+	f.Fuzz(func(t *testing.T, input string) {
+		_, err1 := day09.Part1(strings.NewReader(input))
+		if err1 != nil && !test_utils.FuzzHandleError(t, err1) {
+			return
+		}
+		_, err2 := day09.Part2(strings.NewReader(input))
+		if err2 != nil && !test_utils.FuzzHandleError(t, err2) {
+			return
+		}
 	})
 }

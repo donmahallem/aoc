@@ -13,11 +13,11 @@ jobs:
     name: Validate test data and generators
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
-          python-version: 3.14
+          python-version: 3.15
       - name: Install dependencies
         working-directory: ./python
         run: |
@@ -29,14 +29,21 @@ jobs:
         env:
           DATA_PW: ${{ secrets.DATA_PW }}
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v7
         with:
-          go-version: "1.25"
+          go-version: "1.27"
       - name: Validate test data against schema
         uses: cardinalby/schema-validator-action@v3
         with:
           file: 'test/data.json'
           schema: 'test/test_schema.json'
+      - name: Validate testgen
+        working-directory: ./test/testgen
+        run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v7
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Check generated tests are up to date
         working-directory: ./test/testgen
         run: go run ./ --config ./config.json --check
@@ -50,16 +57,16 @@ jobs:
         working-directory: ./go
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Unpack test data
         run: bash ./test/decrypt_data.sh
         working-directory: .
         env:
           DATA_PW: ${{ secrets.DATA_PW }}
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v7
         with:
-          go-version: "1.25"
+          go-version: "1.27"
       - name: Install dependencies
         run: go get .
       - name: Build
@@ -67,7 +74,7 @@ jobs:
       - name: Test with the Go CLI
         run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Benchmark Go
@@ -76,7 +83,7 @@ jobs:
           go test ./... --json -bench . | go run ./cmd/convert_benchmark > go_benchmark.json
       - name: Upload Go Benchmark Artifact
         if: github.event_name == 'push'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: benchmark-go
           path: ./go/go_benchmark.json
@@ -88,7 +95,7 @@ jobs:
       run:
         working-directory: ./python
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 2
       - name: Unpack test data
@@ -98,13 +105,12 @@ jobs:
           DATA_PW: ${{ secrets.DATA_PW }}
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
-          python-version: 3.14
+          python-version: 3.15
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
-          pip install -r requirements_test.txt
+          pip install -e ".[all]"
       - name: Run tests and create report
         run: |
           coverage run --source=. -m unittest discover
@@ -113,7 +119,7 @@ jobs:
       - name: Run Type Check
         run: mypy --ignore-missing-imports .
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Benchmark Python
@@ -122,7 +128,7 @@ jobs:
           python aoc.py --json benchmark | python convert_benchmark.py > python_benchmark.json
       - name: Upload Python Benchmark Artifact
         if: github.event_name == 'push'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: benchmark-python
           path: ./python/python_benchmark.json
@@ -134,7 +140,7 @@ jobs:
       run:
         working-directory: ./cpp
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 2
       - name: Unpack test data
@@ -155,11 +161,34 @@ jobs:
       - name: Generate coverage report
         run: cmake --build build --target coverage
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./cpp/build/coverage.info
           flags: cpp
+      - name: Setup Python # for benchmark converter)
+        if: github.event_name == 'push'
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.15'
+      - name: Configure for benchmarks
+        if: github.event_name == 'push'
+        run: cmake -S . -B build_bench -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON
+      - name: Build benchmark target
+        if: github.event_name == 'push'
+        run: cmake --build build_bench --target aoc_solver_bench
+      - name: Benchmark C++
+        if: github.event_name == 'push'
+        run: |
+          ./build_bench/bin/aoc_solver_bench \
+            --benchmark_format=json \
+          | python convert_benchmark.py --series-key "cpp" --name "C++ Benchmark" > cpp_benchmark.json
+      - name: Upload C++ Benchmark Artifact
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v7
+        with:
+          name: benchmark-cpp
+          path: ./cpp/cpp_benchmark.json
   test_c:
     name: Run and Test C
     runs-on: ubuntu-latest
@@ -168,7 +197,7 @@ jobs:
       run:
         working-directory: ./c
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 2
       - name: Unpack test data
@@ -189,20 +218,43 @@ jobs:
       - name: Generate coverage report
         run: cmake --build build --target coverage
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./cpp/build/coverage.info
           flags: cpp
+      - name: Setup Python # for benchmark converter
+        if: github.event_name == 'push'
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.15'
+      - name: Configure for benchmarks
+        if: github.event_name == 'push'
+        run: cmake -S . -B build_bench -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON
+      - name: Build benchmark target
+        if: github.event_name == 'push'
+        run: cmake --build build_bench --target aoc_solver_bench_c
+      - name: Benchmark C
+        if: github.event_name == 'push'
+        run: |
+          ./build_bench/bin/aoc_solver_bench_c \
+            --benchmark_format=json \
+          | python ../cpp/convert_benchmark.py --series-key c --name "C Benchmark" > c_benchmark.json
+      - name: Upload C Benchmark Artifact
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v7
+        with:
+          name: benchmark-c
+          path: ./c/c_benchmark.json
 
   aggregate_benchmarks:
     name: Aggregate Benchmarks
     runs-on: ubuntu-latest
-    needs: [test_go, test_python]
+    needs: [test_go, test_python, test_cpp, test_c]
     if: github.event_name == 'push'
     steps:
       - name: Checkout testbranch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: testbranch
           path: output
@@ -213,7 +265,7 @@ jobs:
             git init output
           fi
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: benchmark-*
           path: benchmarks

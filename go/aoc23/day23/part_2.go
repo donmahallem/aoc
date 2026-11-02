@@ -9,6 +9,9 @@ func Part2(in io.Reader) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	g, startIdx, endIdx := createGraph(inp, w, h)
+	g, startIdx, endIdx, err := createGraph(inp, w, h)
+	if err != nil {
+		return 0, err
+	}
 	return dfsIterative(g, startIdx, endIdx), nil
 }

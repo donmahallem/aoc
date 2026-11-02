@@ -3,6 +3,7 @@ package day19
 import (
 	"io"
 
+	"github.com/donmahallem/aoc/go/aoc_utils"
 	aocutil "github.com/donmahallem/aoc/go/aoc_utils/math"
 )
 
@@ -116,55 +117,68 @@ func splitLess(r ratingRange, letter byte, threshold int) (ratingRange, bool, ra
 	return match, true, rest, true
 }
 
-// recursively counts the number of accepted ranges
-func countAcceptedRanges(workflows map[string]workflow, current string, rng ratingRange) int {
+// recursively counts the number of accepted ranges.
+// depth bounds the recursion to prevent infinite loops in cyclic workflows
+func countAcceptedRanges(workflows map[string]workflow, current string, rng ratingRange, depth int) (int, error) {
 	combinations := rng.combinations()
 	if combinations == 0 {
-		return 0
+		return 0, nil
 	}
 
 	switch current {
 	case actionReject:
-		return 0
+		return 0, nil
 	case actionAccept:
-		return combinations
+		return combinations, nil
+	}
+
+	if depth >= len(workflows) {
+		return 0, aoc_utils.NewSolverErrorf("workflow %q is part of a cycle", current)
 	}
 
 	wf, ok := workflows[current]
 	if !ok {
-		return 0
+		return 0, nil
 	}
 
 	remaining := rng
 	total := 0
 
 	for _, rule := range wf.rules {
+		var target string
+		var match ratingRange
+		var hasMatch, hasRest bool
+		var rest ratingRange
+
 		switch rule := rule.(type) {
 		case *workflowRuleGreater:
-			match, hasMatch, rest, hasRest := splitGreater(remaining, rule.letter, rule.value)
-			if hasMatch {
-				total += countAcceptedRanges(workflows, rule.target, match)
-			}
-			if !hasRest {
-				return total
-			}
-			remaining = rest
+			match, hasMatch, rest, hasRest = splitGreater(remaining, rule.letter, rule.value)
+			target = rule.target
 		case *workflowRuleLess:
-			match, hasMatch, rest, hasRest := splitLess(remaining, rule.letter, rule.value)
-			if hasMatch {
-				total += countAcceptedRanges(workflows, rule.target, match)
-			}
-			if !hasRest {
-				return total
-			}
-			remaining = rest
+			match, hasMatch, rest, hasRest = splitLess(remaining, rule.letter, rule.value)
+			target = rule.target
 		case *workflowRuleDirect:
-			total += countAcceptedRanges(workflows, rule.target, remaining)
-			return total
+			n, err := countAcceptedRanges(workflows, rule.target, remaining, depth+1)
+			if err != nil {
+				return 0, err
+			}
+			return total + n, nil
 		}
+
+		if hasMatch {
+			n, err := countAcceptedRanges(workflows, target, match, depth+1)
+			if err != nil {
+				return 0, err
+			}
+			total += n
+		}
+		if !hasRest {
+			return total, nil
+		}
+		remaining = rest
 	}
 
-	return total
+	return total, nil
 }
 
 func Part2(r io.Reader) (int, error) {
@@ -177,5 +191,5 @@ func Part2(r io.Reader) (int, error) {
 		S: IntInterval{Min: 1, Max: 4000},
 	}
 
-	return countAcceptedRanges(data.Workflows, "in", initial), nil
+	return countAcceptedRanges(data.Workflows, "in", initial, 0)
 }

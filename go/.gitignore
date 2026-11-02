@@ -10,3 +10,6 @@
 !CHANGELOG.md
 
 !.gitignore
+
+# Include fuzz test files
+!**/fuzz/*/*

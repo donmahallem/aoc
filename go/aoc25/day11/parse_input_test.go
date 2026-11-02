@@ -15,30 +15,39 @@ func Test_parseInput(t *testing.T) {
 		t.Fatalf("parseInput returned an error: %v", err)
 	}
 
-	if len(res) != 3 {
-		t.Errorf("unexpected number of nodes: got %d, want 3", len(res))
+	if res.ids.size() != 4 {
+		t.Errorf("unexpected number of nodes: got %d, want 4", res.ids.size())
 	}
 
 	testCases := []struct {
 		name            string
-		key             uint64
+		key             uint32
 		expectedTargets int
 	}{
-		{name: "aaa", key: uint64('a')<<16 + uint64('a')<<8 + uint64('a'), expectedTargets: 2},
-		{name: "bbb", key: uint64('b')<<16 + uint64('b')<<8 + uint64('b'), expectedTargets: 1},
-		{name: "ccc", key: uint64('c')<<16 + uint64('c')<<8 + uint64('c'), expectedTargets: 1},
+		{name: "aaa", key: encodeKey('a', 'a', 'a'), expectedTargets: 2},
+		{name: "bbb", key: encodeKey('b', 'b', 'b'), expectedTargets: 1},
+		{name: "ccc", key: encodeKey('c', 'c', 'c'), expectedTargets: 1},
 	}
 	for _, testCase := range testCases {
 		t.Run(testCase.name, func(t *testing.T) {
-			targets, ok := res[testCase.key]
+			id, ok := res.ids.find(testCase.key)
 			if !ok {
 				t.Errorf("expected to find key %d, but not found", testCase.key)
 				return
 			}
+			targets := res.successors(id)
 			if len(targets) != testCase.expectedTargets {
 				t.Errorf("unexpected number of targets for key %d: got %d, want %d", testCase.key, len(targets), testCase.expectedTargets)
 			}
 		})
 	}
 
+}
+
+func Test_parseInput_rejectsNonThreeLetterNames(t *testing.T) {
+	for _, input := range []string{"aa: bbb\n", "aaaa: bbb\n", "aaa: bb\n", "aaa: bbbb\n"} {
+		if _, err := parseInput(strings.NewReader(input)); err == nil {
+			t.Errorf("parseInput(%q) returned no error", input)
+		}
+	}
 }

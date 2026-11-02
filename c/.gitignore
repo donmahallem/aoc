@@ -12,3 +12,7 @@
 !test/**/*.h
 !src/**/CMakeLists.txt
 !test/**/CMakeLists.txt
+!bench/
+!bench/**/
+!bench/**/*.cpp
+!bench/**/CMakeLists.txt

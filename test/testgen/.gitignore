@@ -1,6 +1,10 @@
 *
 !config.json
 !*.go
+!model/
+!model/*.go
+!generator/
+!generator/*.go
 !go.mod
 !go.sum
 !.gitignore

@@ -41,5 +41,8 @@ func Part2(in io.Reader) (int, error) {
 	if parsed.Width == 0 || parsed.Height == 0 {
 		return 0, aoc_utils.NewParseError("Empty input", nil)
 	}
+	if parsed.Width != parsed.Height {
+		return 0, aoc_utils.NewParseError("infinite grid requires a square tile", nil)
+	}
 	return SolveInfinite(parsed, 26501365), nil
 }

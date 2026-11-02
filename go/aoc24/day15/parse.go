@@ -27,19 +27,25 @@ type inputData struct {
 }
 
 func parseField(scanner *bufio.Scanner, doubleWide bool, field *field, pl *player) error {
-	fieldWidth := -1
+	// sets the first line as expected width for the field. -1 indicates it hasn't been set yet.
+	expectedLength := -1
 	for scanner.Scan() {
 		line := scanner.Bytes()
 		if len(line) == 0 && len(*field) > 0 {
-			// Field finished; ensure a player position was found while parsing the field
-			if pl.X < 0 || pl.Y < 0 {
-				return aoc_utils.NewParseError("no player parsed in field", nil)
-			}
-			return nil
+			return validateField(*field, *pl)
 		}
-		expectedLength := len(line)
+		if expectedLength == -1 {
+			expectedLength = len(line)
+			if doubleWide {
+				expectedLength *= 2
+			}
+		}
+		currentLineLength := len(line)
 		if doubleWide {
-			expectedLength *= 2
+			currentLineLength *= 2
+		}
+		if currentLineLength != expectedLength {
+			return aoc_utils.NewParseError("inconsistent line length", nil)
 		}
 		parsedLine := make([]uint8, 0, expectedLength)
 		if len(line) > 0 && (line[0] != '#' || line[len(line)-1] != '#') {
@@ -82,56 +88,53 @@ func parseField(scanner *bufio.Scanner, doubleWide bool, field *field, pl *playe
 			}
 		}
 
-		if fieldWidth == -1 {
-			fieldWidth = len(parsedLine)
-		} else if fieldWidth != len(parsedLine) {
-			return aoc_utils.NewParseError("Inconsistent line widths", nil)
-		}
 		*field = append(*field, parsedLine)
-	}
-	// EOF reached: if we parsed a field, ensure it had a player
-	if len(*field) > 0 {
-		if pl.X < 0 || pl.Y < 0 {
-			return aoc_utils.NewParseError("no player parsed in field", nil)
-		}
-	}
-	if fieldWidth < 3 || len(*field) < 3 {
-		return aoc_utils.NewParseError("field too small", nil)
-	}
-	// validate top and bottom walls
-	for x := 0; x < fieldWidth; x++ {
-		if (*field)[0][x] != CELL_WALL {
-			return aoc_utils.NewParseError("top wall incomplete", nil)
-		}
-		if (*field)[len(*field)-1][x] != CELL_WALL {
-			return aoc_utils.NewParseError("bottom wall incomplete", nil)
-		}
 	}
 	if scanner.Err() != nil {
 		return scanner.Err()
 	}
-	return nil
+	return validateField(*field, *pl)
+}
 
+// validateField ensures the bounds checks in the solvers can rely on a walled field
+func validateField(field field, pl player) error {
+	if len(field) < 3 || len(field[0]) < 3 {
+		return aoc_utils.NewParseError("field too small", nil)
+	}
+	if pl.X < 0 || pl.Y < 0 {
+		return aoc_utils.NewParseError("no player parsed in field", nil)
+	}
+	for x := range field[0] {
+		if field[0][x] != CELL_WALL {
+			return aoc_utils.NewParseError("top wall incomplete", nil)
+		}
+		if field[len(field)-1][x] != CELL_WALL {
+			return aoc_utils.NewParseError("bottom wall incomplete", nil)
+		}
+	}
+	return nil
 }
 
 func parseMovements(scanner *bufio.Scanner, moves *[]move) error {
+	buf := *moves
 	for scanner.Scan() {
 		line := scanner.Bytes()
 		for c := range line {
 			switch line[c] {
 			case '<':
-				*moves = append(*moves, move{X: -1, Y: 0})
+				buf = append(buf, move{X: -1, Y: 0})
 			case '>':
-				*moves = append(*moves, move{X: 1, Y: 0})
+				buf = append(buf, move{X: 1, Y: 0})
 			case 'v':
-				*moves = append(*moves, move{X: 0, Y: 1})
+				buf = append(buf, move{X: 0, Y: 1})
 			case '^':
-				*moves = append(*moves, move{X: 0, Y: -1})
+				buf = append(buf, move{X: 0, Y: -1})
 			default:
 				return aoc_utils.NewUnexpectedInputError(line[c])
 			}
 		}
 	}
+	*moves = buf
 	return nil
 }
 

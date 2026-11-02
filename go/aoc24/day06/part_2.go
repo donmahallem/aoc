@@ -67,7 +67,10 @@ func Part2(in io.Reader) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	pathInfo := leaveArea(&field, guard)
+	pathInfo, err := leaveArea(&field, guard)
+	if err != nil {
+		return 0, err
+	}
 	startIdx := translateToIndex(guard.x, guard.y, field.width)
 
 	stateSlots := make([]int32, int(field.width)*int(field.height)*4)

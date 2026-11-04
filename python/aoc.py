@@ -1,13 +1,13 @@
 import argparse
 
-from commands import SolverResult, ListResult, BenchmarkResult
+from commands import SolverResult, ListResult
 from commands import SUPPORTED_YEARS, SUPPORTED_DAYS, SUPPORTED_PARTS
 from commands import CliOutput
 
 if __name__ == "__main__":
     # 1. Root Parser - Global flags go here
     parser = argparse.ArgumentParser(
-        prog="AOC Solver", description="Solves and Benchmarks AoC"
+        prog="AOC Solver", description="Solves AoC"
     )
     parser.add_argument(
         "--json",
@@ -39,42 +39,7 @@ if __name__ == "__main__":
     )
     solve_parser.set_defaults(result_class=SolverResult)
 
-    # 3. Benchmark Subparser
-    bench_parser = sub_parsers.add_parser("benchmark", help="benchmarks problems")
-    bench_parser.add_argument(
-        "--year",
-        "-y",
-        type=int,
-        nargs="+",
-        choices=SUPPORTED_YEARS,
-        help="Filter by year(s), e.g. --year 24 25",
-    )
-    bench_parser.add_argument(
-        "--day",
-        "-d",
-        type=int,
-        nargs="+",
-        choices=SUPPORTED_DAYS,
-        help="Filter by day(s), e.g. --day 1 2 24",
-    )
-    bench_parser.add_argument(
-        "--part",
-        "-p",
-        type=int,
-        nargs="+",
-        choices=SUPPORTED_PARTS,
-        help="Filter by part(s)",
-    )
-    bench_parser.add_argument(
-        "-t",
-        "--timeout",
-        type=float,
-        default=1.0,
-        help="Maximum time (seconds) to spend on each solver",
-    )
-    bench_parser.set_defaults(result_class=BenchmarkResult)
-
-    # 4. List Solvers
+    # 3. List Solvers
     list_parser = sub_parsers.add_parser("list", help="lists available solvers")
     list_parser.set_defaults(result_class=ListResult)
 

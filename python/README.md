@@ -27,3 +27,20 @@ Before commit please format with
 ```sh
 python -m ruff format ./
 ```
+
+## Benchmarks
+
+Benchmarks use [pytest-benchmark](https://pytest-benchmark.readthedocs.io) (`pip install -e ".[bench]"`)
+
+```sh
+pytest test_benchmark.py --benchmark-only --benchmark-max-time=1.0 --benchmark-min-rounds=1
+```
+
+Filter with `-k`, e.g. `-k 24_day01`.
+
+To produce the format used by the benchmark aggregation:
+
+```sh
+pytest test_benchmark.py --benchmark-only --benchmark-max-time=1.0 --benchmark-min-rounds=1 --benchmark-json=raw_benchmark.json
+python convert_benchmark.py raw_benchmark.json > python_benchmark.json
+```

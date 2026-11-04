@@ -124,8 +124,12 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Benchmark Python
         if: github.event_name == 'push'
+        env:
+          # limit benchmark on non-main branches
+          BENCH_MAX_TIME: ${{ github.ref == 'refs/heads/main' && '10.0' || '1.0' }}
+          BENCH_MIN_ROUNDS: ${{ github.ref == 'refs/heads/main' && '10' || '1' }}
         run: |
-          pytest test_benchmark.py --benchmark-only --benchmark-max-time=10.0 --benchmark-min-rounds=10 --benchmark-sort=name --benchmark-json=raw_benchmark.json
+          pytest test_benchmark.py --benchmark-only --benchmark-max-time="$BENCH_MAX_TIME" --benchmark-min-rounds="$BENCH_MIN_ROUNDS" --benchmark-sort=name --benchmark-json=raw_benchmark.json
           python -m test_utils.convert_benchmark raw_benchmark.json > python_benchmark.json
       - name: Upload Python Benchmark Artifact
         if: github.event_name == 'push'

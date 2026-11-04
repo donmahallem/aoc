@@ -11,7 +11,9 @@ def pytest_generate_tests(metafunc):
     if "case" not in metafunc.fixturenames:
         return
     option = metafunc.config.getoption
-    cases = load_cases(option("aoc_year"), option("aoc_day"), option("aoc_part"))
+    cases = load_cases(
+        option("aoc_year", []), option("aoc_day", []), option("aoc_part", [])
+    )
     metafunc.parametrize("case", cases, ids=[c.id for c in cases])
 
 

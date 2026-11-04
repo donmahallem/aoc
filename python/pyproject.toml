@@ -19,7 +19,11 @@ lint = [
     "mypy>=1.19.1",
     "ruff>=0.15.1"
 ]
-all = ["aoc-framework[coverage,lint]"]
+bench = [
+    "pytest>=8",
+    "pytest-benchmark>=5"
+]
+all = ["aoc-framework[coverage,lint,bench]"]
 
 [tool.setuptools.packages.find]
 where = ["."]

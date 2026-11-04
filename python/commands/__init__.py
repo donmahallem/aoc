@@ -1,4 +1,3 @@
-from .cmd_benchmark import BenchmarkArgs, BenchmarkResult
 from .cmd_list import ListArgs, ListResult
 from .cmd_parser import SolveArgs, SolverResult
 from .collect_solvers import collect_solvers

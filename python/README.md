@@ -36,11 +36,11 @@ Benchmarks use [pytest-benchmark](https://pytest-benchmark.readthedocs.io) (`pip
 pytest test_benchmark.py --benchmark-only --benchmark-max-time=1.0 --benchmark-min-rounds=1
 ```
 
-Filter with `-k`, e.g. `-k 24_day01`.
+Filter with `--aoc-year`, `--aoc-day` and `--aoc-part` (repeat an option to select several), e.g. `--aoc-year 24 --aoc-day 1 --aoc-day 2`. Standard `-k` also works.
 
-To produce the format used by the benchmark aggregation:
+To produce the format used by the benchmark aggregation, convert pytest's JSON with the separate converter (it fails if the input holds no benchmarks):
 
 ```sh
-pytest test_benchmark.py --benchmark-only --benchmark-max-time=1.0 --benchmark-min-rounds=1 --benchmark-json=raw_benchmark.json
-python convert_benchmark.py raw_benchmark.json > python_benchmark.json
+pytest test_benchmark.py --benchmark-only --benchmark-json=raw_benchmark.json
+python -m test_utils.convert_benchmark raw_benchmark.json > python_benchmark.json
 ```

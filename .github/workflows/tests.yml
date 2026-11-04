@@ -125,8 +125,8 @@ jobs:
       - name: Benchmark Python
         if: github.event_name == 'push'
         run: |
-          pytest test_benchmark.py --benchmark-only --benchmark-max-time=10.0 --benchmark-min-rounds=10  --benchmark-json=raw_benchmark.json --benchmark-sort=name
-          python convert_benchmark.py raw_benchmark.json > python_benchmark.json
+          pytest test_benchmark.py --benchmark-only --benchmark-max-time=10.0 --benchmark-min-rounds=10 --benchmark-sort=name --benchmark-json=raw_benchmark.json
+          python -m test_utils.convert_benchmark raw_benchmark.json > python_benchmark.json
       - name: Upload Python Benchmark Artifact
         if: github.event_name == 'push'
         uses: actions/upload-artifact@v7

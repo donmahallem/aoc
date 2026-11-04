@@ -1,11 +1,11 @@
 """
 Convert pytest-benchmark JSON (--benchmark-json) to the shared aggregate_benchmark format.
 
-Usage:
+Usage (from python/):
     pytest test_benchmark.py --benchmark-only --benchmark-json=raw_benchmark.json
-    python convert_benchmark.py raw_benchmark.json > python_benchmark.json
+    python -m test_utils.convert_benchmark raw_benchmark.json > python_benchmark.json
     # or from stdin:
-    python convert_benchmark.py < raw_benchmark.json
+    python -m test_utils.convert_benchmark < raw_benchmark.json
 """
 
 import argparse
@@ -13,18 +13,14 @@ import json
 import os
 import sys
 from datetime import datetime, timezone
-from typing import TextIO
 
 
-def convert(input_stream: TextIO, *, series_key: str, bench_name: str) -> dict:
-    try:
-        data = json.load(input_stream)
-    except json.JSONDecodeError as exc:
-        print(f"error: could not parse input JSON: {exc}", file=sys.stderr)
-        sys.exit(1)
-
+def convert(
+    raw: dict, *, series_key: str = "python", bench_name: str = "Python Benchmark"
+) -> dict:
+    """Raises ValueError for a benchmark without the extra_info set by test_benchmark.py."""
     measurements: list[dict] = []
-    for bench in data.get("benchmarks", []):
+    for bench in raw.get("benchmarks", []):
         info = bench.get("extra_info", {})
         try:
             year, day, part, name = (
@@ -33,12 +29,10 @@ def convert(input_stream: TextIO, *, series_key: str, bench_name: str) -> dict:
                 int(info["part"]),
                 str(info["name"]),
             )
-        except (KeyError, ValueError):
-            print(
-                f"warning: missing extra_info for {bench.get('name')!r}",
-                file=sys.stderr,
-            )
-            continue
+        except (KeyError, ValueError) as exc:
+            raise ValueError(
+                f"benchmark {bench.get('name')!r} has invalid extra_info: {exc!r}"
+            ) from exc
 
         stats = bench["stats"]
         duration_ns = max(1, int(stats["mean"] * 1_000_000_000))
@@ -62,7 +56,7 @@ def convert(input_stream: TextIO, *, series_key: str, bench_name: str) -> dict:
     }
 
 
-if __name__ == "__main__":
+def main() -> None:
     parser = argparse.ArgumentParser(
         description="Convert pytest-benchmark JSON to aggregate format."
     )
@@ -71,11 +65,24 @@ if __name__ == "__main__":
     parser.add_argument("--name", default="Python Benchmark", help="Suite name")
     args = parser.parse_args()
 
-    if args.file:
-        with open(args.file, encoding="utf-8") as f:
-            output = convert(f, series_key=args.series_key, bench_name=args.name)
-    else:
-        output = convert(sys.stdin, series_key=args.series_key, bench_name=args.name)
+    try:
+        if args.file:
+            with open(args.file, encoding="utf-8") as f:
+                raw = json.load(f)
+        else:
+            raw = json.load(sys.stdin)
+        output = convert(raw, series_key=args.series_key, bench_name=args.name)
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        sys.exit(1)
+
+    if not output["measurements"]:
+        print("error: no benchmarks in input", file=sys.stderr)
+        sys.exit(1)
 
     json.dump(output, sys.stdout, indent=2)
     sys.stdout.write("\n")
+
+
+if __name__ == "__main__":
+    main()

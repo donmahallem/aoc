@@ -6,9 +6,7 @@ from commands import CliOutput
 
 if __name__ == "__main__":
     # 1. Root Parser - Global flags go here
-    parser = argparse.ArgumentParser(
-        prog="AOC Solver", description="Solves AoC"
-    )
+    parser = argparse.ArgumentParser(prog="AOC Solver", description="Solves AoC")
     parser.add_argument(
         "--json",
         action=argparse.BooleanOptionalAction,

@@ -5,6 +5,8 @@ import (
 	"io"
 	"time"
 
+	"github.com/donmahallem/aoc/go/aoc21"
+	"github.com/donmahallem/aoc/go/aoc22"
 	"github.com/donmahallem/aoc/go/aoc23"
 	"github.com/donmahallem/aoc/go/aoc24"
 	"github.com/donmahallem/aoc/go/aoc25"
@@ -23,6 +25,8 @@ type Solver struct {
 
 func NewSolver() *Solver {
 	partRegistry := aoc_utils.NewRegistry()
+	aoc21.RegisterParts(&partRegistry)
+	aoc22.RegisterParts(&partRegistry)
 	aoc23.RegisterParts(&partRegistry)
 	aoc24.RegisterParts(&partRegistry)
 	aoc25.RegisterParts(&partRegistry)

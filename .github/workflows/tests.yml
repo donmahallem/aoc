@@ -12,6 +12,8 @@ jobs:
   validate_tests:
     name: Validate test data and generators
     runs-on: ubuntu-latest
+    container:
+      image: gcc:16.1.0
     steps:
       - uses: actions/checkout@v7
       - name: Setup Python

@@ -31,6 +31,8 @@ type DayInfo struct {
 	HasFileCases bool
 	// True when any expected result is an array.
 	HasArrayExpectations bool
+	// toUpper helper
+	ToUpper func(string) string
 }
 
 // Part holds the test cases of one part. Sample cases come first, then full data cases,
@@ -62,6 +64,7 @@ func newDay(year, day int, lang string, cases model.TestCases, expected func(mod
 		DayNumber:  day,
 		PaddedDay:  fmt.Sprintf("%02d", day),
 		YearDir:    fmt.Sprintf("aoc%d", year),
+		ToUpper:    strings.ToUpper,
 	}
 
 	var parts [2]Part

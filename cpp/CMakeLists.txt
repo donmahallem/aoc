@@ -25,7 +25,7 @@ add_subdirectory(./src)
 #target_link_libraries(aoc_solver PUBLIC libaoc_util)
 
 add_custom_target(coverage
-    COMMAND lcov --capture --gcov-tool gcov-14 --ignore-errors mismatch --directory . --output-file coverage_raw.info
+    COMMAND lcov --capture --ignore-errors mismatch,inconsistent --directory . --output-file coverage_raw.info
     COMMAND lcov --extract coverage_raw.info '${CMAKE_SOURCE_DIR}/src/*' --output-file coverage.info
     COMMAND genhtml coverage.info --output-directory coverage_html
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}

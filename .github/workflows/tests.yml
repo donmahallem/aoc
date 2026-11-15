@@ -140,13 +140,17 @@ jobs:
   test_cpp:
     name: Run and Test CPP
     runs-on: ubuntu-latest
-    container:
-      image: gcc:16.1.0
     needs: [validate_tests]
     defaults:
       run:
         working-directory: ./cpp
     steps:
+      - name: Log Toolchain Versions
+        run: |
+          gcc --version
+          gcov --version
+          lcov --version
+          cmake --version
       - uses: actions/checkout@v7
         with:
           fetch-depth: 2

@@ -276,7 +276,7 @@ jobs:
           path: benchmarks
           merge-multiple: true
       - name: Aggregate benchmarks
-        uses: donmahallem/aggregate_benchmark@v0.0.2
+        uses: donmahallem/aggregate_benchmark@v0.0.3
         with:
           input-dir: benchmarks
           pages-dir: output

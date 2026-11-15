@@ -144,13 +144,10 @@ jobs:
     defaults:
       run:
         working-directory: ./cpp
+    env:
+      CC: gcc-13    # Change to 12, 13, or 14 depending on your preference
+      CXX: g++-13
     steps:
-      - name: Log Toolchain Versions
-        run: |
-          gcc --version
-          gcov --version
-          lcov --version
-          cmake --version
       - uses: actions/checkout@v7
         with:
           fetch-depth: 2

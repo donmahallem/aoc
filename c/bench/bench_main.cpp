@@ -88,13 +88,11 @@ int main(int argc, char **argv)
             if (aoc_registry_get_part(&registry, year, day, 1, &probe_fn) != AOC_OK)
                 continue;
 
-            for (const auto &tc : cases)
+            for (const auto &[name, tc] : cases.items())
             {
                 // Skip the whole test-case if c is excluded.
                 if (hasSkipC(tc))
                     continue;
-
-                const std::string name = tc.value("name", "case");
 
                 // Resolve input text.
                 std::string input;

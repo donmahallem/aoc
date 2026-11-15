@@ -56,6 +56,73 @@
       }
     }
   },
+  "22": {
+    "01": {
+      "sample": {
+        "input": "1000\n2000\n3000\n\n4000\n\n5000\n6000\n\n7000\n8000\n9000\n\n10000",
+        "part1": { "result": 24000, "type": "int" },
+        "part2": { "result": 45000, "type": "int" }
+      },
+      "full_data": {
+        "fullData": true,
+        "file": "data/full/22/01.txt",
+        "part1": { "result": 69836, "type": "int" },
+        "part2": { "result": 207968, "type": "int" }
+      }
+    },
+    "02": {
+      "sample": {
+        "input": "A Y\nB X\nC Z",
+        "part1": { "result": 15, "type": "int" },
+        "part2": { "result": 12, "type": "int" }
+      },
+      "full_data": {
+        "fullData": true,
+        "file": "data/full/22/02.txt",
+        "part1": { "result": 12535, "type": "int" },
+        "part2": { "result": 15457, "type": "int" }
+      }
+    },
+    "03": {
+      "sample": {
+        "file": "data/samples/22/03_sample_1.txt",
+        "part1": { "result": 157, "type": "int" },
+        "part2": { "result": 70, "type": "int" }
+      },
+      "full_data": {
+        "fullData": true,
+        "file": "data/full/22/03.txt",
+        "part1": { "result": 7793, "type": "int" },
+        "part2": { "result": 2499, "type": "int" }
+      }
+    },
+    "04": {
+      "sample": {
+        "input": "2-4,6-8\n2-3,4-5\n5-7,7-9\n2-8,3-7\n6-6,4-6\n2-6,4-8",
+        "part1": { "result": 2, "type": "int" },
+        "part2": { "result": 4, "type": "int" }
+      },
+      "full_data": {
+        "fullData": true,
+        "file": "data/full/22/04.txt",
+        "part1": { "result": 644, "type": "int" },
+        "part2": { "result": 926, "type": "int" }
+      }
+    },
+    "05": {
+      "sample": {
+        "file": "data/samples/22/05_sample_1.txt",
+        "part1": { "result": "CMZ", "type": "string" },
+        "part2": { "result": "MCD", "type": "string" }
+      },
+      "full_data": {
+        "fullData": true,
+        "file": "data/full/22/05.txt",
+        "part1": { "result": "SHQWSRBDL", "type": "string" },
+        "part2": { "result": "CDTQZHBRS", "type": "string" }
+      }
+    }
+  },
   "23": {
     "01": {
       "sample1": {

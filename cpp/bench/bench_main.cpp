@@ -94,13 +94,11 @@ int main(int argc, char** argv)
             if (!registered)
                 continue;
 
-            for (const auto& tc : cases)
+            for (const auto& [name, tc] : cases.items())
             {
                 // Skip the whole test-case if cpp is excluded.
                 if (hasSkipCpp(tc))
                     continue;
-
-                const std::string name = tc.value("name", "case");
 
                 // Resolve input text.
                 std::string input;

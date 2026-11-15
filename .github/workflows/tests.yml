@@ -160,6 +160,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake build-essential lcov
+      - name: Check lcov version to stdout
+        run: lcov --version
       - name: Configure (Coverage)
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Coverage -DBUILD_TESTS=ON
       - name: Build

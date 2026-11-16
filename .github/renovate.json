@@ -1,21 +1,28 @@
 {
-    "baseBranchPatterns": [
-        "main"
-    ],
-    "extends": [
-        "github>donmahallem/renovate-config"
-    ],
-    "customManagers": [
-        {
-            "customType": "regex",
-            "description": "Update CMake FetchContent_Declare GIT_TAG versions",
-            "managerFilePatterns": [
-                "/(^|/)CMakeLists\\.txt$/"
-            ],
-            "matchStrings": [
-                "GIT_REPOSITORY\\s+https://github\\.com/(?<depName>[^/\\s]+/[^/\\s.]+?)(?:\\.git)?\\s+GIT_TAG\\s+(?<currentValue>v?[\\d.]+)"
-            ],
-            "datasourceTemplate": "github-tags"
-        }
+  "baseBranchPatterns": ["main"],
+  "extends": ["github>donmahallem/renovate-config"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update CMake FetchContent_Declare GIT_TAG versions",
+      "managerFilePatterns": ["/(^|/)CMakeLists\\.txt$/"],
+      "matchStrings": [
+        "GIT_REPOSITORY\\s+https://github\\.com/(?<depName>[^/\\s]+/[^/\\s.]+?)(?:\\.git)?\\s+GIT_TAG\\s+(?<currentValue>v?[\\d.]+)"
+      ],
+      "datasourceTemplate": "github-tags"
+    }
+  ],
+  "pip_requirements": {
+    "fileMatch": [
+      "(^|/)requirements\\.txt$",
+      "(^|/)requirements_test\\.txt$",
+      "(^|/)requirements/.*\\.txt$"
     ]
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["pip_requirements"],
+      "groupName": "python requirements"
+    }
+  ]
 }

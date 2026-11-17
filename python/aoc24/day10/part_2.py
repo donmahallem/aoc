@@ -1,32 +1,24 @@
 import typing
-from .part_1 import parseInput, Point, NpData
 
-
-def walk(data_np: NpData, y: int, x: int, looking_for: int, ends: set[Point]):
-    sum = 0
-    dirs = [(0, 1), (1, 0), (-1, 0), (0, -1)]
-    for dir_y, dir_x in dirs:
-        check_x, check_y = dir_x + x, dir_y + y
-        if (
-            check_x < 0
-            or check_y < 0
-            or check_y >= data_np.shape[0]
-            or check_x >= data_np.shape[1]
-        ):
-            continue
-        if looking_for == 9 and data_np[check_y, check_x] == 9:
-            sum += 1
-            ends.add((check_y, check_x))
-        elif data_np[check_y, check_x] == looking_for:
-            sum += walk(data_np, check_y, check_x, looking_for + 1, ends)
-    return sum
+from .part_1 import parseInput
 
 
 def Part2(input: typing.TextIO) -> int:
-    data_np, trailheads = parseInput(input)
-    summe = 0
-    for trailhead in trailheads:
-        k: set[Point] = set()
-        summe += walk(data_np, trailhead[0], trailhead[1], 1, k)
-        # summe+=len(k)
-    return summe
+    stride, size, levels = parseInput(input)
+    paths = [0] * size
+    other = [0] * size
+    for pos in levels[9]:
+        paths[pos] = 1
+    for height in range(8, -1, -1):
+        paths, other = other, paths
+        if height < 7:
+            for pos in levels[height + 3]:
+                other[pos] = 0
+        for pos in levels[height]:
+            paths[pos] = (
+                other[pos - 1]
+                + other[pos + 1]
+                + other[pos - stride]
+                + other[pos + stride]
+            )
+    return sum(paths[pos] for pos in levels[0])

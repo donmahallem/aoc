@@ -1,16 +1,12 @@
 import sys
 import typing
-import numpy as np
-from aoc25.day05.part_1 import parseInput, compressRanges
+
+from aoc25.day05.part_1 import compressRanges, parseRanges
 
 
 def Part2(input: typing.TextIO) -> int:
-    ranges, _ = parseInput(input)
-    compresed = compressRanges(ranges)
-    goodIngredients = 0
-    for rL, rR in compresed:
-        goodIngredients += rR - rL + 1
-    return goodIngredients
+    ranges = parseRanges(input)
+    return sum(end - start + 1 for start, end in compressRanges(ranges))
 
 
 if __name__ == "__main__":

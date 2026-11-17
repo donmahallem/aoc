@@ -1,36 +1,36 @@
 import sys
 import typing
+from bisect import bisect_right
+
+
+def _parseRanges(range_block: str) -> list[tuple[int, int]]:
+    bounds = iter(map(int, range_block.replace("-", " ").split()))
+    return list(zip(bounds, bounds))
+
+
+def parseRanges(input: typing.TextIO) -> list[tuple[int, int]]:
+    """Parses only the range block and skips the ingredients."""
+    return _parseRanges(input.read().strip().partition("\n\n")[0])
 
 
 def parseInput(input: typing.TextIO) -> tuple[list[tuple[int, int]], list[int]]:
-    ranges: list[tuple[int, int]] = list()
-    ingredients: list[int] = list()
-    firstBlock = True
-    for line in input:
-        line = line.strip()
-        if line == "":
-            firstBlock = False
-            continue
-        if firstBlock:
-            parts = line.split("-")
-            ranges.append((int(parts[0]), int(parts[1])))
-        else:
-            ingredients.append(int(line))
-
-    return ranges, ingredients
+    range_block, _, ingredient_block = input.read().strip().partition("\n\n")
+    return _parseRanges(range_block), list(map(int, ingredient_block.split()))
 
 
 def compressRanges(ranges: list[tuple[int, int]]) -> list[tuple[int, int]]:
-    ranges = sorted(ranges, key=lambda r: r[0])
-    compressed: list[tuple[int, int]] = list()
+    """Merges overlapping and adjacent ranges into sorted, disjoint ranges."""
+    if not ranges:
+        return []
+    ranges = sorted(ranges)
+    compressed: list[tuple[int, int]] = []
     curStart, curEnd = ranges[0]
-    for r in ranges[1:]:
-        if r[0] <= curEnd + 1:
-            if r[1] > curEnd:
-                curEnd = r[1]
+    for start, end in ranges:
+        if start <= curEnd + 1:
+            curEnd = max(curEnd, end)
         else:
             compressed.append((curStart, curEnd))
-            curStart, curEnd = r
+            curStart, curEnd = start, end
     compressed.append((curStart, curEnd))
     return compressed
 
@@ -38,12 +38,13 @@ def compressRanges(ranges: list[tuple[int, int]]) -> list[tuple[int, int]]:
 def Part1(input: typing.TextIO) -> int:
     ranges, ingredients = parseInput(input)
     compressed = compressRanges(ranges)
+    starts = [start for start, _ in compressed]
+    ends = [end for _, end in compressed]
     goodIngredients = 0
     for ing in ingredients:
-        for r in compressed:
-            if r[0] <= ing <= r[1]:
-                goodIngredients += 1
-                break
+        idx = bisect_right(starts, ing) - 1
+        if idx >= 0 and ing <= ends[idx]:
+            goodIngredients += 1
     return goodIngredients
 
 

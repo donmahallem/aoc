@@ -1,7 +1,6 @@
 import typing
 
 from .shared import _parse_field
-from util.typed_coord import CoordY, CoordX, Coord
 
 
 def Part1(input: typing.TextIO) -> int:

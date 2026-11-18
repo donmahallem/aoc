@@ -1,5 +1,6 @@
 import typing
-from .part_1 import _move_next, parseField, State, _DX, _DY
+
+from .part_1 import _DX, _DY, State, _move_next, parseField
 
 
 def _encode(state: State) -> int:
@@ -23,7 +24,7 @@ def Part2(input: typing.TextIO) -> int:
     visited = set()
     curr = start
     while curr:
-        y, x, d = curr
+        y, x, _d = curr
         if (y, x) not in visited:
             # Store the state JUST BEFORE we would have hit this tile
             base_path.append(curr)

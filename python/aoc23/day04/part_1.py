@@ -1,6 +1,7 @@
 import sys
 import typing
-from .shared import parse_line, count_wins
+
+from .shared import count_wins, parse_line
 
 
 def Part1(input: typing.TextIO) -> int:

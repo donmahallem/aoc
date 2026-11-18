@@ -1,7 +1,5 @@
-import re
 import sys
 import typing
-import math
 
 
 def Part1(input_data: typing.TextIO) -> int:

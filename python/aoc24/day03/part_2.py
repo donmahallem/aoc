@@ -1,6 +1,6 @@
-import typing
-import sys
 import re
+import sys
+import typing
 
 
 def Part2(input_stream: typing.TextIO) -> int:

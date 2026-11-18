@@ -1,5 +1,6 @@
 import io
 import unittest
+
 from .shared import _Field
 
 
@@ -46,13 +47,13 @@ class AocYear24Day12_Field(unittest.TestCase):
 
     def test_count_edges_L_shape(self):
         # L shape
-        test_island = set([(0, 0), (1, 0), (1, 1)])
+        test_island = {(0, 0), (1, 0), (1, 1)}
         edges = _Field.count_edges(test_island)
         self.assertEqual(edges, (8, 6))
 
     def test_count_edges_plus(self):
         # Plus shape
-        test_island = set([(0, 1), (1, 0), (1, 1), (1, 2), (2, 1)])
+        test_island = {(0, 1), (1, 0), (1, 1), (1, 2), (2, 1)}
         edges = _Field.count_edges(test_island)
         self.assertEqual(edges, (12, 12))
 

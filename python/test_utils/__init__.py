@@ -1,9 +1,8 @@
-from pathlib import Path
-from typing import Union
 import os
+from pathlib import Path
 
 
-def resolve_data_path(rel_path: Union[str, Path]) -> str:
+def resolve_data_path(rel_path: str | Path) -> str:
     """Resolve a repo-relative data path like "data/full/24/01.txt" to an absolute path.
 
     Priority:
@@ -28,4 +27,4 @@ def resolve_data_path(rel_path: Union[str, Path]) -> str:
             return str(candidate)
 
     # Fallback even if missing; callers may still want the path for diagnostics.
-    return str((repo_root / "test" / rel))
+    return str(repo_root / "test" / rel)

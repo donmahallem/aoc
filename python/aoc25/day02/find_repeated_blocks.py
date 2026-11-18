@@ -1,6 +1,3 @@
-import math
-
-
 def _find_repeated_blocks(lbound: int, ubound: int) -> dict[int, int]:
     result: dict[int, int] = {}
 

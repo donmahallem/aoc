@@ -1,8 +1,6 @@
-from operator import le
-import re
 import sys
 import typing
-import math
+
 from .shared import _map_char
 
 _OFFSET_a = ord("a")

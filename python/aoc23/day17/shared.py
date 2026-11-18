@@ -1,5 +1,6 @@
-import typing
 import heapq
+import typing
+
 from util.point import Point
 
 type _CellMap = dict[Point, int]

@@ -1,4 +1,5 @@
 import codecs
+import sys
 
 test_data = False
 with codecs.open("data.txt" if test_data else "data2.txt", encoding="utf8") as f:
@@ -32,9 +33,9 @@ all_ends = sorted(all_ends)
 
 
 def calcInverseConnections(wires):
-    inverse_connections = dict()
+    inverse_connections = {}
     for wire in wires:
-        inverse_connections[wire[3]] = tuple([wire[0], wire[2]])
+        inverse_connections[wire[3]] = [wire[0], wire[2]]
     return inverse_connections
 
 
@@ -94,7 +95,7 @@ def findInWires(wires_dict, a, b, operator):
 
 
 inverse_cons = calcInverseConnections(wires)
-carries = dict()
+carries = {}
 # find initial carry
 for wire in wires:
     check_val = ("x00", "AND", "y00")
@@ -107,8 +108,8 @@ swapped = True
 while swapped:
     swapped = False
 
-    inverse_wires_dict = dict()
-    wires_dict = dict()
+    inverse_wires_dict = {}
+    wires_dict = {}
     for wire in wires:
         inverse_wires_dict[wire[3]] = wire[0:3]
         wires_dict[wire[0:3]] = wire[3]
@@ -122,25 +123,25 @@ while swapped:
         if carries[(z - 1)] not in inverse_cons[z_str]:
             print("Carry not in output!")
             print("Expected:", carries[(z - 1)], "Got:", inverse_cons[z_str])
-            exit()
+            sys.exit()
         carry_input = carries[(z - 1)]
         print("Carry:", carry_input)
         output_xor = findInWires(wires_dict, carry_input, xor_input, "XOR")
         if output_xor == None:
             print("No output xor found")
-            exit()
+            sys.exit()
         elif output_xor != z_str:
             print("Output xor not matching")
             print("Expected:", z_str, "Got:", output_xor)
-            exit()
+            sys.exit()
         output_and = findInWires(wires_dict, xor_input, carry_input, "AND")
         if output_and == None:
             print("Output or not matching")
-            exit()
+            sys.exit()
         output_or = findInWires(wires_dict, output_and, and_input, "OR")
         if output_or == None:
             print("Output or not matching")
-            exit()
+            sys.exit()
         carries[z] = output_or
 
 print(",".join(sorted(["fgc", "z12", "z29", "mtj", "dgr", "vvm", "z37", "dtv"])))

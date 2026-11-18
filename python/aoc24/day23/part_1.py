@@ -2,19 +2,19 @@ import typing
 
 
 def parseField(input: typing.TextIO) -> dict[str, list[str]]:
-    data = [line.strip() for line in input.readlines()]
+    data = [line.strip() for line in input]
 
-    connections: dict[str, list[str]] = dict()
+    connections: dict[str, list[str]] = {}
     for line in data:
         a, b = line.split("-")
         if a in connections:
             connections[a].append(b)
         else:
-            connections[a] = list([b])
+            connections[a] = [b]
         if b in connections:
             connections[b].append(a)
         else:
-            connections[b] = list([a])
+            connections[b] = [a]
 
     return connections
 

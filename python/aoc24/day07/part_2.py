@@ -1,4 +1,5 @@
 import typing
+
 from .shared import _stream_rows
 
 
@@ -25,11 +26,11 @@ def Part2(input_file: typing.TextIO) -> int:
 
         def solve(t: int, idx: int) -> bool:
             if idx == 0:
-                return terms[0] == t
+                return terms[0] == t  # noqa: B023
             if t <= 0:
                 return False
 
-            val = terms[idx]
+            val = terms[idx]  # noqa: B023
 
             if t > val and solve(t - val, idx - 1):
                 return True
@@ -37,11 +38,8 @@ def Part2(input_file: typing.TextIO) -> int:
             if t % val == 0 and solve(t // val, idx - 1):
                 return True
 
-            mag = mags[idx]
-            if t % mag == val and solve(t // mag, idx - 1):
-                return True
-
-            return False
+            mag = mags[idx]  # noqa: B023
+            return t % mag == val and solve(t // mag, idx - 1)
 
         if solve(target, n - 1):
             total_sum += target

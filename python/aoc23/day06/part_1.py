@@ -1,6 +1,6 @@
+import math
 import sys
 import typing
-import math
 
 
 def _count_options(time: int, distance: int) -> int:

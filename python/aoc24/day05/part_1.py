@@ -1,16 +1,16 @@
-import typing
 import sys
+import typing
 
 
 def Part1(input: typing.TextIO) -> int:
-    data = "\n".join([a.strip() for a in input.readlines()])
+    data = "\n".join([a.strip() for a in input])
     ordering_raw, pages_raw = data.split("\n\n")
     ordering = [
         tuple([int(a) for a in row.split("|")]) for row in ordering_raw.split("\n")
     ]
     pages = [[int(a) for a in row.split(",")] for row in pages_raw.split("\n")]
 
-    rules = dict()
+    rules = {}
     for a, b in ordering:
         if a not in rules:
             rules[a] = [b]

@@ -1,8 +1,13 @@
 import argparse
 
-from commands import SolverResult, ListResult
-from commands import SUPPORTED_YEARS, SUPPORTED_DAYS, SUPPORTED_PARTS
-from commands import CliOutput
+from commands import (
+    SUPPORTED_DAYS,
+    SUPPORTED_PARTS,
+    SUPPORTED_YEARS,
+    CliOutput,
+    ListResult,
+    SolverResult,
+)
 
 if __name__ == "__main__":
     # 1. Root Parser - Global flags go here

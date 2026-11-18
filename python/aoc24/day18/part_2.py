@@ -1,5 +1,6 @@
 import typing
 from collections import deque
+
 from .shared import CELL_CORRUPTED, loadField
 
 

@@ -2,11 +2,11 @@ import sys
 import typing
 
 
-def get_max_subsequence(digits: typing.List[int], seqLength: int) -> typing.List[int]:
+def get_max_subsequence(digits: list[int], seqLength: int) -> list[int]:
     n = len(digits)
     if seqLength >= n:
         return digits[:]  # nothing to remove
-    res: typing.List[int] = []
+    res: list[int] = []
     for i, d in enumerate(digits):
         # pop while we can and replacing yields larger lexicographic subsequence
         while res and res[-1] < d and len(res) - 1 + (n - i) >= seqLength:
@@ -20,7 +20,7 @@ def get_max_subsequence(digits: typing.List[int], seqLength: int) -> typing.List
     return res[:seqLength]
 
 
-def digits_to_int(seq: typing.List[int]) -> int:
+def digits_to_int(seq: list[int]) -> int:
     v = 0
     for d in seq:
         v = v * 10 + d

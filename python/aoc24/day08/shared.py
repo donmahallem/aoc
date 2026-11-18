@@ -8,12 +8,12 @@ AntennaDict = dict[str, PositionList]
 def parseInput(
     input: typing.TextIO,
 ) -> tuple[AntennaDict, int, int]:
-    data = [a.strip() for a in input.readlines()]
+    data = [a.strip() for a in input]
 
     height = len(data)
     width = len(data[0])
 
-    occurences: AntennaDict = dict()
+    occurences: AntennaDict = {}
     for y in range(len(data)):
         for x in range(len(data[0])):
             if data[y][x] == ".":
@@ -21,7 +21,7 @@ def parseInput(
             if data[y][x] in occurences:
                 occurences[data[y][x]].append((y, x))
             else:
-                occurences[data[y][x]] = list([(y, x)])
+                occurences[data[y][x]] = [(y, x)]
     return occurences, width, height
 
 

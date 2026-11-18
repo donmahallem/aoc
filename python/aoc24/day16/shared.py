@@ -2,19 +2,19 @@ import typing
 
 
 class GraphNode:
-    __slots__ = ("pos", "edges")
+    __slots__ = ("edges", "pos")
 
     def __init__(self, pos: tuple[int, int]):
         self.pos = pos
         self.edges: list[
             tuple[
-                "GraphNode", int, tuple[int, int], tuple[int, int], set[tuple[int, int]]
+                GraphNode, int, tuple[int, int], tuple[int, int], set[tuple[int, int]]
             ]
         ] = []
 
 
 class Graph:
-    __slots__ = ("nodes", "start_node", "end_node")
+    __slots__ = ("end_node", "nodes", "start_node")
     start_node: GraphNode | None
     end_node: GraphNode | None
     nodes: dict[tuple[int, int], GraphNode]
@@ -44,9 +44,7 @@ def _build_graph(input_data: typing.TextIO) -> Graph:
             exits = list(get_neighbors(r, c))
             is_poi = False
 
-            if grid[r][c] in "SE":
-                is_poi = True
-            elif len(exits) > 2:
+            if grid[r][c] in "SE" or len(exits) > 2:
                 is_poi = True
             elif len(exits) == 2:
                 (dr1, dc1, _, _), (dr2, dc2, _, _) = exits

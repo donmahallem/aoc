@@ -1,18 +1,17 @@
 import sys
 import typing
-from collections import deque
 from functools import lru_cache
 
 
 def Part1(input: typing.TextIO) -> int:
-    pairs = dict()
+    pairs = {}
     for line in input:
         splitLine = line.strip().split(":")
         source = splitLine[0].strip()
         targets = [x.strip() for x in splitLine[1].strip().split(" ")]
         pairs[source] = targets
 
-    @lru_cache()
+    @lru_cache
     def dfs(node: str) -> int:
         if node == "out":
             return 1

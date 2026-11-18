@@ -69,10 +69,9 @@ def simulate(
                 if d.real != 0:  # moving horizontally
                     stack.append((pos + _DIR_UP, _DIR_UP))
                     d = _DIR_DOWN
-            elif cell == "-":
-                if d.imag != 0:  # moving vertically
-                    stack.append((pos + _DIR_LEFT, _DIR_LEFT))
-                    d = _DIR_RIGHT
+            elif cell == "-" and d.imag != 0:  # moving vertically
+                stack.append((pos + _DIR_LEFT, _DIR_LEFT))
+                d = _DIR_RIGHT
 
             pos += d
 

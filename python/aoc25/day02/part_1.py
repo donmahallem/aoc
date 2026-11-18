@@ -1,7 +1,8 @@
 import sys
 import typing
-from .parse_input import _parse_input
+
 from .find_repeated_blocks import _find_repeated_blocks
+from .parse_input import _parse_input
 
 
 def Part1(input: typing.TextIO) -> int:

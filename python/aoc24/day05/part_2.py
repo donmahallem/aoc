@@ -1,16 +1,16 @@
-import typing
 import sys
+import typing
 
 
 def Part2(input: typing.TextIO) -> int:
-    raw_lines = "\n".join([a.strip() for a in input.readlines()])
+    raw_lines = "\n".join([a.strip() for a in input])
     ordering_raw, pages_raw = raw_lines.split("\n\n")
     ordering = [
         tuple([int(a) for a in row.split("|")]) for row in ordering_raw.split("\n")
     ]
     pages = [[int(a) for a in row.split(",")] for row in pages_raw.split("\n")]
 
-    rules = dict()
+    rules = {}
     for a, b in ordering:
         if a not in rules:
             rules[a] = [b]
@@ -30,7 +30,7 @@ def Part2(input: typing.TextIO) -> int:
         while invalid:
             invalid = False
             for n in range(len(items) - 1, 0, -1):
-                for i in range(0, n):
+                for i in range(n):
                     if items[n] in rules and items[i] in rules[items[n]]:
                         items[n], items[i] = items[i], items[n]
                         invalid = True

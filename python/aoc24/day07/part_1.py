@@ -1,4 +1,5 @@
 import typing
+
 from .shared import _stream_rows
 
 
@@ -14,10 +15,7 @@ def _is_valid(target: int, values: tuple[int, ...]) -> bool:
         if t > val and solve(t - val, idx - 1):
             return True
 
-        if t % val == 0 and solve(t // val, idx - 1):
-            return True
-
-        return False
+        return t % val == 0 and solve(t // val, idx - 1)
 
     return solve(target, len(values) - 1)
 

@@ -1,5 +1,5 @@
-from collections import defaultdict
 import typing
+from collections import defaultdict
 
 
 def _parse_input(

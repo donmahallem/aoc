@@ -1,6 +1,6 @@
 import sys
 import typing
-from functools import lru_cache
+
 from .parse_input import __parseInput
 
 type Coord = tuple[int, int]

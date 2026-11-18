@@ -1,5 +1,6 @@
 import sys
 import typing
+
 from .parse_input import parseInputGen
 
 

@@ -1,7 +1,7 @@
 import importlib
 import importlib.util
-import sys
 import pathlib
+import sys
 
 root_path = pathlib.Path(__file__).resolve().parent.parent
 
@@ -20,6 +20,5 @@ def getPart(year, day, part):
         partName = f"Part{part}"
         if hasattr(mod, partName):
             return getattr(mod, partName)
-    except Exception as exc:
-        pass
-    return None
+    except ImportError:
+        return None

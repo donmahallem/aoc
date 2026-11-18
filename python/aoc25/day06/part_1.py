@@ -1,6 +1,6 @@
+import re
 import sys
 import typing
-import re
 
 
 def __parseInput(input: typing.TextIO) -> tuple[list[list[int]], list[str]]:
@@ -10,8 +10,8 @@ def __parseInput(input: typing.TextIO) -> tuple[list[list[int]], list[str]]:
         re.MULTILINE,
     )
 
-    nums: list[list[int]] = list()
-    ops: list[str] = list()
+    nums: list[list[int]] = []
+    ops: list[str] = []
     for line in input:
         line = line.strip()
         if line == "":

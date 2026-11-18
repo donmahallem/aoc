@@ -1,8 +1,7 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING
 
 from .cli_output import CliOutput
-
 from .const import CommonArgs
 
 if TYPE_CHECKING:
@@ -16,7 +15,7 @@ class ListArgs(CommonArgs):
 
 @dataclass
 class ListResult:
-    solvers: List["Solver"]
+    solvers: list["Solver"]
 
     @staticmethod
     def execute(cfg: CliOutput, args: ListArgs) -> "ListResult":

@@ -1,5 +1,6 @@
 import typing
-from .part_1 import parseField, findInterconnected
+
+from .part_1 import findInterconnected, parseField
 
 
 def findLongest(
@@ -14,7 +15,7 @@ def findLongest(
             if to_check in connected:
                 continue
             counter = 0
-            for i in range(0, len(connected) - 1):
+            for i in range(len(connected) - 1):
                 if to_check in connections[connected[i]]:
                     counter += 1
                 else:

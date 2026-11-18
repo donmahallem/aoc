@@ -1,8 +1,9 @@
-from typing import Any, Optional
-import tqdm
 import json as _json
 import sys
 from dataclasses import asdict
+from typing import Any
+
+import tqdm
 
 
 class CliOutput:
@@ -10,7 +11,7 @@ class CliOutput:
         self,
         json: bool = False,
         verbose: bool = False,
-        output: Optional[str] = None,
+        output: str | None = None,
     ):
         self.json = bool(json)
         self.verbose = bool(verbose)

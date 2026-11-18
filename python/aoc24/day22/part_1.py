@@ -1,5 +1,6 @@
 import typing
-from .shared import _parseInput, _loop_steps
+
+from .shared import _loop_steps, _parseInput
 
 
 def Part1(input: typing.TextIO) -> int:

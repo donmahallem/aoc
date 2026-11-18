@@ -1,6 +1,7 @@
 import sys
 import typing
-from .shared import _parse_input, _find_shortest_path
+
+from .shared import _find_shortest_path, _parse_input
 
 
 def Part1(input: typing.TextIO) -> int:

@@ -1,9 +1,9 @@
-from .cli_output import CliOutput
-
-from .const import CommonArgs
-from typing import Optional, Any
-from dataclasses import dataclass
 import sys
+from dataclasses import dataclass
+from typing import Any, Optional
+
+from .cli_output import CliOutput
+from .const import CommonArgs
 
 
 @dataclass(slots=True)
@@ -11,7 +11,7 @@ class SolveArgs(CommonArgs):
     year: int
     day: int
     part: int
-    input: Optional[str]
+    input: str | None
 
 
 @dataclass

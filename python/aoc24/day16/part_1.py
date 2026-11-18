@@ -1,6 +1,7 @@
-import typing
 import heapq
-from .shared import _build_graph, Graph
+import typing
+
+from .shared import _build_graph
 
 
 def _get_turn_cost(d1: tuple[int, int], d2: tuple[int, int]) -> int:

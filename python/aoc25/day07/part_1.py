@@ -1,5 +1,6 @@
 import sys
 import typing
+
 from .parse_input import __parseInput
 
 
@@ -7,7 +8,7 @@ def Part1(input: typing.TextIO) -> int:
     start, splitter, width, height = __parseInput(input)
     splitEvents: int = 0
     beams: list[int] = [start[0] + start[1] * width]
-    visited: dict[int, bool] = dict()
+    visited: dict[int, bool] = {}
     while len(beams) > 0:
         beam = beams.pop()
         if beam in visited:

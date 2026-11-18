@@ -1,5 +1,5 @@
-import typing
 import math
+import typing
 from functools import cache
 
 

@@ -1,10 +1,10 @@
 import typing
 
-type _splitter = set[int]
+type _Splitter = set[int]
 
 
-def __parseInput(input: typing.TextIO) -> tuple[tuple[int, int], _splitter, int, int]:
-    splitter: _splitter = set()
+def __parseInput(input: typing.TextIO) -> tuple[tuple[int, int], _Splitter, int, int]:
+    splitter: _Splitter = set()
     width: int = -1
     height: int = 0
     for line in input:

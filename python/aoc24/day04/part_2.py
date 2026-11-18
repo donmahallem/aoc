@@ -1,9 +1,9 @@
-import typing
 import sys
+import typing
 
 
 def Part2(input: typing.TextIO) -> int:
-    data = [a.strip() for a in input.readlines()]
+    data = [a.strip() for a in input]
     zeilen = len(data)
     spalten = len(data[0])
     count = 0

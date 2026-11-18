@@ -1,6 +1,7 @@
+import math
 import sys
 import typing
-import math
+
 from .shared import _parse_input
 
 

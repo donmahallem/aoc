@@ -1,9 +1,9 @@
 package aoc25
 
 import (
-	"github.com/donmahallem/aoc/go/aoc23/day03"
 	"github.com/donmahallem/aoc/go/aoc25/day01"
 	"github.com/donmahallem/aoc/go/aoc25/day02"
+	"github.com/donmahallem/aoc/go/aoc25/day03"
 	"github.com/donmahallem/aoc/go/aoc25/day04"
 	"github.com/donmahallem/aoc/go/aoc25/day05"
 	"github.com/donmahallem/aoc/go/aoc25/day06"

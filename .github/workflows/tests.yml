@@ -115,7 +115,9 @@ jobs:
         run: |
           coverage run --source=. -m unittest discover
       - name: Run Format Check
-        run: ruff format --check
+        run: |
+          ruff format --check
+          ruff check .
       - name: Run Type Check
         run: mypy --ignore-missing-imports .
       - name: Upload coverage to Codecov

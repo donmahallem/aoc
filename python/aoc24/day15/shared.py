@@ -1,5 +1,6 @@
-from util.typed_coord import Coord, CoordX, CoordY
 import typing
+
+from util.typed_coord import Coord
 
 
 def _parse_field(
@@ -15,7 +16,7 @@ def _parse_field(
         line = line.strip()
         if line == "":
             break
-        for col in range(0, len(line)):
+        for col in range(len(line)):
             match line[col]:
                 case "#":
                     walls.add((currentRow, col * xMultiplier))
@@ -25,8 +26,8 @@ def _parse_field(
                     boxes.add((currentRow, col * xMultiplier))
                 case "@":
                     player_position = (currentRow, col * xMultiplier)
-        currentRow += 1
-    movements: list[Coord] = list()
+        currentRow += 1  # noqa: SIM113
+    movements: list[Coord] = []
     for line in input_data:
         line = line.strip()
         if line == "":

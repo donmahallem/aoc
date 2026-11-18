@@ -1,5 +1,6 @@
-import typing
 import heapq
+import typing
+
 from .shared import _parse_input
 
 

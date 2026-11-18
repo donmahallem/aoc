@@ -1,6 +1,6 @@
 def checkRow(row):
     inc = None
-    for i in range(0, len(row) - 1):
+    for i in range(len(row) - 1):
         if row[i] == row[i + 1]:
             return False
         if abs(row[i] - row[i + 1]) > 3:

@@ -1,6 +1,4 @@
 # mypy: ignore-errors
-import functools
-import itertools
 import codecs
 
 test_data = False
@@ -39,9 +37,8 @@ sorted_keys = sorted(register.keys())
 
 output_value = 0
 for key in sorted_keys:
-    if key[0] == "z":
-        if register[key] > 0:
-            key_val = int(key[1:])
-            output_value += 1 << key_val
+    if key[0] == "z" and register[key] > 0:
+        key_val = int(key[1:])
+        output_value += 1 << key_val
 
 print(output_value)

@@ -1,9 +1,10 @@
-import unittest
+import io
 import json
 import os
-import io
-from pathlib import Path
+import typing
+import unittest
 from importlib import import_module
+from pathlib import Path
 
 CURRENT_DIR = Path(__file__).resolve().parent
 TEST_DIR = CURRENT_DIR.parent / "test"
@@ -11,8 +12,6 @@ TEST_DIR = CURRENT_DIR.parent / "test"
 
 class AOCTestCase(unittest.TestCase):
     """Base class for dynamically generated AOC tests."""
-
-    pass
 
 
 def _generate_tests():
@@ -30,8 +29,11 @@ def _generate_tests():
     try:
         with open(data_json_path, "r", encoding="utf-8") as f:
             data = json.load(f)
-    except Exception as e:
+    except OSError as e:
         print(f"Error loading data.json: {e}")
+        return
+    except json.JSONDecodeError as e:
+        print(f"Error parsing data.json: {e}")
         return
 
     # Create test factory
@@ -49,21 +51,21 @@ def _generate_tests():
             if not func:
                 self.skipTest(f"Function {func_name} not found in {module_name}")
 
+            def _handle_input(stream: typing.TextIO):
+                result = func(stream)
+                self.assertEqual(result, exp)
+
             if inp is not None:
-                f_obj = io.StringIO(inp)
+                _handle_input(io.StringIO(inp))
+
             elif fp:
                 abs_path = TEST_DIR.joinpath(fp).resolve()
                 if not os.path.exists(abs_path):
                     self.skipTest(f"Test data {abs_path} could not be found")
-                f_obj = open(abs_path, "r", encoding="utf-8")
+                with open(abs_path, "r", encoding="utf-8") as f_obj:
+                    _handle_input(f_obj)
             else:
                 self.fail("No input provided for test case")
-
-            try:
-                result = func(f_obj)
-                self.assertEqual(result, exp)
-            finally:
-                f_obj.close()
 
         return test_func
 

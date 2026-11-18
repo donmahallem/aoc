@@ -1,5 +1,5 @@
-import typing
 import re
+import typing
 
 
 def _parse_input(input: typing.TextIO) -> tuple[list[int], dict[str, list[str]]]:

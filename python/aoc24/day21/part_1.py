@@ -1,12 +1,12 @@
-import typing
-import itertools
 import functools
+import itertools
+import typing
 
 
 def shortestPathRobotNumeric(sequence):
     current_position = (3, 2)
     output_seqence = []
-    location_dict = dict()
+    location_dict = {}
     location_dict["7"] = (0, 0)
     location_dict["8"] = (0, 1)
     location_dict["9"] = (0, 2)
@@ -35,7 +35,7 @@ def shortestPathRobotNumeric(sequence):
 
 def shortestPathRobotNumericSingle(current_position, character):
     output_seqence = []
-    location_dict = dict()
+    location_dict = {}
     location_dict["7"] = (0, 0)
     location_dict["8"] = (0, 1)
     location_dict["9"] = (0, 2)
@@ -63,7 +63,7 @@ def shortestPathRobotNumericSingle(current_position, character):
 def shortestPathRobotDirectional(sequence, depth=0):
     current_position = (0, 2)
     output_seqence = []
-    location_dict = dict()
+    location_dict = {}
     location_dict["^"] = (0, 1)
     location_dict["A"] = (0, 2)
     location_dict["<"] = (1, 0)
@@ -118,7 +118,7 @@ def possiblePathsNumericalCoord(start, end):
 
 @functools.cache
 def possiblePathsNumerical(start, end):
-    location_dict = dict()
+    location_dict = {}
     location_dict["7"] = (0, 0)
     location_dict["8"] = (0, 1)
     location_dict["9"] = (0, 2)
@@ -140,7 +140,7 @@ def possiblePathsNumerical(start, end):
 
 @functools.cache
 def possiblePathsDirectional(start, end):
-    location_dict = dict()
+    location_dict = {}
     location_dict["^"] = (0, 1)
     location_dict["A"] = (0, 2)
     location_dict["<"] = (1, 0)
@@ -195,6 +195,6 @@ def calculate_puzzle_output(data, numeric_keypads):
 
 
 def Part1(input: typing.TextIO) -> int:
-    data = [line.strip() for line in input.readlines()]
+    data = [line.strip() for line in input]
 
     return calculate_puzzle_output(data, 3)

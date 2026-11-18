@@ -1,4 +1,5 @@
-from typing import NamedTuple, Generator
+from collections.abc import Generator
+from typing import NamedTuple
 
 
 class Point(NamedTuple):

@@ -1,4 +1,5 @@
 import typing
+
 from .shared import _parse_input
 
 

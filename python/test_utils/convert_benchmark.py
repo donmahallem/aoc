@@ -12,7 +12,7 @@ import argparse
 import json
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 
 def convert(
@@ -51,7 +51,7 @@ def convert(
     return {
         "name": bench_name,
         "hash": os.environ.get("GITHUB_SHA", "unknown"),
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
         "measurements": measurements,
     }
 

@@ -1,4 +1,5 @@
 import typing
+
 from .shared import _parse_input
 
 
@@ -9,7 +10,7 @@ def Part2(
 
     num_robots = len(pxs)
 
-    max_steps_to_check = width * height if (width * height) < maxSteps else maxSteps
+    max_steps_to_check = min(maxSteps, width * height)
 
     for i in range(1, max_steps_to_check + 1):
         positions = set()

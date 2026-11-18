@@ -1,5 +1,6 @@
 import typing
-from .part_1 import parseInput, calc
+
+from .part_1 import calc, parseInput
 
 
 def Part2(input: typing.TextIO) -> int:

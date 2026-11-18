@@ -2,7 +2,7 @@ import sys
 import typing
 
 
-def reduce(a: typing.List[int]) -> typing.List[int]:
+def reduce(a: list[int]) -> list[int]:
     result = []
     prev = a[0]
     count = 1
@@ -36,8 +36,7 @@ def Part1(input: typing.TextIO) -> int:
         for idxA in range(len(digits)):
             for idxB in range(idxA + 1, len(digits)):
                 cur = digits[idxA] * 10 + digits[idxB]
-                if cur > max_val:
-                    max_val = cur
+                max_val = max(max_val, cur)
         total_sum += max_val
     return total_sum
 

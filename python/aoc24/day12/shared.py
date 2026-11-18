@@ -1,10 +1,10 @@
 import typing
 
-type _coord = tuple[int, int]
+type _Coord = tuple[int, int]
 
 
 class _Field:
-    __slots__ = ["width", "height", "data"]
+    __slots__ = ["data", "height", "width"]
 
     def __init__(
         self, width: int = 0, height: int = 0, data: list[bytearray] | None = None
@@ -41,17 +41,17 @@ class _Field:
     def get(self, x: int, y: int) -> int:
         return self.data[y][x]
 
-    def collect_islands(self) -> list[set[_coord]]:
-        islands: list[set[_coord]] = list()
+    def collect_islands(self) -> list[set[_Coord]]:
+        islands: list[set[_Coord]] = []
         dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-        visited: set[_coord] = set()
+        visited: set[_Coord] = set()
         for x in range(self.width):
             for y in range(self.height):
                 start = (y, x)
                 if start in visited:
                     continue
                 # flood fill cells into buffer
-                buffer: set[_coord] = set()
+                buffer: set[_Coord] = set()
                 toVisit = [start]
                 groupValue = self.data[y][x]
                 while len(toVisit) > 0:
@@ -81,7 +81,7 @@ class _Field:
         return islands
 
     @staticmethod
-    def count_edges(island: set[_coord], straight_edges: bool = False):
+    def count_edges(island: set[_Coord], straight_edges: bool = False):
         """
         Counts the number of edges of the island
         """

@@ -1,5 +1,3 @@
-from typing import NewType, TypeAlias
-
 # Designating coord X
 type CoordX = int
 # Designating coord Y

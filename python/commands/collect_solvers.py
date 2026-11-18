@@ -1,11 +1,9 @@
-from .const import SUPPORTED_YEARS, SUPPORTED_DAYS, SUPPORTED_PARTS, Solver
-from typing import List
-
+from .const import SUPPORTED_DAYS, SUPPORTED_PARTS, SUPPORTED_YEARS, Solver
 from .get_part import getPart
 
 
-def collect_solvers() -> List[Solver]:
-    solvers: List[Solver] = []
+def collect_solvers() -> list[Solver]:
+    solvers: list[Solver] = []
     for year in SUPPORTED_YEARS:
         for day in SUPPORTED_DAYS:
             for part in SUPPORTED_PARTS:

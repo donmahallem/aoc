@@ -1,5 +1,6 @@
 import typing
 from functools import cache
+
 from .shared import parseInput
 
 

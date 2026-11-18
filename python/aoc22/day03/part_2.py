@@ -1,5 +1,6 @@
 import sys
 import typing
+
 from .shared import _map_char
 
 

@@ -1,4 +1,5 @@
 import typing
+
 from .shared import _parse_input
 
 
@@ -34,7 +35,7 @@ def Part1(input: typing.TextIO) -> int:
                 r_file_rem = data[idxR]
                 continue
 
-            take = space if space < r_file_rem else r_file_rem
+            take = min(r_file_rem, space)
             f_id = idxR >> 1
             total += (f_id * take * (2 * pos + take - 1)) // 2
 

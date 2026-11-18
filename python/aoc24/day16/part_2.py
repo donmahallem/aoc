@@ -1,7 +1,8 @@
-import typing
 import heapq
 import sys
-from .shared import _build_graph, Graph, GraphNode
+import typing
+
+from .shared import Graph, GraphNode, _build_graph
 
 type Coord = tuple[int, int]
 type Direction = tuple[int, int]

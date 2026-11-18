@@ -1,6 +1,3 @@
-import typing
-
-
 def parse_line(line: str) -> tuple[int, list[int], list[int]]:
     """Return (card_id, winning_numbers, picked_numbers)."""
     card_part, numbers_part = line.split(":", 1)

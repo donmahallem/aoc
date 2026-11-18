@@ -1,5 +1,6 @@
 import typing
-from .shared import _Field, _coord
+
+from .shared import _coord, _Field
 
 
 def count_edges(coords: set[_coord]):

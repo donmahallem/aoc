@@ -1,6 +1,7 @@
 import sys
 import typing
-from .shared import find_objects, find_adjacent_numbers
+
+from .shared import find_adjacent_numbers, find_objects
 
 
 def Part2(input: typing.TextIO) -> int:

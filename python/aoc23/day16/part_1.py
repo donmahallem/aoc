@@ -1,6 +1,7 @@
 import sys
 import typing
-from .shared import parse_input, simulate, _DIR_RIGHT
+
+from .shared import _DIR_RIGHT, parse_input, simulate
 
 
 def Part1(input: typing.TextIO) -> int:

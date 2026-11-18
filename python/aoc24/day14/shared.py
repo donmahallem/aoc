@@ -1,5 +1,6 @@
-import typing
 import re
+import typing
+
 from util.typed_coord import CoordX, CoordY
 
 

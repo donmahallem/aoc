@@ -1,5 +1,5 @@
-import typing
 import re
+import typing
 
 type Button = tuple[str, int, int]
 
@@ -13,13 +13,13 @@ type Machines = list[Machine]
 
 
 def parseInput(input: typing.TextIO) -> Machines:
-    machines: Machines = list()
-    machine: Machine = Machine(buttons=list(), price=(0, 0))
+    machines: Machines = []
+    machine: Machine = Machine(buttons=[], price=(0, 0))
     button_regex = re.compile(
         r"(?:Button\s([A-Za-z]+)\:)\s(?:[XY]([+-]\d+)),\s(?:[XY]([+-]\d+))"
     )
     prize_regex = re.compile(r"(?:Prize)\:\s(?:[XY]=(\d+)),\s*(?:[XY]=(\d+))")
-    for line in input.readlines():
+    for line in input:
         line = line.strip()
         if len(line) == 0:
             continue
@@ -35,7 +35,7 @@ def parseInput(input: typing.TextIO) -> Machines:
         if reg_res:
             machine["price"] = (int(reg_res.groups()[0]), int(reg_res.groups()[1]))
             machines.append(machine)
-            machine = Machine(buttons=list(), price=(0, 0))
+            machine = Machine(buttons=[], price=(0, 0))
     return machines
 
 

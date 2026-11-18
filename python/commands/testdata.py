@@ -1,6 +1,7 @@
-import pathlib
 import json
-from typing import Dict, TypedDict, List, Optional, Union, Literal, Mapping
+import pathlib
+from collections.abc import Mapping
+from typing import Literal, TypedDict
 
 type Language = Literal["go", "python"]
 type ResultType = Literal[
@@ -25,19 +26,19 @@ type ResultType = Literal[
     "[]array",
 ]
 
-type TestResult = Union[int, str, List[Union[int, str]]]
+type TestResult = int | str | list[int | str]
 
 
 class PartExpectation(TypedDict, total=False):
     result: TestResult
     type: ResultType
-    skip_languages: List[Language]
+    skip_languages: list[Language]
 
 
 class TestCase(TypedDict, total=False):
-    input: Optional[str]
-    file: Optional[str]
-    skip_languages: List[Language]
+    input: str | None
+    file: str | None
+    skip_languages: list[Language]
     part1: PartExpectation
     part2: PartExpectation
 
@@ -56,9 +57,9 @@ class TestData:
         if not path.exists():
             raise FileNotFoundError(f"Test data file not found: {path}")
 
-        raw: Dict[str, Dict[str, Dict[str, TestCase]]] = json.loads(path.read_text())
+        raw: dict[str, dict[str, dict[str, TestCase]]] = json.loads(path.read_text())
 
-        parsed: Dict[int, Dict[int, Dict[str, TestCase]]] = {}
+        parsed: dict[int, dict[int, dict[str, TestCase]]] = {}
 
         for y_str, days in raw.items():
             year = int(y_str)

@@ -1,5 +1,6 @@
-from typing import Final, Optional, Callable
+from collections.abc import Callable
 from dataclasses import dataclass
+from typing import Final
 
 SUPPORTED_YEARS: Final[tuple[int, ...]] = (21, 22, 23, 24, 25)
 
@@ -12,7 +13,7 @@ SUPPORTED_PARTS: Final[tuple[int, ...]] = (1, 2)
 class CommonArgs:
     json: bool
     verbose: bool
-    output: Optional[str]
+    output: str | None
 
 
 @dataclass(slots=True)
@@ -20,7 +21,7 @@ class Solver:
     year: int
     day: int
     part: int
-    func: Optional[Callable] = None  # None when only listing, populated when executing
+    func: Callable | None = None  # None when only listing, populated when executing
 
     def __lt__(self, other: "Solver") -> bool:
         """Enable sorting: by year, then day, then part."""

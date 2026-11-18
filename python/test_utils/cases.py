@@ -1,9 +1,9 @@
 """Benchmark cases built from test/data.json."""
 
 import importlib
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable, Optional
 
 from commands.const import SUPPORTED_DAYS, SUPPORTED_YEARS
 from commands.testdata import TestData
@@ -18,8 +18,8 @@ class BenchCase:
     part: int
     name: str
     expected: object
-    input_text: Optional[str] = None
-    input_file: Optional[Path] = None
+    input_text: str | None = None
+    input_file: Path | None = None
 
     @property
     def id(self) -> str:
@@ -34,9 +34,9 @@ class BenchCase:
 
 
 def load_cases(
-    years: Optional[list[int]] = None,
-    days: Optional[list[int]] = None,
-    parts: Optional[list[int]] = None,
+    years: list[int] | None = None,
+    days: list[int] | None = None,
+    parts: list[int] | None = None,
 ) -> list[BenchCase]:
     """Python-enabled cases with an expected result; an empty filter selects everything."""
     if not DATA_PATH.exists():
@@ -83,7 +83,7 @@ def load_cases(
     return cases
 
 
-def load_solver(case: BenchCase) -> Optional[Callable]:
+def load_solver(case: BenchCase) -> Callable | None:
     module_name = f"aoc{case.year}.day{case.day:02}.part_{case.part}"
     try:
         module = importlib.import_module(module_name)

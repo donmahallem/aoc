@@ -10,11 +10,11 @@ def parseField(input: typing.TextIO) -> dict[str, list[str]]:
         if a in connections:
             connections[a].append(b)
         else:
-            connections[a] = [[b]]
+            connections[a] = [b]
         if b in connections:
             connections[b].append(a)
         else:
-            connections[b] = [[a]]
+            connections[b] = [a]
 
     return connections
 

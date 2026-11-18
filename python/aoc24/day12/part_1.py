@@ -1,9 +1,9 @@
 import typing
 
-from .shared import _coord, _Field
+from .shared import _Coord, _Field
 
 
-def count_edges(coords: set[_coord]):
+def count_edges(coords: set[_Coord]):
     edge_count = 0
     dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
     for coord in coords:

@@ -1,38 +1,38 @@
-import functools
-import itertools
-import codecs
-import numpy as np
+import typing
 
-test_data = False
-with codecs.open("data.txt" if test_data else "data2.txt", encoding="utf8") as f:
-    data = f.read()
-    locks = data.split("\r\n\r\n")
+_TO_BITS = str.maketrans("#.", "10")
+_WIDTH = 5
+_HEIGHT = 7
+_ROW = _WIDTH + 1
+# One block has 7 rows of 6 characters, plus one blank line.
+_BLOCK = _HEIGHT * _ROW + 1
 
-locks2 = []
-keys2 = []
-is_key = True
-for lock in locks:
-    lock_rows = lock.split("\r\n")
-    translatetd_lock = [-1] * len(lock_rows[0])
-    for i, lock_row in enumerate(lock_rows):
-        if i == 0:
-            is_key = lock_row == "....."
-        for lock_column, lock_char in enumerate(lock_row):
-            if lock_char == "#":
-                translatetd_lock[lock_column] += 1
-    if is_key:
-        keys2.append(translatetd_lock)
-    else:
-        locks2.append(translatetd_lock)
 
-locks_np = np.array(locks2, dtype=np.uint8)
-keys_np = np.array(keys2, dtype=np.uint8)
+def _bits(cells: str) -> int:
+    """Converts a string of "#" and "." cells into an integer, "#" as 1."""
+    return int(cells.translate(_TO_BITS), 2)
 
-matching_pairs = 0
-for lock_num in range(locks_np.shape[0]):
-    for key_num in range(keys_np.shape[0]):
-        # print(locks_np[lock_num]+keys_np[key_num])
-        if np.all((locks_np[lock_num] + keys_np[key_num]) <= [5, 5, 5, 5, 5]):
-            matching_pairs += 1
 
-print(matching_pairs)
+def Part1(input: typing.TextIO) -> int:
+    text = input.read().replace("\r", "").strip() + "\n\n"
+    if len(text) % _BLOCK or set(text[_BLOCK - 1 :: _BLOCK]) != {"\n"}:
+        raise ValueError("Expected 7x5 patterns separated by one blank line")
+
+    # Each schematic has one bit. A set bit marks a key.
+    key_mask = ~_bits(text[::_BLOCK]) & ((1 << (len(text) // _BLOCK)) - 1)
+    # fits[c][h] holds the keys with a height of h or less in column c.
+    # That is true if the cell in row 5 - h, column c is ".".
+    fits = [
+        [~_bits(text[(5 - h) * _ROW + col :: _BLOCK]) & key_mask for h in range(6)]
+        for col in range(_WIDTH)
+    ]
+    fits_0, fits_1, fits_2, fits_3, fits_4 = fits
+
+    total = 0
+    for start in range(0, len(text), _BLOCK):
+        if text[start] != "#":
+            continue
+        block = text[start : start + _BLOCK - 1]
+        a, b, c, d, e = (5 - block[col::_ROW].count("#") + 1 for col in range(_WIDTH))
+        total += (fits_0[a] & fits_1[b] & fits_2[c] & fits_3[d] & fits_4[e]).bit_count()
+    return total

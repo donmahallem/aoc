@@ -1,131 +1,103 @@
+import array
+import sys
 import typing
-import numpy as np
-from collections import deque
-from dataclasses import dataclass
-from util.typed_coord import Coord, CoordX, CoordY
+
+_TRACK_BITS = str.maketrans("#.SE", "0111")
+# Each packed value has 16 bits. Values stay below _BIAS, and bit 15 holds
+# the result of a range check.
+_FIELD_BITS = 16
+_BIAS = 1 << 14
+_TOP = 1 << 15
 
 
-@dataclass(slots=True)
-class _Field:
-    grid: list[str]
-    width: CoordX
-    height: CoordY
-    start: Coord
-    end: Coord
+def _walk_track(lines: list[str]) -> list[int]:
+    width = len(lines[0])
+    stride = width + 1
+    grid = "#".join(lines)
+    pos = grid.index("S")
+    end = grid.index("E")
+    y, x = divmod(pos, stride)
+    u, v = y + x, y - x + width
+    moves = {
+        1: (1, -1, stride, -stride),
+        -1: (-1, 1, stride, -stride),
+        stride: (1, 1, 1, -1),
+        -stride: (-1, -1, 1, -1),
+    }
+    direction = next(d for d in (1, -1, stride, -stride) if grid[pos + d] != "#")
+    du, dv, turn_a, turn_b = moves[direction]
+    coords = [u, v]
+    extend = coords.extend
+    while pos != end:
+        if grid[pos + direction] == "#":
+            direction = turn_a if grid[pos + turn_a] != "#" else turn_b
+            du, dv, turn_a, turn_b = moves[direction]
+        pos += direction
+        u += du
+        v += dv
+        extend((u, v))
+    return coords
 
 
-def _parse_field(input: typing.TextIO) -> _Field | None:
-    grid = [line.rstrip("\n") for line in input]
-    if not grid:
-        return None
-
-    h: CoordY = len(grid)
-    w: CoordX = len(grid[0])
-
-    start: Coord | None = None
-    end: Coord | None = None
-
-    for y, line in enumerate(grid):
-        if start is None:
-            x = line.find("S")
-            if x != -1:
-                start = (y, x)
-        if end is None:
-            x = line.find("E")
-            if x != -1:
-                end = (y, x)
-
-    if start is None or end is None:
-        return None
-
-    return _Field(grid=grid, width=w, height=h, start=start, end=end)
+def _count_close_pairs(lines: list[str], max_distance: int) -> int:
+    """Counts unordered track cell pairs with a distance of 1 to max_distance."""
+    row_stride = len(lines[0]) + max_distance
+    # The zero columns between rows stop horizontal shifts from wrapping.
+    track = int(("0" * max_distance).join(lines).translate(_TRACK_BITS), 2)
+    total = 0
+    for dy in range(max_distance + 1):
+        for dx in range(dy - max_distance, max_distance - dy + 1):
+            if dy or dx > 0:
+                total += (track & (track >> (dy * row_stride + dx))).bit_count()
+    return total
 
 
-def _compute_shortest_path(field: _Field) -> list[Coord]:
-    w, h = field.width, field.height
-    grid = field.grid
-    sy, sx = field.start
-    ey, ex = field.end
+def count_cheats(input: typing.TextIO, min_savings: int, max_distance: int) -> int:
+    """Counts the cheats of at most max_distance steps that save min_savings.
 
-    start_idx = sy * w + sx
-    end_idx = ey * w + ex
-
-    parent = [-1] * (w * h)
-    parent[start_idx] = start_idx
-
-    dq = deque([start_idx])
-    dirs = (-w, w, -1, 1)
-
-    while dq:
-        idx = dq.popleft()
-        if idx == end_idx:
-            break
-
-        for delta in dirs:
-            ny, nx = divmod(idx + delta, w)
-            # Bound checks natively derived from our 2D boundaries
-            if 0 <= ny < h and 0 <= nx < w:
-                nidx = idx + delta
-                if grid[ny][nx] != "#" and parent[nidx] == -1:
-                    parent[nidx] = idx
-                    dq.append(nidx)
-
-    if parent[end_idx] == -1:
-        return []
-
-    path: list[Coord] = []
-    cur_idx = end_idx
-    while cur_idx != start_idx:
-        py, px = divmod(cur_idx, w)
-        path.append((py, px))
-        cur_idx = parent[cur_idx]
-
-    path.append(field.start)
-    path.reverse()
-    return path
-
-
-def _count_cheats(
-    path: list[Coord], min_savings: int, max_distance: int | None = None
-) -> int:
-    n = len(path)
-    if n == 0 or min_savings >= n:
+    A cheat from path index i to j with distance d saves j - i - d steps.
+    The result is all close pairs minus the close pairs that save too little.
+    Only pairs with j - i < min_savings + max_distance can save too little.
+    """
+    lines = input.read().split()
+    coords = _walk_track(lines)
+    n = len(coords) // 2
+    if n < min_savings + 3:
         return 0
+    total = _count_close_pairs(lines, max_distance)
 
-    md = 2 if max_distance is None else max_distance
+    max_gap = min(n, min_savings + max_distance)
+    # Padding cells are far from all track cells, so the shifted values of the
+    # last cells never match.
+    coords.extend([_BIAS - 1] * (2 * max_gap))
+    values = array.array("H", coords)
+    if sys.byteorder == "big":
+        values.byteswap()
+    packed = int.from_bytes(values.tobytes(), "little")
+    unit = int.from_bytes(b"\x01\x00" * len(coords), "little")
+    base = unit * _BIAS - packed
+    # Bit 15 of the u field of each real path cell.
+    u_flags = int.from_bytes(b"\x00\x80\x00\x00" * n, "little")
+    bounds: dict[int, tuple[int, int]] = {}
 
-    # Create a flat array of all valid offsets and their manhattan distances
-    all_dy, all_dx, all_dist = [], [], []
-    for dy in range(-md, md + 1):
-        for dx in range(-md, md + 1):
-            d = abs(dx) + abs(dy)
-            if 2 <= d <= md:
-                all_dy.append(dy)
-                all_dx.append(dx)
-                all_dist.append(d)
+    def count_within(gap: int, limit: int) -> int:
+        """Counts path indices i where cell i + gap has a distance <= limit."""
+        bound = bounds.get(limit)
+        if bound is None:
+            bound = bounds[limit] = (
+                base + unit * (_TOP - _BIAS + limit),
+                base + unit * (_TOP - _BIAS - 1 - limit),
+            )
+        shifted = packed >> (2 * _FIELD_BITS * gap)
+        # Each field holds _BIAS + delta. Bit 15 of the xor is set if
+        # -limit <= delta <= limit.
+        within = (shifted + bound[0]) ^ (shifted + bound[1])
+        return (within & (within >> _FIELD_BITS) & u_flags).bit_count()
 
-    path_y = np.array([p[0] for p in path], dtype=np.int32)
-    path_x = np.array([p[1] for p in path], dtype=np.int32)
-
-    pad = md
-    grid_w = int(path_x.max()) + 1 + 2 * pad
-    grid_h = int(path_y.max()) + 1 + 2 * pad
-
-    idx_map = np.full(grid_w * grid_h, -1, dtype=np.int32)
-    flat_indices = (path_y + pad) * grid_w + (path_x + pad)
-    idx_map[flat_indices] = np.arange(n, dtype=np.int32)
-
-    n_check = n - min_savings
-    centers = flat_indices[:n_check, np.newaxis]
-    i_vals = np.arange(n_check, dtype=np.int32)[:, np.newaxis]
-
-    deltas = np.array(all_dy, dtype=np.int32) * grid_w + np.array(
-        all_dx, dtype=np.int32
-    )
-    distances = np.array(all_dist, dtype=np.int32)
-
-    all_j = idx_map[centers + deltas]
-
-    thresholds = i_vals + distances + min_savings
-
-    return int(np.count_nonzero(all_j >= thresholds))
+    too_short = 0
+    for gap in range(1, max_gap):
+        # The distance never exceeds the gap.
+        too_short += n - gap if gap <= max_distance else count_within(gap, max_distance)
+        if gap > min_savings:
+            too_short -= count_within(gap, gap - min_savings)
+    return total - too_short

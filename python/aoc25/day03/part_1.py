@@ -1,27 +1,18 @@
 import sys
 import typing
 
-from .shared import row_generator
+
+def reduce(s: str) -> int:
+    tens = max(s[:-1])
+    units = max(s[s.index(tens) + 1 :])
+    return int(tens + units)
 
 
-def reduce(a: list[int]) -> int:
-    base_val = 0
-    base_result = 0
-    base_val2 = 0
-    for idx in range(len(a) - 1):
-        ch = a[idx]
-        if base_val < ch:
-            base_val = ch
-            base_result = ch * 10
-            base_val2 = 0
-        for idx2 in range(idx + 1, len(a)):
-            base_val2 = max(base_val2, a[idx2])
-    return base_result + base_val2
-
-
-def Part1(input: typing.TextIO) -> int:
+def Part1(input_stream: typing.TextIO) -> int:
     total_sum = 0
-    for line in row_generator(input):
+    for line in map(str.strip, input_stream):
+        if not line:
+            continue
         total_sum += reduce(line)
     return total_sum
 

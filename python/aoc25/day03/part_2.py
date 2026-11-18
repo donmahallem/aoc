@@ -1,23 +1,24 @@
 import sys
 import typing
 
+from .shared import row_generator
 
-def get_max_subsequence(digits: list[int], seqLength: int) -> list[int]:
+
+def get_max_subsequence(digits: list[int], seq_length: int) -> list[int]:
     n = len(digits)
-    if seqLength >= n:
+    if seq_length >= n:
         return digits[:]  # nothing to remove
+
     res: list[int] = []
     for i, d in enumerate(digits):
-        # pop while we can and replacing yields larger lexicographic subsequence
-        while res and res[-1] < d and len(res) - 1 + (n - i) >= seqLength:
-            # check if we can pop
-            # check if previous digit is smaller
-            # check if enough digits remain to fill seqLength
+        # Pop elements smaller than current `d` as long as we have
+        # enough remaining digits to still reach `seq_length`.
+        while res and res[-1] < d and (len(res) - 1 + (n - i) >= seq_length):
             res.pop()
-        if len(res) < seqLength:
+        if len(res) < seq_length:
             res.append(d)
-    # trim in case
-    return res[:seqLength]
+
+    return res
 
 
 def digits_to_int(seq: list[int]) -> int:
@@ -27,13 +28,14 @@ def digits_to_int(seq: list[int]) -> int:
     return v
 
 
-def Part2(input: typing.TextIO) -> int:
+def Part2(input_stream: typing.TextIO) -> int:
     total_sum = 0
-    for line in input:
-        line = line.strip()
-        digits = [int(ch) for ch in line]
+
+    for line in row_generator(input_stream):
+        digits = line
         best_seq = get_max_subsequence(digits, 12)
         total_sum += digits_to_int(best_seq)
+
     return total_sum
 
 

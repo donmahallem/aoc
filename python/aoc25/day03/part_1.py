@@ -1,43 +1,28 @@
 import sys
 import typing
 
+from .shared import row_generator
 
-def reduce(a: list[int]) -> list[int]:
-    result = []
-    prev = a[0]
-    count = 1
-    for ch in a[1:]:
-        if ch == prev:
-            count += 1
-        else:
-            if count >= 3:
-                result.append(prev)
-                result.append(prev)
-            else:
-                # append 1 or 2 copies
-                result.extend([prev] * count)
-            prev = ch
-            count = 1
-    # handle last run
-    if count >= 3:
-        result.append(prev)
-        result.append(prev)
-    else:
-        result.extend([prev] * count)
-    return result
+
+def reduce(a: list[int]) -> int:
+    base_val = 0
+    base_result = 0
+    base_val2 = 0
+    for idx in range(len(a) - 1):
+        ch = a[idx]
+        if base_val < ch:
+            base_val = ch
+            base_result = ch * 10
+            base_val2 = 0
+        for idx2 in range(idx + 1, len(a)):
+            base_val2 = max(base_val2, a[idx2])
+    return base_result + base_val2
 
 
 def Part1(input: typing.TextIO) -> int:
     total_sum = 0
-    for line in input:
-        digits = [int(ch) for ch in line.strip()]
-        digits = reduce(digits)
-        max_val = 0
-        for idxA in range(len(digits)):
-            for idxB in range(idxA + 1, len(digits)):
-                cur = digits[idxA] * 10 + digits[idxB]
-                max_val = max(max_val, cur)
-        total_sum += max_val
+    for line in row_generator(input):
+        total_sum += reduce(line)
     return total_sum
 
 

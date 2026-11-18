@@ -793,6 +793,17 @@
           "type": "[]string"
         }
       }
+    },
+    "25": {
+      "sample": {
+        "file": "data/samples/24/25_sample.txt",
+        "part1": { "result": 3, "type": "int" }
+      },
+      "full_data": {
+        "fullData": true,
+        "file": "data/full/24/25.txt",
+        "part1": { "result": 2770, "type": "int" }
+      }
     }
   },
   "25": {

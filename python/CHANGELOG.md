@@ -1,5 +1,39 @@
 # Changelog
 
+## [0.3.0](https://github.com/donmahallem/aoc/compare/aoc-python-v0.2.0...aoc-python-v0.3.0) (2026-11-21)
+
+
+### Features
+
+* **python:** add aoc21 day01 ([#390](https://github.com/donmahallem/aoc/issues/390)) ([dd45009](https://github.com/donmahallem/aoc/commit/dd450090fb0831bb261c445e17593fe8c78dcc53))
+* **python:** add aoc22 day01 ([#397](https://github.com/donmahallem/aoc/issues/397)) ([b650bfa](https://github.com/donmahallem/aoc/commit/b650bfa51111197df22e9e10154c4355c1b4ff7e))
+* **python:** add aoc22 day02 ([#400](https://github.com/donmahallem/aoc/issues/400)) ([40438ca](https://github.com/donmahallem/aoc/commit/40438ca2a8b0e20e23fe6ccc1357486e8cf6fb86))
+* **python:** add aoc22 day03 ([#401](https://github.com/donmahallem/aoc/issues/401)) ([d406d38](https://github.com/donmahallem/aoc/commit/d406d3859376b4e54d04b62b7f779531fc5deec7))
+* **python:** add year 23 day 05 ([#340](https://github.com/donmahallem/aoc/issues/340)) ([113532c](https://github.com/donmahallem/aoc/commit/113532c221fdab793ff272104fa7dba68f9c0fb1))
+* **python:** add year 23 day 09 ([#310](https://github.com/donmahallem/aoc/issues/310)) ([971d204](https://github.com/donmahallem/aoc/commit/971d2044957f9af9ecbe957d8d3f81a59499b4ad))
+
+
+### Bug Fixes
+
+* **python:** add missing year 22 reference ([#413](https://github.com/donmahallem/aoc/issues/413)) ([48b8e5e](https://github.com/donmahallem/aoc/commit/48b8e5e57b4fdeac8427b386a81c9d73dcdf0cae))
+* **python:** fix naming convention of coord types ([#333](https://github.com/donmahallem/aoc/issues/333)) ([5d2d80a](https://github.com/donmahallem/aoc/commit/5d2d80a11e6d7af5462ec3dcb2f30d5ce4fb1637))
+
+
+### Performance Improvements
+
+* **python:** improve python year 24 day 09 ([#306](https://github.com/donmahallem/aoc/issues/306)) ([34dd527](https://github.com/donmahallem/aoc/commit/34dd52732fb332ca1cd9f1bac111761645522fdb))
+* **python:** improve python year 24 day 10 ([#414](https://github.com/donmahallem/aoc/issues/414)) ([e3aded6](https://github.com/donmahallem/aoc/commit/e3aded6624d64bc076216a37b267a6057b627fca))
+* **python:** improve python year 24 day 20 ([#417](https://github.com/donmahallem/aoc/issues/417)) ([d182acc](https://github.com/donmahallem/aoc/commit/d182accdc807d693206f1deae98c87efaf85cce7))
+* **python:** improve python year 24 day 25 ([#418](https://github.com/donmahallem/aoc/issues/418)) ([41bdf90](https://github.com/donmahallem/aoc/commit/41bdf90031099aae6b8fc99d61da53adeca133bd))
+* **python:** improve python year 25 day 23 ([#420](https://github.com/donmahallem/aoc/issues/420)) ([7725999](https://github.com/donmahallem/aoc/commit/772599906d770365fe1af373955fa857ed8f5e54))
+* **python:** improve python year 25 day 23 v2 ([#421](https://github.com/donmahallem/aoc/issues/421)) ([0c99c53](https://github.com/donmahallem/aoc/commit/0c99c534165c56bf216deb3895d2540607c74c74))
+* **python:** improve python year 25 day 4 ([#415](https://github.com/donmahallem/aoc/issues/415)) ([e074505](https://github.com/donmahallem/aoc/commit/e0745050df2a60a56d5d8e8d7829f6c9738da63d))
+* **python:** improve python year 25 day 5 ([#416](https://github.com/donmahallem/aoc/issues/416)) ([11dd967](https://github.com/donmahallem/aoc/commit/11dd96703073472f5d6e958839094bc04c6995d2))
+* **python:** improve year 23 day 01 performance ([#334](https://github.com/donmahallem/aoc/issues/334)) ([de6ed85](https://github.com/donmahallem/aoc/commit/de6ed85791d071ac4683dee06e971d2fa9f4712a))
+* **python:** improve year 25 day 02 performance ([#330](https://github.com/donmahallem/aoc/issues/330)) ([9b90e55](https://github.com/donmahallem/aoc/commit/9b90e551d0156fc0b8c68b99b319bf037bbb554c))
+* **python:** improve year 25 day 15 performance ([#332](https://github.com/donmahallem/aoc/issues/332)) ([1bd596d](https://github.com/donmahallem/aoc/commit/1bd596dae0ef72f615307ac13f6630e74a6c90a3))
+* **python:** very slightly improve year 24 day 03 ([#316](https://github.com/donmahallem/aoc/issues/316)) ([d835d67](https://github.com/donmahallem/aoc/commit/d835d67a3f7316ebd9d7243ae7a14335a82dad49))
+
 ## [0.2.0](https://github.com/donmahallem/aoc/compare/aoc-python-v0.1.0...aoc-python-v0.2.0) (2026-03-04)
 
 

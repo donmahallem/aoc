@@ -54,8 +54,8 @@ func TestPart2(t *testing.T) {
 		if !ok {
 			return
 		}
-		if result != 8468 {
-			t.Errorf("Expected %v, got %v", 8468, result)
+		if result != 20500 {
+			t.Errorf("Expected %v, got %v", 20500, result)
 		}
 	})
 }

@@ -54,6 +54,19 @@
         "part1": { "result": 39984, "type": "int" },
         "part2": { "result": 8468, "type": "int" }
       }
+    },
+    "05": {
+      "sample": {
+        "file": "data/samples/21/05_sample_1.txt",
+        "part1": { "result": 5, "type": "int" },
+        "part2": { "result": 12, "type": "int" }
+      },
+      "full_data": {
+        "fullData": true,
+        "file": "data/full/21/05.txt",
+        "part1": { "result": 4655, "type": "int" },
+        "part2": { "result": 20500, "type": "int" }
+      }
     }
   },
   "22": {

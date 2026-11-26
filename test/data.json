@@ -65,7 +65,7 @@
         "fullData": true,
         "file": "data/full/21/05.txt",
         "part1": { "result": 4655, "type": "int" },
-        "part2": { "result": 8468, "type": "int" }
+        "part2": { "result": 20500, "type": "int" }
       }
     }
   },

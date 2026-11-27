@@ -106,6 +106,19 @@
         "part1": { "result": 369, "type": "int" },
         "part2": { "result": 1031553, "type": "int" }
       }
+    },
+    "09": {
+      "sample": {
+        "file": "data/samples/21/09_sample_1.txt",
+        "part1": { "result": 15, "type": "int" },
+        "part2": { "result": 1134, "type": "int" }
+      },
+      "full_data": {
+        "fullData": true,
+        "file": "data/full/21/09.txt",
+        "part1": { "result": 504, "type": "int" },
+        "part2": { "result": 1558722, "type": "int" }
+      }
     }
   },
   "22": {

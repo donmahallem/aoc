@@ -67,6 +67,19 @@
         "part1": { "result": 4655, "type": "int" },
         "part2": { "result": 20500, "type": "int" }
       }
+    },
+    "06": {
+      "sample": {
+        "input": "3,4,3,1,2",
+        "part1": { "result": 5934, "type": "int" },
+        "part2": { "result": 26984457539, "type": "int" }
+      },
+      "full_data": {
+        "fullData": true,
+        "file": "data/full/21/06.txt",
+        "part1": { "result": 349549, "type": "int" },
+        "part2": { "result": 1589590444365, "type": "int" }
+      }
     }
   },
   "22": {

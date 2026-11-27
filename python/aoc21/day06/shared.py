@@ -2,8 +2,9 @@ import typing
 
 
 def calculate_fish_counts(
-    initial_state: list[int, int, int, int, int, int, int, int, int], depth: int
+    initial_state: list[int], depth: int
 ) -> int:
+    assert len(initial_state) == 9
     if depth == 0:
         return sum(initial_state)
     for i in range(depth):
@@ -17,7 +18,7 @@ def calculate_fish_counts(
 
 def parse_input(
     input_data: typing.TextIO,
-) -> list[int, int, int, int, int, int, int, int, int]:
+) -> list[int]:
     # read single line
     line = input_data.readline().strip()
     counts = [0] * 9

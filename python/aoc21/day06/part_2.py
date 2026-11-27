@@ -1,7 +1,7 @@
 import sys
 import typing
 
-from python.aoc21.day06.shared import calculate_fish_counts, parse_input
+from .shared import calculate_fish_counts, parse_input
 
 
 def Part2(input_data: typing.TextIO) -> int:

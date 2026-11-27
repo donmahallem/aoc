@@ -93,6 +93,19 @@
         "part1": { "result": 340987, "type": "int" },
         "part2": { "result": 96987874, "type": "int" }
       }
+    },
+    "08": {
+      "sample": {
+        "file": "data/samples/21/08_sample_1.txt",
+        "part1": { "result": 26, "type": "int" },
+        "part2": { "result": 61229, "type": "int" }
+      },
+      "full_data": {
+        "fullData": true,
+        "file": "data/full/21/08.txt",
+        "part1": { "result": 369, "type": "int" },
+        "part2": { "result": 1031553, "type": "int" }
+      }
     }
   },
   "22": {

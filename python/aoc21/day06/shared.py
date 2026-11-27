@@ -10,9 +10,9 @@ def calculate_fish_counts(
     for i in range(depth):
         current_idx = i % 9
         new_spawns = initial_state[current_idx]
+        #initial_state[current_idx] = 0
         initial_state[(current_idx + 7) % 9] += new_spawns
-        initial_state[current_idx] += new_spawns
-        initial_state[current_idx] = 0
+        initial_state[current_idx] = new_spawns
     return sum(initial_state)
 
 

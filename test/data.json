@@ -70,15 +70,15 @@
     },
     "06": {
       "sample": {
-        "file": "data/samples/21/06_sample_1.txt",
+        "input": "3,4,3,1,2",
         "part1": { "result": 5934, "type": "int" },
         "part2": { "result": 26984457539, "type": "int" }
       },
       "full_data": {
         "fullData": true,
         "file": "data/full/21/06.txt",
-        "part1": { "result": 352872, "type": "int" },
-        "part2": { "result": 1685186107779, "type": "int" }
+        "part1": { "result": 349549, "type": "int" },
+        "part2": { "result": 1589590444365, "type": "int" }
       }
     }
   },

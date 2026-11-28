@@ -7,18 +7,6 @@ import (
 	"github.com/donmahallem/aoc/go/aoc_utils"
 )
 
-type SourceData struct {
-	mapping []int
-	output  []int
-}
-
-func convertToBitMap(inp string) int {
-	result := 0
-	for _, char := range inp {
-		result |= 1 << (char - 'a')
-	}
-	return result
-}
 func parseInput(inputData io.Reader) (data []byte, width int, height int, err error) {
 	scanner := bufio.NewScanner(inputData)
 	expectedLineLength := -1

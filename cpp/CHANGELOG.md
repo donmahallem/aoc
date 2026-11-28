@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/donmahallem/aoc/compare/aoc-cpp-v0.4.0...aoc-cpp-v0.4.1) (2026-11-28)
+
+
+### Bug Fixes
+
+* **c/cpp:** fix up benchmark key generation ([#394](https://github.com/donmahallem/aoc/issues/394)) ([dde2b28](https://github.com/donmahallem/aoc/commit/dde2b28e06cdd518daf29628e645cc9d3445b658))
+
 ## [0.4.0](https://github.com/donmahallem/aoc/compare/aoc-cpp-v0.3.0...aoc-cpp-v0.4.0) (2026-03-12)
 
 

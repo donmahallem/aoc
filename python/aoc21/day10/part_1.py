@@ -3,6 +3,7 @@ import typing
 
 from .shared import parse_ast
 
+
 def Part1(input_data: typing.TextIO) -> int:
     count = 0
     for line in input_data:
